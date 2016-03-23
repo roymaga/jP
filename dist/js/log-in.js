@@ -52,12 +52,12 @@ function mensajeAlServidorConContenidoLogIn(json){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			alert("Vueltas Serv LogIn xmlhttp.readyState"+xmlhttp.readyState+" -- xmlhttp.status"+xmlhttp.status);
+			//alert("Vueltas Serv LogIn xmlhttp.readyState"+xmlhttp.readyState+" -- xmlhttp.status"+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			closeLoadingAnimation();
 			jsonStr=xmlhttp.responseText;
-			//alert("Lo que devuelve el log in el servidor"+jsonStr);
+			alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -74,7 +74,7 @@ function mensajeAlServidorConContenidoLogIn(json){
 		xmlhttp.send(json);		
 }
 function analizarRespuestaLogIn(servidor){
-	alert(servidor);
+	//alert(servidor);
 	if (typeof(servidor.error) !== 'undefined'){
 			avisoEmergenteJugaPlay("Datos Incorrectos","<p>El <b> mail o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
 			return false;
@@ -112,11 +112,11 @@ function analizarSiyaEstaLogueado(){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			alert("Vueltas Serv si log xmlhttp.readyState"+xmlhttp.readyState+" -- xmlhttp.status"+xmlhttp.status);
+			//alert("Vueltas Serv si log xmlhttp.readyState"+xmlhttp.readyState+" -- xmlhttp.status"+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			//alert("Lo que lee el servidor"+jsonStr);
+			alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -132,7 +132,7 @@ function analizarSiyaEstaLogueado(){
 		xmlhttp.send();		
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
-	alert("Respuesta del servidor si esta logueado:"+servidor);
+	//alert("Respuesta del servidor si esta logueado:"+servidor);
 	if (typeof(servidor.error) !== 'undefined'){
 	}else{// Ya estaba adentro del sitio
 		//window.location="inicial.html";
