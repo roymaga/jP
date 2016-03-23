@@ -89,7 +89,7 @@ function mensajeAlServidorPidiendoRanking(){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://api.jugaplay.com/api/v1/tournaments/1/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET","http://api.jugaplay.com/api/v1/tournaments/2/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();		

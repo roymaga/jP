@@ -90,8 +90,8 @@ function mesaDisponibleParaJugarHorario(fechaHora){
 	if(t<d){
 		return true;
 	}else{
-		//return false; Lo cancelo asi veo todo
-		return true;
+		return false; //Lo cancelo asi veo todo
+		//return true;
 	}
 }
 function nombresDeEquiposBeta(titulo){

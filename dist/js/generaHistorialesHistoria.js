@@ -33,6 +33,7 @@ function armadoDelHistorialCuerpoHistoria(){
 function armadoDelHistorialCuerpoHistoriaMensaje(historialJugadas){
 	contentAgregar='';
 	jugadasMostradas=0;
+	historialJugadas.sort(compareHistorialSort);
 	for(historia in historialJugadas){// si historialJugadas[historia].table.payed_points != N/A solo mostrar 3
 		if( historialJugadas[historia].table.payed_points != "N/A"){
 			if(jugadasMostradas%2==0){inverted='class="timeline-inverted"';}else{inverted="";}

@@ -3,6 +3,9 @@
 // Llama a http://api.jugaplay.com/api/v1/tables/ que le devuelve las mesas disponibles para jugar
 
 function abrirLogIn(){
+  		if (checkCookie()!=true) { 
+    		avisoEmergenteJugaPlay("Habilitar las cookies","<p>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
+	  }else{
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up',
 			 title: "Log in",
@@ -15,7 +18,7 @@ function abrirLogIn(){
                 }
             }]
 		 
-		 });
+		 });}
 }
 function logInUsuarioEnElSitio(){
 	var mail=document.getElementById("email-pop").value;
@@ -52,12 +55,11 @@ function mensajeAlServidorConContenidoLogIn(json){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			//alert("Vueltas Serv LogIn xmlhttp.readyState"+xmlhttp.readyState+" -- xmlhttp.status"+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			closeLoadingAnimation();
 			jsonStr=xmlhttp.responseText;
-			alert("Lo que devuelve el log in el servidor"+jsonStr);
+			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -74,7 +76,6 @@ function mensajeAlServidorConContenidoLogIn(json){
 		xmlhttp.send(json);		
 }
 function analizarRespuestaLogIn(servidor){
-	//alert(servidor);
 	if (typeof(servidor.error) !== 'undefined'){
 			avisoEmergenteJugaPlay("Datos Incorrectos","<p>El <b> mail o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
 			return false;
@@ -83,14 +84,14 @@ function analizarRespuestaLogIn(servidor){
 		if(document.getElementById("checkKeepLogIn").checked){
 			var mail=document.getElementById("email-pop").value;
 			var pass=document.getElementById("password-pop").value;
-			//setCookie("jugaPlayUserRemember", "true", 120);
-			//setCookie("juga-Play-User", mail, 120);
-			//setCookie("juga-Play-Pass", pass, 120);
+			setCookie("jugaPlayUserRemember", "true", 120);
+			setCookie("juga-Play-User", mail, 120);
+			setCookie("juga-Play-Pass", pass, 120);
 		}}
-		//window.location="inicial.html";
+		window.location="inicial.html";
 	}
 }
-/*window.onload=function(){
+window.onload=function(){
 	if(getCookie("jugaPlayUserRemember")=="true"){
 	mail=getCookie("juga-Play-User");
 	pass=getCookie("juga-Play-Pass");
@@ -99,7 +100,7 @@ function analizarRespuestaLogIn(servidor){
 	}else{
 		analizarSiyaEstaLogueado();
 	}
-}*/
+}
 function analizarSiyaEstaLogueado(){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -112,11 +113,10 @@ function analizarSiyaEstaLogueado(){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			//alert("Vueltas Serv si log xmlhttp.readyState"+xmlhttp.readyState+" -- xmlhttp.status"+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			alert("Lo que lee el servidor"+jsonStr);
+			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -132,10 +132,9 @@ function analizarSiyaEstaLogueado(){
 		xmlhttp.send();		
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
-	//alert("Respuesta del servidor si esta logueado:"+servidor);
 	if (typeof(servidor.error) !== 'undefined'){
 	}else{// Ya estaba adentro del sitio
-		//window.location="inicial.html";
+		window.location="inicial.html";
 	}
 } 
 function processFacebook(){

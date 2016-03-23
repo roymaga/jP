@@ -35,6 +35,7 @@ function armadoDelHistorialCabezera(){
 function armadoDelHistorialCabezeraMensaje(historialJugadas){
 	contentAgregar='';
 	jugadasMostradas=0;
+	historialJugadas.sort(compareHistorialSort);
 	for(historia in historialJugadas){// si historialJugadas[historia].table.payed_points != N/A solo mostrar 3
 		if( historialJugadas[historia].table.payed_points != "N/A" && jugadasMostradas<3){
 		contentAgregar+='<li><div class="hist-all-block"><p><strong>'+historialJugadas[historia].table.title+'</strong></p><div class="hist-pts-block"><div class="circ-cont"><p>'+historialJugadas[historia].table.position+' °</p></div><p>POSICION</p></div><div class="hist-pts-block"><div class="circ-cont pts"><p>'+historialJugadas[historia].table.payed_points+'</p></div><p>PUNTOS</p></div><div class="hist-btn-block"><a href="historial.html"><button type="button" class="btn" href="historial.html">Ver Detalle</button></a></div></div></li>';
@@ -43,7 +44,14 @@ function armadoDelHistorialCabezeraMensaje(historialJugadas){
 	contentAgregar+='<li><a class="text-center" href="historial.html"><strong>Ver Historia</strong><i class="fa fa-angle-right"></i></a></li>';
 	document.getElementById("cabeceraMenuHistorial").innerHTML=contentAgregar;
 }
-
+function compareHistorialSort(a,b) {
+  if (a.id > b.id)
+    return -1;
+  else if (a.id < b.id)
+    return 1;
+  else 
+    return 0;
+}
 
 
 

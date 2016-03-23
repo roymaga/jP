@@ -22,17 +22,5 @@ function delete_cookie( name ) {
   window.localStorage.removeItem(name);
 }
 function checkCookie(){
-	if(navigator.cookieEnabled==true){
-		document.cookie="testcookie";
-		if(document.cookie.indexOf("testcookie")!=-1){
-			return true;
-		}else{
-			//return false;
-			return true;
-		}
-		
-	}else{
-		//return false;
 		return true;
-	}
 }
