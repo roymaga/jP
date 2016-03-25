@@ -38,7 +38,7 @@ function armadoDelHistorialCabezeraMensaje(historialJugadas){
 	historialJugadas.sort(compareHistorialSort);
 	for(historia in historialJugadas){// si historialJugadas[historia].table.payed_points != N/A solo mostrar 3
 		if( historialJugadas[historia].table.payed_points != "N/A" && jugadasMostradas<3){
-		contentAgregar+='<li><div class="hist-all-block"><p><strong>'+historialJugadas[historia].table.title+'</strong></p><div class="hist-pts-block"><div class="circ-cont"><p>'+historialJugadas[historia].table.position+' °</p></div><p>POSICION</p></div><div class="hist-pts-block"><div class="circ-cont pts"><p>'+historialJugadas[historia].table.payed_points+'</p></div><p>PUNTOS</p></div><div class="hist-btn-block"><a href="historial.html"><button type="button" class="btn" href="historial.html">Ver Detalle</button></a></div></div></li>';
+		contentAgregar+='<li><div class="hist-all-block"><p><strong>'+tituloHistorialJugadas(historialJugadas[historia].table.title)+'</strong></p><div class="hist-pts-block"><div class="circ-cont"><p>'+historialJugadas[historia].table.position+' °</p></div><p>POSICION</p></div><div class="hist-pts-block"><div class="circ-cont pts"><p>'+historialJugadas[historia].table.payed_points+'</p></div><p>PUNTOS</p></div><div class="hist-btn-block"><a href="historial.html"><button type="button" class="btn" href="historial.html">Ver Detalle</button></a></div></div></li>';
 		jugadasMostradas++;}
 	}
 	contentAgregar+='<li><a class="text-center" href="historial.html"><strong>Ver Historia</strong><i class="fa fa-angle-right"></i></a></li>';
@@ -51,6 +51,13 @@ function compareHistorialSort(a,b) {
     return 1;
   else 
     return 0;
+}
+function tituloHistorialJugadas(titulo){
+	if(titulo.length>30){
+		return titulo.substr(0, 28)+"...";
+	}else{
+		return titulo;
+	}
 }
 
 

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="futbol, torneo de verano, ligas de fantasia">
+    <meta name="author" content="JUGAPLAY">
+    
+
+    <title>JugaPlay</title>
+    <link rel="shortcut icon" type="image/png" href="../img/beta/favicon.png">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+	<!-- Jugandola CSS -->
+    <link href="../dist/css/jugaplay.css?12312" rel="stylesheet">
+    <!-- Timeline CSS -->
+    <link href="../dist/css/timeline.css?1231" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS 
+    <link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">-->
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../dist/css/jugaplay-pop-up.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS 
+    <link href="../bower_components/morrisjs/morris.css" rel="stylesheet"> -->
+
+    <!-- Custom Fonts -->
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+	
+    <!-- Custom Icons (CDN) -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	
+
+
+	
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation --><nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="inicial.html" class="navbar-brand" style="padding:15px;"><img src="../img/beta/logo.jpg" width="175" height="51" alt="jugaplay"></a>
+            </div>
+            <!-- Menu del costado -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                    	<li class="dropdown">
+                            <a href="#"> <img src="../img/users/perfil.jpg" class="img-circle special-img"> <span class="headear-nom-usu"> -</span> <b class="caret"></b></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="perfil.html" style=" cursor:pointer;"><i class="fa fa-user fa-fw"></i> Perfil</a></li>
+								<li class="divider"></li>
+								<li><a onClick="hacerLogOutDeLaCuenta();" style=" cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li id="pts-pos-tablero-header"><a style='font-size: 18px; font-weight: bolder;cursor: pointer;' onclick='explicacionMonedas();'>- <img src='../img/beta/complements/coins.png' height='22' style='margin-top: -5px; margin-left: 7px;'></a></li>
+                        <li class="dropdown">
+                            <a href="#"> Ayuda<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a onClick="abrirNotificacionEnviarComentario();" style="cursor:pointer;">Soporte</a></li>
+								<li><a onClick="abrirNotificacionComoSeJuega();"style="cursor:pointer;" >Como Jugar</a></li>
+								<li><a onClick="abrirNotificacionReglasDePremios();" style="cursor:pointer;">Premios</a></li>
+								<li><a href="reglas-puntajes.html" style="cursor:pointer;">Reglas y puntajes</a></li>
+                        		<li><a href="preguntas-frecuentes.html" style="cursor:pointer;">Preguntas Frecuentes</a></li>
+                        		<li><a href="campeones.html" style="cursor:pointer;">Campeones</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						<li><a onClick="abrirNotificacionRankingDePremios();" style="cursor:pointer;">Ranking</a></li>
+                        <li class="dropdown">
+                            <a href="#">Historial<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-leve collapse" id="cabeceraMenuHistorial">
+                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+            <!-- Fin Menu del costado -->
+        </nav>
+
+        <div id="page-wrapper">
+		
+		<div style="width:100%;height:30px;"></div><!--------------- NO USAR, BORRAR AL IMPLEMENTAR EN PRODUCCION -->
+		
+		
+		
+		
+		
+		<div class="container">
+		
+		
+			<!-- MODAL CAMBIAR CONTRASEÑA -->
+			<div class="container-fluid modal-type-1">
+				<div class="jumbotron modal-header-box text-center">
+					<img src="../img/lock.jpg">
+					<h3>Cambiar Contraseña</h3>
+				</div>
+
+				<div class="container-fluid">
+					<form role="form">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="password" class="form-control" placeholder="Contraseña anterior">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="password" class="form-control" placeholder="Nueva contraseña">
+									<p class="small">La contraseña debe contener como mínimo 6 caractéres incluyendo una mayuscula y un número por lo menos.</p>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="password" class="form-control" placeholder="Confirmar contraseña">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group text-right">
+									<button type="submit" class="btn btn-default">Guardar</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			
+			
+			<div style="width:100%;height:30px;"></div><!--------------- NO USAR, BORRAR AL IMPLEMENTAR EN PRODUCCION -->
+			
+			
+			
+			<!-- MODAL MIS NOTIFICACIONES -->
+			<div class="container-fluid modal-type-1">
+				<div class="jumbotron modal-header-box text-center">
+					<img src="../img/notifications.jpg">
+					<h3>Mis Notificaciones</h3>
+				</div>
+
+				<div class="container-fluid">
+					<div class="well text-center">¿Qué tipo de notificaciones querés recibir de nosotros?</div>
+					<form role="form">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<div class="well-gray clearfix">Newsletters/Special Offers
+										<div class="btn-group customcheck" data-toggle="buttons">
+										   <label class="btn btn-primary">
+											  <input type="checkbox"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span>
+										   </label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<div class="well-gray clearfix">Game Notifications
+										<div class="btn-group customcheck" data-toggle="buttons">
+										   <label class="btn btn-primary">
+											  <input type="checkbox"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span>
+										   </label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>						
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<div class="well-gray clearfix">Referral Notifications
+										<div class="btn-group customcheck" data-toggle="buttons">
+										   <label class="btn btn-primary">
+											  <input type="checkbox"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span>
+										   </label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>						
+					</form>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div style="width:100%;height:30px;"></div><!--------------- NO USAR, BORRAR AL IMPLEMENTAR EN PRODUCCION -->
+			
+			
+			
+			
+			<!-- MODAL DETALLE DE PUNTOS -->
+			<div class="container-fluid modal-type-1">
+				<div class="jumbotron modal-header-box text-center" style="background:#5ebc5c;">
+					<img src="../img/points.jpg">
+					<h3>Detalle de Puntos</h3>
+				</div>
+
+				<div class="sub text-center">
+					<h4>Racing <strong>VS</strong> San Lorenzo</h4>
+					<h5>20 de Enero - 17:00Hs</h5>
+				</div>
+
+				<div class="container-fluid detalle-puntos">
+				
+					<div class="row">
+						<div class="player-box">
+							<div class="player">
+								<img src="../img/players/38.jpg">
+								<p>Piti Martínez<br><span>Mediocampista</span></p>
+							</div>
+							<div class="points text-center">
+								<div class="circle">
+									120
+								</div>
+								<p>Puntos<br>sumados</p>
+								<div class="position">
+									<p>8&deg;</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="row">
+							<div class="col-md-4 text-center column-shots">
+								<h3>Disparos</h3>
+								
+								<div class="row top-content">
+									<img src="../img/goal-net.jpg"> 
+								</div>
+								
+								<div class="row points-detail">
+									<div class="row">
+										<div class="col-xs-3">
+											<div class="data-circle circle-green">
+												<p>1</p>
+											</div>
+											<p>Goles</p>
+										</div>
+										<div class="col-xs-3">
+											<div class="data-circle circle-yellow">
+												<p>0</p>
+											</div>
+											<p>Al arco</p>
+										</div>
+										<div class="col-xs-3">
+											<div class="data-circle circle-orange">
+												<p>2</p>
+											</div>
+											<p>Al palo</p>
+										</div>
+										<div class="col-xs-3">
+											<div class="data-circle circle-red">
+												<p>3</p>
+											</div>
+											<p>Afuera</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row results-data">
+									<div class="row">
+										<div class="col-xs-6">
+											<p>Total 6</p>
+										</div>
+										<div class="col-xs-6">
+											<p>PTS por disparo 6</p>
+										</div>
+									</div>
+								</div>
+								
+							</div><!------------------------------------------------------------------ / .column-shots -->
+							
+							
+
+							<div class="col-md-4 text-center column-cards">
+								<h3>Tarjetas</h3>
+								
+								<div class="row top-content">
+									<img src="../img/cards.jpg"> 
+								</div>
+								
+								<div class="row points-detail">
+									<div class="row">
+										<div class="col-xs-6 col-md-offset-1">
+											<div class="data-circle circle-yellow">
+												<p>1</p>
+											</div>
+										</div>
+										<div class="col-xs-2">
+											<div class="data-circle circle-red">
+												<p>0</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row results-data">
+									<div class="row">
+										<div class="col-xs-12">
+											<p>PTS por tarjeta 15</p>
+										</div>
+									</div>
+								</div>
+							</div><!------------------------------------------------------------------ / .column-cards -->
+							
+							
+							
+							<div class="col-md-4 text-center column-passes">
+								<h3>Actividad de Pases</h3>
+								
+								<div class="row top-content">
+									<div class="circle" id="circles-1"></div>​<!------------------------------------------------------------------ PERCENT CIRCLE -->
+								</div>
+								
+								<div class="row points-detail text-center">
+									<p style="color:#5EBC5C;"><strong>30</strong> Correctos</p>
+									<p style="color:#ff2a00;"><strong>6</strong> Inorrectos</p>
+								</div>
+								
+								<div class="row results-data">
+									<div class="row">
+										<div class="col-xs-12">
+											<p>PTS por pase 45</p>
+										</div>
+									</div>
+								</div>
+								
+								
+							</div><!------------------------------------------------------------------ / .column-passes -->
+						</div>
+					</div>
+					
+					
+					<div class="row row-points-dots" style="border-top: 1px solid #ccc;    margin-top: 45px;    padding-top: 25px;">
+						<div class="col-md-6 col-points-dots">
+							<div class="row">
+								<h4>Disparos</h4>
+								<div class="points-dots dot-2"></div>
+								<div class="data-circle circle-green">
+									<p>3</p>
+								</div>
+								<p>18 PTS</p>
+							</div>
+							<div class="row">
+								<h4>Tiros de Esquina</h4>
+								<div class="points-dots dot-2"></div>
+								<div class="data-circle circle-green">
+									<p>3</p>
+								</div>
+								<p>18 PTS</p>
+							</div>
+							<div class="row">
+								<h4>Faltas</h4>
+								<div class="points-dots dot-2"></div>
+								<div class="data-circle circle-green">
+									<p>3</p>
+								</div>
+								<p>18 PTS</p>
+							</div>
+						</div>
+						
+						<div class="col-md-6 col-points-dots">
+							<div class="row">
+								<h4>Recuperaciones</h4>
+								<div class="points-dots dot-2"></div>
+								<div class="data-circle circle-green">
+									<p>3</p>
+								</div>
+								<p>18 PTS</p>
+							</div>
+							<div class="row">
+								<h4>Asistencias</h4>
+								<div class="points-dots dot-2"></div>
+								<div class="data-circle circle-green">
+									<p>3</p>
+								</div>
+								<p>18 PTS</p>
+							</div>
+							<div class="row">
+								<h4>Fuera de Juego</h4>
+								<div class="points-dots dot-2"></div>
+								<div class="data-circle circle-green">
+									<p>3</p>
+								</div>
+								<p>18 PTS</p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="row text-center">
+						<p class="big-big-text">Total 87 PTS</p>
+					</div>
+					
+					
+				</div>
+			</div>
+			
+
+			
+			
+			
+			
+			
+		</div>
+
+        </div><!-- /#page-wrapper -->
+        
+        <!-- Navigation -->
+        <footer class="footer">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>About</strong></h6></li>
+								<li><a href="privacidad.html">Privacidad</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>Ayuda</strong></h6></li>
+								<li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+								<li><a href="reglas-puntajes.html">Reglas Puntajes</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>Sectores</strong></h6></li>
+								<li><a href="inicial.html">Juego</a></li>
+								<li><a href="historial.html">Historial</a></li>
+								<li><a href="perfil.html">Perfil</a></li>
+                                <li><a href="campeones.html">Campeones</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 text-right">
+					<p><h6><strong>JugaPlay Inc</strong></h6></p>
+					<p>Buenos Aires, Argentina</p>
+					<p class="social-icons-footer">
+						<a href="https://www.facebook.com/Jugaplay/?fref=ts" target="_blank"><img src="../img/beta/icons/icon-social-circle-facebook.png"></i></a>
+						<a href="https://twitter.com/Jugaplay_tw?lang=es" target="_blank"><img src="../img/beta/icons/icon-social-circle-twitter.png"></i></a>
+						<a href="#"><img src="../img/beta/icons/icon-social-circle-instagram.png"></i></a>
+					</p>
+				</div>
+			</div>
+        </footer>   
+
+    </div><!-- /#wrapper -->
+    
+
+    <!-- jQuery -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    
+    
+    <!-- DataTables JavaScript -->
+    <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+	<!-- Morris Charts JavaScript 
+    <script src="../bower_components/raphael/raphael-min.js"></script>
+    <script src="../bower_components/morrisjs/morris.min.js"></script>
+    <script src="../js/morris-data.js"></script> -->
+    
+    <!-- Monkey-Dialog JavaScript -->
+<link href="../bower_components/dialog-master/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+<script src="../bower_components/dialog-master/js/bootstrap-dialog.js"></script>
+<!-- Ejemplo de ventanas emergentes JavaScript -->
+<script src="../dist/js/handleCookies.js?321562352325"></script>
+<script src="../dist/js/datos-usuario-header.js?4541234321222345213"></script>
+<script src="../dist/js/api-para-mensajes.js?1263481234232394"></script>
+<script src="../dist/js/ejemplo-emergentes.js?165424434333422521"></script>
+<script src="../dist/js/jugar-mesas.js?123546569231422343"></script>
+<script src="../dist/js/armado-mesas-beta.js?1261236443232212321345"></script>
+<script src="../dist/js/revisarMesaBeta.js?12548229944325234"></script>
+<script src="../dist/js/ver-mesas.js?1278595432315216234432"></script>
+<script src="../dist/js/aviso-error-popup.js?22126545234342"></script>
+<script src="../dist/js/notificaciones-carteles.js?23451234122345"></script>
+<script src="../dist/js/log-out.js?5465412322432234"></script>
+<script src="../dist/js/generaHistorialesCabezera.js?12342634894"></script>
+    <!-- Custom Theme JavaScript -->
+<script src="../dist/js/sb-admin-2.js?1265434522"></script>
+    
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+</script>
+	
+	
+	
+    <!-- Circliful percent jQuery plugin -->
+	<script src="../dist/js/circles.min.js"></script>​
+	<script>
+		var myCircle = Circles.create({
+		  id:                  'circles-1',
+		  radius:              60,
+		  value:               43,
+		  maxValue:            100,
+		  width:               10,
+		  text:                function(value){return value + '%';},
+		  colors:              ['#D3B6C6', '#4B253A'],
+		  duration:            400,
+		  wrpClass:            'circles-wrp',
+		  textClass:           'circles-text',
+		  valueStrokeClass:    'circles-valueStroke',
+		  maxValueStrokeClass: 'circles-maxValueStroke',
+		  styleWrapper:        true,
+		  styleText:           true
+		});
+	​</script>​	
+	
+	
+	
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43402607-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+
+</html>

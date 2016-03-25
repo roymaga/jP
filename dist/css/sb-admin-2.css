@@ -92,6 +92,7 @@ body {
 .sidebar .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
+	max-height: 80vh;
 }
 
 .sidebar .sidebar-search {
@@ -103,7 +104,7 @@ body {
 }
 
 .sidebar ul li a.active {
-    background-color: #eee;
+
 }
 
 .sidebar .arrow {

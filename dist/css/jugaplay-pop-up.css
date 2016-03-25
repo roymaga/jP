@@ -15,6 +15,19 @@ width:100%;
 height:100%;
 min-height:100vh;
 }
+.emergentes-pop-up-gen H1{
+	font-size:24px;	
+}
+.emergentes-pop-up-gen H3{
+	font-size:18px;	
+}
+.emergentes-pop-up-gen p{
+	font-size:12px;	
+}
+.emergentes-pop-up-gen .bootstrap-dialog .bootstrap-dialog-message{
+	font-size:12px;	
+}
+dialog-message
 .emergentes-pop-up-gen .modal-dialog{
 	display: table-cell;
     vertical-align: middle;	
@@ -22,7 +35,7 @@ min-height:100vh;
 .emergentes-pop-up-gen .modal-content{
 	background-color:#FFF;
 	max-width:1000px; /* Ver como es el responsive de esto */
-	width:80%;
+	width:95%;
 	margin-left: auto;
     margin-right: auto;
 }
@@ -34,15 +47,15 @@ min-height:100vh;
 	background-color: #5FBC5D;
 	color:#FFF;
 	border-bottom:#81C45A solid 7px;
+	max-height: 20vh;
 }
 .emergentes-pop-up-gen .modal-dialog .modal-content .modal-header .bootstrap-dialog-header .bootstrap-dialog-title{
 	width:100%;
 	}
 .emergentes-pop-up-gen .modal-dialog .modal-content .modal-header .bootstrap-dialog-header .bootstrap-dialog-title H1{
-	font-size:32px;
+	font-size:24px;
 	width:100%;
 	text-align:center;
-	margin:20px;
 }
 .emergentes-pop-up-gen .modal-dialog .modal-content .modal-header .bootstrap-dialog-header .bootstrap-dialog-title .cont-img{
 	width:100%;
@@ -96,6 +109,15 @@ min-height:100vh;
 	-moz-box-shadow: 5.5px 5.5px 9px 0px rgba(115,117,120,.8);
 	box-shadow: 5.5px 5.5px 9px 0px rgba(115,117,120,.8);
 }
+.emergentes-pop-up-gen .modal-content .modal-footer .btn-warning {
+    color: #FFF;
+    background-color: #a94442;
+    border-color: #a94442;
+    margin-top: 10px;
+	-webkit-box-shadow: 5.5px 5.5px 9px 0px rgba(115,117,120,.8);
+	-moz-box-shadow: 5.5px 5.5px 9px 0px rgba(115,117,120,.8);
+	box-shadow: 5.5px 5.5px 9px 0px rgba(115,117,120,.8);
+}
 .emergentes-pop-up-gen .modal-content .modal-footer .btn-default:hover {
 	opacity: 0.7;
     filter: alpha(opacity=70);
@@ -104,6 +126,8 @@ min-height:100vh;
 	width:100%;
 	max-height:70vh;
 	overflow-y:auto;
+	padding-left:20px;
+	padding-right:20px;
 	padding-bottom:20px;
 }
 .emergentes-pop-up-gen .modal-content .contenido-interno .formularioContacto .row{
@@ -117,14 +141,14 @@ min-height:100vh;
 .emergentes-pop-up-gen .modal-content .contenido-interno .formularioContacto input{
 	border:none;
 	background-color:#E6E6E7;
-	width:390px;
+	width:100%;
 	display:inline-block;
 	float:left;
 }
 .emergentes-pop-up-gen .modal-content .contenido-interno .formularioContacto textarea{
 	border:none;
 	background-color:#E6E6E7;
-	width:390px;
+	width:100%;
 	display:inline-block;
 	float:left;
 }
@@ -137,8 +161,8 @@ min-height:100vh;
 	width:21px;
 	height:21px;
 	display:inline-block;
-	font-size:14px;
-	margin-left:-30px;
+	font-size:12px;
+	margin-left:-20px;
 	margin-right:10px;
 	margin-bottom:7px;
 	}
@@ -147,5 +171,5 @@ min-height:100vh;
 	}
 	.emergentes-pop-up-gen .modal-content .contenido-interno p{
 		display:inline-block;
-		font-size:14px;
+		font-size:12px;
 	}

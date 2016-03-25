@@ -31,7 +31,7 @@
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../dist/css/jugaplay-pop-up.css" rel="stylesheet">
-	<link href="../dist/css/juga-beta-app.css?12312" rel="stylesheet">
+
     <!-- Morris Charts CSS 
     <link href="../bower_components/morrisjs/morris.css" rel="stylesheet"> -->
 
@@ -47,72 +47,60 @@
 
 </head>
 
-<body class="body-app">
+<body>
 
     <div id="wrapper">
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+        <!-- Navigation --><nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a href="inicial.html" class="navbar-brand"><img src="../img/beta/logo.jpg" width="175" height="51" alt="jugaplay"></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="inicial.html" class="navbar-brand" style="padding:15px;"><img src="../img/beta/logo.jpg" width="175" height="51" alt="jugaplay"></a>
             </div>
-            <!-- /.navbar-header -->
-            
-     <ul class="nav navbar-top-links navbar-left no-mobile-response">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ayuda <span class="caret"></span></a>
-          	<ul class="dropdown-menu">
-            	<li><a onClick="abrirNotificacionEnviarComentario();" style="cursor:pointer;">Soporte</a></li>
-            	<li><a onClick="abrirNotificacionComoSeJuega();"style="cursor:pointer;" >Como Jugar</a></li>
-                <li><a onClick="abrirNotificacionReglasDePremios();" style="cursor:pointer;">Premios</a></li>
-            	<li><a onClick="abrirNotificacionReglasDeJuego();" style="cursor:pointer;">Reglas y puntajes</a></li>
-          </ul>
-        </li>
-        <li><a onClick="abrirNotificacionRankingDePremios();" style="cursor:pointer;">Ranking</a></li>
-      </ul>
-
-
-            <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
-                <!-- Histroial Express -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Historial <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages" id="cabeceraMenuHistorial">
-                    	<!-- Ejemplo de partido que se repite -->
-                        
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- Fin Histroial Express -->
-                <!-- Menu-Pts-Pos-Logout - img -->
-                <li class="dropdown">
-                <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
-                    <img src="../img/users/perfil.jpg" class="img-circle special-img"> <span class="headear-nom-usu"> -</span> <b class="caret"></b></a>
-                 <ul class="dropdown-menu dropdown-messages">
-                 		<li>
-                        	<div class="special-puntaje">
-                                	<div class="conjunto-puntaje">
-                                     	<div class="ppal" id="pos-rank-header">-°</div>
-                                        <div class="subt">Posicion</div>
-                                    </div>
-                                    <div class="conjunto-puntaje">
-                                     	<div class="ppal" id="pts-acum-header">- Pts</div>
-                                        <div class="subt">Puntos Acumulados</div>
-                                    </div>
-                             </div>
+            <!-- Menu del costado -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                    	<li class="dropdown">
+                            <a href="#"> <img src="../img/users/perfil.jpg" class="img-circle special-img"> <span class="headear-nom-usu"> -</span> <b class="caret"></b></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="perfil.html" style=" cursor:pointer;"><i class="fa fa-user fa-fw"></i> Perfil</a></li>
+								<li class="divider"></li>
+								<li><a onClick="hacerLogOutDeLaCuenta();" style=" cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Mi cuenta</a></li>
-                        <li><a onClick="hacerLogOutDeLaCuenta();" style=" cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        <li id="pts-pos-tablero-header"><a style='font-size: 18px; font-weight: bolder;cursor: pointer;' onclick='explicacionMonedas();'>- <img src='../img/beta/complements/coins.png' height='22' style='margin-top: -5px; margin-left: 7px;'></a></li>
+                        <li class="dropdown">
+                            <a href="#"> Ayuda<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a onClick="abrirNotificacionEnviarComentario();" style="cursor:pointer;">Soporte</a></li>
+								<li><a onClick="abrirNotificacionComoSeJuega();"style="cursor:pointer;" >Como Jugar</a></li>
+								<li><a onClick="abrirNotificacionReglasDePremios();" style="cursor:pointer;">Premios</a></li>
+								<li><a href="reglas-puntajes.html" style="cursor:pointer;">Reglas y puntajes</a></li>
+                        		<li><a href="preguntas-frecuentes.html" style="cursor:pointer;">Preguntas Frecuentes</a></li>
+                        		<li><a href="campeones.html" style="cursor:pointer;">Campeones</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						<li><a onClick="abrirNotificacionRankingDePremios();" style="cursor:pointer;">Ranking</a></li>
+                        <li class="dropdown">
+                            <a href="#">Historial<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-leve collapse" id="cabeceraMenuHistorial">
+                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     </ul>
-				</li>
-            </ul>
-            <!-- /.navbar-top-links -->
-
-            
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
             <!-- /.navbar-static-side -->
+            <!-- Fin Menu del costado -->
         </nav>
 
         <div id="page-wrapper">
@@ -125,7 +113,7 @@
             <!-- contenido traido historia -->
             	<div class="panel panel-default">
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body" style="zoom:0.7;">
                         <!-- Comienza la linea de tiempo timeline-inverted -->
                             <ul class="timeline" id="bodyHistoryShow">
                             <!-- Un partido (normal o par)-->
@@ -144,14 +132,45 @@
         </div>
         <!-- /#page-wrapper -->
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-bottom navbar-login" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">JUGAPLAY <small>Beta</small></a>
-            </div>
-            <!-- /.navbar-header -->
-        </nav>  
-
-    </div>
+        <footer class="footer">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>About</strong></h6></li>
+								<li><a href="privacidad.html">Privacidad</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>Ayuda</strong></h6></li>
+								<li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+								<li><a href="reglas-puntajes.html">Reglas Puntajes</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>Sectores</strong></h6></li>
+								<li><a href="inicial.html">Juego</a></li>
+								<li><a href="historial.html">Historial</a></li>
+								<li><a href="perfil.html">Perfil</a></li>
+                                <li><a href="campeones.html">Campeones</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 text-right">
+					<p><h6><strong>JugaPlay Inc</strong></h6><p></p>
+					<p>Buenos Aires, Argentina</p>
+					<p class="social-icons-footer">
+						<a href="https://www.facebook.com/Jugaplay/?fref=ts" target="_blank"><img src="../img/beta/icons/icon-social-circle-facebook.png"></a>
+						<a href="https://twitter.com/Jugaplay_tw?lang=es" target="_blank"><img src="../img/beta/icons/icon-social-circle-twitter.png"></a>
+						<a href="#"><img src="../img/beta/icons/icon-social-circle-instagram.png"></a>
+					</p>
+				</div>
+			</div>
+        </footer>   </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -169,17 +188,18 @@
 <link href="../bower_components/dialog-master/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
 <script src="../bower_components/dialog-master/js/bootstrap-dialog.js"></script>
 <!-- Ejemplo de ventanas emergentes JavaScript -->
-<script src="../dist/js/handleCookies.js?32156225"></script>
-<script src="../dist/js/datos-usuario-header.js?45411222345213"></script>
-<script src="../dist/js/api-para-mensajes.js?12634894"></script>
-<script src="../dist/js/generaHistorialesCabezera.js?12634894546"></script>
-<script src="../dist/js/generaHistorialesHistoria.js?126348946546"></script>
-<script src="../dist/js/aviso-error-popup.js?22126545"></script>
-<script src="../dist/js/notificaciones-carteles.js?51122345"></script>
-<script src="../dist/js/log-out.js?5465412322"></script>
-<script src="../dist/js/sb-admin-2.js?1265434522"></script>
-<script src="../dist/js/checkIfPhone.js?12342634894"></script>   
-<!--script>
+<script src="../dist/js/generaHistorialesHistoria.js?126345494"></script>
+<script src="../dist/js/historiaDetalladaMostrar.js?126865494"></script>
+<script src="../dist/js/handleCookies.js?321562355"></script>
+<script src="../dist/js/datos-usuario-header.js?45434321222345213"></script>
+<script src="../dist/js/api-para-mensajes.js?1263434232394"></script>
+<script src="../dist/js/aviso-error-popup.js?221265452342"></script>
+<script src="../dist/js/notificaciones-carteles.js?251234122345"></script>
+<script src="../dist/js/log-out.js?54654123224322"></script>
+<script src="../dist/js/generaHistorialesCabezera.js?12342894"></script>
+<script src="../dist/js/sb-admin-2.js?12654"></script>
+    <!-- Custom Theme JavaScript -->
+<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -188,7 +208,7 @@
   ga('create', 'UA-43402607-2', 'auto');
   ga('send', 'pageview');
 
-</script-->
+</script>
 </body>
 
 </html>

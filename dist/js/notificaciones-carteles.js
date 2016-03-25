@@ -15,14 +15,16 @@ function headerDeLaMesaPopUpComoSeJuega(){
 	return texto;
 }
 function contenidoDeLaMesaPopUpComoSeJuega(){
-	linea1="<div class='row'><p><div class='item'><p>1</p></div>Elegí la “Jugada” en la que deseas participar.</p></div>";
-	linea2="<div class='row'><p><div class='item'><p>2</p></div>Cada “Jugada” contabiliza la efectividad de los jugadores en distintas incidencias de juego y les proporciona un puntaje final de acuerdo a su desempeño individual.</p></div>";
-	linea3="<div class='row'><p><div class='item'><p>3</p></div>El usuario selecciona los tres jugadores que considera mas aptos a destacarse en la incidencias contempladas  en cada “Jugada”.</p></div>";
-	linea4="<div class='row'><p><div class='item'><p>4</p></div>El usuario cuyo equipo suma mayor cantidad de puntos gana la “Jugada”.</p></div>";
-	linea5="<div class='row'><p><div class='item'><p>5</p></div>Además de premios, cada “Jugada” reparte puntos de ranking de acuerdo al puntaje y posición final de cada usuario.</p></div>";
-	linea6="<div class='row'><p><div class='item'><p>6</p></div>El tiempo limite para entrar a la “Jugada” son 15 minutos previo al comienzo de la primer partido.</p></div>";
-	linea7="<div class='row'><p><div class='item'><p>7</p></div>En cuanto mas “Jugadas” participás , mayores son tus chances de sumar puntos.</p></div>";
-	texto=linea1+linea2+linea3+linea4+linea5+linea6+linea7;
+	linea1="<div class='row'><h3>¿Cómo jugar?</h3></div>";
+	linea2="<div class='row'><p><div class='item'><p>1</p></div>Elegí el partido que quieras Jugar y hace Click en el botón JUGAR .</p></div>";
+	linea3="<div class='row'><p><div class='item'><p>2</p></div>Elegí los que crees que van a ser los 3 mejores jugadores del partido.</p></div>";
+	linea4="<div class='row'><p><div class='item'><p>3</p></div>El usuario que suma más puntos gana el partido.</p></div>";
+	linea5="<div class='row'><h3>¿Cómo los calificamos?</h3></div>";
+	linea6="<div class='row'><p><div class='item'><p>*-*</p></div>Cada Partido contabiliza la efectividad de los jugadores segun una estadistica que se muestra antes de elegir los jugadores y les proporciona un puntaje final de acuerdo a su desempeño individual.</p></div>";
+	linea7="<div class='row'><h3>¿Es real?¿Qué me gano?</h3></div>";
+	linea8="<div class='row'><p><div class='item'><p>*-*</p></div>Claro que sí, tenemos la misma estadística que ves en la tele comprada al mismo proveedor que la AFA.</p></div>";
+	linea9="<div class='row'><p><div class='item'><p>*-*</p></div>Repartimos distintos premios, podes ver cuales están disponibles para el siguiente partido haciendo click en ver premios, en el banner principal.</p></div>";
+	texto=linea1+linea2+linea3+linea4+linea5+linea6+linea7+linea8+linea9;
 	return texto;
 }
 /* Notificacion de Reglas se Juega */
@@ -38,13 +40,13 @@ function abrirNotificacionReglasDeJuego(){
 		 });
 	}
 function headerDeLaMesaPopUpReglasDeJuego(){
-	texto="<div class='row'><H1>QUE ESTADISTICAS SE MIDEN</H1></div>";
+	texto="<div class='row'><H1>ESTADISTICAS</H1></div>";
 	return texto;
 }
 function contenidoDeLaMesaPopUpReglasDeJuego(){
-	linea1="<div class='row'><p>Un equipo de profesionales especializados en estadística deportiva nos brinda datos precisos sobre el desempeño de cada jugador titular durante los 90 minutos de cada partido. Una vez procesada esta información, la Jugada asigna puntos a cada acción de juego efectuada por cada jugador durante el partido. El usuario demuestra su habilidad al interpretar las incidencias mas premiadas por cada Jugada y al seleccionar los jugadores mas aptos a destacarse.</p><p>Las estadísticas se miden a nivel individual en donde cada jugador suma por su desempeño en el partido. Se asigna puntos bonus dependiendo de la posición del jugador. </p><p>Ejemplo: Un gol vale 10 puntos. Un gol de un defensor vale +5.</p></div>";
+	linea1="<div class='row'><p>Un equipo de profesionales especializados en estadística deportiva nos brinda datos precisos sobre el desempeño de cada jugador titular durante los 90 minutos de cada partido. Una vez procesada esta información, la Jugada asigna puntos a cada acción de juego efectuada por cada jugador durante el partido. El usuario demuestra su habilidad al interpretar las incidencias mas premiadas por cada Jugada y al seleccionar los jugadores mas aptos a destacarse.</p><p>Las estadísticas se miden a nivel individual en donde cada jugador suma por su desempeño en el partido. Se asigna puntos bonus dependiendo de la posición del jugador. </p><p>Ejemplo: Un gol vale 20 puntos. Un gol de un defensor vale 25.</p></div>";
 	
-	linea2="<div class='row'><p><table class='table table-hover jug-alg-tbl text-aligne-center' ><thead><tr><th>ACCION</th><th>PTS</th></tr></thead>            <tbody><tr><td>Disparo al arco</td><td>2</td></tr><tr><td>Disparo al palo</td><td>1.5</td></tr><tr><td>Disparo afuera</td><td>1</td></tr><tr><td>Goles</td><td>10</td></tr><tr><td>Goles (DEF)</td><td>15</td></tr><tr><td>Goles (ARQ)</td><td>17</td></tr><tr><td>Tarjeta amarilla</td><td>(-2)</td></tr><tr><td>Tarjeta roja</td><td>(-10)</td></tr><tr><td>Pases correctos</td><td>0.5</td></tr><tr><td>Pases incorrectos</td><td>(-0.5)</td></tr><tr><td>Faltas</td><td>(-0.5)</td></tr><tr><td>Recuperaciones</td><td>3</td></tr><tr><td>Asistencias</td><td>6</td></tr><tr><td>Fuera de juego</td><td>(-1)</td></tr><tr><td>Atajadas</td><td>2.5</td></tr><tr><td>Penal errado</td><td>(-5)</td></tr><tr><td>Penal atajado (ARQ)</td><td>+10</td></tr><tr><td>Gol al arquero(ARQ)</td><td>-2</td></tr><tr><td>Valla invicta (ARQ)</td><td>5</td></tr><tr><td>Valla invicta (DEF)</td><td>3</td></tr> <tr><td>Equipo ganador</td><td>2</td></tr> </tbody></table></p></div>";
+	linea2="<div class='row'><p><table class='table table-hover jug-alg-tbl text-aligne-center' ><thead><tr><th>ACCION</th><th>PTS</th></tr></thead>            <tbody><tr><td>Disparo al arco</td><td>2</td></tr><tr><td>Disparo al palo</td><td>1.5</td></tr><tr><td>Disparo afuera</td><td>1</td></tr><tr><td>Goles</td><td>20</td></tr><tr><td>Goles (DEF)</td><td>25</td></tr><tr><td>Goles (ARQ)</td><td>27</td></tr><tr><td>Tarjeta amarilla</td><td>(-2)</td></tr><tr><td>Tarjeta roja</td><td>(-10)</td></tr><tr><td>Pases correctos</td><td>0.5</td></tr><tr><td>Pases incorrectos</td><td>(-0.5)</td></tr><tr><td>Faltas</td><td>(-0.5)</td></tr><tr><td>Recuperaciones</td><td>3</td></tr><tr><td>Asistencias</td><td>6</td></tr><tr><td>Fuera de juego</td><td>(-1)</td></tr><tr><td>Atajadas</td><td>2.5</td></tr><tr><td>Penal errado</td><td>(-5)</td></tr><tr><td>Penal atajado (ARQ)</td><td>+10</td></tr><tr><td>Gol al arquero(ARQ)</td><td>-2</td></tr><tr><td>Valla invicta (ARQ)</td><td>5</td></tr><tr><td>Valla invicta (DEF)</td><td>3</td></tr> <tr><td>Equipo ganador</td><td>2</td></tr> </tbody></table></p></div>";
 	linea3="<div class='row'><p>Las incidencias contempladas al igual que  asignación correspondiente de puntos varían por Jugada. Es responsabilidad exclusiva del usuario revisar las incidencias medidas en cada “Jugada” previo a seleccionar  sus jugadores.</p></div>";
 	texto=linea1+linea2+linea3;
 	return texto;
@@ -84,15 +86,15 @@ function abrirNotificacionRankingDePremios(){
 		 });
 	}
 function headerDeLaMesaPopUpReglasDeRanking(){
-	texto="<div class='row'><H1>RANKING DEL VERANO</H1></div>";
+	texto="<div class='row'><H1>RANKINGS</H1></div>";
 	return texto;
 }
 function contenidoDeLaMesaReglasDeRanking(){
-	linea1="<div class='row'><p>Los puntos ganados de las Jugadas se contabilizan en el Ranking del Torneo Verano 2016. Los 20 usuarios con mayor puntaje en el ranking serán premiados con premios super especiales, a confirmarse en los próximos días.</p></div>";
-	linea2=" <div class='row img-publ-container'><div class='img-publ-prem' style='background-image:url(../img/premios/r/1.jpg); background-position:0px 0px; background-size: cover;'><div class='pos-box'><p>Viajes</p></div></div><div class='img-publ-prem med' style='background-image:url(../img/premios/r/2.jpg);  background-position: center center;background-size: cover;'><div class='pos-box'><p>Ropa deportiva</p></div></div><div class='img-publ-prem' style='background-image:url(../img/premios/r/3.jpg);background-size: cover;'><div class='pos-box'><p>Muchos mas</p></div></div></div>'";
-	linea3="<div class='row'><table class='table table-hover jug-alg-tbl text-aligne-center' >            <thead><tr><th>POSICIONES ACTUALES</th><th>PUNTAJE</th></tr></thead><tbody><tr><td>Primero</td><td>"+window.rankingVerano[1]+" Pts</td></tr><tr><td>Segundo</td><td>"+window.rankingVerano[2]+" Pts</td></tr><tr><td>Tercero</td><td>"+window.rankingVerano[3]+" Pts</td></tr><tr><th>Vos!!</th><th>"+window.rankingVerano[4]+" Pts</th></tr></tbody></table></div>";
-	linea4="<div class='row'><p>Estos son las posiciones actuales del Ranking del verano. Los puntos sumados por el TOP 3, preservando la identidad de los usuarios. Proximamente te estaremos pidiendo un nic, para publicar en el sitio.</p></div>";
-	texto=linea1+linea2+linea3+linea4;
+	linea1="<div class='row'><p>Los puntos ganados de las Jugadas se contabilizan en el Ranking correspondiente al Torneo. Los usuarios con mayor puntaje en cada ranking serán premiados con premios super especiales, poco a poco se irán revelando los premios, cuantos más usuarios tengamos mejores serán los premios que repartamos.</p></div>";
+	linea3="<div class='row'><table class='table table-hover jug-alg-tbl text-aligne-center' >            <thead><tr><th>POSICIONES </th><th>Primera A</th></tr></thead><tbody><tr><td>Primero</td><td>"+window.rankingPrimeraA[1]+" Pts</td></tr><tr><td>Segundo</td><td>"+window.rankingPrimeraA[2]+" Pts</td></tr><tr><td>Tercero</td><td>"+window.rankingPrimeraA[3]+" Pts</td></tr><tr><th>Vos!!</th><th>"+window.rankingPrimeraA[4]+" Pts</th></tr></tbody></table></div>";
+	linea4="<div class='row'><table class='table table-hover jug-alg-tbl text-aligne-center' >            <thead><tr><th>POSICIONES</th><th>Libertadores</th></tr></thead><tbody><tr><td>Primero</td><td>"+window.rankingLibertadores[1]+" Pts</td></tr><tr><td>Segundo</td><td>"+window.rankingLibertadores[2]+" Pts</td></tr><tr><td>Tercero</td><td>"+window.rankingLibertadores[3]+" Pts</td></tr><tr><th>Vos!!</th><th>"+window.rankingLibertadores[4]+" Pts</th></tr></tbody></table></div>";
+	linea5="<div class='row'><p>Estos son las posiciones actuales del Ranking de la Libertadores y de la Primera A de Argentina. Los puntos sumados por el TOP 3, preservando la identidad de los usuarios. Proximamente te estaremos publicando los listados con el nic que se carga en el sector mi perfil.</p></div>";
+	texto=linea1+linea3+linea4+linea5;
 	return texto;
 }
 /* Notificacion de como es el mensaje de contacto */
@@ -113,7 +115,7 @@ function abrirNotificacionEnviarComentario(){
 		 });
 	}
 function headerDeLaMesaEnviarComentario(){
-	texto="<div class='row'><div class='cont-img'><img src='../img/beta/pop-ups/pop3.jpg'></div></div><div class='row'><H1>FEEDBACK</H1></div>";
+	texto="<div class='row'></div><div class='row'><H1>CONTACTO</H1></div>";
 	return texto;
 }
 function contenidoDeLaMesaEnviarComentario(){
@@ -129,7 +131,7 @@ function contenidoDeLaMesaEnviarComentario(){
 function enviarMensajeDeContacto(dialog){
 	nombreContacto=document.getElementById("nombreContacto").value;
 	mailContacto=document.getElementById("mailContacto").value;
-	contenidoContacto=document.getElementById("contenidoContactoTxt").value;
+	contenidoContacto=document.getElementById("contenidoContactoTxt").value + "-- mail de contacto: "+window.datosUsuario.email+ "-- USU id: "+window.datosUsuario.id+ "-- Mail ingresado: "+mailContacto;
 	//alert(contenidoContacto +nombreContacto+ mailContacto);
 	if(contenidoContacto.length<2000 && contenidoContacto.length>1){
 		json=JSON.stringify( { "comment": { "sender_name": nombreContacto,"sender_mail": mailContacto,"content": contenidoContacto } } );
@@ -172,4 +174,47 @@ function mensajeAlServidorComentarioContacto(json){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		
+}
+function abrirNotificacionCualesPremios(){
+	ga('send', 'event', 'Notification Open', 'Premios', '');
+	//window.userCoinsToPlay
+		 tituloMesa="<div class='row'></div><div class='row'><H1>PREMIOS</H1></div>";
+		 contenidoMesa="<div class='row'><img style='width: 100%;' src='../img/pausa.jpg'/></div>";
+		 BootstrapDialog.show({
+			 cssClass: 'emergentes-pop-up-gen',
+			 title: tituloMesa,
+            message: "<div class='contenido-interno'>"+contenidoMesa+"</div>" 
+		 });
+}
+function explicacionMonedas(){
+	ga('send', 'event', 'Notification Open', 'How coins Work', '');
+	//window.userCoinsToPlay
+	tituloMesa=headerDeQueSonLasMonedas();
+		 contenidoMesa=contenidoDeQueSonLasMonedas();
+		 BootstrapDialog.show({
+			 cssClass: 'emergentes-pop-up-gen',
+			 title: tituloMesa,
+            message: "<div class='contenido-interno' style='max-width: 80vw;'>"+contenidoMesa+"</div>" 
+		 });
+}
+function headerDeQueSonLasMonedas(){
+	texto="<div class='row'></div><div class='row'><H1>MONEDAS</H1></div>";
+	return texto;
+}
+function contenidoDeQueSonLasMonedas(){
+	linkText="www.jugaplay.com/pages/login.html?invitedby="+window.datosUsuario.nickname+"&cnl="+hideUserHashNot(window.datosUsuario.id);
+	linea1="<div class='row'><h3>¿Que son las monedas Jugaplay?</h3></div>";
+	linea2="<div class='row'><p>Las monedas Jugaplay son una posibilidad de llevarte más premios.</p></div>";
+	linea3="<div class='row'><h3>¿Cómo se usan?</h3></div>";
+	linea4="<div class='row'><p>Algunas mesas te permitirán apostar una cierta cantidad de monedas para duplicar tu premio.  Si ganas y apostaste te llevas el premio x 2. Ejemplo: Si el premio es 1 Kg de helado te llevas 2 Kg.</p></div>";
+	linea5="<div class='row'><h3>¿Cómo se consiguen?</h3></div>";
+	linea6="<div class='row'><p>Cada amigo que invites al sitio utilizando el link que se encuentra debajo y se registre te sumará automáticamente 5 monedas.  </p></div>";
+	linea7='<div class="row" style="margin-bottom: 10px;"><input onClick="this.select();" type="text" class="form-control copy-link" value="'+linkText+'"></div>';
+	linea8="<div class='row'><p>Próximamente tendrás nuevas opciones para conseguir monedas. Esperamos que las disfrutes y ganes mucho más!!</p></div>";
+	texto=linea1+linea2+linea3+linea4+linea5+linea6+linea7+linea8;
+	return texto;
+}
+function hideUserHashNot(hide){
+	//parseInt("9ix", 36) un hide
+	return (parseInt(hide)+500).toString(36);
 }

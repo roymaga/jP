@@ -49,5 +49,5 @@ function cancelarOpcionJugarMesaYaJugada(idMesa){
 }
 function mesaYaJugada(idMesa){
 	// Poner los Jugadores que eligio
-	avisoEmergenteJugaPlay("Mesa ya jugada","<p>Los usuarios solo pueden jugar una vez cada mesa</p>");
+	avisoEmergenteJugaPlay("Mesa ya jugada","<p>Los usuarios solo pueden jugar una vez cada mesa</p><p>Revisa en el <a style='font-size: 18px; font-weight: bolder;cursor: pointer;color: #3c763d;' href='historial.html'>HISTORIAL</a> los jugadores que elegiste</p>");
 }

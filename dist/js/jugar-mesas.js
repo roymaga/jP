@@ -67,14 +67,14 @@ function headerDeLaMesa(horaEmpieza,horaTermina,tituloDeLaMesa){
 	horaEmpieza=horaEmpieza.substring(13);// Le pasa la fecha y solo quiero la hora
 	tipoPremios="10.000 Pts";
 	//tituloDeLaMesa="BOCA vs ESTUDIANTES";
-	texto="<div class='col-xs-4'>"+tituloDeLaMesa+"</div><div class='col-xs-6' id='titulo-opciones-mesa-en-juego'><div class='col-xs-4 data-game active' onClick='contentMesaSelect(this,\"I\");' >INFORMACION</div><div class='col-xs-4 data-game' onClick='contentMesaSelect(this,\"PA\");' style='display:none;'>PARTICIPANTES</div><div class='col-xs-4 data-game' onClick='contentMesaSelect(this,\"PE\");' style='display:none;'>PREMIOS</div></div><div class='col-xs-2'><div class='bloques-informativo'  style='display:none;'><div class='bloque-informativo b1'><H3>"+horaEmpieza+"</H3><p>EMPIEZA</p></div><div class='bloque-informativo b2'><H3>"+horaTermina+"</H3><p>TERMINA</p></div><div class='bloque-informativo b3'><H4>"+tipoPremios+"</H4><p>PREMIOS</p></div></div></div>";
+	texto="<div class='row'>"+tituloDeLaMesa+"</div>";
 	return texto;
 }
 function contentInformacionDeLaMesa(mesa){
 	cantidadDeJugadoresAElegir=mesa.number_of_players;
 	p="<div class='row'><p>Elige "+cantidadDeJugadoresAElegir+" jugadores de los siguientes equipos: </p></div>";
 	partidos="<div class='row partidosMesa'>"+contentDeLaMesaCuadroPartido(mesa)+"</div>";
-	reglas="<div class='row' style='max-height:300px; overflow-y:auto;'> <table class='table table-hover jug-alg-tbl text-aligne-center' ><thead><tr><th>ACCION</th><th>PTS</th></tr></thead>            <tbody><tr><td>Disparo al arco</td><td>2</td></tr><tr><td>Disparo al palo</td><td>1.5</td></tr><tr><td>Disparo afuera</td><td>1</td></tr><tr><td>Goles</td><td>10</td></tr><tr><td>Goles (DEF)</td><td>15</td></tr><tr><td>Goles (ARQ)</td><td>17</td></tr><tr><td>Tarjeta amarilla</td><td>(-2)</td></tr><tr><td>Tarjeta roja</td><td>(-10)</td></tr><tr><td>Pases correctos</td><td>0.5</td></tr><tr><td>Pases incorrectos</td><td>(-0.5)</td></tr><tr><td>Faltas</td><td>(-0.5)</td></tr><tr><td>Recuperaciones</td><td>3</td></tr><tr><td>Asistencias</td><td>6</td></tr><tr><td>Fuera de juego</td><td>(-1)</td></tr><tr><td>Atajadas</td><td>2.5</td></tr><tr><td>Penal errado</td><td>(-5)</td></tr><tr><td>Penal atajado (ARQ)</td><td>+10</td></tr><tr><td>Gol al arquero(ARQ)</td><td>-2</td></tr><tr><td>Valla invicta (ARQ)</td><td>5</td></tr><tr><td>Valla invicta (DEF)</td><td>3</td></tr> <tr><td>Equipo ganador</td><td>2</td></tr> </tbody></table></div>";
+	reglas="<div class='row' style='max-height:300px; overflow-y:auto;'> <table class='table table-hover jug-alg-tbl text-aligne-center' ><thead><tr><th>ACCION</th><th>PTS</th></tr></thead>            <tbody><tr><td>Disparo al arco</td><td>2</td></tr><tr><td>Disparo al palo</td><td>1.5</td></tr><tr><td>Disparo afuera</td><td>1</td></tr><tr><td>Goles</td><td>20</td></tr><tr><td>Goles (DEF)</td><td>25</td></tr><tr><td>Goles (ARQ)</td><td>27</td></tr><tr><td>Tarjeta amarilla</td><td>(-2)</td></tr><tr><td>Tarjeta roja</td><td>(-10)</td></tr><tr><td>Pases correctos</td><td>0.5</td></tr><tr><td>Pases incorrectos</td><td>(-0.5)</td></tr><tr><td>Faltas</td><td>(-0.5)</td></tr><tr><td>Recuperaciones</td><td>3</td></tr><tr><td>Asistencias</td><td>6</td></tr><tr><td>Fuera de juego</td><td>(-1)</td></tr><tr><td>Atajadas</td><td>2.5</td></tr><tr><td>Penal errado</td><td>(-5)</td></tr><tr><td>Penal atajado (ARQ)</td><td>+10</td></tr><tr><td>Gol al arquero(ARQ)</td><td>-2</td></tr><tr><td>Valla invicta (ARQ)</td><td>5</td></tr><tr><td>Valla invicta (DEF)</td><td>3</td></tr> <tr><td>Equipo ganador</td><td>2</td></tr> </tbody></table></div>";
 	texto="<div id='contentInformacionDeLaMesa'>"+p+partidos+reglas+"</div>";
 	return texto;
 }
@@ -154,8 +154,8 @@ function juegoEmpezo(boton,tabalasSelect,mesa){
 	jugadores=tabalasSelect;
 	filtroPosiciones="<div class='styleSelect'><select onchange='filterPlayerPositionsShown(this);'><option value='all'>Todas las Posiciones</option><option value='goalkeeper'>Arquero</option><option value='defender'>Defensor</option><option value='midfielder'>Medio</option><option value='forward'>Delantero</option></select></div>";
 	filtroEquipos="<div class='styleSelect'><select onchange='filterPlayerTeamShown(this);'><option value='all'>Todos los Equipos</option>"+armarFiltrosParaEquipos(mesa)+"</select></div>";
-	tablaJugadoresPosibles=" <table class='table table-hover jug-alg-tbl tabla-select-players'><thead><tr> <th width='10%'></th><th width='30%'>NOMBRE</br>POSICION</th><th width='25%'>EQUIPO</br>NACIONALIDAD</th><th width='25%'>PARTIDO</br>HORARIO</th><th width='10%'></th></tr></thead><tbody id='playersToSelect'>"+jugadores+"</tbody></table>";
-	tablaJugadoresElegidos=" <table class='table table-hover jug-alg-tbl tabla-select-players'><thead><tr> <th width='10%'></th><th width='30%'></th><th width='25%'>JUGADORES</br>ELEGIDOS</th><th width='25%'><img src='../img/app/view.png' onclick='mostrarOcultarSelected(this);' style='opacity:0.4;'></th><th width='10%'></th></tr></thead><tbody id='gameMesaSelectPlayersSelected' style='display:none;'></tbody></table>";
+	tablaJugadoresPosibles=" <table class='table table-hover jug-alg-tbl tabla-select-players'><thead><tr> <th width='10%'></th><th width='30%'>NOMBRE</br>POSICION</th><th width='25%'>EQUIPO</br>NACIONALIDAD</th><th width='10%'></th></tr></thead><tbody id='playersToSelect'>"+jugadores+"</tbody></table>";
+	tablaJugadoresElegidos=" <table class='table table-hover jug-alg-tbl tabla-select-players'><thead><tr> <th width='20%'></th><th width='20%'><span id='selected_players_number' style='font-size: 25px;text-align: center;'>0</span></th><th width='40%'>JUGADORES</br>ELEGIDOS</th><th width='20%'><img src='../img/app/edit.png' onclick='mostrarOcultarSelected(this);' style='opacity:0.5;'></th></tr></thead><tbody id='gameMesaSelectPlayersSelected' style='display:none;'></tbody></table>";
 	filtros="<div class='row row-first'><div class='col-xs-2'>Filtrar por:</br></div><div class='col-xs-8'><div class='col-xs-8'>"+filtroPosiciones+"</div><div class='col-xs-8'>"+filtroEquipos+"</div></div></div>";
 	jugadores="<div class='row'><div class='col-xs-12'>"+tablaJugadoresElegidos+"</div><div class='col-xs-12' style='max-height:300px; overflow-y:auto;'>"+tablaJugadoresPosibles+"</div></div>";
 	document.getElementById("contenido-mesa-en-juego").innerHTML=filtros+jugadores;
@@ -179,7 +179,7 @@ function tablaSelectJugadores(mesa,boton){
 	for(a in matchesInTable){// Para cada partido de la mesa
 		equipoLocalShort=matchesInTable[a].local_team.short_name;
 		equipoVisitanteShort=matchesInTable[a].visitor_team.short_name;
-		partido=equipoLocalShort+" <b>VS</b> "+equipoVisitante;
+		partido=equipoLocalShort+" <b>VS</b> "+equipoVisitanteShort;
 		fecha=mesaFechaReducida(matchesInTable[a].datetime);
 		for (player in matchesInTable[a].local_team.players){
 			tabalasSelect+=tablaSelectJugador(matchesInTable[a].local_team.players[player],matchesInTable[a].local_team.name,partido,fecha);
@@ -198,8 +198,7 @@ function tablaSelectJugador(player,team,partido,horario){
 	name=player.first_name+" "+player.last_name;
 	posicion=traducirPosicionJugadorMesa(player.position);
 	nacionalidad=player.nationality;
-	horario="27/1 22:10";// Todos los partidos son 22 10
-	linea="<tr data-team-type='"+team+"' data-position-type='"+player.position+"' onClick='gameMesaSelectPlayerForTeam(this,\""+id+"\");' id='mesaSelectJugadorNro"+id+"' class='filaMesaJugador'> <th width='10%'>"+img+"</th><th width='30%'><span class='player-name'>"+name+"</span></br>"+posicion+"</th><th width='25%'><b>"+team+"</b></br>"+nacionalidad+"</th><th width='25%'>"+partido+"</br>"+horario+"</th><th width='10%'><img src='../img/beta/mesa/tick.png'></th></tr>";
+	linea="<tr data-team-type='"+team+"' data-position-type='"+player.position+"' onClick='gameMesaSelectPlayerForTeam(this,\""+id+"\");' id='mesaSelectJugadorNro"+id+"' class='filaMesaJugador'> <th width='10%'>"+img+"</th><th width='30%'><span class='player-name'>"+name+"</span></br>"+posicion+"</th><th width='25%'><b>"+team+"</b></br>"+nacionalidad+"</th><th width='10%'><img src='../img/beta/mesa/tick.png'></th></tr>";
 	return linea;
 }
 function gameMesaSelectPlayerForTeam(element,idJugador){
@@ -234,6 +233,7 @@ function gameMesaDesSelectPlayerForTeam(elemento, elementAnterior, idJugador){
 /* Actualizar el boton beta */
 function actualizarBotonMesaBeta(){
 	jugadoresRestantes=window.maxPlayerPosibleJugadaSelect-window.arrPlayersSelected.length;
+	document.getElementById("selected_players_number").innerHTML=window.arrPlayersSelected.length;
 	botonMesa=document.getElementById("boton-mesa-en-juego");
 	if(jugadoresRestantes==0){
 		botonMesa.innerHTML="Jugar";
@@ -357,13 +357,16 @@ function mesAtexto(mes){
 }
 /* de la app */
 function mostrarOcultarSelected(imagen){
-	tablaJugadoresElegidos=document.getElementById("gameMesaSelectPlayersSelected");
+	tablaJugadoresElegidos=document.getElementById("gameMesaSelectPlayersSelected");//playersToSelect
+	tablaJugadores=document.getElementById("playersToSelect");
 	if(tablaJugadoresElegidos.style.display=="none"){
 		tablaJugadoresElegidos.style.display="";
+		tablaJugadores.style.display="none";
 		imagen.style.opacity="1";
 		imagen.style.webkitFilter="alpha(opacity=100)";
 	}else{
 		tablaJugadoresElegidos.style.display="none";
+		tablaJugadores.style.display="";
 		imagen.style.opacity=".5";
 		imagen.style.webkitFilter="alpha(opacity=50)";
 	}

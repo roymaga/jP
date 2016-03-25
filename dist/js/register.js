@@ -7,7 +7,7 @@ function abrirRegistro(){
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up register',
 			 title: "Registrate Gratis",
-            message: "<div class='row'><div onclick='processFacebook();' class='botton-general-size facebook'>Registro con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
+            message: "<div class='row'><div onclick='processFacebook();' class='botton-general-size facebook'>Registro con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='Nickname' id='nickname-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
 			buttons: [{
                 label: 'Registrarse',
 				id:'boton-panel-registro',
@@ -21,15 +21,18 @@ function abrirRegistro(){
 function registrarUsuarioEnElSitio(){
 	var mail=document.getElementById("email-pop").value;
 	var pass=document.getElementById("password-pop").value;
-	if(mail.length < 1 || pass.length < 1 ){
+	var nickname=document.getElementById("nickname-pop").value;
+	if(mail.length < 1 || pass.length < 1 || nickname.length < 1 ){
 		if(mail.length < 1 && pass.length < 1 ){
-			avisoEmergenteJugaPlay("Campos vacios","<p>Los Campos <b>Email y Contraseña</b> son obligatorios</p>");
+			avisoEmergenteJugaPlay("Campos vacios","<p>Los Campos <b>Email, Contraseña y Nickname</b> son obligatorios</p>");
 			}
 		else{
 			if(mail.length < 1){
 				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>email</b> es obligatorio</p>");
-			}else{
+			}else if (pass.length < 1){
 				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>contraseña</b> es obligatorio</p>");
+			}else{
+				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>nickname</b> es obligatorio</p>");
 			}
 		}	// Termina el tipo de mensaje
 	return false ;
@@ -37,7 +40,16 @@ function registrarUsuarioEnElSitio(){
 		avisoEmergenteJugaPlay("Contraseña muy corta","<p>La <b>contraseña</b> debe tener al menos <p>8 caracteres</p>");
 		return false ;
 	};// Si paso es que los campos estan bien
-	json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass } });
+	//https://www.jugaplay.com/?invitedby=RiverCampeon2&cnl=fy
+	  var webDir=window.location.href;
+	  if(webDir.indexOf('&cnl=') == -1){// Nadie lo recomendo
+	  	json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname } });
+	  }else{//Alguien lo recomendo
+    	var startQuien = webDir.indexOf('&cnl=')+5;
+    	var invitacionCifrada = webDir.substring(startQuien, 200);	
+	  	invitacion=traducirInvitacionAlSitio(invitacionCifrada);
+	  	json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname,"invited_by_id":invitacion } });
+  		}
 	if(startLoadingAnimation()==true){
 	mensajeAlServidorConContenidoRegistro(json);}
 }
@@ -111,4 +123,7 @@ function hacerLogOutPreventivo(){
 		xmlhttp.send();		
 }
 function diferent(){
+}
+function traducirInvitacionAlSitio(invitacion){
+	return parseInt(invitacion, 36)-500;
 }

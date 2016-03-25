@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="futbol, torneo de verano, ligas de fantasia">
+    <meta name="author" content="JUGAPLAY">
+    
+
+    <title>JugaPlay</title>
+    <link rel="shortcut icon" type="image/png" href="../img/beta/favicon.png">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+	<!-- Jugandola CSS -->
+    <link href="../dist/css/jugaplay.css?12312" rel="stylesheet">
+    <link href="../dist/css/jugaplay-campeones-foro.css?12312" rel="stylesheet">
+    <!-- Timeline CSS -->
+    <link href="../dist/css/timeline.css?1231" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS 
+    <link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">-->
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../dist/css/jugaplay-pop-up.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS 
+    <link href="../bower_components/morrisjs/morris.css" rel="stylesheet"> -->
+
+    <!-- Custom Fonts -->
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation --><nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="inicial.html" class="navbar-brand" style="padding:15px;"><img src="../img/beta/logo.jpg" width="175" height="51" alt="jugaplay"></a>
+            </div>
+            <!-- Menu del costado -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                    	<li class="dropdown">
+                            <a href="#"> <img src="../img/users/perfil.jpg" class="img-circle special-img"> <span class="headear-nom-usu"> -</span> <b class="caret"></b></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="perfil.html" style=" cursor:pointer;"><i class="fa fa-user fa-fw"></i> Perfil</a></li>
+								<li class="divider"></li>
+								<li><a onClick="hacerLogOutDeLaCuenta();" style=" cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li id="pts-pos-tablero-header"><a style='font-size: 18px; font-weight: bolder;cursor: pointer;' onclick='explicacionMonedas();'>- <img src='../img/beta/complements/coins.png' height='22' style='margin-top: -5px; margin-left: 7px;'></a></li>
+                        <li class="dropdown">
+                            <a href="#"> Ayuda<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a onClick="abrirNotificacionEnviarComentario();" style="cursor:pointer;">Soporte</a></li>
+								<li><a onClick="abrirNotificacionComoSeJuega();"style="cursor:pointer;" >Como Jugar</a></li>
+								<li><a onClick="abrirNotificacionReglasDePremios();" style="cursor:pointer;">Premios</a></li>
+								<li><a href="reglas-puntajes.html" style="cursor:pointer;">Reglas y puntajes</a></li>
+                        		<li><a href="preguntas-frecuentes.html" style="cursor:pointer;">Preguntas Frecuentes</a></li>
+                        		<li><a href="campeones.html" style="cursor:pointer;">Campeones</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						<li><a onClick="abrirNotificacionRankingDePremios();" style="cursor:pointer;">Ranking</a></li>
+                        <li class="dropdown">
+                            <a href="#">Historial<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-leve collapse" id="cabeceraMenuHistorial">
+                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+            <!-- Fin Menu del costado -->
+        </nav>
+
+        <div id="page-wrapper">
+        	<!-- Contenido del sitio -->
+            <div class="row">
+            	<div class="extra-page-header"><H1>FORO JUGAPLAY</H1></div>
+                <div class="extra-page-header sub"><H3><button type="button" class="btn" onClick="abrirNoticiasForo();">Otras Noticias</button></H3></div>
+            </div>
+            <div class="row">
+            <!-- contenido traido historia -->
+            	<div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="background-image:url(../img/foro/fondo-foro.jpg); background-size:cover;">
+                        <!-- Comienza el Foro -->
+                        	<div class="jugaplay-foro">
+                            	<h1>A river le falto claridad para hacer la diferencia</h1>
+                            	<img src="../img/foro/muestra.jpg"> 
+                                <h3>Pese a que tuvo la iniciativa y exhibió un buen inicio, el Millonario sufrió un golazo inesperado, alcanzó el empate de manera insólita y no supo hallar la cuota de ingenio ni precisión suficientes para quedarse con los tres puntos en el Monumental. Aun así, está arriba del Sao Paulo en el grupo, un detalle para nada menor.</h3>
+                                <p>Con relación al año pasado, el panorama es mucho más sereno. Sin embargo, de ninguna forma permite espacio para el relax. Es que la victoria de The Strongest en el Morumbí rompió todos los pronósticos y, a partir de ahí, sus resultados en la altura condicionarán o no al resto de los equipos en el Grupo 1 de la Copa Libertadores. Lo cierto es que River, con cuatro unidades en dos presentaciones, por ahora quedó bien parado, pese a dejar escapar el triunfo esta noche en el Monumental.</p>
+                                <p>Al campeón de América le faltó claridad para obtener la victoria. Si bien es cierto que a puro empuje, con más ganas que fútbol, pudo haberla logrado, también es imposible negar que coqueteó con el polvo de la derrota cuando Sao Paulo contragolpeó cerca del final. Desde el principio el protagonismo fue para el Millonario, que tuvo tres chances muy claras para abrir la cuenta, una de ellas increíble por la manera en que no terminó en gol.</p>
+                                <p>Una vez más, la máxima del fútbol se cumplió porque el rival aprovechó su primer tiro. A los 16 minutos del primer tiempo, Ganso sacó un zurdazo muy esquinado, tras un rechazo de Gabriel Mercado en pelota parada, la tercera de la noche en favor del Sao Paulo. A partir de ahí, como bien lo describió Marcelo Gallardo durante la conferencia de prensa, River entró en el terreno de la confusión. Perdió la nitidez ofensiva que exhibió al comienzo y casi recibe otro golpe, pero Leonardo Ponzio quitó en el momento indicado para impedir el 0-2.</p>
+                                <p>Nuevamente, apareció la famosa historia de las posibilidades desperdiciadas. Es que River, de la galera, consiguió la igualdad, a la postre definitiva. Sebastián Driussi ejecutó un tiro de esquina desde la izquierda, el arquero Denis rechazó arriba, el balón rebotó en Thiago Mendes e insólitamente culminó en el arco. En ese entonces, el partido ya era luchado, con mucha fricción e interrumpido por las infracciones de ambos lados. Por lo tanto, más allá de un susto que causó Marcelo Barovero con los pies ante Jonathan Calleri, la paridad llegó al descanso.</p>
+                                <div class="comentarios">
+                                	<!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                    <!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual --><!-- Un comentario individual -->
+                                	<div class="comentario">
+                                    	<div class="nic">@Nick</div>
+                                        <div class="comment">Que bueno que esta el sitio me encanta</div>
+                                	</div>
+                                    <!-- Un comentario individual -->
+                                </div>
+                                <textarea name="" id="comment-usuarios" rows="5"></textarea>
+                                <button type="button" class="btn" href="#">Comentar</button>
+                            </div>
+                        <!-- Fin del Foro-->   
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+            <!-- Fin contenido traido historia -->
+            </div>
+            <!-- Fin del contenido -->
+        </div>
+        <!-- /#page-wrapper -->
+        <!-- Navigation -->
+        <footer class="footer">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>About</strong></h6></li>
+								<li><a href="privacidad.html">Privacidad</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>Ayuda</strong></h6></li>
+								<li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+								<li><a href="reglas-puntajes.html">Reglas Puntajes</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled">
+								<li><h6><strong>Sectores</strong></h6></li>
+								<li><a href="inicial.html">Juego</a></li>
+								<li><a href="historial.html">Historial</a></li>
+								<li><a href="perfil.html">Perfil</a></li>
+                                <li><a href="campeones.html">Campeones</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 text-right">
+					<p><h6><strong>JugaPlay Inc</strong></h6></p>
+					<p>Buenos Aires, Argentina</p>
+					<p class="social-icons-footer">
+						<a href="https://www.facebook.com/Jugaplay/?fref=ts" target="_blank"><img src="../img/beta/icons/icon-social-circle-facebook.png"></i></a>
+						<a href="https://twitter.com/Jugaplay_tw?lang=es" target="_blank"><img src="../img/beta/icons/icon-social-circle-twitter.png"></i></a>
+						<a href="#"><img src="../img/beta/icons/icon-social-circle-instagram.png"></i></a>
+					</p>
+				</div>
+			</div>
+        </footer>   </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    
+    
+    <!-- Monkey-Dialog JavaScript -->
+<link href="../bower_components/dialog-master/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+<script src="../bower_components/dialog-master/js/bootstrap-dialog.js"></script>
+<!-- Ejemplo de ventanas emergentes JavaScript -->
+<script src="../dist/js/funcionesBaseForo.js?321562355"></script>
+<script src="../dist/js/handleCookies.js?321562355"></script>
+<script src="../dist/js/datos-usuario-header.js?45434321222345213"></script>
+<script src="../dist/js/api-para-mensajes.js?1263434232394"></script>
+<script src="../dist/js/aviso-error-popup.js?221265452342"></script>
+<script src="../dist/js/notificaciones-carteles.js?251234122345"></script>
+<script src="../dist/js/log-out.js?54654123224322"></script>
+<script src="../dist/js/generaHistorialesCabezera.js?12342894"></script>
+<script src="../dist/js/sb-admin-2.js?12654"></script>
+    <!-- Custom Theme JavaScript -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43402607-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+
+</html>

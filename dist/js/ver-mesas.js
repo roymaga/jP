@@ -38,16 +38,19 @@ function verMesasDisponiblesParaJugar(){
 function analizarRespuestaMesasDisponiblesParaJugar(obj){
 	if (typeof(obj.error) !== 'undefined'){
 	}else{
+			arregloDeMesasConComentarios=new Array();
 			for (var i = 0; i < obj.length; i++) {
 				if(mesaDisponibleParaJugarHorario(obj[i]['start_time'])==true){
-				cargarTablaDeMesasConContenidoInicial(obj[i]['id'],obj[i]['title'],obj[i]['number_of_players'],obj[i]['start_time'],obj[i]['end_time'],obj[i]['description'],obj[i]['has_been_played_by_user']);}
+				cargarTablaDeMesasConContenidoInicial(obj[i]['id'],obj[i]['title'],obj[i]['number_of_players'],obj[i]['start_time'],obj[i]['end_time'],obj[i]['description'],obj[i]['has_been_played_by_user']);
+				arregloDeMesasConComentarios.push(obj[i]['id']);}
     		}
+			updateAmoutnOfForoInteractions(arregloDeMesasConComentarios);
 	}
 }
 function cargarTablaDeMesasConContenidoInicial(idMesa, tituloMesa, numeroDeJugadores, horaInicioMesa, horaFinMesa, descripcionMesa, yaJugada){
 	//alert(idMesa+tituloMesa+numeroDeJugadores+horaInicioMesa+horaFinMesa+descripcionMesa);
 	var mesaACrear = document.createElement('tr');
-	mesaACrear.innerHTML='<td>'+tituloMesa+'</td><td class="center">'+numeroDeJugadores+'</td><td class="center">'+dateFormatViewNormal(horaInicioMesa)+'</td><td class="center"><button type="button" class="'+claseBotonMesaSiDisponible(yaJugada)+'" id="btn-mesa-visible-id'+idMesa+'" onClick="'+funcionBotonMesaSiDisponible(yaJugada)+'(\''+idMesa+'\');">'+textoBotonMesaSiDisponible(yaJugada)+'</button></td>';
+	mesaACrear.innerHTML='<td>'+tituloMesa+'</td><td style="text-align:center;">'+dateFormatViewNormal(horaInicioMesa)+'</td><td class="center" style="text-align:center;"><div class="jug-anot bounceInRight" onclick="openForoJugaPlay(\''+idMesa+'\',\''+(tituloMesa)+'\' );"><span id="comment-tbl-'+idMesa+'" style="margin-right:5px;">0</span><img src="../img/foro/comments.png"></div></td><td class="center"><button type="button" class="'+claseBotonMesaSiDisponible(yaJugada)+' btn-jugar" id="btn-mesa-visible-id'+idMesa+'" style="float:right;" onClick="'+funcionBotonMesaSiDisponible(yaJugada)+'(\''+idMesa+'\');">'+textoBotonMesaSiDisponible(yaJugada)+'</button></td>';
 	document.getElementById("mesas-disponibles-totales").appendChild(mesaACrear);
 }
 function claseBotonMesaSiDisponible(yaJugada){//abrirMesa
@@ -87,27 +90,53 @@ function mesaDisponibleParaJugarHorario(fechaHora){
 	d.setHours(hora);
 	d.setMinutes(minutos);
 	t.setMinutes ( t.getMinutes() + diffMinutos ); // Llevo la hora que comparo a la hora de argentina
-	if(t<d){
-		return true;
-	}else{
-		return false; //Lo cancelo asi veo todo
-		//return true;
+	if(t<d){return true;}else{
+		return false;
 	}
 }
 function nombresDeEquiposBeta(titulo){
 	return titulo.replace(" vs ", ", ");
 }
 function nombresDePremiosBeta(idMesa){
-	if(idMesa==12){//Estudiantes gimnacia
+	if(idMesa==24|| idMesa==20){//Estudiantes gimnacia
+	return "Cine, Burger, +Sorpresas";
+	}
+	if(idMesa==32 || idMesa==31 || idMesa==30 || idMesa==29 ){//Racing independiente
+	return "Freddo, Cine, +Sorpresas";
+	}
+	if(idMesa==23){//Boca Estudiantes
 	return "Pelota, Burger, +Sorpresas";
 	}
-	if(idMesa==10){//Racing independiente
-	return "Camiseta, Freddo, Cine, +Sorpresas";
+	if(idMesa==33){//Boca River
+	return "Camiseta, Cine, +Sorpresas";
 	}
-	if(idMesa==9){//Boca Estudiantes
-	return "Pelota, Freddo, Burger, +Sorpresas";
-	}
-	if(idMesa==11){//Boca River
-	return "Camiseta, Freddo, Cine,Burger, +Sorpresas";
-	}
+	return "A Confirmar";
 }
+function nombresEquiposBeta(idMesa){
+	if(idMesa==30){//Estudiantes gimnacia
+	return "SLO, VEL";
+	}
+	if(idMesa==31){//Estudiantes gimnacia
+	return "BOC, NEW";
+	}
+	if(idMesa==32){//Estudiantes gimnacia
+	return "IND, RAC";
+	}
+	if(idMesa==33){//Estudiantes gimnacia
+	return "ROS, RIV";
+	}
+	if(idMesa==23){//Estudiantes gimnacia
+	return "ROS, NEW";
+	}
+	return "";
+}
+/*
+function partidosEnUnaMesa(mesa){
+	var textoPartidos="";
+	matchesInTable=mesa.matches;
+	for(a in matchesInTable){
+	equipoLocal=matchesInTable[a].local_team.short_name;
+	equipoVisitante=matchesInTable[a].visitor_team.short_name;
+	textoPartidos+=equipoLocal+" "+equipoVisitante+" ";}
+	return textoPartidos;
+}*/
