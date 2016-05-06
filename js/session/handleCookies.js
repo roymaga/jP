@@ -40,5 +40,5 @@ function delete_cookie( cname ) {
 	}
 }
 function checkCookie(){ // In App always return true
-		return false;
+		return true;
 }
