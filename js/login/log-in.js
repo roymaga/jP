@@ -59,6 +59,7 @@ function mensajeAlServidorConContenidoLogIn(json){
 	    {
 			closeLoadingAnimation();
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -73,7 +74,7 @@ function mensajeAlServidorConContenidoLogIn(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		if(checkConnection()){xmlhttp.send(json);}		
 }
 function analizarRespuestaLogIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -155,6 +156,7 @@ function recoverProcess(dialogItself){
 	    {
 			closeLoadingAnimation();
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -168,7 +170,7 @@ function recoverProcess(dialogItself){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send(json);	
+		if(checkConnection()){xmlhttp.send(json);}	
 	}
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje, dialogItself){

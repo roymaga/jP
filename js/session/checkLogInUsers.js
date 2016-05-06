@@ -28,6 +28,7 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -42,7 +43,7 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		if(checkConnection()){xmlhttp.send(json);}		
 }
 function analizarRespuestaLogInSaved(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -80,6 +81,7 @@ function analizarSiyaEstaLogueado(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -93,7 +95,7 @@ function analizarSiyaEstaLogueado(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();		
+		if(checkConnection()){xmlhttp.send();}		
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){

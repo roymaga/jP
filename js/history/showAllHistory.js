@@ -29,6 +29,7 @@ function armadoDelHistorialCuerpoHistoria(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			setCookie("history-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -43,7 +44,7 @@ function armadoDelHistorialCuerpoHistoria(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/plays/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		if(checkConnection()){xmlhttp.send();}	
 }
 function armadoDelHistorialCuerpoHistoriaMensaje(historialJugadas){
 	contentAgregar='';

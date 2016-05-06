@@ -40,6 +40,7 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			setCookie("ranking-TArgentino-Jp", jsonStr, 120);
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -56,7 +57,7 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/2/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();		
+		if(checkConnection()){xmlhttp.send();}		
 }
 function analizarRespuestaRankingUsuarioPrimeraA(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -89,6 +90,7 @@ function mensajeAlServidorPidiendoRankingLibertadores(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			setCookie("ranking-Libertadores-Jp", jsonStr, 120);
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -105,7 +107,7 @@ function mensajeAlServidorPidiendoRankingLibertadores(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/4/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();		
+		if(checkConnection()){xmlhttp.send();}		
 }
 function analizarRespuestaRankingUsuarioLibertadores(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -138,6 +140,7 @@ function mensajeAlServidorPidiendoRankingChileno(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			setCookie("ranking-Chileno-Jp", jsonStr, 120);
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -153,7 +156,7 @@ function mensajeAlServidorPidiendoRankingChileno(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/5/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();		
+		if(checkConnection()){xmlhttp.send();}		
 }
 function analizarRespuestaRankingUsuarioChileno(servidor){
 	if (typeof(servidor.error) !== 'undefined'){

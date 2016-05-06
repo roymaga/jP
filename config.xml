@@ -46,6 +46,7 @@
 	<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
 	<gap:plugin name="com.badrit.backbutton" version="0.1.0" />
 	<gap:plugin name="cordova-plugin-network-information" version="1.0.1" />
+	<plugin name="com.danielcwilson.plugins.googleanalytics" spec="0.6.1" source="pgb" />
 	<plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" />
 	<!-- GeoLocation platform. -->
 	

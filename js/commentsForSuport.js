@@ -37,7 +37,7 @@ function mensajeAlServidorComentarioContacto(json){
 			document.getElementById("contenidoContactoTxt").value=null;
 			
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
 			 return "ERROR";
 			}
 	 	 }

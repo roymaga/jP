@@ -35,6 +35,7 @@ function showAvailablePrizesChangedStore(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			setCookie("storesShow-Changed-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -49,7 +50,7 @@ function showAvailablePrizesChangedStore(){
 		xmlhttp.open("POST","http://data.jugaplay.com/api/store/change.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	
+		if(checkConnection()){xmlhttp.send(json);}	
 }
 function loadChangeStore(preLoadStore){
 	textOfStore='<div class="row text-center rewards-container">';

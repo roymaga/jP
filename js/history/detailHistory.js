@@ -33,6 +33,7 @@ function detallesHistoricosPuntaje(playerId,idMesa){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -46,7 +47,7 @@ function detallesHistoricosPuntaje(playerId,idMesa){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+idMesa+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		if(checkConnection()){xmlhttp.send();}	
 }
 // Despues la estadistica del Jugador
 function buscarEstadisticasJugador(mesa,playerId){// Recordar que esta el loading cargando
@@ -85,6 +86,7 @@ function consultaEstadisticasJugadores(mesa,playerId,matchLooked,nameMatchLooked
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -98,7 +100,7 @@ function consultaEstadisticasJugadores(mesa,playerId,matchLooked,nameMatchLooked
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/matches/"+matchLooked+"/players/"+playerId+"/stats",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		if(checkConnection()){xmlhttp.send();}	
 }
 function mostrarEstadisticasDelJugadorHistorial(estadisticas,mesa,nameMatchLooked){
 	closeLoadingAnimation();

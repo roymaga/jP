@@ -67,6 +67,7 @@ function mensajeAlServidorConContenidoRegistro(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -81,7 +82,7 @@ function mensajeAlServidorConContenidoRegistro(json){
 		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		if(checkConnection()){xmlhttp.send(json);}		
 }
 function analizarRespuestaCambiarDatosUsuarios(servidor){
 	//alert(JSON.stringify(servidor));
@@ -121,6 +122,7 @@ function passwordResetRequest(){
 	    {
 			closeLoadingAnimation();
 			jsonStr=xmlhttp.responseText;
+stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -134,7 +136,7 @@ function passwordResetRequest(){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true"; 
-		xmlhttp.send(json);	
+		if(checkConnection()){xmlhttp.send(json);}	
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje){
 	if (mensaje.success != true){

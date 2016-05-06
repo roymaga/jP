@@ -134,5 +134,5 @@ function mensajeAlServidorEnviandoMailInvitacion(json){
 		xmlhttp.open("POST","http://data.jugaplay.com/mail/sendMail.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		if(checkConnection()){xmlhttp.send(json);}		
 }
