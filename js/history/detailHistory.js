@@ -18,7 +18,7 @@ function jugadoresParaElHistorial(playersSel,tableId){
 // Primero abro la mesa
 function detallesHistoricosPuntaje(playerId,idMesa){
 	startLoadingAnimation();
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -47,7 +47,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+idMesa+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}	
+		xmlhttp.send();}	
 }
 // Despues la estadistica del Jugador
 function buscarEstadisticasJugador(mesa,playerId){// Recordar que esta el loading cargando
@@ -71,7 +71,7 @@ function buscarEstadisticasJugador(mesa,playerId){// Recordar que esta el loadin
 	consultaEstadisticasJugadores(mesa,playerId,matchLooked,nameMatchLooked);
 }
 function consultaEstadisticasJugadores(mesa,playerId,matchLooked,nameMatchLooked){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -100,7 +100,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/matches/"+matchLooked+"/players/"+playerId+"/stats",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}	
+		xmlhttp.send();}	
 }
 function mostrarEstadisticasDelJugadorHistorial(estadisticas,mesa,nameMatchLooked){
 	closeLoadingAnimation();

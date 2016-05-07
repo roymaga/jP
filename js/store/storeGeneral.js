@@ -19,7 +19,7 @@ function showPrizesToChengeInStore(){
 		}
 }
 function showAvailablePrizesForStore(){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -49,7 +49,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://data.jugaplay.com/api/store/prizes.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}	
+		xmlhttp.send();}	
 }
 function loadStore(preLoadStore){
 	textOfStore='<div class="row text-center rewards-container">';
@@ -80,7 +80,7 @@ function enviarMensajeDePremios(price,detail){
 	//dialog.close;
 }
 function mensajeAlServidorCanjearPremios(json){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -103,5 +103,5 @@ function mensajeAlServidorCanjearPremios(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/comments",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}		
+		xmlhttp.send(json);}		
 }

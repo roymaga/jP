@@ -9,7 +9,7 @@ if (state == window.Connection.NONE)
 }
 else
 {
-	window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 30000);
+	window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 20000);
 	return true;
 }
 }

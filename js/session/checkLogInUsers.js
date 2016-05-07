@@ -14,7 +14,7 @@ if(getCookie("jugaPlayUserRemember")=="true"){// Si el usuario esta logeado
 	}
 // Logue con los datos guardados 
 function mensajeAlServidorConContenidoLogInSaved(json){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -43,7 +43,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}		
+		xmlhttp.send(json);}		
 }
 function analizarRespuestaLogInSaved(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -67,7 +67,7 @@ function analizarRespuestaLogInSaved(servidor){
 // Fin de analizo log in con Facebook
 // Analiza si le quedo una sesion abierta
 function analizarSiyaEstaLogueado(){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -95,7 +95,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		if(checkConnection()){xmlhttp.send();}		
+		xmlhttp.send();}		
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){

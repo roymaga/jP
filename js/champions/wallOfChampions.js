@@ -14,7 +14,7 @@ function showChampionsOfTheWorld(){
 		}
 }
 function showAvailableChampions(){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -44,7 +44,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://data.jugaplay.com/api/store/champions.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}	
+		xmlhttp.send();}	
 }
 function showChampions(preLoadChampions){
 	textOfWall='';

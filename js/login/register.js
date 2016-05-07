@@ -54,7 +54,7 @@ function registrarUsuarioEnElSitio(){
 	mensajeAlServidorConContenidoRegistro(json);}
 }
 function mensajeAlServidorConContenidoRegistro(json){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -83,7 +83,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}		
+		xmlhttp.send(json);}		
 }
 function analizarRespuestaRegistro(servidor){
 	if (typeof(servidor.errors) !== 'undefined'){
@@ -100,7 +100,7 @@ function analizarRespuestaRegistro(servidor){
 	}
 }
 function hacerLogOutPreventivo(){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -121,7 +121,7 @@ function hacerLogOutPreventivo(){
 		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}		
+		xmlhttp.send();}		
 }
 function diferent(){
 }

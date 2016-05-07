@@ -53,7 +53,7 @@ function cambiarDatosDeUsuarioEnElSitio(){
 }
 function mensajeAlServidorConContenidoRegistro(json){
 	var userId=window.userIdPlay;
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -82,7 +82,7 @@ stopTimeToWait();
 		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}		
+		xmlhttp.send(json);}		
 }
 function analizarRespuestaCambiarDatosUsuarios(servidor){
 	//alert(JSON.stringify(servidor));
@@ -107,7 +107,7 @@ function passwordResetRequest(){
 		startLoadingAnimation();
 		json=JSON.stringify({ "user": { "email": userEmail} });
 		//alert(json);
-		var xmlhttp;
+		if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -136,7 +136,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true"; 
-		if(checkConnection()){xmlhttp.send(json);}	
+		xmlhttp.send(json);}	
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje){
 	if (mensaje.success != true){

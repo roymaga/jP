@@ -2,7 +2,7 @@
 // Comienza Funciones armado de tabla
 function openTableToPlayOverLapseWindow(tableId){
 	startLoadingAnimation();
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -32,7 +32,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}	
+		xmlhttp.send();}	
 }
 function readOpenTable(openTable){
 		 window.actualOpenTable=openTable;
@@ -166,7 +166,7 @@ function sendPlayToJugaplay(idTabla,bet){
 		json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected]});
 	}
 	//alert(json);
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -199,7 +199,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/play",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}
+		xmlhttp.send(json);}
 }
 function endOfPlayedTable(idTabla){
 	

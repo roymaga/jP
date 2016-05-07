@@ -44,7 +44,7 @@ function logInUsuarioEnElSitio(){
 	mensajeAlServidorConContenidoLogIn(json);}
 }
 function mensajeAlServidorConContenidoLogIn(json){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -74,7 +74,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}		
+		xmlhttp.send(json);}		
 }
 function analizarRespuestaLogIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -141,7 +141,7 @@ function recoverProcess(dialogItself){
 		startLoadingAnimation();
 		json=JSON.stringify({ "user": { "email": emailIngresado} });
 		//alert(json);
-		var xmlhttp;
+		if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -170,7 +170,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		if(checkConnection()){xmlhttp.send(json);}	
+		xmlhttp.send(json);}	
 	}
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje, dialogItself){

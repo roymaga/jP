@@ -18,7 +18,7 @@ function enviarMensajeDeContacto(){
 	//dialog.close;
 }
 function mensajeAlServidorComentarioContacto(json){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -44,5 +44,5 @@ function mensajeAlServidorComentarioContacto(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/comments",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		xmlhttp.send(json);}		
 }

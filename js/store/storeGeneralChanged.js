@@ -20,7 +20,7 @@ function showPrizesChengedInStore(){
 }
 function showAvailablePrizesChangedStore(){
 	json=JSON.stringify({"user_id":window.userDataJugaPlay.id});
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -50,7 +50,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://data.jugaplay.com/api/store/change.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}	
+		xmlhttp.send(json);}	
 }
 function loadChangeStore(preLoadStore){
 	textOfStore='<div class="row text-center rewards-container">';

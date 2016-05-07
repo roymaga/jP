@@ -1,11 +1,8 @@
 // JavaScript Document
 window.onload=showRecordAvailableTablesToPlay();
-setTimeout(function(){alert("Cargo que el On Load no va");showRecordAvailableTablesToPlay();}, 2000);
 function showRecordAvailableTablesToPlay(){
-	alert("Chek 11 - Open Tbles to play");
-	previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4){	
-			alert("Chek 2 - Loaded");	
+		previousTablesLoad=getCookie("tablesToPlay-Jp");
+	if(previousTablesLoad.length>4){		
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -13,12 +10,10 @@ function showRecordAvailableTablesToPlay(){
 			showAvailableTablesToPlay();
 	
 		}else{
-			alert("Chek 2 - Go to Load");	
 			 showAvailableTablesToPlay();
 		}
 }
 function showAvailableTablesToPlay(){
-	alert("Chek 3 - Open Loader");	
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -30,12 +25,10 @@ function showAvailableTablesToPlay(){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			alert("JsonStr"+jsonStr);
-stopTimeToWait();
+			stopTimeToWait();
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -50,7 +43,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		xmlhttp.send();}	
 }
 function analizeShowAvailableTablesToPlay(obj){
 	if (typeof(obj.error) !== 'undefined'){

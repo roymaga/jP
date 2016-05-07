@@ -21,7 +21,7 @@ function logOutFromJugaPlay(){
 	delete_cookie("jugaPlayUserRemember");
 	delete_cookie("jugaPlayUserFacebook");
 	// Consulta para salir y que lleve a login
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -41,7 +41,7 @@ function logOutFromJugaPlay(){
 		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();
+		xmlhttp.send();}
 }
 // Functions with coins
 function userCanSpentXCoins(costOfTransaction){

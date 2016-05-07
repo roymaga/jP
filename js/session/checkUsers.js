@@ -28,7 +28,7 @@ function updateDataFromUsers(){
 }
 // Le pido al servidor la data del usuario sin probar de hacer un log In
 function askServerToUpdateDataFromUser(){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -56,7 +56,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		if(checkConnection()){xmlhttp.send();}		
+		if(checkConnection()){xmlhttp.send();}}		
 }
 function analizeAskServerToUpdateDataFromUser(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -85,7 +85,7 @@ function ifLogInIsNeed(){
 // Fin de revision de conexion
 // Logue con los datos guardados 
 function mesajeToServerWithDataLogInSaved(json){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -114,7 +114,7 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send(json);}		
+		xmlhttp.send(json);}		
 }
 function checkAnswerWithLogInSaved(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -144,7 +144,7 @@ function checkLogInFacebook(){
 //Last option to keep log in
 // Le pido al servidor la data del usuario sin probar de hacer un log In
 function lastOptionToKeepUserLogedIn(){
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -172,7 +172,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		if(checkConnection()){xmlhttp.send();}		
+		xmlhttp.send();}		
 }
 function analizeLastOptionToKeepUserLogedIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
