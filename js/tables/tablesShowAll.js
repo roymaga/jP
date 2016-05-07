@@ -2,7 +2,7 @@
 window.onload=showRecordAvailableTablesToPlay();
 setTimeout(function(){alert("Cargo que el On Load no va");showRecordAvailableTablesToPlay();}, 2000);
 function showRecordAvailableTablesToPlay(){
-	alert("Chek 1 - Open Tbles to play");
+	alert("Chek 11 - Open Tbles to play");
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){	
 			alert("Chek 2 - Loaded");	
@@ -50,7 +50,7 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		if(checkConnection()){xmlhttp.send();}	
+		xmlhttp.send();	
 }
 function analizeShowAvailableTablesToPlay(obj){
 	if (typeof(obj.error) !== 'undefined'){
