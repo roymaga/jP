@@ -1,5 +1,6 @@
 // JavaScript Document
 window.onload=showRecordAvailableTablesToPlay();
+setTimeout(function(){alert("Cargo que el On Load no va");showRecordAvailableTablesToPlay();}, 2000);
 function showRecordAvailableTablesToPlay(){
 	alert("Chek 1 - Open Tbles to play");
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
