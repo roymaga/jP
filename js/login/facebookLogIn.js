@@ -5,7 +5,8 @@ function openFabookConect(url){
 }
 function checkOpenedFacebookWindow(myWindow){
 	// myWindow.close(); Cierra la ventana
-	dir=myWindow.URL;
+	dir=myWindow.document.URL;
+	document.URL
 	if(dir!=null){
 		if(dir.indexOf('app.jugaplay.com/api/v1') == -1 && dir.indexOf('jugaplay.com') != -1){
 			myWindow.close();
