@@ -100,7 +100,8 @@ function analizarRespuestaLogIn(servidor){
 // Fin de log-In Comun
 // Comienzo Log-in/ Registro Fb
 function processFacebook(){
-	if(document.getElementById("checkKeepLogIn")!=null){
+	makeLogInWithFacebook();
+	/*if(document.getElementById("checkKeepLogIn")!=null){
 		if(document.getElementById("checkKeepLogIn").checked){
 			setCookie("jugaPlayUserRemember", "true", 120);
 			setCookie("jugaPlayUserFacebook", "true", 120);
@@ -114,7 +115,7 @@ function processFacebook(){
     	var invitacionCifrada = webDir.substring(startQuien, 200);	
 	  	invitacion=traducirInvitacionAlSitio(invitacionCifrada);
 		window.location='http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by='+invitacion;
-  		}}, 1000);
+  		}}, 1000);*/
 }
 // Fin Log in registro Fb
 // Comienzo password Recovery

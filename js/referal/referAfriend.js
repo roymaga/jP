@@ -4,68 +4,25 @@ function showRecomendationUrl(){
 	var element =  document.getElementById("recomendationLink");
 	if (typeof(element) != 'undefined' && element != null)
 	{ 	
-		linkText="www.jugaplay.com/pages/login.html?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+		linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 		document.getElementById("recomendationLink").value=linkText;
 	}else{
 		setTimeout(function(){showRecomendationUrl();}, 500);
 	}
 }
 function inviteFriendsFacebook(){
-  linkText="www.jugaplay.com/pages/login.html?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
-  FB.ui({
-  method: 'share',
-  href: linkText,
-  scrape: true,
-}, function(response){});
+  linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+  window.plugins.socialsharing.share(linkText);
 }
 function inviteFriendsTwitter(){
-	linkText="www.jugaplay.com/pages/login.html?cnl="+hideUserHashNot(window.userDataJugaPlay.id);
-	window.open("https://twitter.com/intent/tweet?text=Entra%20a%20haciendo%20click%20en%20el%20enlace%20"+linkText, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=300,width=400,height=400");
+	linkText="jugaplay.com/?cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+	window.plugins.socialsharing.share('Demuestra cuanto sabes de futbol: '+linkText);
 }
 //<a href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">Share via Whatsapp</a>
 function inviteFriendsWhatsapp(){
-	var whatsapp = document.createElement("a");
-	linkText="www.jugaplay.com/pages/login.html?cnl="+hideUserHashNot(window.userDataJugaPlay.id);
-	whatsapp.href='whatsapp://send?text=Te recomiendo Jugaplay, un increíble juego que pone a prueba cuanto sabes de futbol donde ganas premios si realmente sabes. \n Entra con este link así me haces ganar monedas: \n'+linkText+'  \n Gracias :)';
-	whatsapp.setAttribute("data-tournament-type", "share/whatsapp/share");
-	document.body.appendChild(whatsapp);
-	whatsapp.click();
+	linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+	window.plugins.socialsharing.share('Te recomiendo Jugaplay, un increíble juego que pone a prueba cuanto sabes de futbol donde ganas premios si realmente sabes. \n Entra con este link así me haces ganar monedas: \n'+linkText+'  \n Gracias :)');
 }
-// Datos para FB
-(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1790148521213303";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-  
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1790148521213303',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.2' // use version 2.2
-  })
- }
-// Datos para Twitter
-window.twttr = (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0],
-    t = window.twttr || {};
-  if (d.getElementById(id)) return t;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://platform.twitter.com/widgets.js";
-  fjs.parentNode.insertBefore(js, fjs);
- 
-  t._e = [];
-  t.ready = function(f) {
-    t._e.push(f);
-  };
- 
-  return t;
-}(document, "script", "twitter-wjs"));
 // Invitar Amigos por mail
 
 /* Notificacion de como es el mensaje de contacto */

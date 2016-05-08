@@ -41,7 +41,7 @@ function readOpenTable(openTable){
 		 titleSelectedForTable=openTable.title;
 		 contenidoMesa=contentForOpenTableWindow(openTable);
 		 openOverLapseWindow(titleSelectedForTable, contenidoMesa);
-		 updatePositionOfPlayersForWindow();
+		 setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
 function contentForOpenTableWindow(openTable){
 	startTopBlocks='<div class="container players-top-container" style="width:100%; padding:0; position:fixed; z-index:10;">';
