@@ -1,7 +1,9 @@
 // JavaScript Document
 function checkConnection() {
+	alert("Chequeo la conexion");
 var state = navigator.connection.type;
-if (state == window.Connection.NONE)
+alert("Conexion: "+state );
+if (state == Connection.NONE)
 {
 	avisoEmergenteJugaPlay("Sin conexión","<p>No se encontró una conexión a internet.</p>");
 	closeLoadingAnimation();
@@ -21,3 +23,18 @@ function toSlowInternet(){
 	closeLoadingAnimation();
 	avisoEmergenteJugaPlay("Conexión muy lenta","<p>Su conexión a internet está muy lenta. Es posible que no pueda disfrutar la experiencia Jugaplay debido a esta causa.</p>");
 }
+/*
+// Cuando esta offline
+document.addEventListener("offline", onOffline, false);
+
+function onOffline() {
+    // Handle the offline event
+}
+// Cuando entra en online
+document.addEventListener("online", onOnline, false);
+
+function onOnline() {
+    // Handle the online event
+}
+
+ */
