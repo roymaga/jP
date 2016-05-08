@@ -1,9 +1,7 @@
 // JavaScript Document
 function checkConnection() {
-	alert("Chequeo la conexion");
 var state = navigator.connection.type;
-alert("Conexion: "+state );
-if (state == Connection.NONE)
+if (state.toUpperCase() == "NONE")
 {
 	avisoEmergenteJugaPlay("Sin conexión","<p>No se encontró una conexión a internet.</p>");
 	closeLoadingAnimation();
