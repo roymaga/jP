@@ -20,14 +20,14 @@ function makeLogInWithFacebook(){
     version    : 'v2.2' // use version 2.2
   });*/
   facebookConnectPlugin.browserInit("1790148521213303");
-  facebookConnectPlugin.login(["user_status","user_friends"], logInWithFacebookOk, logInWithFacebookError);
-}
-function logInWithFacebookOk(){
-	alert("Login FB Ok");
-	var fbLoginSuccess = function (userData) {
-    alert("UserInfo: " + JSON.stringify(userData));
+  //facebookConnectPlugin.login(["user_status","user_friends"], logInWithFacebookOk, logInWithFacebookError);
+  var fbLoginSuccess = function (userData) {
+  alert("UserInfo: ", userData);
 	}
-}
-function logInWithFacebookError(){
-	alert("Login FB Error");
+ // ["user_status","user_friends"]
+	facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
+  function loginError (error) {
+    alert(error)
+  }
+);
 }
