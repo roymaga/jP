@@ -39,7 +39,7 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
 
     <!-- Facebook Connect -->
-	<plugin name="com.phonegap.plugins.facebookconnect" spec="0.9.0" source="pgb">
+	<plugin name="com.phonegap.plugins.facebookconnect" spec="0.9.0"> source="pgb">
     <param name="APP_ID" value="1790148521213303" />
     <param name="APP_NAME" value="jugaplay" />
 	</gap:plugin>
