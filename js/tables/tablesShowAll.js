@@ -14,6 +14,7 @@ function showRecordAvailableTablesToPlay(){
 		}
 }
 function showAvailableTablesToPlay(){
+	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
