@@ -109,5 +109,5 @@ function analizarRespuestaDatosUsuarioLogIn(servidor){
 } 
 // Fin de analizo si tiene una session abierta
 function checkLogInFacebook(){
-	openFabookConectLogIn('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
+	openFacebookConectLogIn('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
 }

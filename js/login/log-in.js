@@ -9,7 +9,7 @@ function abrirLogIn(){
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up',
 			 title: "Log in",
-            message: "<div class='row'><div onclick='openFabookConectLogIn();' class='botton-general-size facebook'>Log-In con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><a style=' margin-right: 20px; cursor: pointer;' onclick='passwordRecovery();'>¿Olvido su contraseña?</a><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
+            message: "<div class='row'><div onclick='processFacebook();' class='botton-general-size facebook'>Log-In con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><a style=' margin-right: 20px; cursor: pointer;' onclick='passwordRecovery();'>¿Olvido su contraseña?</a><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
 			buttons: [{
                 label: 'Log In',
 				id:'boton-panel-login',
@@ -108,14 +108,14 @@ function processFacebook(){
 	var webDir=window.location.href;
 	setTimeout(function(){// Lo hago esperar un segundo asi me aseguro de que grabe la cookie 
 	if(webDir.indexOf('&cnl=') == -1){// Nadie lo recomendo
-		openFabookConectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
+		openFacebookConnectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
 	  	//window.location='http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1';
 	  }else{//Alguien lo recomendo
     	var startQuien = webDir.indexOf('&cnl=')+5;
     	var invitacionCifrada = webDir.substring(startQuien, 200);	
 	  	invitacion=traducirInvitacionAlSitio(invitacionCifrada);
 		//window.location='http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by='+invitacion;
-		openFabookConectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by='+invitacion);
+		openFacebookConnectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by='+invitacion);
   		}}, 1000);
 }
 // Fin Log in registro Fb
