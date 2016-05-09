@@ -9,9 +9,17 @@ function openFabookConectLogIn(){
 		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 7000);
 }
 function openFabookConectRegister(url){
-		 var myWindow = window.open(url);
-		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 27000);
+		// var myWindow = window.open(url);
+		 //setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 27000);
+		 facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
+  			function loginError (error) {
+    		alert(error)
+  			}
+			);
 }
+var fbLoginSuccess = function (userData) {
+  alert("UserInfo: ", userData);
+	}
 function checkOpenedFacebookWindow(myWindow){
 	myWindow.close(); //Cierra la ventana
 	testFacebookLogInV1();
