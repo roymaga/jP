@@ -17,7 +17,7 @@ function checkOpenedFacebookWindow(myWindow){
 	testFacebookLogInV1();
 }
 function testFacebookLogInV1(){
-	alert("Pruebo log in Facebook");
+	//alert("Pruebo log in Facebook");
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -51,7 +51,6 @@ function analizeOptionToLogedInFacebook(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
 			// Borrar las cookies guardadas
 	}else{// Salio todo bien
-		userDataJugaPlayUpdate(servidor);
 		servidor.last_check=new Date();
 		servidor.last_update=new Date();
 		cookieSave=JSON.stringify(servidor);
