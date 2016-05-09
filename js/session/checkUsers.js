@@ -1,5 +1,10 @@
 // JavaScript Document
 // Etapa 1 -- Reviso si tiene o no Cookie
+	// Para que el menu la tenga
+	jugaPlayData=getCookie("juga-Play-Data");
+	if(jugaPlayData.length>4){
+		userDataJugaPlayInitial(JSON.parse(jugaPlayData));
+	}
 document.addEventListener("deviceready", checkUsersNow, false);
 function checkUsersNow(){
 	jugaPlayData=getCookie("juga-Play-Data");
