@@ -5,24 +5,32 @@ function openFabookConectLogIn(){
 			setCookie("jugaPlayUserRemember", "true", 120);
 			setCookie("jugaPlayUserFacebook", "true", 120);
 		}}
-		 var myWindow = window.open('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
-		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 7000);
+		 window.myWindow = window.open('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
+		 setTimeout(function(){ checkOpenedFacebookWindow(); }, 7000);
 }
 function openFabookConectRegister(url){
-		// var myWindow = window.open(url);
-		 //setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 27000);
-		 facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
-  			function loginError (error) {
-    		alert(error)
-  			}
-			);
+		 window.myWindow = window.open(url);
+		 setTimeout(function(){ checkOpenedFacebookWindow(); }, 12000);
 }
-var fbLoginSuccess = function (userData) {
-  alert("UserInfo: ", userData);
+function checkOpenedFacebookWindow(){
+	window.myWindow.postMessage("Check-FB-Log-In", "http://jugaplay.com");
+	setTimeout(function(){ checkOpenedFacebookWindow(); }, 5000);
+	/*myWindow.close(); //Cierra la ventana
+	testFacebookLogInV1();*/
+}
+window.addEventListener("message", receiveMessage, false);
+function receiveMessage(event)
+{
+  // Do we trust the sender of this message?  (might be
+  // different from what we originally opened, for example).
+  alert("Recive message from Fb");
+	if (~event.origin.indexOf('jugaplay.com')) {
+		alert("Recive message from Fb");
+		window.myWindow.close();
+		testFacebookLogInV1();
 	}
-function checkOpenedFacebookWindow(myWindow){
-	myWindow.close(); //Cierra la ventana
-	testFacebookLogInV1();
+  // event.source is popup
+  // event.data is "hi there yourself!  the secret response is: rheeeeet!"
 }
 function testFacebookLogInV1(){
 	//alert("Pruebo log in Facebook");
