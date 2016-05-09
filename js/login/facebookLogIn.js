@@ -5,48 +5,9 @@ function openFacebookConectLogIn(url){
 }
 function openFacebookConnectRegister(url){
 		 var myWindow = window.open(url);
-		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 35000);
+		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 30000);
 }
 function checkOpenedFacebookWindow(myWindow){
 	myWindow.close(); //Cierra la ventana
-	testFacebookLogInV1();
+	analizarSiyaEstaLogueado();
 }
-function testFacebookLogInV1(){
-	if(checkConnection()){var xmlhttp;
-		if (window.XMLHttpRequest)
-	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  		}
-		else
-	  	{// code for IE6, IE5
-	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	 	 }
-		xmlhttp.onreadystatechange=function()
-	  	{
-	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
-	    {
-			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
-			var json=JSON.stringify(jsonStr);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
-			analizeOptionToLogedInFacebook(doble);
-			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 return;
-			}
-	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
-		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}		
-}
-function analizeOptionToLogedInFacebook(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
-			// Borrar las cookies guardadas
-			 logOutFromJugaPlay();// If went wrong try with log in	
-	}else{// Salio todo bien
-		userDataJugaPlayUpdate(servidor);
-		window.location="game.html";
-	}
-} 
