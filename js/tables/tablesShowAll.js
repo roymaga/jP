@@ -1,6 +1,7 @@
 // JavaScript Document
-window.onload=showRecordAvailableTablesToPlay();
+document.addEventListener("deviceready", showRecordAvailableTablesToPlay, false);
 function showRecordAvailableTablesToPlay(){
+	alert("show tables");
 		previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){	
 			var json=JSON.stringify(previousTablesLoad);
@@ -10,7 +11,7 @@ function showRecordAvailableTablesToPlay(){
 			showAvailableTablesToPlay();
 	
 		}else{
-			setTimeout(function(){  showAvailableTablesToPlay(); }, 2000);
+			showAvailableTablesToPlay();
 		}
 }
 function showAvailableTablesToPlay(){

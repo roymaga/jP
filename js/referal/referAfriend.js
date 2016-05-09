@@ -22,6 +22,7 @@ function inviteFriendsTwitter(){
 function inviteFriendsWhatsapp(){
 	linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 	window.plugins.socialsharing.share('Te recomiendo Jugaplay');
+	window.plugins.socialsharing.shareViaWhatsApp('Jugaplay', null /* img */, linkText /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})
 }
 // Invitar Amigos por mail
 

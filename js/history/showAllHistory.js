@@ -1,5 +1,5 @@
 // JavaScript Document
-window.onload=showCompleteHistory();
+document.addEventListener("deviceready", showCompleteHistory, false);
 function showCompleteHistory(){
 	previousHistory=getCookie("history-Jp");
 	if(previousHistory.length>4){		

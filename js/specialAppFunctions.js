@@ -1,6 +1,5 @@
 // JavaScript Document
 function checkConnection() {
-if (typeof(navigator.connection.type) !== 'undefined'){
 	var state = navigator.connection.type;
 	if (state.toUpperCase() == "NONE")
 	{
@@ -13,10 +12,6 @@ if (typeof(navigator.connection.type) !== 'undefined'){
 		window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 20000);
 		return true;
 	}
-}else{
-		window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 20000);
-		return true;
-}
 }
 function stopTimeToWait(){
 	clearTimeout(window.timeToWait);
