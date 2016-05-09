@@ -39,6 +39,12 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
 
     <!-- Facebook Connect -->
+	 <!-- see: https://www.npmjs.com/package/cordova-plugin-facebook4 ; 
+      using specific git version due to this: http://community.phonegap.com/nitobi/topics/sudden-build-error-android -->
+    <gap:plugin spec="https://github.com/jeduan/cordova-plugin-facebook4#aff9a08a86cc6c6a18019f7adc2896ddf97c11cd" source="git" >
+        <param name="APP_ID" value="1790148521213303" />
+        <param name="APP_NAME" value="jugaplay" />
+    </gap:plugin>
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
     <!--
         <gap:plugin name="com.phonegap.plugins.barcodescanner" /> -->
