@@ -1,17 +1,21 @@
 // JavaScript Document
 function checkConnection() {
-var state = navigator.connection.type;
-alert("Check Connection "+state);
-if (state.toUpperCase() == "NONE")
-{
-	avisoEmergenteJugaPlay("Sin conexión","<p>No se encontró una conexión a internet.</p>");
-	closeLoadingAnimation();
-	return false;
-}
-else
-{
-	window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 20000);
-	return true;
+if (typeof(navigator.connection.type) !== 'undefined'){
+	var state = navigator.connection.type;
+	if (state.toUpperCase() == "NONE")
+	{
+		avisoEmergenteJugaPlay("Sin conexión","<p>No se encontró una conexión a internet.</p>");
+		closeLoadingAnimation();
+		return false;
+	}
+	else
+	{
+		window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 20000);
+		return true;
+	}
+}else{
+		window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 20000);
+		return true;
 }
 }
 function stopTimeToWait(){

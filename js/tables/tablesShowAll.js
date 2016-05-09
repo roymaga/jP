@@ -1,10 +1,8 @@
 // JavaScript Document
 window.onload=showRecordAvailableTablesToPlay();
 function showRecordAvailableTablesToPlay(){
-	alert("Show tables");
 		previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){	
-			alert("Show loaded");	
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -12,14 +10,11 @@ function showRecordAvailableTablesToPlay(){
 			showAvailableTablesToPlay();
 	
 		}else{
-			alert("Show normal");
 			setTimeout(function(){  showAvailableTablesToPlay(); }, 2000);
 		}
 }
 function showAvailableTablesToPlay(){
-	alert("Try to check conection");
 	if(checkConnection()){
-		alert("pass tables conecction");
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -31,11 +26,9 @@ function showAvailableTablesToPlay(){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			alert(xmlhttp.readyState+" - "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			alert(jsonStr);
 			stopTimeToWait();
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);

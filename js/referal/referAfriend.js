@@ -21,7 +21,7 @@ function inviteFriendsTwitter(){
 //<a href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">Share via Whatsapp</a>
 function inviteFriendsWhatsapp(){
 	linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
-	window.plugins.socialsharing.share('Te recomiendo Jugaplay, un increíble juego que pone a prueba cuanto sabes de futbol donde ganas premios si realmente sabes. \n Entra con este link así me haces ganar monedas: \n'+linkText+'  \n Gracias :)');
+	window.plugins.socialsharing.share('Te recomiendo Jugaplay');
 }
 // Invitar Amigos por mail
 
