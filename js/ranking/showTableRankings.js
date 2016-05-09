@@ -1,6 +1,5 @@
 // JavaScript Document
-//mensajeAlServidorPidiendoRankingLibertadores();
-window.onload=showCompleteRanking();
+document.addEventListener("deviceready", showCompleteRanking, false);
 function showCompleteRanking(){
 	previousRankingLibertadores=getCookie("ranking-Libertadores-Jp");
 	previousRankingArgentino=getCookie("ranking-TArgentino-Jp");

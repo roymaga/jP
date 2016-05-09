@@ -1,5 +1,5 @@
 // JavaScript Document
-window.onload=showChampionsOfTheWorld();
+document.addEventListener("deviceready", showChampionsOfTheWorld, false);
 function showChampionsOfTheWorld(){
 	previousChampionsLoad=getCookie("championsShow-Changed-Jp");
 	if(previousChampionsLoad.length>4){		

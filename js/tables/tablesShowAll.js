@@ -1,7 +1,6 @@
 // JavaScript Document
 document.addEventListener("deviceready", showRecordAvailableTablesToPlay, false);
 function showRecordAvailableTablesToPlay(){
-	alert("show tables");
 		previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){	
 			var json=JSON.stringify(previousTablesLoad);

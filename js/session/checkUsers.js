@@ -1,12 +1,14 @@
 // JavaScript Document
 // Etapa 1 -- Reviso si tiene o no Cookie
-jugaPlayData=getCookie("juga-Play-Data");
-if(jugaPlayData.length>4){
-userDataJugaPlayInitial(JSON.parse(jugaPlayData));
-checkIfUpdateIsNeeded();
-}else{
-	window.location="login.html";// No esta logeado a estar version
-	//logOutFromJugaPlay(); // Si no tiene lo echo
+document.addEventListener("deviceready", checkUsersNow, false);
+function checkUsersNow(){
+	jugaPlayData=getCookie("juga-Play-Data");
+	if(jugaPlayData.length>4){
+		userDataJugaPlayInitial(JSON.parse(jugaPlayData));
+		checkIfUpdateIsNeeded();
+	}else{
+		window.location="login.html";// No esta logeado a estar version
+	}
 }
 // Si tiene una cookie reviso si tiene qye ser actualizada
 function checkIfUpdateIsNeeded(){

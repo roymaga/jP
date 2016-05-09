@@ -22,7 +22,7 @@ function inviteFriendsTwitter(){
 function inviteFriendsWhatsapp(){
 	linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 	window.plugins.socialsharing.share('Te recomiendo Jugaplay');
-	window.plugins.socialsharing.shareViaWhatsApp('Jugaplay', null /* img */, linkText /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})
+	window.plugins.socialsharing.shareViaWhatsApp('Jugaplay', null /* img */, linkText /* url */, function() {}, function(errormsg){avisoEmergenteJugaPlay("Error WhatsApp","<p>Su celular no permite a Jugaplay compartir via Whastapp</p><p>Problema: "+errormsg+"</p>");})
 }
 // Invitar Amigos por mail
 
