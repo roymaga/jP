@@ -13,10 +13,11 @@ function showRecordAvailableTablesToPlay(){
 	
 		}else{
 			alert("Show normal");
-			 showAvailableTablesToPlay();
+			setTimeout(function(){  showAvailableTablesToPlay(); }, 2000);
 		}
 }
 function showAvailableTablesToPlay(){
+	alert("Try to check conection");
 	if(checkConnection()){
 		alert("pass tables conecction");
 	var xmlhttp;
