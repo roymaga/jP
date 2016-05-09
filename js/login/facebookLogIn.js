@@ -1,22 +1,20 @@
 // JavaScript Document
-function openFabookConect(url){
+function openFabookConectLogIn(){
+		if(document.getElementById("checkKeepLogIn")!=null){
+		if(document.getElementById("checkKeepLogIn").checked){
+			setCookie("jugaPlayUserRemember", "true", 120);
+			setCookie("jugaPlayUserFacebook", "true", 120);
+		}}
+		 var myWindow = window.open('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
+		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 7000);
+}
+function openFabookConectRegister(url){
 		 var myWindow = window.open(url);
-		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 5000);
+		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 27000);
 }
 function checkOpenedFacebookWindow(myWindow){
 	myWindow.close(); //Cierra la ventana
 	testFacebookLogInV1();
-	/*dir=myWindow.document.URL;
-	if(dir!=null){
-		if(dir.indexOf('app.jugaplay.com/api/v1') == -1 && dir.indexOf('jugaplay.com') != -1){
-			myWindow.close();
-			alert("check log in");
-		}else{
-			setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 3000);
-		}
-	}else{
-		alert("se cerro la ventana");
-	}*/
 }
 function testFacebookLogInV1(){
 	alert("Pruebo log in Facebook");
@@ -35,11 +33,10 @@ function testFacebookLogInV1(){
 	    {
 			jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
-			alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
-			analizeLastOptionToKeepUserLogedIn(doble);
+			analizeOptionToLogedInFacebook(doble);
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
@@ -50,3 +47,15 @@ function testFacebookLogInV1(){
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();}		
 }
+function analizeOptionToLogedInFacebook(servidor){
+	if (typeof(servidor.error) !== 'undefined'){
+			// Borrar las cookies guardadas
+	}else{// Salio todo bien
+		userDataJugaPlayUpdate(servidor);
+		servidor.last_check=new Date();
+		servidor.last_update=new Date();
+		cookieSave=JSON.stringify(servidor);
+		setCookie("juga-Play-Data", cookieSave, 120);
+		window.location="game.html";
+	}
+} 

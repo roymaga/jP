@@ -109,15 +109,5 @@ function analizarRespuestaDatosUsuarioLogIn(servidor){
 } 
 // Fin de analizo si tiene una session abierta
 function checkLogInFacebook(){
-	if(document.body!=null){
-	var iframe = document.createElement('iframe');
-	iframe.src = 'http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1';
-	iframe.style.display="none";
-	iframe.onload = function() {
-		analizarSiyaEstaLogueado();
-		};
-	document.body.appendChild(iframe);
-	}else{
-		setTimeout(function(){checkLogInFacebook();}, 100);
-	}
+	openFabookConectLogIn('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
 }
