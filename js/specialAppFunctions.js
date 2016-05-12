@@ -1,4 +1,5 @@
 // JavaScript Document
+window.internetCheckedSlow=0;
 function checkConnection() {
 	var state = navigator.connection.type;
 	if (state.toUpperCase() == "NONE")
@@ -19,7 +20,7 @@ function stopTimeToWait(){
 function toSlowInternet(){
 	// Mensaje de aviso mas corta el loading
 	closeLoadingAnimation();
-	avisoEmergenteJugaPlay("Conexión muy lenta","<p>Su conexión a internet está muy lenta. Es posible que no pueda disfrutar la experiencia Jugaplay debido a esta causa.</p>");
+	avisoEmergenteJugaPlayMalInternet("Conexión muy lenta","<p>Su conexión a internet está muy lenta. Es posible que no pueda disfrutar la experiencia Jugaplay debido a esta causa.</p>");
 }
 /*
 // Cuando esta offline

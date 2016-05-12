@@ -4,23 +4,23 @@ function showRecomendationUrl(){
 	var element =  document.getElementById("recomendationLink");
 	if (typeof(element) != 'undefined' && element != null)
 	{ 	
-		linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+		linkText="http://www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 		document.getElementById("recomendationLink").value=linkText;
 	}else{
 		setTimeout(function(){showRecomendationUrl();}, 500);
 	}
 }
 function inviteFriendsFacebook(){
-  linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+  linkText="http://www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
   window.plugins.socialsharing.share(linkText);
 }
 function inviteFriendsTwitter(){
-	linkText="jugaplay.com/?cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+	linkText="http://jugaplay.com/?cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 	window.plugins.socialsharing.share('Demuestra cuanto sabes de futbol: '+linkText);
 }
 //<a href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">Share via Whatsapp</a>
 function inviteFriendsWhatsapp(){
-	linkText="www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+	linkText="http://www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 	window.plugins.socialsharing.share('Te recomiendo Jugaplay');
 	window.plugins.socialsharing.shareViaWhatsApp('Jugaplay', null /* img */, linkText /* url */, function() {}, function(errormsg){avisoEmergenteJugaPlay("Error WhatsApp","<p>Su celular no permite a Jugaplay compartir via Whastapp</p><p>Problema: "+errormsg+"</p>");})
 }
@@ -53,7 +53,7 @@ function contenidoDeEnviarMailInvitacion(){
 	return texto;
 }
 function enviarMensajeDeInvitacion(dialog){
-	linkText="www.jugaplay.com/pages/login.html?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+	linkText="http://www.jugaplay.com/pages/login.html?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
 	mailsContacto=document.getElementById("mailContactoInvitacion").value;
 	contenidoContacto="";
 	// Mejorar el ingreso de mails, tipo gmail

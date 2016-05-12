@@ -21,7 +21,8 @@ function logOutFromJugaPlay(){
 	delete_cookie("jugaPlayUserRemember");
 	delete_cookie("jugaPlayUserFacebook");
 	// Consulta para salir y que lleve a login
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();

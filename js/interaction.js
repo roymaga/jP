@@ -43,7 +43,28 @@ function avisoEmergenteJugaPlay(titulo,texto){
 		 });
 		 return false;
 	}
-
+function avisoEmergenteJugaPlayMalInternet(titulo,texto){
+		if(window.internetCheckedSlow==0){
+		 BootstrapDialog.show({
+			 cssClass: 'general-modal-msj',
+			 title: "<H1>"+titulo+"</H1>",
+            message: texto,
+			buttons: [{
+                label: 'Aceptar',
+				id:'boton-panel-registro-aviso-error-pop-up',
+                action: function(dialogItself){
+					closeBadInternetAdvertise(dialogItself);
+                }
+            }]		 
+		 });
+		 window.internetCheckedSlow=1;
+		 return false;
+		}
+	}
+function closeBadInternetAdvertise(dialogItself){
+	window.internetCheckedSlow=0;
+	dialogItself.close();
+}
 // Show days in diferent ways 
 function dateFormatView(d){
 	//2016-01-05T20:14:00.919Z

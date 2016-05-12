@@ -35,7 +35,8 @@ function updateDataFromUsers(){
 }
 // Le pido al servidor la data del usuario sin probar de hacer un log In
 function askServerToUpdateDataFromUser(){
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -49,7 +50,7 @@ function askServerToUpdateDataFromUser(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
+			stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -106,7 +107,7 @@ function mesajeToServerWithDataLogInSaved(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
+			stopTimeToWait();
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -165,7 +166,7 @@ function lastOptionToKeepUserLogedIn(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
+			stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
