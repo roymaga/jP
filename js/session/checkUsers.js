@@ -18,7 +18,7 @@ function checkUsersNow(){
 // Si tiene una cookie reviso si tiene qye ser actualizada
 function checkIfUpdateIsNeeded(){
 	// Si el ultimo update fue hace menos de 2 minutos no pido un update de los datos
-	if((secondsFromNow(window.userDataJugaPlay.last_check)<240)){
+	if((secondsFromNow(window.userDataJugaPlay.last_check)<120)){
 		setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds	
 	}else{
 		updateDataFromUsers();

@@ -53,11 +53,12 @@ function armadoDelHistorialCuerpoHistoriaMensaje(historialJugadas){
 	for(historia in historialJugadas){// si historialJugadas[historia].table.payed_points != N/A solo mostrar 3
 			contentAgregar+=generateBoxForHistoryShow(historialJugadas[historia], historia);
 	}
-	document.getElementById("history-full-content").innerHTML=contentAgregar;
+	if(document.getElementById("history-full-content")!=null){
+	document.getElementById("history-full-content").innerHTML=contentAgregar;}
 }
 function generateBoxForHistoryShow(historyMatch, positionInArray){
 	if(historyMatch.table.payed_points != "N/A"){
-	return '<div class="container container-full historial-list-item"><h1>'+historyMatch.table.position+'&deg;</h1><h2>'+historyMatch.table.title+'</h2><!--h4>fecha Pendiente</h4--><div class="container"><div class="row"><div class="col-xs-6"><h1>'+historyMatch.points+'</h1><h5>Puntos de Jugadores</h5></div><div class="col-xs-6"><h1>'+historyMatch.table.payed_points+'</h1><h5>Puntos del ranking</h5></div></div></div><a onClick="openDetailHistory(\''+positionInArray+'\')" class="btn btn-primary btn-style3 full-width">Ver Detalle</a></div>';}
+	return '<div class="container container-full historial-list-item"><h1>'+historyMatch.table.position+'&deg;</h1><h2>'+historyMatch.table.title+'</h2><!--h4>fecha Pendiente</h4--><div class="container"><div class="row"><div class="col-xs-6"><h1>'+historyMatch.points+'</h1><h5>Puntos de Jugadores</h5></div><div class="col-xs-6"><h1>'+historyMatch.table.payed_points+'</h1><h5>Puntos del ranking</h5></div></div></div><a onClick="openDetailHistory(\''+historyMatch.table.id+'\')" class="btn btn-primary btn-style3 full-width">Ver Detalle</a></div>';}
 	else{return '';}
 }
 // Funcion para ordenar por ahora

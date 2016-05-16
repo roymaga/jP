@@ -204,7 +204,15 @@ stopTimeToWait();
 function endOfPlayedTable(idTabla){
 	
 	closeAllOverLapseWindow();
-	setTimeout(function(){changeOptionToPlayed(idTabla);avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");}, 1000);
+	setTimeout(function(){changeOptionToPlayed(idTabla);playedGameThanksMessage();}, 1000);
+}
+function playedGameThanksMessage(){
+	emailJP=window.userDataJugaPlay.email;
+	if(emailJP.indexOf("guest.com") == -1){
+		avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");}
+	else{
+		noneRegisterPlayerPlayed();
+	}
 }
 // Fin Funciones Juego de mesa
 // Funciones complementarias para El Play Tables
@@ -217,4 +225,77 @@ function traducirPosicionJugadorMesa(nombrePosicion){
 }
 function updatePositionOfPlayersForWindow(){
 	setTimeout(function(){$(".players-list").css("margin-top", $(".players-top-container").height() + "px");}, 200);
+}
+function noneRegisterPlayerPlayed(){
+		 BootstrapDialog.show({
+			 cssClass: 'general-modal-msj',
+			 title: "<H1>Gracias por Jugar</H1>",
+            message: '<p>Sincroniza tu cuenta con tu email para guardar tus jugadas, poder canjear premios y muchas cosas más.</p><p><fieldset class="form-group"> <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p>',
+			buttons: [{
+                label: 'Registrar',
+				id:'boton-panel-registro-aviso-error-pop-up',
+                action: function(dialogItself){
+					noneRegisterPlayerRegister(dialogItself);
+                }
+            }]		 
+		 });
+		 return false;
+}
+function noneRegisterPlayerRegister(dialogItself){
+	var mail=document.getElementById("formUserEmail").value;
+	if(mail.length < 1){
+			var camposVacios="";
+			if(mail.length < 1){
+				camposVacios+="<p>El Campo <b>Email</b> es obligatorio para guardar los cambios</p>";
+			}
+			// Termina el tipo de mensaje
+			avisoEmergenteJugaPlay("Campo vacio",camposVacios);
+	return false ;
+	}// Si paso es que los campos estan bien
+	json=JSON.stringify({ "user": { "email": mail } });
+	if(startLoadingAnimation()==true){
+		var userId=window.userIdPlay;
+	var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
+	    {
+			jsonStr=xmlhttp.responseText;
+			//alert(jsonStr);
+			var json=JSON.stringify(jsonStr);
+			var servidor=JSON.parse(json);
+			var doble=JSON.parse(servidor);
+			closeLoadingAnimation();
+				if (typeof(doble.errors) !== 'undefined'){
+						if (typeof(doble.errors.email) !== 'undefined'){
+						avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("formUserEmail").value+"</b> ya esta registrado en JugaPlay</p>");
+						return false;
+					}else{
+						avisoEmergenteJugaPlay("Error inesperado","<p>Algo salio mal, vuelva a intentar</p>");
+						return false;
+					}
+				}else{// Salio todo bien
+					avisoEmergenteJugaPlay("Gracias por Registra","<p>Se ha registrado correctamente en Jugaplay. En la sección mi perfil podrá editar el resto de sus datos.</p>");
+					dialogItself.close();
+					editDataFromUser(doble.first_name, doble.last_name, doble.email, doble.nickname);
+				}
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 return "ERROR";
+			}
+	 	 }
+		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send(json);		
+	}
 }

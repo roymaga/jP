@@ -128,3 +128,38 @@ function diferent(){
 function traducirInvitacionAlSitio(invitacion){
 	return parseInt(invitacion, 36)-500;
 }
+function probarSinRegistro(){
+	var rand = Math.floor((Math.random() * 100000000000000) + 1);
+	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
+	var mail=rand+"@guest.com";
+	var pass=traducirInvitacionAlSitio(rand2);
+	var nickname="Invitado"+rand;
+	setCookie("jugaPlayUserRemember", "true", 120);
+	setCookie("jugaPlayUserFacebook", "false", 120);
+	setCookie("juga-Play-User", mail, 120);
+	setCookie("juga-Play-Pass", pass, 120);
+	var mailInput = document.createElement("input");
+	mailInput.type="hidden";
+	mailInput.value=mail;
+	mailInput.id="email-pop";
+	document.body.appendChild(mailInput);
+	var passInput = document.createElement("input");
+	passInput.type="hidden";
+	passInput.value=pass;
+	passInput.id="password-pop";
+	document.body.appendChild(passInput);
+// Si paso es que los campos estan bien
+	//https://www.jugaplay.com/?invitedby=RiverCampeon2&cnl=fy
+	  var webDir=window.location.href;
+	  if(webDir.indexOf('&cnl=') == -1){// Nadie lo recomendo
+	  	json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
+	  }else{//Alguien lo recomendo
+    	var startQuien = webDir.indexOf('&cnl=')+5;
+    	var invitacionCifrada = webDir.substring(startQuien, 200);	
+	  	invitacion=traducirInvitacionAlSitio(invitacionCifrada);
+	  	json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname,"invited_by_id":invitacion } });
+  		}
+	if(startLoadingAnimation()==true){
+	mensajeAlServidorConContenidoRegistro(json);}
+	
+}

@@ -209,166 +209,169 @@ function traducirNombreAEquipoId(name){
         id = 7;
         break;
 	case "Gimnasia LP":
-        id = 3;
+        id = 8;
         break;
 	case "Aldosivi":
-        id = 3;
+        id = 9;
         break;
 	case "Arsenal":
-        id = 3;
+        id = 10;
         break;
 	case "Atlético Tucumán":
-        id = 3;
+        id = 11;
         break;
 	case "Atlético Rafaela":
-        id = 3;
+        id = 12;
+        break;
+	case "Banfield":
+        id = 13;
         break;
 	case "Belgrano":
-        id = 3;
+        id = 14;
         break;
 	case "Colón":
-        id = 3;
+        id = 15;
         break;
 	case "Defensa y Justicia":
-        id = 3;
+        id = 16;
         break;
 	case "Godoy Cruz":
-        id = 3;
+        id = 17;
         break;
 	case "Lanús":
-        id = 3;
+        id = 18;
         break;
 	case "Newell's Old Boys":
-        id = 3;
+        id = 19;
         break;
 	case "Olimpo":
-        id = 3;
+        id = 20;
         break;
 	case "Patronato":
-        id = 3;
+        id = 21;
         break;
 	case "Quilmes":
-        id = 3;
+        id = 22;
         break;
 	case "Rosario Central":
-        id = 3;
+        id = 23;
         break;
 	case "San Martín (SJ)":
-        id = 3;
+        id = 24;
         break;
 	case "Sarmiento":
-        id = 3;
+        id = 25;
         break;
 	case "Temperley":
-        id = 3;
+        id = 26;
         break;
 	case "Tigre":
-        id = 3;
+        id = 27;
         break;
 	case "Unión":
-        id = 3;
+        id = 28;
         break;
 	case "Vélez":
-        id = 3;
+        id = 29;
         break;
 	case "Argentinos Juniors":
-        id = 3;
+        id = 30;
         break;
 	case "Atlético Nacional de Medellín":
-        id = 3;
+        id = 31;
         break;
 	case "Liga de Quito":
-        id = 3;
+        id = 32;
         break;
 	case "Bolívar":
-        id = 3;
+        id = 33;
         break;
 	case "Deportivo Cali":
-        id = 3;
+        id = 34;
         break;
 	case "Atlético Nacional":
-        id = 3;
+        id = 35;
         break;
 	case "Trujillanos":
-        id = 3;
+        id = 36;
         break;
 	case "Peñarol":
-        id = 3;
+        id = 37;
         break;
 	case "Toluca":
-        id = 3;
+        id = 38;
         break;
 	case "Sao Paulo":// Corte 39
-        id = 3;
+        id = 39;
         break;
 	case "Gremio":// Arranca 41
-        id = 3;
+        id = 41;
         break;
 	case "The Strongest":
-        id = 3;
+        id = 42;
         break;
 	case "River Plate (Ur)":
-        id = 3;
+        id = 43;
         break;
 	case "Colo Colo":
-        id = 3;
+        id = 40;
         break;
 	case "Palestino":
-        id = 3;
+        id = 44;
         break;
 	case "U de Chile":
-        id = 3;
+        id = 45;
         break;
 	case "U Catolica":
-        id = 3;
+        id = 46;
         break;
 	case "San Luis":
-        id = 3;
+        id = 47;
         break;
 	case "Unión Española":
-        id = 3;
+        id = 48;
         break;
 	case "Santiago Wanderers":
-        id = 3;
+        id = 49;
         break;
 	case "O Higgins":
-        id = 3;
+        id = 50;
         break;
 	case "Cobresal":
-        id = 3;
+        id = 51;
         break;
 	case "U. La Calera":
-        id = 3;
+        id = 52;
         break;
 	case "U. Concepción":
-        id = 3;
+        id = 53;
         break;
 	case "Atlético Mineiro":
-        id = 3;
+        id = 54;
         break;
 	case "Cerro Porteño":
-        id = 3;
+        id = 55;
         break;
 	case "Independiente del Valle":
-        id = 3;
+        id = 56;
         break;
 	case "Audax I":
-        id = 3;
+        id = 57;
         break;
 	case "Huachipato":
-        id = 3;
+        id = 58;
         break;
 	case "Atletico Madrid":
-        id = 3;
+        id = 59;
         break;
 	case "Real Madrid":
-        id = 3;
+        id = 60;
         break;
 	case "Manchester City":
-        id = 3;
+        id = 61;
         break;
 	case "Bayern Munich":
-        id = 3;
+        id = 62;
         break;
 	}
 	return id;

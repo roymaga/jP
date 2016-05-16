@@ -1,7 +1,14 @@
 // JavaScript Document
-function openDetailHistory(posicionEnArreglo){
-	detailBody=bodyOfDetailHistory(window.historyOfPlays[posicionEnArreglo]);
-	detailTitle=window.historyOfPlays[posicionEnArreglo].table.title
+function openDetailHistory(tableId){
+	var detailBody="";
+	var detailTitle="";
+	historialJugadas=window.historyOfPlays;
+	for(historia in historialJugadas){// si historialJugadas[historia].table.payed_points != N/A solo mostrar 3
+			if(historialJugadas[historia].table.id==tableId){
+				detailBody=bodyOfDetailHistory(historialJugadas[historia]);
+				detailTitle=historialJugadas[historia].table.title;
+			}
+	}
 	openOverLapseWindow(detailTitle, detailBody);
 }
 function bodyOfDetailHistory(historyMatch){

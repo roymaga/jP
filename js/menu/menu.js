@@ -42,4 +42,9 @@ function imageMenuExists(image_url){
 function menuGetMenuTitle(){
 	return window.menuTitleOfWindow;
 }
-
+function updateMenusValues(){
+	var menus = document.getElementsByClassName("menu-jp-to-update");
+	for(var i=0;typeof(menus[i]) !== 'undefined';i++){
+		menus[i].innerHTML=generateMenuUpdate();
+	}
+}
