@@ -11,7 +11,8 @@ function showRecomendationUrl(){
 	}
 }
 function inviteFriendsFacebook(){
-  linkText="http://www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+  //linkText="http://www.jugaplay.com/?invitedby="+window.userDataJugaPlay.nickname+"&cnl="+hideUserHashNot(window.userDataJugaPlay.id);
+  linkText="text";
   window.plugins.socialsharing.share(linkText);
 }
 function inviteFriendsTwitter(){
@@ -21,7 +22,8 @@ function inviteFriendsTwitter(){
 //<a href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">Share via Whatsapp</a>
 function inviteFriendsWhatsapp(){
 	linkText="http://www.jugaplay.com/%3fcnl%3d"+hideUserHashNot(window.userDataJugaPlay.id);
-	linkTextShare='Te%20recomiendo%20Jugaplay,%20un%20increíble%20juego%20que%20pone%20a%20prueba%20cuanto%20sabes%20de%20futbol%20donde%20ganas%20premios%20si%20realmente%20sabes%20\n%20Entra%20con%20este%20link%20así%20me%20haces%20ganar%20monedas:%20\n'+linkText+'%20\n%20Gracias%20:)';
+	//linkTextShare='Te%20recomiendo%20Jugaplay,%20un%20increíble%20juego%20que%20pone%20a%20prueba%20cuanto%20sabes%20de%20futbol%20donde%20ganas%20premios%20si%20realmente%20sabes%20\n%20Entra%20con%20este%20link%20así%20me%20haces%20ganar%20monedas:%20\n'+linkText+'%20\n%20Gracias%20:)';
+	linkTextShare='Test';
 	window.plugins.socialsharing.shareViaWhatsApp('Jugaplay', null /* img */, linkTextShare /* url */, function() {}, function(errormsg){avisoEmergenteJugaPlay("Error WhatsApp","<p>Su celular no permite a Jugaplay compartir via Whastapp</p><p>Problema: "+errormsg+"</p>");})
 }
 // Invitar Amigos por mail
