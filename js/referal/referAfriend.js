@@ -23,7 +23,7 @@ function inviteFriendsTwitter(){
 function inviteFriendsWhatsapp(){
 	var whatsapp = document.createElement("a");
 	linkText="http://www.jugaplay.com/%3fcnl%3d"+hideUserHashNot(window.userDataJugaPlay.id);
-		whatsapp.href='whatsapp://send?text=Te%20recomiendo%20Jugaplay,%20un%20increíble%20juego%20que%20pone%20a%20prueba%20cuanto%20sabes%20de%20futbol%20donde%20ganas%20premios%20si%20realmente%20sabes%20\n%20Entra%20con%20este%20link%20así%20me%20haces%20ganar%20monedas:%20\n'+linkText+'%20\n%20Gracias%20:)';
+		whatsapp.href='whatsapp://send?text=Te%20desafío%20a%20jugar%20en%20Jugaplay,%20la%20mejor%20competencia%20de%20futbol%20fantasía%20en%20todo%20América.%20Elige%20tus%20tres%20jugadores%20favoritos%20del%20partido%20y%20suma%20puntos%20de%20acuerdo%20a%20su%20desempeño%20en%20vida%20real.%20Si%20sabes%20elegir%20y%20entiendes%20de%20futbol,%20podrás%20canjear%20tus%20monedas%20por%20increíbles%20premios%20en%20nuestro%20store.%20Dudo%20que%20me%20puedas%20ganar!\nEntra%20con%20este%20link%20desde%20tu%20celular%20o%20computadora%20así%20me%20haces%20ganar%20monedas:'+linkText+'\nGracias%20:)';
 	whatsapp.setAttribute("data-tournament-type", "share/whatsapp/share");
 	document.body.appendChild(whatsapp);
 	whatsapp.click();
