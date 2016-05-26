@@ -301,10 +301,13 @@ function traducirNombreAEquipoId(name){
 	case "Toluca":
         id = 38;
         break;
-	case "Sao Paulo":// Corte 39
+	case "Sao Paulo":
         id = 39;
         break;
-	case "Gremio":// Arranca 41
+	case "Colo Colo":
+        id = 40;
+        break;
+	case "Gremio":
         id = 41;
         break;
 	case "The Strongest":
@@ -312,9 +315,6 @@ function traducirNombreAEquipoId(name){
         break;
 	case "River Plate (Ur)":
         id = 43;
-        break;
-	case "Colo Colo":
-        id = 40;
         break;
 	case "Palestino":
         id = 44;
@@ -372,6 +372,54 @@ function traducirNombreAEquipoId(name){
         break;
 	case "Bayern Munich":
         id = 62;
+        break;
+	case "Argentina":
+        id = 63;
+        break;
+	case "Bolivia":
+        id = 64;
+        break;
+	case "Brasil":
+        id = 65;
+        break;
+	case "Chile":
+        id = 66;
+        break;
+	case "Colombia":
+        id = 67;
+        break;
+	case "Costa Rica":
+        id = 68;
+        break;
+	case "Ecuador":
+        id = 69;
+        break;
+	case "Estados Unidos":
+        id = 70;
+        break;
+	case "Haití":
+        id = 71;
+        break;
+	case "Jamaica":
+        id = 72;
+        break;
+	case "México":
+        id = 73;
+        break;
+	case "Panamá":
+        id = 74;
+        break;
+	case "Paraguay":
+        id = 75;
+        break;
+	case "Perú":
+        id = 76;
+        break;
+	case "Uruguay":
+        id = 77;
+        break;
+	case "Venezuela":
+        id = 78;
         break;
 	}
 	return id;

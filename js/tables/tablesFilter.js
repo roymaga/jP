@@ -8,7 +8,7 @@ function openTablesFilterWindow(){
 	openFilterWindow(tableTitle,content);
 }
 function createShowTablesFilter(){
-	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"2","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"5","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"4","showName":"Copa Libertadores","openFunction":null}];
+	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"2","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"5","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"4","showName":"Copa Libertadores","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"6","showName":"Copa América","openFunction":null}];
 	content='<div class="list-style1">';
 	for(individual in simulateTablesFilter){
 		if(window.tablesFilterArray.indexOf(simulateTablesFilter[individual].dataFilter)!=-1){// Esta contenido en el Arreglo
