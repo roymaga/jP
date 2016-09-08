@@ -31,18 +31,20 @@ function mensajeAlServidorComentarioContacto(json){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
+			stopTimeToWait();
 			avisoEmergenteJugaPlay("Muchas Gracias","<p>Muchas gracias por su comentario</p><p>Su feedback es muy importante para nosotros</p>");
 			document.getElementById("nombreContacto").value=null;
 			document.getElementById("mailContacto").value=null;
 			document.getElementById("contenidoContactoTxt").value=null;
 			
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
 			 return "ERROR";
 			}
 	 	 }
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/comments",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}		
+		xmlhttp.send(json);		
+	}
 }

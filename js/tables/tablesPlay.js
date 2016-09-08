@@ -16,8 +16,8 @@ function openTableToPlayOverLapseWindow(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -32,7 +32,8 @@ function openTableToPlayOverLapseWindow(tableId){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}	
+		xmlhttp.send();
+	}
 }
 function readOpenTable(openTable){
 		 window.actualOpenTable=openTable;
@@ -41,12 +42,13 @@ function readOpenTable(openTable){
 		 titleSelectedForTable=openTable.title;
 		 contenidoMesa=contentForOpenTableWindow(openTable);
 		 openOverLapseWindow(titleSelectedForTable, contenidoMesa);
-		 setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
+		setTimeout(hasBeenRead(2), 10000);// A los 10 segundos de mostrarse el primer partido muestra como elegir los jugadores 
+		setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
 function contentForOpenTableWindow(openTable){
 	startTopBlocks='<div class="container players-top-container" style="width:100%; padding:0; position:fixed; z-index:10;">';
 	fisrtBlockShownWithData='<div class="container container-style1 bg-color2"><div class="row text-color2 vertical-align"><div class="col-xs-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 text-right match-info"><a onClick="openTableInformation(0);"><img src="img/icon-i-white.png"></a></div><div class="col-xs-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</p></div></div></div>';
-	secondBlockWithFilters='<div class="container container-style1 container-spacing-style1 bg-color3"><a onClick="createShowIndividualTableFilter();" class="btn-filter"><img src="img/icon-filter-white.png"></a><div class="filter-list" id="filter-list-shown-in-table"></div></div>';
+	secondBlockWithFilters='<div class="container container-style1 container-spacing-style1 bg-color3"><a onClick="createShowIndividualTableFilter();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a><div class="filter-list" id="filter-list-shown-in-table"></div></div>';
 	thirdBlockWithPLayersSelected='<div class="container selected-players" id="container-selected-players-table"><div class="arrow-drag up" onClick="colapseSelectedPlayers(this);"></div></div>';
 	endTopBlocks='</div>';
 	fourthBlockWithPLayersSelected='<div class="container players-list" id="container-listed-players-table">'+addPlayersInToTable(openTable)+'</div>';
@@ -78,9 +80,10 @@ function tablaSelectJugador(player,team,teamId,partido){
 	name=player.last_name+" "+player.first_name;
 	posicion=traducirPosicionJugadorMesa(player.position);
 	nacionalidad=player.nationality;
-	linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" class="row players-list-item vertical-align"><div class="col-xs-2">'+img+'</div><div class="col-xs-6 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2">'+imgTeamLogo+'</div><div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div></div>';
+	linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" class="row players-list-item vertical-align" onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');"><div class="col-xs-2">'+img+'</div><div class="col-xs-8 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2">'+imgTeamLogo+'</div></div>';
 	return linea;
 }
+// <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div>
 function colapseSelectedPlayers(arrowElement){
 	selectedPlayerContainer=arrowElement.parentNode;
 	// collapse
@@ -97,6 +100,24 @@ function colapseSelectedPlayers(arrowElement){
 }
 // Fin Funciones armado de tabla
 // Comienza Funciones Juego de mesa
+function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
+	//playerRow=elementBoton.parentNode.parentNode;
+	if(playerRow.classList.contains("selected")){
+		document.getElementById("container-listed-players-table").appendChild(playerRow); 
+		playerRow.classList.remove("selected");
+		index=window.arrPlayersSelected.indexOf(idPlayer);
+		if(index>-1){window.arrPlayersSelected.splice(index, 1);}	
+	}else{
+		if(restPlayersToAdd()){
+		document.getElementById("container-selected-players-table").appendChild(playerRow);
+		playerRow.classList.add("selected");
+		window.arrPlayersSelected.push(idPlayer);
+		}else{avisoEmergenteJugaPlay("Listado Completo","<p>Ya selecciono los  <b>"+window.actualOpenTable.number_of_players+"</b> jugadores para jugar este partido. Si desea agregar uno distinto debe sacar uno del listado de seleccionados.</p>");}
+	} 
+	 updatePositionOfPlayersForWindow();
+	 updateButtomOfTable(); 
+}
+/*
 function gameMesaSelectPlayerForTeam(elementBoton,idPlayer){
 	playerRow=elementBoton.parentNode.parentNode;
 	if(elementBoton.classList.contains("selected")){
@@ -113,7 +134,7 @@ function gameMesaSelectPlayerForTeam(elementBoton,idPlayer){
 	} 
 	 updatePositionOfPlayersForWindow();
 	 updateButtomOfTable(); 
-}
+}*/
 function restPlayersToAdd(){
 	return (window.arrPlayersSelected.length<window.actualOpenTable.number_of_players)
 }
@@ -132,7 +153,7 @@ function updateButtomOfTable(){
 function buttomPlayTable(){
 	if(!restPlayersToAdd()){
 		completePlayingTable();
-		}else{avisoEmergenteJugaPlay("Faltan Jugadores","<p>Debe seleccionar <b>"+window.actualOpenTable.number_of_players+"</b> jugadores para jugar esta mesa.</p>");}
+		}else{avisoEmergenteJugaPlay("Faltan Jugadores","<p>Debe seleccionar <b>"+window.actualOpenTable.number_of_players+"</b> jugadores para jugar este partido.</p>");}
 }
 function completePlayingTable(){
 	mesa=window.actualOpenTable;
@@ -153,7 +174,7 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 					editXCoinsFromUsersWallet(-costOfTable);
                     sendPlayToJugaplay(idTabla,"true");
 				}else{
-						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y la Mesa requiere "+costOfTable+" para anotarse.</p> ");
+						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p> ");
 				}
 }
 /* Realizo la jugada */
@@ -180,8 +201,8 @@ function sendPlayToJugaplay(idTabla,bet){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			//alert("Respuesta finLogInUsuarioEnElSitioEnviandoDatosJugada"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -199,7 +220,8 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/play",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}
+		xmlhttp.send(json);
+	}
 }
 function endOfPlayedTable(idTabla){
 	
@@ -255,7 +277,7 @@ function noneRegisterPlayerRegister(dialogItself){
 	json=JSON.stringify({ "user": { "email": mail } });
 	if(startLoadingAnimation()==true){
 		var userId=window.userIdPlay;
-	var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -268,6 +290,7 @@ function noneRegisterPlayerRegister(dialogItself){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -296,6 +319,7 @@ function noneRegisterPlayerRegister(dialogItself){
 		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		xmlhttp.send(json);	
+	}
 	}
 }

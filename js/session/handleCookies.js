@@ -8,6 +8,7 @@ function acceptsLocalStorage(){
 	}
 }
 function setCookie(cname, cvalue, exdays) {
+	cname="pr-"+cname;
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+d.toUTCString();
@@ -18,6 +19,7 @@ function setCookie(cname, cvalue, exdays) {
 	}
 }
 function getCookie(cname) {
+	cname="pr-"+cname;
 	if(acceptsLocalStorage()){
 		if(localStorage.getItem(cname)!=null){
 		return localStorage.getItem(cname);}else{ return "";}
@@ -33,12 +35,23 @@ function getCookie(cname) {
 	}
 }
 function delete_cookie( cname ) {
+	cname="pr-"+cname;
 	if(acceptsLocalStorage()){
 		localStorage.setItem(cname, " ");
 	}else{
  		 document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 }
-function checkCookie(){ // In App always return true
-		return true;
+function checkCookie(){ // Check if cookies are enable
+	if(navigator.cookieEnabled==true){
+		document.cookie="testcookie";
+		if(document.cookie.indexOf("testcookie")!=-1){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}else{
+		return false;
+	}
 }

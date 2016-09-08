@@ -27,8 +27,8 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -43,7 +43,8 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}		
+		xmlhttp.send(json);		
+	}
 }
 function analizarRespuestaLogInSaved(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -80,8 +81,8 @@ function analizarSiyaEstaLogueado(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -95,7 +96,8 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}		
+		xmlhttp.send();	
+	}
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -109,5 +111,15 @@ function analizarRespuestaDatosUsuarioLogIn(servidor){
 } 
 // Fin de analizo si tiene una session abierta
 function checkLogInFacebook(){
-	openFacebookConectLogIn('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
+	if(document.body!=null){
+	var iframe = document.createElement('iframe');
+	iframe.src = 'http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1';
+	iframe.style.display="none";
+	iframe.onload = function() {
+		analizarSiyaEstaLogueado();
+		};
+	document.body.appendChild(iframe);
+	}else{
+		setTimeout(function(){checkLogInFacebook();}, 100);
+	}
 }

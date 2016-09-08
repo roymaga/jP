@@ -1,19 +1,12 @@
 // JavaScript Document
 // Etapa 1 -- Reviso si tiene o no Cookie
-	// Para que el menu la tenga
-	jugaPlayData=getCookie("juga-Play-Data");
-	if(jugaPlayData.length>4){
-		userDataJugaPlayInitial(JSON.parse(jugaPlayData));
-	}
-document.addEventListener("deviceready", checkUsersNow, false);
-function checkUsersNow(){
-	jugaPlayData=getCookie("juga-Play-Data");
-	if(jugaPlayData.length>4){
-		userDataJugaPlayInitial(JSON.parse(jugaPlayData));
-		checkIfUpdateIsNeeded();
-	}else{
-		window.location="login.html";// No esta logeado a estar version
-	}
+jugaPlayData=getCookie("juga-Play-Data");
+if(jugaPlayData.length>4){
+userDataJugaPlayInitial(JSON.parse(jugaPlayData));
+checkIfUpdateIsNeeded();
+}else{
+	window.location="login.html";// No esta logeado a estar version
+	//logOutFromJugaPlay(); // Si no tiene lo echo
 }
 // Si tiene una cookie reviso si tiene qye ser actualizada
 function checkIfUpdateIsNeeded(){
@@ -35,8 +28,7 @@ function updateDataFromUsers(){
 }
 // Le pido al servidor la data del usuario sin probar de hacer un log In
 function askServerToUpdateDataFromUser(){
-	if(checkConnection()){
-		var xmlhttp;
+	if(checkConnection2()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -49,8 +41,8 @@ function askServerToUpdateDataFromUser(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -64,7 +56,10 @@ function askServerToUpdateDataFromUser(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		if(checkConnection()){xmlhttp.send();}}		
+		xmlhttp.send();		
+	}else{
+		setTimeout(function(){ askServerToUpdateDataFromUser(); }, 500);
+	}
 }
 function analizeAskServerToUpdateDataFromUser(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -93,7 +88,7 @@ function ifLogInIsNeed(){
 // Fin de revision de conexion
 // Logue con los datos guardados 
 function mesajeToServerWithDataLogInSaved(json){
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection2()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -122,7 +117,10 @@ function mesajeToServerWithDataLogInSaved(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}		
+		xmlhttp.send(json);	
+	}else{
+		setTimeout(function(){ mesajeToServerWithDataLogInSaved(json); }, 500);
+	}
 }
 function checkAnswerWithLogInSaved(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -152,7 +150,7 @@ function checkLogInFacebook(){
 //Last option to keep log in
 // Le pido al servidor la data del usuario sin probar de hacer un log In
 function lastOptionToKeepUserLogedIn(){
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection2()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -180,7 +178,10 @@ function lastOptionToKeepUserLogedIn(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}		
+		xmlhttp.send();	
+	}else{
+		setTimeout(function(){ lastOptionToKeepUserLogedIn(); }, 500);
+	}
 }
 function analizeLastOptionToKeepUserLogedIn(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -201,3 +202,4 @@ function secondsFromNow(dateCheked){
 	//alert(diffSecs);
     return(diffSecs);
 }
+

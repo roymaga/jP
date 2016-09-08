@@ -21,8 +21,8 @@ function logOutFromJugaPlay(){
 	delete_cookie("jugaPlayUserRemember");
 	delete_cookie("jugaPlayUserFacebook");
 	// Consulta para salir y que lleve a login
-	if(checkConnection()){
-		var xmlhttp;
+	
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -35,6 +35,7 @@ function logOutFromJugaPlay(){
 	  	{
 	 	 if ((xmlhttp.readyState==4))
 	    {
+			stopTimeToWait();
 			window.location="login.html";
 			return true;
 	    }
@@ -42,11 +43,24 @@ function logOutFromJugaPlay(){
 		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}
+		xmlhttp.send();
+	}
 }
 // Functions with coins
 function userCanSpentXCoins(costOfTransaction){
 	return !(window.userDataJugaPlay.coins<costOfTransaction);
+}
+function getUserJugaplayId(){
+	return window.userDataJugaPlay.id;
+}
+function getUserJugaplayCoins(){
+	return window.userDataJugaPlay.coins;
+}
+function getUserJugaplayEmail(){
+	return window.userDataJugaPlay.email;
+}
+function getUserJugaplayNick(){
+	return window.userDataJugaPlay.nickname;
 }
 function editXCoinsFromUsersWallet(coins){// it can be positive or negative
 	window.userDataJugaPlay.coins+=coins;

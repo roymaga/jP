@@ -1,5 +1,7 @@
 // JavaScript Document
 // Este javascript esta encargado de manejar el registro del sitio
+window.invitationId=0;
+window.invitationUserId=0;
 function abrirRegistro(){
   		if (checkCookie()!=true) { 
     		avisoEmergenteJugaPlay("Habilitar las cookies","<p>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
@@ -16,7 +18,9 @@ function abrirRegistro(){
                 }
             }]
 		 
-		 });}
+		 });
+		 setTimeout(function(){alwaysShowInputValues();}, 1500);
+		 }
 }
 function registrarUsuarioEnElSitio(){
 	var mail=document.getElementById("email-pop").value;
@@ -41,19 +45,15 @@ function registrarUsuarioEnElSitio(){
 		return false ;
 	};// Si paso es que los campos estan bien
 	//https://www.jugaplay.com/?invitedby=RiverCampeon2&cnl=fy
-	  var webDir=window.location.href;
-	  if(webDir.indexOf('&cnl=') == -1){// Nadie lo recomendo
-	  	json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname } });
-	  }else{//Alguien lo recomendo
-    	var startQuien = webDir.indexOf('&cnl=')+5;
-    	var invitacionCifrada = webDir.substring(startQuien, 200);	
-	  	invitacion=traducirInvitacionAlSitio(invitacionCifrada);
-	  	json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname,"invited_by_id":invitacion } });
-  		}
+	if(window.invitationId>0){
+			 var json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname, "invited_by_id": String(window.invitationUserId), "invitation_id": String(window.invitationId1) } });
+		}else{
+			 var json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname } });
+		}
 	if(startLoadingAnimation()==true){
-	mensajeAlServidorConContenidoRegistro(json);}
+	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
 }
-function mensajeAlServidorConContenidoRegistro(json){
+function mensajeAlServidorConContenidoRegistro(json, mail, pass){
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -68,12 +68,12 @@ function mensajeAlServidorConContenidoRegistro(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
+			stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
-			analizarRespuestaRegistro(doble);
+			analizarRespuestaRegistro(doble, mail, pass);
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
@@ -83,9 +83,10 @@ stopTimeToWait();
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}		
+		xmlhttp.send(json);		
+	}
 }
-function analizarRespuestaRegistro(servidor){
+function analizarRespuestaRegistro(servidor, mail, pass){
 	if (typeof(servidor.errors) !== 'undefined'){
 		closeLoadingAnimation();
 		if (typeof(servidor.errors.email) !== 'undefined'){
@@ -96,7 +97,9 @@ function analizarRespuestaRegistro(servidor){
 			return false;
 		}
 	}else{// Salio todo bien
-		logInUsuarioEnElSitio();
+		fbq('track', 'CompleteRegistration');
+		window.registerInSite=true;
+		logInUsuarioEnElSitioPostRegistro(mail, pass);
 	}
 }
 function hacerLogOutPreventivo(){
@@ -113,6 +116,7 @@ function hacerLogOutPreventivo(){
 	  	{
 	 	 if ((xmlhttp.readyState==4))
 	    {
+			stopTimeToWait();
 			//alert(xmlhttp.responseText);
 			//analizarRespuestaRegistroBeta(doble);
 			return true;
@@ -121,12 +125,8 @@ function hacerLogOutPreventivo(){
 		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}		
-}
-function diferent(){
-}
-function traducirInvitacionAlSitio(invitacion){
-	return parseInt(invitacion, 36)-500;
+		xmlhttp.send();	
+	}
 }
 function probarSinRegistro(){
 	var rand = Math.floor((Math.random() * 100000000000000) + 1);
@@ -148,18 +148,113 @@ function probarSinRegistro(){
 	passInput.value=pass;
 	passInput.id="password-pop";
 	document.body.appendChild(passInput);
-// Si paso es que los campos estan bien
-	//https://www.jugaplay.com/?invitedby=RiverCampeon2&cnl=fy
-	  var webDir=window.location.href;
-	  if(webDir.indexOf('&cnl=') == -1){// Nadie lo recomendo
-	  	json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
-	  }else{//Alguien lo recomendo
-    	var startQuien = webDir.indexOf('&cnl=')+5;
-    	var invitacionCifrada = webDir.substring(startQuien, 200);	
-	  	invitacion=traducirInvitacionAlSitio(invitacionCifrada);
-	  	json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname,"invited_by_id":invitacion } });
-  		}
+	var json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
 	if(startLoadingAnimation()==true){
-	mensajeAlServidorConContenidoRegistro(json);}
+	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
 	
+}
+window.onload=checkIfUsersLinkHasInvitationCode();
+function checkIfUsersLinkHasInvitationCode(){
+	// cnl user Id
+	// cri request Id
+	if(getQueryVariableTranslated("cri")>-1){
+		askForInvitationIdFromRequest(getQueryVariableTranslated("cri"));
+		window.invitationUserId=getQueryVariableTranslated("cnl");
+	}
+}
+function getQueryVariableTranslated(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return traducirInvitacionAlSitio(pair[1]);
+    }
+  } 
+  return -1;
+}
+function traducirInvitacionAlSitio(invitacion){
+	return parseInt(invitacion, 36)-500;
+}
+function askForInvitationIdFromRequest(requestId){
+	json=JSON.stringify({"invitation_status": "Unused" });
+	if(checkConnection()){var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
+	    {
+			stopTimeToWait();
+			var jsonStr=xmlhttp.responseText;
+			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
+				window.invitationId=(JSON.parse(jsonStr)).id;
+			}else{
+				askForInvitationIdFromRequest(requestId);
+			}
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 return "ERROR";
+			}
+	 	 }
+		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/requests/"+requestId+"/invitations",true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send(json);	
+	}
+}
+function logInUsuarioEnElSitioPostRegistro(mail, pass){
+	var json=JSON.stringify({ "user": { "email": mail, "password":pass } });
+	if(checkConnection()){var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
+	    {
+			// closeLoadingAnimation();
+			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
+			//alert("Lo que devuelve el log in el servidor"+jsonStr);
+			var json=JSON.stringify(jsonStr);
+			var servidor=JSON.parse(json);
+			var doble=JSON.parse(servidor);
+			analizarRespuestaLogInPostRegistro(doble);
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+			 return "ERROR";
+			}
+	 	 }
+		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send(json);	
+	}
+}
+function analizarRespuestaLogInPostRegistro(servidor){
+	if (typeof(servidor.error) !== 'undefined'){
+			closeLoadingAnimation();
+			avisoEmergenteJugaPlay("Error en el registro","<p>Por favor vuelva a intentar</p>");
+			return false;
+	}else{// Salio todo bien
+		servidor.last_check=new Date();
+		servidor.last_update=new Date();
+		var cookieSave=JSON.stringify(servidor);
+		setCookie("juga-Play-Data", cookieSave, 120);
+		window.location="game.html";
+	}
 }

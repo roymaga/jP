@@ -22,7 +22,7 @@ function closeLoadingAnimation(){
 	var element =  document.getElementById('boton-close-loading');
 	if (typeof(element) != 'undefined' && element != null)
 	{ document.getElementById('boton-close-loading').click();}else{
-		setTimeout(function(){if (typeof(element) != 'undefined' && element != null){ document.getElementById('boton-close-loading').click();}}, 2000);
+		setTimeout(function(){closeLoadingAnimation();}, 500);
 	}
 }
 
@@ -43,28 +43,7 @@ function avisoEmergenteJugaPlay(titulo,texto){
 		 });
 		 return false;
 	}
-function avisoEmergenteJugaPlayMalInternet(titulo,texto){
-		if(window.internetCheckedSlow==0){
-		 BootstrapDialog.show({
-			 cssClass: 'general-modal-msj',
-			 title: "<H1>"+titulo+"</H1>",
-            message: texto,
-			buttons: [{
-                label: 'Aceptar',
-				id:'boton-panel-registro-aviso-error-pop-up',
-                action: function(dialogItself){
-					closeBadInternetAdvertise(dialogItself);
-                }
-            }]		 
-		 });
-		 window.internetCheckedSlow=1;
-		 return false;
-		}
-	}
-function closeBadInternetAdvertise(dialogItself){
-	window.internetCheckedSlow=0;
-	dialogItself.close();
-}
+
 // Show days in diferent ways 
 function dateFormatView(d){
 	//2016-01-05T20:14:00.919Z
@@ -74,6 +53,15 @@ function dateFormatView(d){
 	hora= d.substring(11, 13);// hora
 	minutos=d.substring(14, 16);// minutos
     return hora+':'+minutos+' Hs <b>'+dia+'/'+lettersOfMonth(mes)+'</b>';
+}
+function dateFormatViewDay(d){
+	//2016-01-05T20:14:00.919Z
+	//01234567890123456789
+	dia= d.substring(8, 10);// Dia del mes
+	mes= d.substring(5, 7);// que mes
+	hora= d.substring(11, 13);// hora
+	minutos=d.substring(14, 16);// minutos
+    return dia+'/'+lettersOfMonth(mes);
 }
 function dateFormatViewNormal(d){
 	//14/01/2016 - 22:10
@@ -127,6 +115,20 @@ function lettersOfMonth(month){
 	}
 	return letters;
 }
+function returnFullMonthName(month){
+	var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Ocutbre", "Noviembre", "Diciembre"
+];
+	return monthNames[parseInt(month)-1];
+}
+function compareTablesSort(a,b) {
+  if (compareSqlDateIfAOlderThanB(a.start_time,b.start_time))// Si el primero es mas antiguo y tiene que ir antes
+    return 1;
+  else if (compareSqlDateIfAOlderThanB(b.start_time,a.start_time))// Si el segundo es mas antiguo
+    return -1;
+  else // Si son iguales
+    return 0;
+}
 function compareSqlDateIfAOlderThanB(dateA,dateB){
 	var diaA= dateA.substring(0, 2);// Dia del mes
 	var mesA= dateA.substring(3, 5);// que mes
@@ -149,6 +151,11 @@ function compareSqlDateIfAOlderThanB(dateA,dateB){
 	dB.setMinutes(minutosB);
 	dB.setSeconds(0);
 	if(dA>dB){return true;}else{return false;}
+}
+function isThisMonth(dateA){
+	var mesA= dateA.substring(5, 7);// que mes de este formato 2016-08-07T21:35:09.128Z
+	var d = new Date();
+    if(d.getMonth()==(parseInt(mesA)-1)){return true;}else{return false;}
 }
 function hideUserHashNot(hide){
 	//parseInt("9ix", 36) un hide
@@ -173,254 +180,44 @@ function clubGetLogo(id){
 			return 'img/icons/team-logo/no-logo.gif';
 		}	
 }
-function clubGetLogoName(name){
-		id=traducirNombreAEquipoId(name);
-		return clubGetLogo(id);	
-}
 function imageExists(image_url){
     var http = new XMLHttpRequest();
     http.open('HEAD', image_url, false);
     http.send();
     return http.status != 404;
 }
-// Para borrar
-function traducirNombreAEquipoId(name){
-	var id=0;
-	switch(name){
-    case "Independiente":
-        id = 1;
-        break;
-	case "Racing":
-        id = 2;
-        break;
-	case "San Lorenzo":
-        id = 3;
-        break;
-	case "Boca Juniors":
-        id = 4;
-        break;
-	case "River Plate":
-        id = 5;
-        break;
-	case "Huracan":
-        id = 6;
-        break;
-	case "Estudiantes LP":
-        id = 7;
-        break;
-	case "Gimnasia LP":
-        id = 8;
-        break;
-	case "Aldosivi":
-        id = 9;
-        break;
-	case "Arsenal":
-        id = 10;
-        break;
-	case "Atlético Tucumán":
-        id = 11;
-        break;
-	case "Atlético Rafaela":
-        id = 12;
-        break;
-	case "Banfield":
-        id = 13;
-        break;
-	case "Belgrano":
-        id = 14;
-        break;
-	case "Colón":
-        id = 15;
-        break;
-	case "Defensa y Justicia":
-        id = 16;
-        break;
-	case "Godoy Cruz":
-        id = 17;
-        break;
-	case "Lanús":
-        id = 18;
-        break;
-	case "Newell's Old Boys":
-        id = 19;
-        break;
-	case "Olimpo":
-        id = 20;
-        break;
-	case "Patronato":
-        id = 21;
-        break;
-	case "Quilmes":
-        id = 22;
-        break;
-	case "Rosario Central":
-        id = 23;
-        break;
-	case "San Martín (SJ)":
-        id = 24;
-        break;
-	case "Sarmiento":
-        id = 25;
-        break;
-	case "Temperley":
-        id = 26;
-        break;
-	case "Tigre":
-        id = 27;
-        break;
-	case "Unión":
-        id = 28;
-        break;
-	case "Vélez":
-        id = 29;
-        break;
-	case "Argentinos Juniors":
-        id = 30;
-        break;
-	case "Atlético Nacional de Medellín":
-        id = 31;
-        break;
-	case "Liga de Quito":
-        id = 32;
-        break;
-	case "Bolívar":
-        id = 33;
-        break;
-	case "Deportivo Cali":
-        id = 34;
-        break;
-	case "Atlético Nacional":
-        id = 35;
-        break;
-	case "Trujillanos":
-        id = 36;
-        break;
-	case "Peñarol":
-        id = 37;
-        break;
-	case "Toluca":
-        id = 38;
-        break;
-	case "Sao Paulo":
-        id = 39;
-        break;
-	case "Colo Colo":
-        id = 40;
-        break;
-	case "Gremio":
-        id = 41;
-        break;
-	case "The Strongest":
-        id = 42;
-        break;
-	case "River Plate (Ur)":
-        id = 43;
-        break;
-	case "Palestino":
-        id = 44;
-        break;
-	case "U de Chile":
-        id = 45;
-        break;
-	case "U Catolica":
-        id = 46;
-        break;
-	case "San Luis":
-        id = 47;
-        break;
-	case "Unión Española":
-        id = 48;
-        break;
-	case "Santiago Wanderers":
-        id = 49;
-        break;
-	case "O Higgins":
-        id = 50;
-        break;
-	case "Cobresal":
-        id = 51;
-        break;
-	case "U. La Calera":
-        id = 52;
-        break;
-	case "U. Concepción":
-        id = 53;
-        break;
-	case "Atlético Mineiro":
-        id = 54;
-        break;
-	case "Cerro Porteño":
-        id = 55;
-        break;
-	case "Independiente del Valle":
-        id = 56;
-        break;
-	case "Audax I":
-        id = 57;
-        break;
-	case "Huachipato":
-        id = 58;
-        break;
-	case "Atletico Madrid":
-        id = 59;
-        break;
-	case "Real Madrid":
-        id = 60;
-        break;
-	case "Manchester City":
-        id = 61;
-        break;
-	case "Bayern Munich":
-        id = 62;
-        break;
-	case "Argentina":
-        id = 63;
-        break;
-	case "Bolivia":
-        id = 64;
-        break;
-	case "Brasil":
-        id = 65;
-        break;
-	case "Chile":
-        id = 66;
-        break;
-	case "Colombia":
-        id = 67;
-        break;
-	case "Costa Rica":
-        id = 68;
-        break;
-	case "Ecuador":
-        id = 69;
-        break;
-	case "Estados Unidos":
-        id = 70;
-        break;
-	case "Haití":
-        id = 71;
-        break;
-	case "Jamaica":
-        id = 72;
-        break;
-	case "México":
-        id = 73;
-        break;
-	case "Panamá":
-        id = 74;
-        break;
-	case "Paraguay":
-        id = 75;
-        break;
-	case "Perú":
-        id = 76;
-        break;
-	case "Uruguay":
-        id = 77;
-        break;
-	case "Venezuela":
-        id = 78;
-        break;
+// Test generales
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+function changeArrow(element){
+	setTimeout(function(){ 
+		if(element.innerHTML=='<i class="fa fa-chevron-up" aria-hidden="true"></i>'){element.innerHTML='<i class="fa fa-chevron-down" aria-hidden="true"></i>';}
+		else{element.innerHTML='<i class="fa fa-chevron-up" aria-hidden="true"></i>';}
+	}, 200);
+}
+// Loaders 
+function addLoaderToCertainContainer(container){
+	if(container.getElementsByClassName("loader").length==0){
+		var loader = document.createElement('div');
+		loader.className="loader";
+		loader.innerHTML='<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
+		container.appendChild(loader);
 	}
-	return id;
+}
+function removeLoaderFromCertainContainer(container){
+	if(container.getElementsByClassName("loader").length>0){
+		var loaders= container.getElementsByClassName("loader");
+		for(var num in loaders){
+			if (loaders.hasOwnProperty(num) && num!="length") {// Validacion necesaria para recorrer elementos del DOM
+				loaders[num].parentNode.removeChild(loaders[num]);
+			}
+		}
+	}
+	return true;
 }

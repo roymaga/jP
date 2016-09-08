@@ -1,20 +1,46 @@
 // JavaScript Document
-document.addEventListener("deviceready", showRecordAvailableTablesToPlay, false);
+// Tarda si o si 10 minutos en preguntar
+if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
+	window.lastTableCheck=JSON.parse(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()));
+}else{
+	window.lastTableCheck=new Date(1401507903635);// 2014
+}
+window.onload=showRecordAvailableTablesToPlay();
 function showRecordAvailableTablesToPlay(){
-		previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4){	
+	setTimeout(hasBeenRead(1), 10000);// A los 10 segundos de empezar muestra la notificacion de como jugar Id 1
+	previousTablesLoad=getCookie("tablesToPlay-Jp");
+	if(previousTablesLoad.length>4){		
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
-			analizeShowAvailableTablesToPlay(doble);
-			showAvailableTablesToPlay();
+			if(updateTablesFromServer()){
+				showAvailableTablesToPlay();
+			}else{
+				analizeShowAvailableTablesToPlay(doble);
+			}
 	
 		}else{
-			showAvailableTablesToPlay();
+			 showAvailableTablesToPlay();
 		}
 }
+function updateTablesFromServer(){// Veo si lo traigo de memoria o no
+	if(secondsFromNow(window.lastTableCheck)>300){// Si tiene mas de 5 minutos 300 segundos
+			resetTimeOfLastTableAskToServer();
+		return true;
+	}else{
+		return false;
+	}
+}
+function resetTimeOfLastTableAskToServer(){
+	window.lastTableCheck= new Date();
+	var jsonUpdt=JSON.stringify(window.lastTableCheck);
+	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
+}
 function showAvailableTablesToPlay(){
-	if(checkConnection()){
+	if(document.getElementById("tables-container-show")!=null){
+		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
+	}
+	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -26,10 +52,13 @@ function showAvailableTablesToPlay(){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
+			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
+			//alert(jsonStr);
+			resetTimeOfLastTableAskToServer();
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -44,44 +73,66 @@ function showAvailableTablesToPlay(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}	
+		xmlhttp.send();	
+	}else{
+		setTimeout(function(){showAvailableTablesToPlay();}, 500);
+	}
 }
 function analizeShowAvailableTablesToPlay(obj){
+	// Me aseguro que no quede ningun loader, por las dudas
+	var flag=0;
 	if (typeof(obj.error) !== 'undefined'){
 		showAvailableTablesToPlay();
 	}else{
-			obj.sort(compareTablesSort);
-			arregloDeMesasConComentarios=new Array();
-			for (var i = 0; i < obj.length; i++) {
-				if(mesaDisponibleParaJugarHorario(obj[i]['start_time'])==true){
-				cargarTablaDeMesasConContenidoInicial(obj[i]['id'],obj[i]['title'],obj[i]['number_of_players'],obj[i]['start_time'],obj[i]['end_time'],obj[i]['description'],obj[i]['has_been_played_by_user'],obj[i]['entry_coins_cost'],obj[i]['has_password'],obj[i]['tournament_id']);
-				arregloDeMesasConComentarios.push(obj[i]['id']);}
-    		}
+			if(document.getElementById("tables-container-show")!=null){ // Si no hay un elemento visible solo las guarda en memoria cookie tablesToPlay-Jp
+				obj.sort(compareTablesSort);
+				arregloDeMesasConComentarios=new Array();
+				for (var i = 0; i < obj.length; i++) {
+					if(mesaDisponibleParaJugarHorario(obj[i]['start_time'])==true){
+					if(flag==0){removeLoaderFromCertainContainer(document.getElementById("tables-container-show"));flag=1;}// Marco asi no pasa cada vez
+					cargarTablaDeMesasConContenidoInicial(obj[i]);
+					arregloDeMesasConComentarios.push(obj[i]['id']);}else{// Si no esta disponible lo agrega a en vivo
+						deletTableFromVisibleHmtl(obj[i]['id']);
+						addTableToLiveArray(obj[i]);
+					}
+				}
+			}
+	setTimeout(showRecordAvailableTablesToPlay, 3000); // Vuelve a hacer el recorrido cada 3 segundos
 	}
 }
-function cargarTablaDeMesasConContenidoInicial(idMesa, tituloMesa, numeroDeJugadores, horaInicioMesa, horaFinMesa, descripcionMesa, yaJugada, coins, sms, torneo_id){
-	//alert(idMesa+tituloMesa+numeroDeJugadores+horaInicioMesa+horaFinMesa+descripcionMesa);
-	var mesaACrear = document.createElement('div');
-	mesaACrear.className="match-list-item";
-	mesaACrear.setAttribute("data-tournament-type", torneo_id);
-	mesaACrear.setAttribute("data-table-id", idMesa);
+function cargarTablaDeMesasConContenidoInicial(shownTable){
+	var createTable = document.createElement('div');
+	createTable.className="match-list-item";
+	createTable.setAttribute("data-tournament-type", shownTable.tournament_id);
+	createTable.setAttribute("data-table-id", shownTable.id);
 	//mesaACrear.style=premiumTable(coins, sms);
-	mesaACrear.innerHTML='<div class="container container-title bg-color2"><h3>'+tituloMesa+'</h3></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-left match-time"><p>'+dateFormatViewNormal(horaInicioMesa)+'</p></div><div class="col-xs-2 text-center match-cup"><img src="img/tournament/flags/flag-'+torneo_id+'.jpg"></div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+idMesa+'\');">'+costOfTable(coins, sms)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+idMesa+'\');">'+earnsOfTable(coins, sms)+'</a></div><div class="col-xs-4 text-right match-button">'+buttonOfTable(idMesa,yaJugada)+'</div></div></div>';
-	addTableToShownTables(mesaACrear);
+	createTable.innerHTML='<div class="container container-title bg-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><h3>'+shownTable.title+' <i class="fa fa-info-circle" aria-hidden="true"></i> </h3></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-left match-time"><p>'+dateFormatViewNormal(shownTable.start_time)+'</p></div><div class="col-xs-2 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(shownTable.pot_prize)+'</a></div><div class="col-xs-4 text-right match-button">'+buttonOfTable(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
+	addTableToShownTables(createTable);
 }
-function addTableToShownTables(mesaACrear){ // Add Table to container if already exists it actualize it
+function addTableToShownTables(tableToCreate){ // Add Table to container if already exists it actualize it
 	flag=0;
 	tablesInContainer=document.getElementById("tables-container-show").getElementsByClassName("match-list-item");
-	tableIdToAdd=mesaACrear.getAttribute('data-table-id');
+	tableIdToAdd=tableToCreate.getAttribute('data-table-id');
 	for(table in tablesInContainer){
 		if(tablesInContainer[table].innerHTML !== undefined){
 			actualAttributeId=tablesInContainer[table].getAttribute('data-table-id');
 			if(actualAttributeId==tableIdToAdd)
-				{tablesInContainer[table].innerHTML=mesaACrear.innerHTML;
+				{tablesInContainer[table].innerHTML=tableToCreate.innerHTML;
 				flag=1;break;}
 		}
 	}
-	if(flag==0){document.getElementById("tables-container-show").appendChild(mesaACrear);}
+	if(flag==0){document.getElementById("tables-container-show").appendChild(tableToCreate);}
+}
+function deletTableFromVisibleHmtl(tableId){
+	tablesInContainer=document.getElementById("tables-container-show").getElementsByClassName("match-list-item");
+	for(table in tablesInContainer){
+		if(tablesInContainer[table].innerHTML !== undefined){
+			actualAttributeId=tablesInContainer[table].getAttribute('data-table-id');
+			if(actualAttributeId==tableId)
+				{tablesInContainer[table].parentNode.removeChild(tablesInContainer[table]);
+				return;}
+		}
+	}
 }
 // Funcion generales utilizadas
 function mesaDisponibleParaJugarHorario(fechaHora){
@@ -116,28 +167,18 @@ function costOfTable(coins, sms){
 	else
 	return ' ';
 }
-function earnsOfTable(coins, sms){
-	if(coins>0 || sms==true){
-		if(coins>0){
-			return '<p>871</p><img src="img/icons/coins/treasure.gif">';
-		}
+function earnsOfTable(pot_prize){
+	if(pot_prize>0){
+			return '<p>'+pot_prize+'</p><img src="img/icons/coins/treasure.gif">';
 	}
 	else
-	return '<p>450</p><img src="img/icons/coins/treasure.gif">';
+	return ' ';
 }
 function buttonOfTable(idMesa,yaJugada){
 	if(yaJugada==true){
 		return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openTablePlayedDetail(\''+idMesa+'\');">Anotado</button>';
 	}else{
 		return'<button type="button" class="btn btn-default btn-style2" onClick="openTableToPlayOverLapseWindow(\''+idMesa+'\');">¡Jugar!</button>';}
-}
-function compareTablesSort(a,b) {
-  if (compareSqlDateIfAOlderThanB(a.start_time,b.start_time))// Si el primero es mas antiguo y tiene que ir antes
-    return 1;
-  else if (compareSqlDateIfAOlderThanB(b.start_time,a.start_time))// Si el segundo es mas antiguo
-    return -1;
-  else // Si son iguales
-    return 0;
 }
 // Functions with tables
 function changeOptionToPlayed(idTabla){
@@ -166,3 +207,6 @@ function changeOptionToPlayed(idTabla){
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 	}
 }
+//
+//
+//removeLoaderFromCertainContainer(document.getElementById("tables-container-show"))

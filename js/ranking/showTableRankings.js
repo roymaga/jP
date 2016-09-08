@@ -1,10 +1,12 @@
 // JavaScript Document
-document.addEventListener("deviceready", showCompleteRanking, false);
+//mensajeAlServidorPidiendoRankingLibertadores();
+window.onload=showCompleteRanking();
 function showCompleteRanking(){
 	previousRankingLibertadores=getCookie("ranking-Libertadores-Jp");
 	previousRankingArgentino=getCookie("ranking-TArgentino-Jp");
 	previousRankingChileno=getCookie("ranking-Chileno-Jp");
-	if(previousRankingLibertadores.length>4 && previousRankingArgentino.length>4 && previousRankingChileno.length>4){		
+	previousRankingAmerica=getCookie("ranking-America-Jp");
+	if(previousRankingLibertadores.length>4 && previousRankingArgentino.length>4 && previousRankingChileno.length>4 && previousRankingAmerica.length>4){		
 			var json=JSON.stringify(previousRankingLibertadores);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -17,6 +19,10 @@ function showCompleteRanking(){
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
 			editarDatosRankingChilenoJugaPlay(doble);
+			var json=JSON.stringify(previousRankingAmerica);
+			var servidor=JSON.parse(json);
+			var doble=JSON.parse(servidor);
+			editarDatosRankingCAmericaJugaPlay(doble);
 			// Fin de cargar los rankins
 			mensajeAlServidorPidiendoRankingLibertadores();
 	
@@ -38,8 +44,8 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			setCookie("ranking-TArgentino-Jp", jsonStr, 120);
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -56,7 +62,8 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/2/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}		
+		xmlhttp.send();		
+	}
 }
 function analizarRespuestaRankingUsuarioPrimeraA(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -88,8 +95,8 @@ function mensajeAlServidorPidiendoRankingLibertadores(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			setCookie("ranking-Libertadores-Jp", jsonStr, 120);
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -106,7 +113,8 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/4/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}		
+		xmlhttp.send();		
+	}
 }
 function analizarRespuestaRankingUsuarioLibertadores(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -138,14 +146,15 @@ function mensajeAlServidorPidiendoRankingChileno(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			setCookie("ranking-Chileno-Jp", jsonStr, 120);
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
 			analizarRespuestaRankingUsuarioChileno(doble);
+			mensajeAlServidorPidiendoRankingCAmerica();
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
@@ -155,7 +164,8 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/5/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}		
+		xmlhttp.send();	
+	}
 }
 function analizarRespuestaRankingUsuarioChileno(servidor){
 	if (typeof(servidor.error) !== 'undefined'){
@@ -173,6 +183,58 @@ function editarDatosRankingChilenoJugaPlay(ranking){
         })
 		}, 500);
 }
+/* */
+function mensajeAlServidorPidiendoRankingCAmerica(){
+	if(checkConnection()){var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
+	    {
+			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
+			setCookie("ranking-America-Jp", jsonStr, 120);
+			//alert("Lo que lee el servidor"+jsonStr);
+			var json=JSON.stringify(jsonStr);
+			var servidor=JSON.parse(json);
+			var doble=JSON.parse(servidor);
+			analizarRespuestaRankingUsuarioCAmerica(doble);
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+			 return "ERROR";
+			}
+	 	 }
+		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/6/rankings",true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true"; 
+		xmlhttp.send();		
+	}
+}
+function analizarRespuestaRankingUsuarioCAmerica(servidor){
+	if (typeof(servidor.error) !== 'undefined'){
+			//window.location="login.html";
+	}else{// Salio todo bien
+		editarDatosRankingCAmericaJugaPlay(servidor);
+	}
+} 
+function editarDatosRankingCAmericaJugaPlay(ranking){
+	window.rankingCAmericaCompleto=ranking;
+	document.getElementById("ranking-container-4").innerHTML="<H3>Copa América</H3>"+armarTablaConRankinGeneral(window.rankingCAmericaCompleto,'America');
+	setTimeout(function(){
+		$('#dataTables-table-rankingAmerica').DataTable({
+                responsive: true
+        })
+		}, 500);
+}
+/* */ 
 function armarTablaConRankinGeneral(rankingGN,nombre){
 	usuId=window.userDataJugaPlay.id;
 	cantidadDeJugadores=rankingGN.length;

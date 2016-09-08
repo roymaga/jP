@@ -1,5 +1,10 @@
 // JavaScript Document
-document.addEventListener("deviceready", showPrizesToChengeInStore, false);
+/*window.onload=startLoadingStore();
+function startLoadingStore(){
+preLoadStore1=[{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null }];
+loadStore(preLoadStore1);
+}*/
+window.onload=showPrizesToChengeInStore();
 function showPrizesToChengeInStore(){
 	previousStoresLoad=getCookie("storesShow-Jp");
 	if(previousStoresLoad.length>4){		
@@ -28,8 +33,8 @@ function showAvailablePrizesForStore(){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			setCookie("storesShow-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -44,7 +49,8 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://data.jugaplay.com/api/store/prizes.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		xmlhttp.send();}	
+		xmlhttp.send();	
+	}
 }
 function loadStore(preLoadStore){
 	textOfStore='<div class="row text-center rewards-container">';
@@ -88,6 +94,7 @@ function mensajeAlServidorCanjearPremios(json){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
+			stopTimeToWait();
 			avisoEmergenteJugaPlay("Premio en proceso","<p>Su premio está siendo procesado. Se le notificara por mail a "+window.userDataJugaPlay.email+" cuando este procesado y se le descontaran las monedas equivalentes al premio de su Monedero.</p>");
 			
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
@@ -98,5 +105,6 @@ function mensajeAlServidorCanjearPremios(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/comments",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}		
+		xmlhttp.send(json);	
+	}
 }

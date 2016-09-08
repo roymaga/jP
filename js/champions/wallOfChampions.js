@@ -1,5 +1,5 @@
 // JavaScript Document
-document.addEventListener("deviceready", showChampionsOfTheWorld, false);
+window.onload=showChampionsOfTheWorld();
 function showChampionsOfTheWorld(){
 	previousChampionsLoad=getCookie("championsShow-Changed-Jp");
 	if(previousChampionsLoad.length>4){		
@@ -29,7 +29,7 @@ function showAvailableChampions(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
+			stopTimeToWait();
 			setCookie("championsShow-Changed-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -44,7 +44,8 @@ stopTimeToWait();
 		xmlhttp.open("GET","http://data.jugaplay.com/api/store/champions.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		xmlhttp.send();}	
+		xmlhttp.send();	
+	}
 }
 function showChampions(preLoadChampions){
 	textOfWall='';

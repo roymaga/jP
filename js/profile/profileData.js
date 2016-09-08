@@ -1,6 +1,6 @@
 // JavaScript Document
 // Starts complete data of user
-document.addEventListener("deviceready", loadDataToProfile, false);
+window.onload=loadDataToProfile();
 function loadDataToProfile(){
 	if(window.userDataJugaPlay!=null){
 		completeDataOfProfile();
@@ -66,8 +66,8 @@ function mensajeAlServidorConContenidoRegistro(json){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -82,7 +82,8 @@ stopTimeToWait();
 		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}		
+		xmlhttp.send(json);	
+	}
 }
 function analizarRespuestaCambiarDatosUsuarios(servidor){
 	//alert(JSON.stringify(servidor));
@@ -96,16 +97,42 @@ function analizarRespuestaCambiarDatosUsuarios(servidor){
 			return false;
 		}
 	}else{// Salio todo bien
-		avisoEmergenteJugaPlay("Cambios Relizados","<p>Los cambios se realizaron con exito!!</p>");
+		avisoEmergenteJugaPlay("Cambios Realizados","<p>Los cambios se realizaron con exito!!</p>");
 		document.getElementById("user-real-name").innerHTML='<h3 style="margin:0;">'+servidor.nickname+'</h3><h4 style="margin-top:0; margin-bottom:15px;">'+servidor.first_name+' '+servidor.last_name+'</h4>';
 		editDataFromUser(servidor.first_name, servidor.last_name, servidor.email, servidor.nickname);
 	}
 }
 // Reset password
 function passwordResetRequest(){
-		userEmail=window.userDataJugaPlay.email;
+	var html='<div class="container container-full"><div class="form-style1 text-color1"><fieldset class="form-group"> Nueva contraseña<input type="text" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset><fieldset class="form-group"> Repetir nueva contraseña <input class="form-control" type="text" id="formUserPassWordRepeat" placeholder="Repetir contraseña"></fieldset></div></div>';
+	 BootstrapDialog.show({
+			 cssClass: 'general-modal-msj',
+			 title: "<H1>Cambiar contraseña</H1>",
+            message: html,
+			buttons: [{
+                label: 'Aceptar',
+				id:'boton-panel-registro-aviso-error-pop-up',
+                action: function(dialogItself){
+					serverPasswordResetRequest(dialogItself);
+                    //dialogItself.close();
+                }
+            }]		 
+		 });
+		 return false;
+}
+function serverPasswordResetRequest(dialog){
+		var password= document.getElementById("formUserPassWord").value;
+		var repPassword= document.getElementById("formUserPassWordRepeat").value;
+		if(password!=repPassword){
+			avisoEmergenteJugaPlay("Contraseñas distintas","<p>La contraseña  y la repetición de la misma deben ser iguales.</p>");
+			return true;
+		}
+		if(password.length<8){
+			avisoEmergenteJugaPlay("Contraseñas muy corta","<p>La contraseña  debe tener al menos 8 caracteres.</p>");
+			return true;
+		}
 		startLoadingAnimation();
-		json=JSON.stringify({ "user": { "email": userEmail} });
+		json=JSON.stringify({ "user": { "password": password} });
 		//alert(json);
 		if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -120,23 +147,20 @@ function passwordResetRequest(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==406))
 	    {
+			stopTimeToWait();
 			closeLoadingAnimation();
-			jsonStr=xmlhttp.responseText;
-stopTimeToWait();
-			//alert("Lo que lee el servidor"+jsonStr);
-			var json=JSON.stringify(jsonStr);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
-			analizarRespuestaDatosPasswordRecovery(doble);
+			dialog.close();
+			avisoEmergenteJugaPlay("Cambio de contraseña","<p>El cambio de contraseña se concretó correctamente.</p>");
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
+		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId(),true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		//xmlhttp.withCredentials = "true"; 
-		xmlhttp.send(json);}	
+		xmlhttp.withCredentials = "true"; 
+		xmlhttp.send(json);	
+		}
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje){
 	if (mensaje.success != true){
@@ -145,5 +169,8 @@ function analizarRespuestaDatosPasswordRecovery(mensaje){
 		avisoEmergenteJugaPlay("Mail enviado","<p>Se le envió un mail con un link e instrucciones para cambiar su contraseña a <b>"+window.userDataJugaPlay.email+"</b>. Si no encuentra el mail verifique su casilla de spam.</p>");
 		//dialogItself.close();
 	}
+}
+function editCommunicationChannels(){
+	alert("Editar canales de comunicacion");
 }
 // Ends edit user data functions

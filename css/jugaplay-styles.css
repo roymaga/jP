@@ -9,6 +9,7 @@ Author: Hernán Miceli
    ========================================================================== */
 body {
 	font-family: 'Hind', sans-serif;
+	padding-bottom: 50px; /* Para que no lo tape las flechitas de iphone */
 }
 
 
@@ -18,8 +19,8 @@ body {
 
 /* -- Back Button --*/
 .navbar-default {
-    background-color: #221f1f;
-    border-color: #221f1f;
+    background-color: transparent;
+    border-color: transparent;
 	color: #ffffff;
 }
 
@@ -28,30 +29,41 @@ body {
     top: 0;
 	position: fixed;
 }
-
+.nopadding {
+   padding: 0 !important;
+}
+.nomarging {
+   margin: 0 !important;
+}
 .main-nav {
     min-height: 50px;
 }
 
 .main-nav-container {
-    margin-top: 18px;
+	background:rgba(0,0,0,0.7);
 }
 
 .main-nav h4 {
     font-size: 1.1em;
     font-weight: 600;
     text-transform: uppercase;
-	margin: 0;
+	margin-left:80px;/* Con estos margenes no interfieren los iconos */
+	margin-right:80px;
+	margin-top:0px;
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: transparent;
 }
-
+.main-nav .navbar-header {
+	background-color:#212b31;
+	padding-top:18px;
+	height: 60px;/* Para que no se caiga */
+}
 .main-nav .navbar-collapse {
     border: medium none;
     box-shadow: none;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .btn-sanwich-menu {
@@ -62,6 +74,32 @@ body {
 .main-nav .btn-sanwich-menu {
 	margin-right: 15px;
 }
+.main-nav .btn-alerts-menu{
+	margin-right: 15px;
+	border: none;
+	width:30px;
+	height:20px;
+}
+.main-nav .btn-alerts-menu i{
+	    color: #9E9E9E;
+   		position: absolute;
+    	left: 0;
+		bottom:0;
+}
+.main-nav .btn-alerts-menu p{
+	    position: absolute;
+    	background: #35b44a;
+    	width: 20px;
+    	height: 20px;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		border-radius: 50%;
+    	text-align: center;
+    	right: 0;
+    	opacity: 0.8;
+    	filter: alpha(opacity=80);
+    	background-color: #35b44a;
+}
 
 .btn-navbar-back {
     border: medium none;
@@ -71,15 +109,19 @@ body {
 .main-nav .btn-navbar-back {
     float: left;
     margin-left: 15px;
+	margin-top: 9px;
 }
 
 /*-- > IMPORTANT --*/
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
-    max-height: calc(100vh - 50px);
-    width: calc(100vw);
+    max-height: calc(100vh - 60px);
+    width: calc(70vw);
 	overflow-x: hidden;
     padding-left: 0;
     padding-right: 0;
+	background-color:#221f1f;
+	float: right;
+	padding-bottom: 70px;
 }
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse ul {
 	margin:0;
@@ -398,13 +440,19 @@ a.social-icon .circle-icon {
 }
 
 .selected-players .players-list-item {
-    background-color: #f1f1f1;
+    background-color: #5FC36E;;
     border-color: #333;
 }
 .selected-players .players-list-item:last-child {
     border-bottom: 5px solid;
 }
-
+.user-logo {
+    display: inline-block;
+    width: 30px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
 .team-logo {
     display: inline-block;
     width: 30px;
@@ -412,8 +460,28 @@ a.social-icon .circle-icon {
 .team-logo.small{
     width: 25px;
 }
-
-
+.color-player-list.even{
+  background-color: #E7E8EA;
+}
+.color-player-list.odd{
+  background-color: #FFF;
+}
+.color-player-list2.even{
+  background-color: #58595B;
+  color:#FFF;
+}
+.color-player-list2.odd{
+  background-color: #3F3F3F;
+  color:#FFF;
+}
+.color-player-list3.even{
+  background-color: #232323;
+  color:#FFF;
+}
+.color-player-list3.odd{
+  background-color: #000;
+  color:#FFF;
+}
 /*-- Play Button --*/
 .btn-play-container {
     bottom: 0;
@@ -597,31 +665,51 @@ a.social-icon .circle-icon {
 	width:100%;
 }
 .pantalla-inicio .img-container img {
-	width:100%;
+	width:70%;
 }
 
 #inicio-pantalla1 {
-    background: transparent url("../img/bg-init1.jpg") no-repeat scroll 0 0;
-	background-size: cover;
+    background: transparent url("../img/login/bg-init1.jpg") no-repeat center center fixed; 
+ 	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	background-color:#323117;
 	min-height: 500px;
 }
 #inicio-pantalla2 {
-    background: transparent url("../img/bg-init2.jpg") no-repeat scroll 0 0;
-	background-size: cover;
+    background: transparent url("../img/login/bg-init2.jpg") no-repeat center center fixed; 
+ 	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	background-color:#1f2630;
 	min-height: 500px;
 }
 #inicio-pantalla3 {
-    background: transparent url("../img/bg-init3.jpg") no-repeat scroll center 0;
-	background-size: cover;
+    background: transparent url("../img/login/bg-init3.jpg") no-repeat center center fixed; 
+ 	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	background-color:#2b873e;
 	min-height: 500px;
 }
-
-
-
+#inicio-pantalla4 {
+    background: transparent url("../img/login/bg-init4.jpg") no-repeat center center fixed; 
+ 	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	background-color:#323117;
+	min-height: 500px;
+}
 /* ==========================================================================
    SECTION > MI CUENTA > Notificaciones
    ========================================================================== */
-#section-notifications {}
+#jp-notf-cont {
+    border-bottom: #35b44a solid 5px;
+}
 .notifications {
 	margin:5px 0;
 }
@@ -732,7 +820,7 @@ a.social-icon .circle-icon {
    UTILITY
    ========================================================================== */
 .spacer-top {
-    height: 50px;
+    height: 58px;
     width: 100%;
 }
 
@@ -801,6 +889,11 @@ a.social-icon .circle-icon {
     font-weight: 400;
     margin: 10px 0;
 }
+.title-style2 {
+    font-size: 1.25em;
+    font-weight: bold;
+    margin: 10px 0;
+}
 
 .container-title h3 {
     color: #fff;
@@ -808,7 +901,10 @@ a.social-icon .circle-icon {
     font-weight: 400;
     margin: 5px 0;
 }
-
+.container-title h3 i{
+	margin-left: 10px;
+    font-size: 1.25em;
+}
 /* ==========================================================================
    TEXTS
    ========================================================================== */
@@ -819,7 +915,31 @@ a.social-icon .circle-icon {
     margin: 0;
     text-transform: uppercase;
 }
-
+.text-block-style2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1em;
+    margin: 0;
+    text-transform: uppercase;
+}
+.text-block-style3 {
+    font-size: 2.5em;
+    font-weight: bold;
+    line-height: 1em;
+    margin: 0;
+    text-transform: uppercase;
+}
+/* ==========================================================================
+   INFORMATION BOX
+   ========================================================================== */
+.information-box-style1 {
+    padding: 5px;
+	border-bottom: 4px solid #000;
+}
+.information-box-style2 {
+    padding: 25px 0 25px 0;
+	border-bottom: 4px solid #000;
+}
 /* ==========================================================================
    BUTTON STYLES
    ========================================================================== */
@@ -869,7 +989,6 @@ a.social-icon .circle-icon {
     background: #ccc none repeat scroll 0 0;
 	border: 1px solid #ccc;
 }
-
 .btn-style4 {
     background: #6e6f71;
     border: 1px solid #6e6f71;
@@ -882,7 +1001,17 @@ a.social-icon .circle-icon {
     padding: 7px 10px 5px;
     text-transform: uppercase;
 }
-
+.btn-style5 {
+    border: 2px solid #6e6f71;
+    border-radius: 0;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: 600;
+    line-height: 1.2em;
+    margin: 0;
+    padding: 7px 10px 5px;
+    text-transform: uppercase;
+}
 
 .btn-style1.xsmall, .btn-style2.xsmall, .btn-style3.xsmall, .btn-style4.xsmall  {
     font-size: 0.7em;
@@ -910,7 +1039,17 @@ a.social-icon .circle-icon {
 .btn-player-select.selected {
 	background-color: #38b44a;
 }
-
+.btn-live, .btn-live:focus, .btn-live:hover {
+    background: #bcbec1 none repeat scroll 0 0;
+    border-color: #bcbec1;
+    border-radius: 50%;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+	padding-top:2px;
+	color:#FFF;
+    width: 30px;
+}
 .btn-modal-ok {
     background: transparent none repeat scroll 0 0 !important;
     border-radius: 2px;
@@ -943,6 +1082,29 @@ a.social-icon .circle-icon {
     border-color: #ccc;
     color: #fff;
 }
+.btn-payment{
+	background-color:#FFF;
+	width:80%;
+	margin-left:10%;
+	margin-right:10%;
+	height:70px;
+	background-size: contain;
+    background-repeat: no-repeat;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.btn-payment.paypal{
+	background-position:center center;
+	background-image:url(../img/icons/payments/paypal.jpg);
+}
+.btn-payment.mp-arg{
+	background-position:center center;
+	background-image:url(../img/icons/payments/mercadopago-argentina.jpg);
+}
+.btn-payment.mp-ch{
+	background-position:center center;
+	background-image:url(../img/icons/payments/mercadopago-chile.jpg);
+}
 
 /* ==========================================================================
    LINK STYLES
@@ -961,7 +1123,6 @@ a:active, a:focus { outline-style: none; -moz-outline-style:none; }
 }
 
 .link-style2 {
-	font-size: 0.85em;
     color:#fff;
 	text-transform: uppercase;
 }
@@ -1003,14 +1164,16 @@ a:active, a:focus { outline-style: none; -moz-outline-style:none; }
 .bg-color6 {background-color: #a5a7aa;} /* Light Grey */
 .bg-color7 {background-color: #eff0f0;} /* Lighter Grey */
 .bg-color8 {background-color: #000000;} /* Black Metal \w/ */
-
+.bg-color9 {background-color: #90880C;} /* Yellow \w/ */
+.bg-color10 {background-color: #EE1D23;} /* Live Red \w/ */
 
 .text-color1 {color: #221F1F;} /* Almost Black */
 .text-color2 {color: #ffffff;} /* White */
 .text-color3 {color: #35b44a;} /* Green */
 .text-color4 {color: #cccccc;} /* Grey */
 .text-color5 {color: #feec06;} /* Yellow */
-
+.text-color6 {color: #d29c1c;} /* Yellow Coin */
+.text-color7 {color: #9E9E9E;} /* Darker Grey */
 
 /* ==========================================================================
    MODAL WINDOWS
@@ -1303,7 +1466,7 @@ button.close {
 
 /* Para la sección recomendar a un amigo */
 .copy-link {
-    background: transparent none repeat scroll 0 0;
+    background:#fff;
     border: medium none;
     font-size: 0.85em;
     padding: 5px;
@@ -1346,6 +1509,35 @@ button.close {
     color: #35b44a;
 }
 
+/* ==========================================================================
+   NEW TABS2
+   ========================================================================== */
+   
+   
+.nav-tabs2 {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+.nav-tabs2 > li {
+    display: table-cell;
+    float: none;
+	color:#FFF;
+    text-align: left;
+    width: 100%;
+}
+.nav-tabs2 > li > a {
+    color: #FFF;
+    font-size: 1em;
+    text-transform: uppercase;
+	border-bottom:3px solid transparent;
+
+}
+.nav-tabs2 > li.active > a, .nav-tabs2 > li.active > a:focus, .nav-tabs2 > li.active > a:hover  {
+	text-decoration: none;
+    border-bottom: 3px #CCC solid;
+    background-color: inherit;
+}
 
 /* ==========================================================================
 	TABLES
@@ -1366,3 +1558,53 @@ button.close {
 	   overflow: auto;
    	   max-height: 100vh;
    }
+/* ==========================================================================
+	Explanation
+ ========================================================================== */
+#explanation-hole {
+    width: 100px;
+    height: 100px;
+	position:absolute;
+	top: 100px;
+	left:100px;
+    background-color: transparent;
+	border-radius: 50%;
+    box-shadow: 0 0 0 99999px rgba(0, 0, 0, .8);
+	z-index:1000;
+}
+#explanation-hand{
+	position:absolute;
+	top: 100px;
+	left:100px;
+	color:#FFF;
+	z-index:1002;
+	font-size:18px;
+}
+#explanation-text{
+	position:absolute;
+	top: 100px;
+	left:100px;
+	color:#FFF;
+	z-index:1002;
+	font-size:18px;
+}
+#explanation-hole-stripe {
+    width: 100%;
+    height: 60px;
+	position:absolute;
+	top: 100px;
+	left:100px;
+    background-color: transparent;
+    box-shadow: 0 0 0 99999px rgba(0, 0, 0, .8);
+	z-index:10000000;
+}
+/* Loader */
+.loader{
+	width: 100%;
+    color: #000;
+    font-size: 14px;
+    background-color: rgb(239, 239, 239);
+    text-align: center;
+    padding: 10px;
+    border: #9E9E9E solid 1px;
+}
