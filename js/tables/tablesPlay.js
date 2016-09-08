@@ -42,7 +42,7 @@ function readOpenTable(openTable){
 		 titleSelectedForTable=openTable.title;
 		 contenidoMesa=contentForOpenTableWindow(openTable);
 		 openOverLapseWindow(titleSelectedForTable, contenidoMesa);
-		setTimeout(hasBeenRead(2), 10000);// A los 10 segundos de mostrarse el primer partido muestra como elegir los jugadores 
+		setTimeout(function(){hasBeenRead(2)}, 5000);// A los 5 segundos de mostrarse el primer partido muestra como elegir los jugadores 
 		setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
 function contentForOpenTableWindow(openTable){

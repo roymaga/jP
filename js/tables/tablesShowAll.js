@@ -7,7 +7,7 @@ if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
 }
 window.onload=showRecordAvailableTablesToPlay();
 function showRecordAvailableTablesToPlay(){
-	setTimeout(hasBeenRead(1), 10000);// A los 10 segundos de empezar muestra la notificacion de como jugar Id 1
+	setTimeout(function(){hasBeenRead(1)}, 5000);// A los 10 segundos de empezar muestra la notificacion de como jugar Id 1
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){		
 			var json=JSON.stringify(previousTablesLoad);
