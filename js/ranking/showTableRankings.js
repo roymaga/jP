@@ -59,7 +59,7 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/2/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/8/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();		
@@ -74,7 +74,7 @@ function analizarRespuestaRankingUsuarioPrimeraA(servidor){
 } 
 function editarDatosRankingPrimeraAJugaPlay(ranking){
 	window.rankingPrimeraACompleto=ranking;
-	document.getElementById("ranking-container-2").innerHTML="<H3>Torneo Argentino</H3>"+armarTablaConRankinGeneral(window.rankingPrimeraACompleto,'PrimeraA');
+	document.getElementById("ranking-container-1").innerHTML="<H3>Torneo Argentino</H3>"+armarTablaConRankinGeneral(window.rankingPrimeraACompleto,'PrimeraA');
 	setTimeout(function(){
 		 $('#dataTables-table-rankingPrimeraA').DataTable({
                 responsive: true
@@ -125,7 +125,7 @@ function analizarRespuestaRankingUsuarioLibertadores(servidor){
 } 
 function editarDatosRankingLibertadoresJugaPlay(ranking){
 	window.rankingLibertadoresCompleto=ranking;
-	document.getElementById("ranking-container-1").innerHTML="<H3>Libertadores</H3>"+armarTablaConRankinGeneral(window.rankingLibertadoresCompleto,'Libertadores');
+	document.getElementById("ranking-container-3").innerHTML="<H3>Libertadores</H3>"+armarTablaConRankinGeneral(window.rankingLibertadoresCompleto,'Libertadores');
 	setTimeout(function(){
 		$('#dataTables-table-rankingLibertadores').DataTable({
                 responsive: true
@@ -161,7 +161,7 @@ function mensajeAlServidorPidiendoRankingChileno(){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/5/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/7/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();	
@@ -176,7 +176,7 @@ function analizarRespuestaRankingUsuarioChileno(servidor){
 } 
 function editarDatosRankingChilenoJugaPlay(ranking){
 	window.rankingChilenoCompleto=ranking;
-	document.getElementById("ranking-container-3").innerHTML="<H3>Torneo Chileno</H3>"+armarTablaConRankinGeneral(window.rankingChilenoCompleto,'Chileno');
+	document.getElementById("ranking-container-2").innerHTML="<H3>Torneo Chileno</H3>"+armarTablaConRankinGeneral(window.rankingChilenoCompleto,'Chileno');
 	setTimeout(function(){
 		$('#dataTables-table-rankingChileno').DataTable({
                 responsive: true
