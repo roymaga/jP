@@ -174,7 +174,7 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 					editXCoinsFromUsersWallet(-costOfTable);
                     sendPlayToJugaplay(idTabla,"true");
 				}else{
-						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p><p>Invite amigos <a href=\"referal.html\">haciendo click aqui</a>para conseguir las monedas que le faltan</p> ");
+						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p> <p>Invite amigos <a href=\"referal.html\">haciendo click aqui</a>para conseguir las monedas que le faltan</p>");
 				}
 }
 /* Realizo la jugada */
