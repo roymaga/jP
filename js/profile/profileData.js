@@ -89,13 +89,15 @@ function analizarRespuestaCambiarDatosUsuarios(servidor){
 	//alert(JSON.stringify(servidor));
 	closeLoadingAnimation();
 	if (typeof(servidor.errors) !== 'undefined'){
-			if (typeof(servidor.errors.email) !== 'undefined'){
-			avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("formUserEmail").value+"</b> ya esta registrado en JugaPlay</p>");
-			return false;
-		}else{
-			avisoEmergenteJugaPlay("Error inesperado","<p>Algo salio mal, vuelva a intentar</p>");
-			return false;
-		}
+			if (typeof(doble.errors.email) !== 'undefined'){
+						avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("formUserEmail").value+"</b> ya esta registrado en JugaPlay</p>");
+						return false;
+						}else if(typeof(doble.errors.nickname) !== 'undefined'){
+						avisoEmergenteJugaPlay("Nick en uso","<p>El Nick <b>"+nickname+"</b> ya esta registrado en JugaPlay, elija otro</p>");
+						}else{
+						avisoEmergenteJugaPlay("Error inesperado","<p>Algo salio mal, vuelva a intentar</p>");
+						return false;
+						}
 	}else{// Salio todo bien
 		avisoEmergenteJugaPlay("Cambios Realizados","<p>Los cambios se realizaron con exito!!</p>");
 		document.getElementById("user-real-name").innerHTML='<h3 style="margin:0;">'+servidor.nickname+'</h3><h4 style="margin-top:0; margin-bottom:15px;">'+servidor.first_name+' '+servidor.last_name+'</h4>';

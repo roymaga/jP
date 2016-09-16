@@ -485,7 +485,7 @@ a.social-icon .circle-icon {
 /*-- Play Button --*/
 .btn-play-container {
     bottom: 0;
-    height: 60px;
+    height: 100px;
     margin: 0;
     padding: 0;
     position: fixed;
@@ -820,7 +820,7 @@ a.social-icon .circle-icon {
    UTILITY
    ========================================================================== */
 .spacer-top {
-    height: 58px;
+    height: 60px;
     width: 100%;
 }
 
@@ -867,6 +867,9 @@ a.social-icon .circle-icon {
 /* ==========================================================================
    CONTAINERS / CONTAINER SPACING
    ========================================================================== */
+.container{
+	width:100%;
+}
 .container-full {
     padding-left: 0;
     padding-right: 0;
@@ -1607,4 +1610,40 @@ button.close {
     text-align: center;
     padding: 10px;
     border: #9E9E9E solid 1px;
+}
+/* Tablets */
+@media (min-width: 600px) {
+	body{
+		font-size: 1.5em;
+	}
+	/* Game */
+	.prize-type img {
+    	width: 60px;
+	}
+	.match-type img {
+    	width: 35px;
+	}
+	.btn-style2{
+		padding: 10px;
+	}
+	.match-list-item {
+    font-size: 1.5em;
+	}
+	.carousel-inner img{
+		width:100%;
+	}
+}
+
+.navbar-nav .open .dropdown-menu {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.dropdown-menu>li>a {
+	color:#fff;
 }

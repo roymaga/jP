@@ -32,6 +32,16 @@ function toSlowInternet(){
 	closeLoadingAnimation();
 	avisoEmergenteJugaPlay("Conexión muy lenta","<p>Su conexión a internet está muy lenta. Es posible que no pueda disfrutar la experiencia Jugaplay debido a esta causa.</p>");
 }
+document.addEventListener("deviceready", onDeviceReadyVisible, false);
+
+function onDeviceReadyVisible() {
+    // Now safe to use the PhoneGap API
+	window.plugin.statusbarOverlay.isVisible( function (isVisible) {
+    // console.log('status bar is visible') if isVisible;
+	window.plugin.statusbarOverlay.hide();
+});
+}
+
 /*
 // Cuando esta offline
 document.addEventListener("offline", onOffline, false);

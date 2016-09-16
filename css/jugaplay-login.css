@@ -154,6 +154,11 @@ min-height:100vh;
 	cursor:pointer;
 }
 }
+@media (min-width: 600px) {
+	.log-in-pop-up .modal-content .botton-general-size.facebook{
+		height:60px;
+	}
+}
 .log-in-pop-up .modal-content .botton-general-size.facebook:hover{
 	opacity: 0.7;
     filter: alpha(opacity=70);

@@ -174,7 +174,7 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 					editXCoinsFromUsersWallet(-costOfTable);
                     sendPlayToJugaplay(idTabla,"true");
 				}else{
-						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p> ");
+						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p><p>Invite amigos <a href=\"referal.html\">haciendo click aqui</a>para conseguir las monedas que le faltan</p> ");
 				}
 }
 /* Realizo la jugada */
@@ -252,7 +252,7 @@ function noneRegisterPlayerPlayed(){
 		 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj',
 			 title: "<H1>Gracias por Jugar</H1>",
-            message: '<p>Sincroniza tu cuenta con tu email para guardar tus jugadas, poder canjear premios y muchas cosas más.</p><p><fieldset class="form-group"> <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p>',
+            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset></p>',
 			buttons: [{
                 label: 'Registrar',
 				id:'boton-panel-registro-aviso-error-pop-up',
@@ -261,24 +261,33 @@ function noneRegisterPlayerPlayed(){
                 }
             }]		 
 		 });
+		 setTimeout(function(){alwaysShowInputValues();}, 1500);
 		 return false;
 }
 function noneRegisterPlayerRegister(dialogItself){
 	var mail=document.getElementById("formUserEmail").value;
-	if(mail.length < 1){
+	var password= document.getElementById("formUserPassWord").value;
+	var nickname=document.getElementById("formUserNick").value;
+	if(mail.length < 1 || nickname.length < 1 ){
 			var camposVacios="";
 			if(mail.length < 1){
 				camposVacios+="<p>El Campo <b>Email</b> es obligatorio para guardar los cambios</p>";
+			}
+			if (nickname.length < 1){
+				camposVacios+="<p>El Campo <b>Nick</b> es obligatorio para guardar los cambios</p>";
 			}
 			// Termina el tipo de mensaje
 			avisoEmergenteJugaPlay("Campo vacio",camposVacios);
 	return false ;
 	}// Si paso es que los campos estan bien
-	json=JSON.stringify({ "user": { "email": mail } });
+	if(password.length<8){
+			avisoEmergenteJugaPlay("Contraseñas muy corta","<p>La contraseña  debe tener al menos 8 caracteres.</p>");
+			return true;
+		}
+	json=JSON.stringify({ "user": { "email": mail, "nickname":nickname, "password": password } });
 	if(startLoadingAnimation()==true){
-		var userId=window.userIdPlay;
-	if(checkConnection()){var xmlhttp;
-		if (window.XMLHttpRequest)
+	var xmlhttp;
+		if(checkConnection()){if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
 	  		}
@@ -290,8 +299,8 @@ function noneRegisterPlayerRegister(dialogItself){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -301,13 +310,15 @@ function noneRegisterPlayerRegister(dialogItself){
 						if (typeof(doble.errors.email) !== 'undefined'){
 						avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("formUserEmail").value+"</b> ya esta registrado en JugaPlay</p>");
 						return false;
-					}else{
+						}else if(typeof(doble.errors.nickname) !== 'undefined'){
+						avisoEmergenteJugaPlay("Nick en uso","<p>El Nick <b>"+nickname+"</b> ya esta registrado en JugaPlay, elija otro</p>");
+						}else{
 						avisoEmergenteJugaPlay("Error inesperado","<p>Algo salio mal, vuelva a intentar</p>");
 						return false;
-					}
+						}
 				}else{// Salio todo bien
-					avisoEmergenteJugaPlay("Gracias por Registra","<p>Se ha registrado correctamente en Jugaplay. En la sección mi perfil podrá editar el resto de sus datos.</p>");
 					dialogItself.close();
+					setTimeout(function(){avisoEmergenteJugaPlay("Gracias por Registra","<p>Se ha registrado correctamente en Jugaplay. En la sección mi perfil podrá editar el resto de sus datos.</p>");}, 2000);
 					editDataFromUser(doble.first_name, doble.last_name, doble.email, doble.nickname);
 				}
 			return true;
@@ -316,10 +327,21 @@ function noneRegisterPlayerRegister(dialogItself){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
+		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId(),true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	
+		xmlhttp.send(json);	}	
 	}
-	}
+}
+function alwaysShowInputValues(){
+	$('input').focus(function() {
+	$(".modal-dialog").css( "-ms-transform", "translate(0, -170px)" );
+	$(".modal-dialog").css( "-webkit-transform", "translate(0, -170px)" );
+	$(".modal-dialog").css( "transform", "translate(0, -170px)" );
+	});
+	$('input').focusout(function() {
+	$(".modal-dialog").css( "-ms-transform", "translate(0, 0)" );
+	$(".modal-dialog").css( "-webkit-transform", "translate(0, 0)" );
+	$(".modal-dialog").css( "transform", "translate(0, 0)" );
+	});
 }

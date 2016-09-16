@@ -137,13 +137,11 @@ function addIncidenceToPlayer(icidence,player){
 			icidence.name="red_cards";
 			icidence.value=tableRules.red_cards;
 			player.playerStats.push(icidence);
-        	playersCsvFunction[a].red_cards+=1;
         	break;
 			case 5://Roja
 			icidence.name="red_cards";
 			icidence.value=tableRules.red_cards;
 			player.playerStats.push(icidence);
-        	playersCsvFunction[a].red_cards+=1;
         	break;
 			case 33://Disparo afuera
 			icidence.name="shots_outside";
