@@ -14,7 +14,8 @@ function checkConnection() {
 	}
 }
 function checkConnection2() {
-	var state = navigator.connection.type;
+	alert("Conection2");
+	var state = navigator.connectioñn.type;
 	alert("Check connection 2--"+state);
 	if (state.toUpperCase() == "NONE")
 	{
