@@ -1,8 +1,5 @@
 // JavaScript Document
-document.addEventListener("deviceready", onDeviceReadyOnLoad, false);
-function onDeviceReadyOnLoad(){
-	setTimeout(function(){passwordResetMainFunction();}, 1500);
-}
+window.onload=setTimeout(function(){passwordResetMainFunction();}, 1500);
 function passwordResetMainFunction(){
 hacerLogOutDeLaCuentaPreventivoPassReset();
 var webDir=window.location.href;

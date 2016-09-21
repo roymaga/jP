@@ -1,8 +1,6 @@
 
-document.addEventListener("deviceready", onDeviceReadyOnLoad, false);
-function onDeviceReadyOnLoad(){
-	loadWalletBalance();
-}
+window.onload=loadWalletBalance();
+
 function updateWalletBalance(objWallet){
 	var d = new Date();
 	var monthName = returnFullMonthName(d.getMonth()+1);

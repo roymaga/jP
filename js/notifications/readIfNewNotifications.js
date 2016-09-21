@@ -2,11 +2,8 @@
 // User data Control
 window.notificationsLimtToShow=5;
 window.JpNotHtmlNotificatios=null;
+window.onload=controlJpNotifications();
 
-document.addEventListener("deviceready", onDeviceReadyOnLoadNot, false);
-function onDeviceReadyOnLoadNot(){
-	controlJpNotifications();
-}
 //setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds
 function controlJpNotifications(){
 	if(getUserJugaplayId()!=null){

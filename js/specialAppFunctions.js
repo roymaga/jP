@@ -14,13 +14,19 @@ function checkConnection() {
 	}
 }
 function checkConnection2() {
-	var state = navigator.connection.type;
-	if (state.toUpperCase() == "NONE")
-	{
-		return false;
-	}
-	else
-	{
+	if (typeof navigator.connection.type != "undefined") {
+		var state = navigator.connection.type;
+		alert("Conection");
+		if (state.toUpperCase() == "NONE")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}else{
+		alert("Undefined");
 		return true;
 	}
 }
