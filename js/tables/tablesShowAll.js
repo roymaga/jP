@@ -7,18 +7,15 @@ if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
 }
 window.onload=showRecordAvailableTablesToPlay();
 function showRecordAvailableTablesToPlay(){
-	alert("Show REcord to Play");
 	setTimeout(function(){hasBeenRead(1)}, 5000);// A los 10 segundos de empezar muestra la notificacion de como jugar Id 1
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){
-			alert("Cookie");		
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
 			if(updateTablesFromServer()){
 				showAvailableTablesToPlay();
 			}else{
-				alert("No cookie");
 				analizeShowAvailableTablesToPlay(doble);
 			}
 	
@@ -40,13 +37,10 @@ function resetTimeOfLastTableAskToServer(){
 	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableTablesToPlay(){
-	alert("Show Available tables to play");
 	if(document.getElementById("tables-container-show")!=null){
 		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
 	}
-	alert("Show Available tables to play--2");
 	if(checkConnection2()){
-		alert("Check connection 2");
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -63,7 +57,6 @@ function showAvailableTablesToPlay(){
 	    {
 			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-			alert(jsonStr);
 			resetTimeOfLastTableAskToServer();
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
