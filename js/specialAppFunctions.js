@@ -41,6 +41,7 @@ function onDeviceReadyVisible() {
 	window.plugin.statusbarOverlay.hide();
 });
 }
+
 /*
 // Cuando esta offline
 document.addEventListener("offline", onOffline, false);
