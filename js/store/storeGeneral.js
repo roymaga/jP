@@ -4,7 +4,11 @@ function startLoadingStore(){
 preLoadStore1=[{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null }];
 loadStore(preLoadStore1);
 }*/
-window.onload=showPrizesToChengeInStore();
+
+document.addEventListener("deviceready", onDeviceReadyOnLoadSt, false);
+function onDeviceReadyOnLoadSt(){
+	showPrizesToChengeInStore();
+}
 function showPrizesToChengeInStore(){
 	previousStoresLoad=getCookie("storesShow-Jp");
 	if(previousStoresLoad.length>4){		

@@ -1,5 +1,8 @@
 // JavaScript Document
-window.onload=loadAllUsersInvitatios();
+document.addEventListener("deviceready", onDeviceReadyOnLoadI, false);
+function onDeviceReadyOnLoadI(){
+	loadAllUsersInvitatios();
+}
 function loadAllUsersInvitatios(){
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)

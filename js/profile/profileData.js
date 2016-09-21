@@ -1,6 +1,9 @@
 // JavaScript Document
 // Starts complete data of user
-window.onload=loadDataToProfile();
+document.addEventListener("deviceready", onDeviceReadyOnLoad, false);
+function onDeviceReadyOnLoad(){
+	loadDataToProfile();
+}
 function loadDataToProfile(){
 	if(window.userDataJugaPlay!=null){
 		completeDataOfProfile();
