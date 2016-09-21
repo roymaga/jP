@@ -47,7 +47,7 @@ function readOpenTable(openTable){
 	}
 function contentForOpenTableWindow(openTable){
 	startTopBlocks='<div class="container players-top-container" style="width:100%; padding:0; position:fixed; z-index:10;">';
-	fisrtBlockShownWithData='<div class="container container-style1 bg-color2"><div class="row text-color2 vertical-align"><div class="col-xs-6 col-sm-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 col-sm-2 text-right match-info"><a onClick="openTableInformation(0);"><img src="img/icon-i-white.png"></a></div><div class="col-xs-4 col-sm-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</p></div></div></div>';
+	fisrtBlockShownWithData='<div class="container container-style1 bg-color2"><div class="row text-color2 vertical-align"><div class="col-xs-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 text-right match-info"><a onClick="openTableInformation(0);"><img src="img/icon-i-white.png"></a></div><div class="col-xs-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</p></div></div></div>';
 	secondBlockWithFilters='<div class="container container-style1 container-spacing-style1 bg-color3"><a onClick="createShowIndividualTableFilter();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a><div class="filter-list" id="filter-list-shown-in-table"></div></div>';
 	thirdBlockWithPLayersSelected='<div class="container selected-players" id="container-selected-players-table"><div class="arrow-drag up" onClick="colapseSelectedPlayers(this);"></div></div>';
 	endTopBlocks='</div>';
@@ -80,10 +80,10 @@ function tablaSelectJugador(player,team,teamId,partido){
 	name=player.last_name+" "+player.first_name;
 	posicion=traducirPosicionJugadorMesa(player.position);
 	nacionalidad=player.nationality;
-	linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" class="row players-list-item vertical-align" onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');"><div class="col-xs-2 col-sm-2">'+img+'</div><div class="col-xs-8 col-sm-8 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2 col-sm-2">'+imgTeamLogo+'</div></div>';
+	linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" class="row players-list-item vertical-align" onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');"><div class="col-xs-2">'+img+'</div><div class="col-xs-8 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2">'+imgTeamLogo+'</div></div>';
 	return linea;
 }
-// <div class="col-xs-2 col-sm-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div>
+// <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div>
 function colapseSelectedPlayers(arrowElement){
 	selectedPlayerContainer=arrowElement.parentNode;
 	// collapse

@@ -63,7 +63,7 @@ function showAllUserInvited(InvitedUsers){
 }
 function parseInvitedUser(user, count){
 	if(count%2==0){var oddEven="odd";}else{var oddEven="even";}
-	return'<div class="row players-list-item vertical-align color-player-list3 '+oddEven+'"> <div class="col-xs-2 col-sm-2 text-right nopadding"> <img src="'+translateInvtitationToIcon(user.type)+'" style="width:25px"> </div><div class="col-xs-5 col-sm-5 player-name"><p>'+user.nick+'</p></div><div class="col-xs-2 col-sm-2 text-right nopadding"> '+dateFormatViewDay(user.date)+' </div><div class="col-xs-3"> <p class="text-right nomarging"> <span class="text-block-style1">+'+user.won_coins+'</p></div></div>';
+	return'<div class="row players-list-item vertical-align color-player-list3 '+oddEven+'"> <div class="col-xs-2 text-right nopadding"> <img src="'+translateInvtitationToIcon(user.type)+'" style="width:25px"> </div><div class="col-xs-5 player-name"><p>'+user.nick+'</p></div><div class="col-xs-2 text-right nopadding"> '+dateFormatViewDay(user.date)+' </div><div class="col-xs-3"> <p class="text-right nomarging"> <span class="text-block-style1">+'+user.won_coins+'</p></div></div>';
 }
 function translateInvtitationToIcon(type){
 	if(type=="Twitter"){return "img/icon-twitter-circle-original.png";}

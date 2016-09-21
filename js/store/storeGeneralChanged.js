@@ -63,7 +63,7 @@ function loadChangeStore(preLoadStore){
 	document.getElementById("show-store-container").innerHTML=textOfStore;
 }
 function returnPrizeToShow(prize){
-	return '<div class="col-xs-6 col-sm-6 reward"><img src="'+prize.img+'" class="full-width"><h5>'+prize.title+'</h5> <h4>'+prize.country+'</h4><p class="text-color3">'+prize.price+' <img src="img/icons/coins/coins.gif" width="15px"> </p>'+generateButtonForPrize(prize.changeLink)+'</div>'
+	return '<div class="col-xs-6 reward"><img src="'+prize.img+'" class="full-width"><h5>'+prize.title+'</h5> <h4>'+prize.country+'</h4><p class="text-color3">'+prize.price+' <img src="img/icons/coins/coins.gif" width="15px"> </p>'+generateButtonForPrize(prize.changeLink)+'</div>'
 }
 function generateButtonForPrize(linkForPrize){
 	if(linkForPrize!=null){return'<button class="btn btn-primary btn-style3" onClick="openPrizeInNewWindow(\''+linkForPrize+'\');" type="submit">Boucher</button>'}
