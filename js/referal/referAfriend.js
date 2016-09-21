@@ -1,7 +1,7 @@
 // JavaScript Document
 // Link de recomendacion
 window.sendMailsInvitatios=[];
-window.onload=showRecomendationUrl();
+window.onload=setTimeout(function(){ showRecomendationUrl(); }, 1000);
 function showRecomendationUrl(){
 	var linkText=getCookie("recomJPUsu-"+getUserJugaplayId()+"-Jp");
 	if(linkText.length>4){

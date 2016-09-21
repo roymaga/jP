@@ -1,5 +1,6 @@
 // JavaScript Document
-window.onload=showChampionsOfTheWorld();
+
+window.onload=setTimeout(function(){ showChampionsOfTheWorld(); }, 1000);
 function showChampionsOfTheWorld(){
 	previousChampionsLoad=getCookie("championsShow-Changed-Jp");
 	if(previousChampionsLoad.length>4){		

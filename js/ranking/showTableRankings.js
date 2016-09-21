@@ -1,6 +1,6 @@
 // JavaScript Document
 //mensajeAlServidorPidiendoRankingLibertadores();
-window.onload=showCompleteRanking();
+window.onload=setTimeout(function(){ showCompleteRanking(); }, 1000);
 function showCompleteRanking(){
 	previousRankingLibertadores=getCookie("ranking-Libertadores-Jp");
 	previousRankingArgentino=getCookie("ranking-TArgentino-Jp");

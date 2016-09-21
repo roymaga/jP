@@ -14,9 +14,7 @@ function checkConnection() {
 	}
 }
 function checkConnection2() {
-	if (typeof navigator.connection.type != "undefined") {
 		var state = navigator.connection.type;
-		alert("Conection");
 		if (state.toUpperCase() == "NONE")
 		{
 			return false;
@@ -25,10 +23,6 @@ function checkConnection2() {
 		{
 			return true;
 		}
-	}else{
-		alert("Undefined");
-		return true;
-	}
 }
 function stopTimeToWait(){
 	clearTimeout(window.timeToWait);
