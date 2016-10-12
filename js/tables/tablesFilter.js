@@ -9,6 +9,7 @@ function openTablesFilterWindow(){
 }
 function createShowTablesFilter(){
 	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"8","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"7","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"9","showName":"Champions League","openFunction":null}];
+	content='<div class="list-style1">';
 	for(individual in simulateTablesFilter){
 		if(window.tablesFilterArray.indexOf(simulateTablesFilter[individual].dataFilter)!=-1){// Esta contenido en el Arreglo
 				content+='<a data-tournament-type="'+simulateTablesFilter[individual].dataFilter+'" onClick="filterTableOption(this)" class="selected">'+simulateTablesFilter[individual].showName+'</a>';
