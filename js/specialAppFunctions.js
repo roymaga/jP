@@ -14,15 +14,15 @@ function checkConnection() {
 	}
 }
 function checkConnection2() {
-		var state = navigator.connection.type;
-		if (state.toUpperCase() == "NONE")
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+	var state = navigator.connection.type;
+	if (state.toUpperCase() == "NONE")
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 function stopTimeToWait(){
 	clearTimeout(window.timeToWait);
@@ -41,7 +41,6 @@ function onDeviceReadyVisible() {
 	window.plugin.statusbarOverlay.hide();
 });
 }
-
 /*
 // Cuando esta offline
 document.addEventListener("offline", onOffline, false);

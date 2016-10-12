@@ -1,6 +1,6 @@
 // JavaScript Document
 // Starts complete data of user
-window.onload=setTimeout(function(){ loadDataToProfile(); }, 1000);
+window.onload=setTimeout(function(){loadDataToProfile();}, 1000);
 function loadDataToProfile(){
 	if(window.userDataJugaPlay!=null){
 		completeDataOfProfile();

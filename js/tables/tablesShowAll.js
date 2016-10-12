@@ -5,7 +5,7 @@ if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
 }else{
 	window.lastTableCheck=new Date(1401507903635);// 2014
 }
-window.onload=setTimeout(function(){ showRecordAvailableTablesToPlay(); }, 1000);
+window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();}, 1000);
 function showRecordAvailableTablesToPlay(){
 	setTimeout(function(){hasBeenRead(1)}, 5000);// A los 10 segundos de empezar muestra la notificacion de como jugar Id 1
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
