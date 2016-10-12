@@ -63,6 +63,8 @@ function addPlayersInToTable(mesa){
 		equipoLocalShort=matchesInTable[a].local_team.short_name;
 		equipoVisitanteShort=matchesInTable[a].visitor_team.short_name;
 		partido=equipoLocalShort+" <b>VS</b> "+equipoVisitanteShort;
+		matchesInTable[a].local_team.players.sort(comparePlayersInTeamSort);
+		matchesInTable[a].visitor_team.players.sort(comparePlayersInTeamSort);
 		for (player in matchesInTable[a].local_team.players){
 			tabalasSelect+=tablaSelectJugador(matchesInTable[a].local_team.players[player],matchesInTable[a].local_team.name,matchesInTable[a].local_team.id,partido);
 		}
@@ -82,6 +84,27 @@ function tablaSelectJugador(player,team,teamId,partido){
 	nacionalidad=player.nationality;
 	linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" class="row players-list-item vertical-align" onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');"><div class="col-xs-2">'+img+'</div><div class="col-xs-8 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2">'+imgTeamLogo+'</div></div>';
 	return linea;
+}
+function comparePlayersInTeamSort(a,b) {
+	// player.position --  player.last_name -- player.first_name
+	// Ordeno por posicion -- 0-goalkeeper 1-defender 2-midfielder 3-forward
+	// var n = (a.last_name).localeCompare(b.last_name); // -1 // a is sorted before b
+  if (a.position==b.position)// Si el primero es mas antiguo y tiene que ir antes	
+    return (a.last_name+" "+a.first_name).localeCompare(b.last_name+" "+b.first_name);
+  else{
+	  if(returnPositionAsNumber(a.position)<returnPositionAsNumber(b.position)){
+		  return -1;
+	  }else{
+		  return 1;
+	  }
+   }
+}
+function returnPositionAsNumber(position){
+	if(position=="goalkeeper"){return 0;}
+	if(position=="defender"){return 1;}
+	if(position=="midfielder"){return 2;}
+	if(position=="forward"){return 3;}
+	return 4;// No deberia salir por aca pero por las dudas...
 }
 // <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div>
 function colapseSelectedPlayers(arrowElement){
@@ -103,7 +126,8 @@ function colapseSelectedPlayers(arrowElement){
 function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
 	//playerRow=elementBoton.parentNode.parentNode;
 	if(playerRow.classList.contains("selected")){
-		document.getElementById("container-listed-players-table").appendChild(playerRow); 
+		returnToPlayerListInOrder(playerRow);
+		//document.getElementById("container-listed-players-table").appendChild(playerRow); 
 		playerRow.classList.remove("selected");
 		index=window.arrPlayersSelected.indexOf(idPlayer);
 		if(index>-1){window.arrPlayersSelected.splice(index, 1);}	
@@ -116,6 +140,35 @@ function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
 	} 
 	 updatePositionOfPlayersForWindow();
 	 updateButtomOfTable(); 
+}
+function returnToPlayerListInOrder(playerRow){
+	listedPlayers=document.getElementById("container-listed-players-table").getElementsByClassName("players-list-item");
+	var beenTroughTeam=false;
+	//var hasBeenAppend=false;
+	for(position in listedPlayers){
+		if(listedPlayers[position].innerHTML !== undefined){
+		if(listedPlayers[position].getAttribute('data-player-team')==playerRow.getAttribute('data-player-team')){beenTroughTeam=true;}
+		if((beenTroughTeam==true)&&(listedPlayers[position].getAttribute('data-player-team')!=playerRow.getAttribute('data-player-team'))){// Si ya paso por el equipo
+			document.getElementById("container-listed-players-table").insertBefore(playerRow,listedPlayers[position]);
+			return;// Termina por que lo adjunta
+		}else{
+			if(beenTroughTeam==true){
+				if(returnPositionAsNumber(listedPlayers[position].getAttribute('data-player-position'))>returnPositionAsNumber(playerRow.getAttribute('data-player-position'))){// Si ya paso la posicion
+					document.getElementById("container-listed-players-table").insertBefore(playerRow,listedPlayers[position]);
+					return;// Termina por que lo adjunta
+				}else{
+					if(returnPositionAsNumber(listedPlayers[position].getAttribute('data-player-position'))==returnPositionAsNumber(playerRow.getAttribute('data-player-position'))){// Si es igual
+						if((playerRow.getAttribute('data-player-name')).localeCompare(listedPlayers[position].getAttribute('data-player-name'))<=0){
+							document.getElementById("container-listed-players-table").insertBefore(playerRow,listedPlayers[position]);
+							return;// Termina por que lo adjunta
+						}
+					}
+				}
+			}
+		}
+	}}
+	document.getElementById("container-listed-players-table").appendChild(playerRow);// Si no lo ubico antes
+	return;
 }
 /*
 function gameMesaSelectPlayerForTeam(elementBoton,idPlayer){
