@@ -44,7 +44,7 @@
     <!--
         <gap:plugin name="com.phonegap.plugins.barcodescanner" /> -->
 	<gap:plugin name="nl.x-services.plugins.socialsharing" source="npm" />
-	<gap:plugin name="com.badrit.backbutton" source="npm"/>
+	<gap:plugin name="cordova-plugin-backbutton" source="npm"/>
 	<plugin name="cordova-plugin-network-information" spec="1.0.1" source="npm"/>
 	<plugin name="com.danielcwilson.plugins.googleanalytics" spec="0.6.1" source="npm" />
 	<plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="npm" />
