@@ -47,7 +47,7 @@
 	<gap:plugin name="cordova-plugin-backbutton" source="npm"/>
 	<plugin name="cordova-plugin-network-information" source="npm"/>
 	<plugin name="com.cmackay.plugins.googleanalytics" source="npm" />
-	<plugin name="com.indigoway.cordova.whitelist.whitelistplugin" source="npm" />
+	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
 	<!-- GeoLocation platform. -->
 	
 	<!-- Define app icon for each platform. -->	
