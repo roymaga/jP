@@ -26,13 +26,18 @@ function closeOverLapseWindow(windowToClose){
 	lastScreen=window.lastScreenArray.pop();
 	document.body.innerHTML=lastScreen.bodyShown;
 	document.body.scrollTop=lastScreen.bodyYPosition;
-	
+	if (typeof initializeGameVars == 'function') { 
+ 		 setTimeout(function(){ initializeGameVars(); }, 500);
+	}
 }
 function closeAllOverLapseWindow(){
 	while(window.lastScreenArray.length>0){
 		lastScreen=window.lastScreenArray.pop();
 		document.body.innerHTML=lastScreen.bodyShown;
 		document.body.scrollTop=lastScreen.bodyYPosition;		
+	}
+	if (typeof initializeGameVars == 'function') { 
+ 		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
 }
 function contentOfOverLapseWindow(windowToClose, titleForOpenWindow, contentForOpenWindow){
