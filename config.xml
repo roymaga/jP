@@ -36,7 +36,6 @@
 	<!-- Record Audio -->
 	<!-- Fin Record Audio -->
  <!-- Core plugins -->
-    <gap:plugin name="cordova-plugin-device" />
     <gap:plugin name="org.apache.cordova.device-motion" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
 
