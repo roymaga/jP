@@ -31,7 +31,6 @@ function askToServerForTableInformation(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
@@ -39,7 +38,7 @@ function askToServerForTableInformation(tableId){
 			var doble=JSON.parse(servidor);
 			if (typeof(doble.error) !== 'undefined'){analizeErrorFromServer("Ask Information Table",doble);}
 			else{
-					window.actualOpenTable=doble;
+					window.actualOpenTable=openTable=parseTableForGroupPlayingOption (doble);
 					showTableInformation();
 				}
 			return true;
@@ -51,8 +50,7 @@ function askToServerForTableInformation(tableId){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
-	}
+		xmlhttp.send();}	
 }
 // Show table information
 function showTableInformation(){

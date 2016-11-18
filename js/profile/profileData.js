@@ -88,7 +88,7 @@ function mensajeAlServidorConContenidoRegistro(json){
 function analizarRespuestaCambiarDatosUsuarios(servidor){
 	//alert(JSON.stringify(servidor));
 	closeLoadingAnimation();
-	if (typeof(servidor.errors) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			if (typeof(doble.errors.email) !== 'undefined'){
 						avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("formUserEmail").value+"</b> ya esta registrado en JugaPlay</p>");
 						return false;

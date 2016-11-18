@@ -47,7 +47,7 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 	}
 }
 function analizarRespuestaLogInSaved(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			// Borrar las cookies guardadas
 			 delete_cookie("juga-Play-User");
 			 delete_cookie("juga-Play-Pass");
@@ -100,7 +100,7 @@ function analizarSiyaEstaLogueado(){
 	}
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 	}else{// Ya estaba adentro del sitio
 		servidor.last_check=new Date();
 		servidor.last_update=new Date();

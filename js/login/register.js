@@ -87,7 +87,7 @@ function mensajeAlServidorConContenidoRegistro(json, mail, pass){
 	}
 }
 function analizarRespuestaRegistro(servidor, mail, pass){
-	if (typeof(servidor.errors) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 		closeLoadingAnimation();
 		if (typeof(servidor.errors.email) !== 'undefined'){
 			avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("email-pop").value+"</b> ya esta registrado en JugaPlay</p>");
@@ -246,7 +246,7 @@ function logInUsuarioEnElSitioPostRegistro(mail, pass){
 	}
 }
 function analizarRespuestaLogInPostRegistro(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			closeLoadingAnimation();
 			avisoEmergenteJugaPlay("Error en el registro","<p>Por favor vuelva a intentar</p>");
 			return false;

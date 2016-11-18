@@ -59,7 +59,7 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioPrimeraA(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			//window.location="login.html";
 	}else{// Salio todo bien
 		editarDatosRankingPrimeraAJugaPlay(servidor);
@@ -108,7 +108,7 @@ function mensajeAlServidorPidiendoRankingChileno(){
 		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioChileno(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			//window.location="login.html";
 	}else{// Salio todo bien
 		editarDatosRankingChilenoJugaPlay(servidor);
@@ -157,7 +157,7 @@ function mensajeAlServidorPidiendoRankingChampions(){
 		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioChampions(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			//window.location="login.html";
 	}else{// Salio todo bien
 		editarDatosRankingChampionsJugaPlay(servidor);

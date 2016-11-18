@@ -80,7 +80,7 @@ function mensajeAlServidorConContenidoLogIn(json){
 	}
 }
 function analizarRespuestaLogIn(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			avisoEmergenteJugaPlay("Datos Incorrectos","<p>El <b> mail o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
 			return false;
 	}else{// Salio todo bien

@@ -62,6 +62,24 @@ function getUserJugaplayEmail(){
 function getUserJugaplayNick(){
 	return window.userDataJugaPlay.nickname;
 }
+function getUserSyncTelephone(){
+	if(window.userDataJugaPlay.telephone!=null){return true;}
+	else{return false;}
+}
+function getUserSyncFacebook(){
+	if(window.userDataJugaPlay.has_facebook_login!=false){return true;}
+	else{return false;}
+}
+function getUserSyncEmail(){
+	if(window.userDataJugaPlay.email!=null){
+		if(window.userDataJugaPlay.email.indexOf("guest.com") == -1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	else{return false;}
+}
 function editXCoinsFromUsersWallet(coins){// it can be positive or negative
 	window.userDataJugaPlay.coins+=coins;
 	cookieSave=JSON.stringify(window.userDataJugaPlay);

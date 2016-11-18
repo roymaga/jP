@@ -62,7 +62,7 @@ function askServerToUpdateDataFromUser(){
 	}
 }
 function analizeAskServerToUpdateDataFromUser(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			// Borrar las cookies guardadas
 			 ifLogInIsNeed();// If went wrong try with log in	
 	}else{// Salio todo bien
@@ -123,7 +123,7 @@ function mesajeToServerWithDataLogInSaved(json){
 	}
 }
 function checkAnswerWithLogInSaved(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			// Le da la ultima posiblidad de quedarse Logeado
 			 lastOptionToKeepUserLogedIn();			
 	}else{// Salio todo bien
@@ -184,7 +184,7 @@ function lastOptionToKeepUserLogedIn(){
 	}
 }
 function analizeLastOptionToKeepUserLogedIn(servidor){
-	if (typeof(servidor.error) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			// Borrar las cookies guardadas
 			 logOutFromJugaPlay();// If went wrong try with log in	
 	}else{// Salio todo bien

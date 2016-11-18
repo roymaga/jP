@@ -221,3 +221,24 @@ function removeLoaderFromCertainContainer(container){
 	}
 	return true;
 }
+function parseTableChallengeMatchName(title){
+	var index= title.indexOf("-unchn");
+	if(index!=-1){
+		return title.substring(0, index);
+	}else{
+		return title;
+	}
+}
+/* Group */
+function parseTableForGroupPlayingOption (groupTable){
+	if(groupTable.private){
+		if(mesaDisponibleParaJugarHorario(groupTable.start_time)){
+			var coinsForWinner=(groupTable.group.users.length*groupTable.entry_coins_cost);
+		}else{
+			var coinsForWinner=(groupTable.amount_of_users_playing*groupTable.entry_coins_cost);
+		}
+		groupTable.coins_for_winners=[{"position": 1,"coins":coinsForWinner }];
+		groupTable.title=parseTableChallengeMatchName(groupTable.title);
+	}
+	return groupTable;
+}

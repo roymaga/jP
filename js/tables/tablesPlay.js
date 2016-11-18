@@ -16,7 +16,6 @@ function openTableToPlayOverLapseWindow(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
@@ -32,17 +31,17 @@ function openTableToPlayOverLapseWindow(tableId){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();
-	}
+		xmlhttp.send();}	
 }
 function readOpenTable(openTable){
+		openTable=parseTableForGroupPlayingOption (openTable);
 		 window.actualOpenTable=openTable;
 		 window.arrPlayersSelected=[];
 		 initializeFiltersForTable();
 		 titleSelectedForTable=openTable.title;
 		 contenidoMesa=contentForOpenTableWindow(openTable);
 		 openOverLapseWindow(titleSelectedForTable, contenidoMesa);
-		setTimeout(function(){hasBeenRead(2)}, 5000);// A los 10 segundos de mostrarse el primer partido muestra como elegir los jugadores 
+		setTimeout(function(){hasBeenRead(2);}, 5000);// A los 10 segundos de mostrarse el primer partido muestra como elegir los jugadores 
 		setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
 function contentForOpenTableWindow(openTable){
@@ -60,11 +59,11 @@ function addPlayersInToTable(mesa){
 	tabalasSelect="";
 	matchesInTable=mesa.matches;
 	for(a in matchesInTable){// Para cada partido de la mesa
+		matchesInTable[a].local_team.players.sort(comparePlayersInTeamSort);
+		matchesInTable[a].visitor_team.players.sort(comparePlayersInTeamSort);
 		equipoLocalShort=matchesInTable[a].local_team.short_name;
 		equipoVisitanteShort=matchesInTable[a].visitor_team.short_name;
 		partido=equipoLocalShort+" <b>VS</b> "+equipoVisitanteShort;
-		matchesInTable[a].local_team.players.sort(comparePlayersInTeamSort);
-		matchesInTable[a].visitor_team.players.sort(comparePlayersInTeamSort);
 		for (player in matchesInTable[a].local_team.players){
 			tabalasSelect+=tablaSelectJugador(matchesInTable[a].local_team.players[player],matchesInTable[a].local_team.name,matchesInTable[a].local_team.id,partido);
 		}
@@ -254,7 +253,6 @@ function sendPlayToJugaplay(idTabla,bet){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			//alert("Respuesta finLogInUsuarioEnElSitioEnviandoDatosJugada"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -273,8 +271,7 @@ function sendPlayToJugaplay(idTabla,bet){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/play",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);
-	}
+		xmlhttp.send(json);}
 }
 function endOfPlayedTable(idTabla){
 	
@@ -282,12 +279,7 @@ function endOfPlayedTable(idTabla){
 	setTimeout(function(){changeOptionToPlayed(idTabla);playedGameThanksMessage();}, 1000);
 }
 function playedGameThanksMessage(){
-	emailJP=window.userDataJugaPlay.email;
-	if(emailJP.indexOf("guest.com") == -1){
-		avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");}
-	else{
-		noneRegisterPlayerPlayed();
-	}
+	if(!getUserSyncEmail()){noneRegisterPlayerPlayed();}else{avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");}
 }
 // Fin Funciones Juego de mesa
 // Funciones complementarias para El Play Tables
@@ -305,7 +297,7 @@ function noneRegisterPlayerPlayed(){
 		 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj',
 			 title: "<H1>Gracias por Jugar</H1>",
-            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset></p>',
+            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios, encontrar te con amigos y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset></p>',
 			buttons: [{
                 label: 'Registrar',
 				id:'boton-panel-registro-aviso-error-pop-up',
@@ -339,8 +331,8 @@ function noneRegisterPlayerRegister(dialogItself){
 		}
 	json=JSON.stringify({ "user": { "email": mail, "nickname":nickname, "password": password } });
 	if(startLoadingAnimation()==true){
-	var xmlhttp;
-		if(checkConnection()){if (window.XMLHttpRequest)
+	if(checkConnection()){var xmlhttp;
+		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
 	  		}
@@ -353,7 +345,6 @@ function noneRegisterPlayerRegister(dialogItself){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);

@@ -75,7 +75,7 @@ function passwordRecoveryTransaction(dialogItself, passToken){
 	}
 }
 function analizarRespuestaDatosPasswordRecoveryReset(servidor, dialogItself){
-	if (typeof(servidor.errors) !== 'undefined'){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 		avisoEmergenteJugaPlay("Token incorrecto","<p>El Token ingresado no es válido, es posible que este mal ingresado, que ya haya recuperado la contraseña utilizando el mismo o que no sea el último que se le ah enviado. Verifique de copiar el link tal cual le aparece en su mail. De continuar el error solicite recuperar la contraseña nuevamente. </p>");
 		
 	}else{// Ya estaba adentro del sitio
