@@ -48,7 +48,6 @@
 	<plugin name="cordova-plugin-network-information" spec="1.0.1" source="npm"/>
 	<plugin name="com.danielcwilson.plugins.googleanalytics" spec="0.6.1" source="npm" />
 	<plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="npm" />
-	<gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay" source="npm" />
 	<!-- GeoLocation platform. -->
 	
 	<!-- Define app icon for each platform. -->	
