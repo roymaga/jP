@@ -36,8 +36,9 @@
 	<!-- Record Audio -->
 	<!-- Fin Record Audio -->
  <!-- Core plugins -->
-    <gap:plugin name="org.apache.cordova.device-motion" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="cordova-plugin-device"  source="npm" />
+    <gap:plugin name="org.apache.cordova.device-motion"  source="npm" />
+    <gap:plugin name="org.apache.cordova.inappbrowser"  source="npm" />
 
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
     <!--
