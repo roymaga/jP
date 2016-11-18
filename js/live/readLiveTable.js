@@ -45,6 +45,7 @@ function readInidecesOfOpenTable(tableDescription){
 }
 // Initialize functions
 function readOpenTableLive(openTable){
+		openTable=parseTableForGroupPlayingOption(openTable);
 		window.liveTableOpen=openTable;
 		initializeAddAllPlayers(openTable);
 	}

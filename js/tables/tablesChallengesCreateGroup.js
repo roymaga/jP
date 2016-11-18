@@ -100,6 +100,7 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			//alert(jsonStr);
 			if(IsJsonString(jsonStr)){
 				if(document.getElementById("amigos-jugaplay-tab-createGroup")!=null){
