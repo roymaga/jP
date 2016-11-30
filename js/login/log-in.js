@@ -158,7 +158,7 @@ function checkIfLogInWithFacebook(type){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}
+		xmlhttp.send();	}	
 }
 // Fin Log in registro Fb
 // Comienzo password Recovery
