@@ -17,6 +17,7 @@ function openTableToPlayOverLapseWindow(tableId){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -233,10 +234,10 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 function sendPlayToJugaplay(idTabla,bet){
 	startLoadingAnimation();
 	if(bet!="false"){
-		json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected],"bet":bet});
+		var json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected],"bet":bet});
 	}
 	else{
-		json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected]});
+		var json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected]});
 	}
 	//alert(json);
 	if(checkConnection()){var xmlhttp;
@@ -254,6 +255,7 @@ function sendPlayToJugaplay(idTabla,bet){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			//alert("Respuesta finLogInUsuarioEnElSitioEnviandoDatosJugada"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
