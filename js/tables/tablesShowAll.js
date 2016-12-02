@@ -5,9 +5,8 @@ if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
 }else{
 	window.lastTableCheck=new Date(1401507903635);// 2014
 }
-window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();}, 1000);
+window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
 function showRecordAvailableTablesToPlay(){
-	setTimeout(function(){hasBeenRead(1);}, 5000);// A los 10 segundos de empezar muestra la notificacion de como jugar Id 1
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){		
 			var json=JSON.stringify(previousTablesLoad);
@@ -257,6 +256,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
+					$("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":
@@ -272,9 +272,12 @@ function initializeGameVars(){
 						  break;
 						  
 						  case "desafios":
-						  $("#jp-section-title #title-section").text(title);
-						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x fa-trophy");
-						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='createANewChallenge();'></a>" );
+						  $plus = '<i id="title-icon" class="fa fa-2x fa-plus-square" aria-hidden="true"></i>';
+ 						  $("#jp-section-title #title-section").text(title);
+ 						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x fa-trophy");
+ 						  $("#jp-section-title #title-icon").parent("div").append("<i id='desafiosPlus' class='fa fa-1x fa-plus' style='color:#FFF;'/>");
+ 						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='createANewChallenge();'></a>" );
+						  setTimeout(function(){hasBeenRead(3);}, 1000);
 						  break;
 						  
 						  default:

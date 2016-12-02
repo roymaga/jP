@@ -281,7 +281,7 @@ function endOfPlayedTable(idTabla){
 	setTimeout(function(){changeOptionToPlayed(idTabla);playedGameThanksMessage();}, 1000);
 }
 function playedGameThanksMessage(){
-	if(!getUserSyncEmail()){noneRegisterPlayerPlayed();}else{avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");}
+	if(!getUserSyncEmail()){noneRegisterPlayerPlayed();}else{avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");setTimeout(function(){hasBeenRead(4);}, 2000);}
 }
 // Fin Funciones Juego de mesa
 // Funciones complementarias para El Play Tables
@@ -366,6 +366,7 @@ function noneRegisterPlayerRegister(dialogItself){
 				}else{// Salio todo bien
 					dialogItself.close();
 					setTimeout(function(){avisoEmergenteJugaPlay("Gracias por Registra","<p>Se ha registrado correctamente en Jugaplay. En la sección mi perfil podrá editar el resto de sus datos.</p>");}, 2000);
+					setTimeout(function(){hasBeenRead(4);}, 4000);
 					editDataFromUser(doble.first_name, doble.last_name, doble.email, doble.nickname);
 				}
 			return true;

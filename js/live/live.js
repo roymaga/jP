@@ -3,7 +3,13 @@
 window.liveMatchesArray=[];
 function addTableToLiveArray(table){
 	// Ver si sacar o cierre automatico ?
-	if(!isTableInLiveArray(table) && table.has_been_played_by_user){window.liveMatchesArray.push(table);liveTablesVisible();}
+	if(!isTableInLiveArray(table) && table.has_been_played_by_user){window.liveMatchesArray.push(parseTableForLive(table));liveTablesVisible();}
+}
+function parseTableForLive(groupTable){
+	if(groupTable.private){
+		groupTable.title=groupTable.group.name+" || "+parseTableChallengeMatchName(groupTable.title);
+	}
+	return groupTable;
 }
 function liveTablesVisible(){
 	setTimeout(function(){
