@@ -170,26 +170,6 @@ function deletTableFromVisibleHmtl(tableId, private){
 	}
 }
 // Funcion generales utilizadas
-function mesaDisponibleParaJugarHorario(fechaHora){
-	//14/01/2016 - 22:10
-	//012345678901234567
-	var dia= fechaHora.substring(0, 2);// Dia del mes
-	var mes= fechaHora.substring(3, 5);// que mes
-	var ano= fechaHora.substring(6, 10);// que ano
-	var hora= fechaHora.substring(13, 15);// hora
-	var minutos=fechaHora.substring(16);// minutos
-	var t = new Date();
-	var d = new Date();
-	var diff=t.getTimezoneOffset();// Tiene que ser 180 minutos xq tomamos el GTM de argentina - 3
-	var diffMinutos= diff-180;// Los minutos que difiere de argentina
-	d.setFullYear(ano, (mes-1), dia);
-	d.setHours(hora);
-	d.setMinutes(minutos);
-	t.setMinutes ( t.getMinutes() + diffMinutos ); // Llevo la hora que comparo a la hora de argentina
-	if(t<d){return true;}else{
-		return false;
-	}
-}
 function costOfTable(coins, sms){
 	if(coins>0 || sms==true){
 		if(coins>0){
