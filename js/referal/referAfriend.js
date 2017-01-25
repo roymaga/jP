@@ -3,13 +3,13 @@
 window.sendMailsInvitatios=[];
 window.onload=setTimeout(function(){showRecomendationUrl();}, 1000);
 function showRecomendationUrl(){
-	var linkText=getCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId());
+	var linkText=getCookie("recomendationLinkJPUsu-"+getUserJugaplayId());
 	if(linkText.length>4){
 		var element=document.getElementById("recomendationLink");
 		if (typeof(element) != 'undefined' && element != null)
 		{ 	
 			document.getElementById("recomendationLink").value=linkText;
-			setCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
+			setCookie("recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
 			document.getElementById("recomendationLink").value=linkText;
 		}else{
 			setTimeout(function(){showRecomendationUrl();}, 500);
@@ -23,7 +23,7 @@ function inviteFriendsLink(tknRequest){
 		if (typeof(element) != 'undefined' && element != null)
 		{ 	
 			var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
-			setCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
+			setCookie("recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
 			document.getElementById("recomendationLink").value=linkText;
 		}else{
 			setTimeout(function(){inviteFriendsLink(tknRequest);}, 500);
@@ -159,7 +159,7 @@ function askForRequestInvitationId(type){
 			var jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			closeLoadingAnimation();
-			relocateInvitationRequest( (JSON.parse(jsonStr)).token, type);
+			relocateInvitationRequest( (JSON.parse(jsonStr)).id, type);
 				}else{
 				askForRequestId(type);
 			}
