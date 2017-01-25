@@ -55,12 +55,14 @@ function showAvailableTablesToPlay(){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			//alert(jsonStr);
-			resetTimeOfLastTableAskToServer();
+			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
+			var doble=JSON.parse(jsonStr);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
-			var json=JSON.stringify(jsonStr);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
+			resetTimeOfLastTableAskToServer();
 			analizeShowAvailableTablesToPlay(doble);
+			}else{
+				showAvailableTablesToPlay();
+			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
@@ -74,25 +76,29 @@ function showAvailableTablesToPlay(){
 }
 function analizeShowAvailableTablesToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
-	var flag=0;
-	if (typeof(obj.error) !== 'undefined'){
-		showAvailableTablesToPlay();
-	}else{
-			if(document.getElementById("tables-container-show")!=null){ // Si no hay un elemento visible solo las guarda en memoria cookie tablesToPlay-Jp
-				obj.sort(compareTablesSort);
-				//arregloDeMesasConComentarios=new Array();
-				for (var i = 0; i < obj.length; i++) {
-					if(mesaDisponibleParaJugarHorario(obj[i]['start_time'])==true){
-					if(flag==0){removeLoaderFromCertainContainer(document.getElementById("tables-container-show"));removeLoaderFromCertainContainer(document.getElementById("challenges-container-show"));flag=1;}// Marco asi no pasa cada vez
-					cargarTablaDeMesasConContenidoInicial(obj[i]);
-					//arregloDeMesasConComentarios.push(obj[i]['id']);
-					}else{// Si no esta disponible lo agrega a en vivo
-						deletTableFromVisibleHmtl(obj[i]['id'],obj[i]['private']);
-						addTableToLiveArray(obj[i]);
+	try{
+		var flag=0;
+		if (typeof(obj.error) !== 'undefined'){
+			showAvailableTablesToPlay();
+		}else{
+				if(document.getElementById("tables-container-show")!=null){ // Si no hay un elemento visible solo las guarda en memoria cookie tablesToPlay-Jp
+					obj.sort(compareTablesSort);
+					//arregloDeMesasConComentarios=new Array();
+					for (var i = 0; i < obj.length; i++) {
+						if(mesaDisponibleParaJugarHorario(obj[i]['start_time'])==true){
+						if(flag==0){removeLoaderFromCertainContainer(document.getElementById("tables-container-show"));removeLoaderFromCertainContainer(document.getElementById("challenges-container-show"));flag=1;}// Marco asi no pasa cada vez
+						cargarTablaDeMesasConContenidoInicial(obj[i]);
+						//arregloDeMesasConComentarios.push(obj[i]['id']);
+						}else{// Si no esta disponible lo agrega a en vivo
+							deletTableFromVisibleHmtl(obj[i]['id'],obj[i]['private']);
+							addTableToLiveArray(obj[i]);
+						}
 					}
-				}
-			}// Fin si hay un elemento visible
-	setTimeout(showRecordAvailableTablesToPlay, 3000); // Vuelve a hacer el recorrido cada 3 segundos
+				}// Fin si hay un elemento visible
+		setTimeout(showRecordAvailableTablesToPlay, 3000); // Vuelve a hacer el recorrido cada 3 segundos
+		}
+	}catch(e){
+		showAvailableTablesToPlay()
 	}
 }
 function cargarTablaDeMesasConContenidoInicial(shownTable){
