@@ -78,7 +78,6 @@ function showAvailableContactsToPlay(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			askAvailableContactsToPlay();
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
@@ -110,7 +109,6 @@ function askAvailableContactsToPlay(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(document.getElementById("contact-list-friends")!=null){
 				removeLoaderFromCertainContainer(document.getElementById("contact-list-friends"));
 			}
