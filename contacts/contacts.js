@@ -43,6 +43,9 @@ function showOptionsToSync(){
 	var optionsToSync='';
 	if(!getUserSyncFacebook()){optionsToSync+='<div class="row vertical-align item" onClick="lookFriendsInFacebook();"><div class="col-xs-2"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Buscar a mis amigos de facebook</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
 	if(!getUserSyncEmail()){optionsToSync+='<div class="row vertical-align item" onClick="noneRegisterPlayerPlayed();"><div class="col-xs-2"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Agregar mail para ser encontrado</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
+	//if(!isSyncWithGoogle()){
+		optionsToSync+='<div class="row vertical-align item" onClick="handleAuthClick(event);"><div class="col-xs-2"><i class="fa fa fa-google-plus-official fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Buscar amigos en gmail/ android / google</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';
+		//}
 	if(!getUserSyncTelephone()){optionsToSync+='<div class="row vertical-align item" onClick="avisoProximamente();"><div class="col-xs-2"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Buscar a mis amigos del celular</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
 	if(optionsToSync==''){optionsToSync='<div class="row vertical-align item"><div class="col-xs-12"><p style="margin-bottom:0px;">Todas las opciones sincronizadas.</p></div></div>';}
 	else{optionsToSync='<div class="row vertical-align item"><div class="col-xs-12"><p style="margin-bottom:0px;">Sincroniza las distintas opciones faltantes, encuentra que amigos tuyos tienen una cuenta de Jugaplay y desafialos.</p></div></div>'+optionsToSync;}
@@ -78,7 +81,6 @@ function showAvailableContactsToPlay(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			askAvailableContactsToPlay();
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
@@ -110,7 +112,6 @@ function askAvailableContactsToPlay(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(document.getElementById("contact-list-friends")!=null){
 				removeLoaderFromCertainContainer(document.getElementById("contact-list-friends"));
 			}
@@ -185,15 +186,7 @@ function addUserToListoOfUsers(userToCreate){ // Add User to container if alread
 	if(flag==0){document.getElementById("contact-list-friends").appendChild(userToCreate);}
 }
 function lookFriendsInFacebook(){
-	openFacebookConnectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
-}
-function openFacebookConnectRegister(url){
-		 var myWindow = window.open(url);
-		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 30000);
-}
-function checkOpenedFacebookWindow(myWindow){
-	myWindow.close(); //Cierra la ventana
-	analizarSiyaEstaLogueado();
+	window.location='http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1';
 }
 // Busqueda de contactos para agregar a la lista
 function searchToAddContactsToList(){

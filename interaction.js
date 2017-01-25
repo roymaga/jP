@@ -221,6 +221,7 @@ function removeLoaderFromCertainContainer(container){
 	}
 	return true;
 }
+
 function parseTableChallengeMatchName(title){
 	var index= title.indexOf("-unchn");
 	if(index!=-1){
@@ -241,4 +242,9 @@ function parseTableForGroupPlayingOption (groupTable){
 		groupTable.title=parseTableChallengeMatchName(groupTable.title);
 	}
 	return groupTable;
+}
+if(IsJsonString(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()))){
+	window.usersSyncGoogleApi=JSON.parse(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()));
+}else{
+	window.usersSyncGoogleApi=false;// 2014
 }

@@ -153,7 +153,7 @@ function probarSinRegistro(){
 	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
 	
 }
-window.onload=setTimeout(function(){ checkIfUsersLinkHasInvitationCode(); }, 1000);
+window.onload=setTimeout(function(){checkIfUsersLinkHasInvitationCode();}, 1000);
 function checkIfUsersLinkHasInvitationCode(){
 	// cnl user Id
 	// cri request Id

@@ -14,15 +14,15 @@ function checkConnection() {
 	}
 }
 function checkConnection2() {
-		var state = navigator.connection.type;
-		if (state.toUpperCase() == "NONE")
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+	var state = navigator.connection.type;
+	if (state.toUpperCase() == "NONE")
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 function stopTimeToWait(){
 	clearTimeout(window.timeToWait);
@@ -32,7 +32,6 @@ function toSlowInternet(){
 	closeLoadingAnimation();
 	avisoEmergenteJugaPlay("Conexión muy lenta","<p>Su conexión a internet está muy lenta. Es posible que no pueda disfrutar la experiencia Jugaplay debido a esta causa.</p>");
 }
-
 /*
 // Cuando esta offline
 document.addEventListener("offline", onOffline, false);
