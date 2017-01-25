@@ -189,16 +189,15 @@ function addUserToListoOfUsers(userToCreate){ // Add User to container if alread
 	if(flag==0){document.getElementById("contact-list-friends").appendChild(userToCreate);}
 }
 function lookFriendsInFacebook(){
-	var windowB=window.open('http://app.jugaplay.com/api/v1/users/auth/facebook');
-	setTimeout(function (){checkIfWindowFacebookCloseSync(windowB);}, 500);
+	openFacebookConnectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
 }
-function checkIfWindowFacebookCloseSync(windowB){
-	if (windowB.closed) {
-			window.lastContactCheck=new Date(1401507903635);// 2014
-			setTimeout(function(){showAllContactsInGameWindow();}, 3000);
-    }else{
-		setTimeout(function (){checkIfWindowFacebookCloseSync(windowB);}, 500);
-	}
+function openFacebookConnectRegister(url){
+		 var myWindow = window.open(url);
+		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 30000);
+}
+function checkOpenedFacebookWindow(myWindow){
+	myWindow.close(); //Cierra la ventana
+	analizarSiyaEstaLogueado();
 }
 // Busqueda de contactos para agregar a la lista
 function searchToAddContactsToList(){

@@ -27,16 +27,16 @@ function readAlExplanationsFromServer(explanations,explanationId){
 function showExplanationId(explanationId){
 	switch(explanationId){
 		case 1:
-			openSpecificExplanationWindow(["como_jugar/1.jpg","como_jugar/2.jpg"],"Como Jugar");
+			openSpecificExplanationWindow(["como_jugar/1.jpg","como_jugar/2.jpg","como_jugar/3.jpg"],"Como Jugar");
 		break;
 		case 2:
 			openSpecificExplanationWindow(["elegir_jugadores/1.jpg","elegir_jugadores/2.jpg","elegir_jugadores/3.jpg","elegir_jugadores/4.jpg"],"Como Elegir");
 		break;
 		case 3:
-			openSpecificExplanationWindow(["como_desafios/1.jpg"],"Desafiá a amigos");
+			//avisoEmergenteJugaPlay("Explicacion Nro: "+explanationId+" Como ver el Historial");
 		break;
 		case 4:
-			openSpecificExplanationWindow(["ver_vivo/1.jpg"],"En vivo!");
+			//avisoEmergenteJugaPlay("Explicacion Nro: "+explanationId+" Como ver el Historial");
 		break;
 		case 6:
 			//avisoEmergenteJugaPlay("Explicacion Nro: "+explanationId+" Jugar en vivo");
