@@ -1,7 +1,7 @@
 // JavaScript Document
 // Link de recomendacion
 window.sendMailsInvitatios=[];
-window.onload=setTimeout(function(){showRecomendationUrl();}, 1000);
+window.onload=setTimeout(function(){ showRecomendationUrl(); }, 1000);
 function showRecomendationUrl(){
 	var linkText=getCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId());
 	if(linkText.length>4){
@@ -64,13 +64,12 @@ function inviteFriendsTwitter(tknRequest){
 }
 //<a href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">Share via Whatsapp</a>
 function inviteFriendsWhatsapp(tknRequest){
-	//var whatsapp = document.createElement("a");
-	var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
-	window.plugins.socialsharing.share(linkText);/*
-		whatsapp.href='whatsapp://send?text=Te%20desafío%20a%20jugar%20en%20Jugaplay,%20la%20mejor%20competencia%20de%20futbol%20fantasía%20en%20todo%20América.%20Dudo%20que%20me%20puedas%20ganar!\nEntra%20con%20este%20link%20desde%20tu%20celular%20o%20computadora%20así%20me%20haces%20ganar%20monedas:'+linkText+'\nGracias%20:)';
+	var whatsapp = document.createElement("a");
+	var linkText="http://www.jugaplay.com/%3Ftkn%3D"+tknRequest;
+		whatsapp.href='whatsapp://send?text=Te%20desafío%20a%20jugar%20en%20Jugaplay,%20la%20mejor%20competencia%20de%20futbol%20fantasía%20en%20todo%20América.%20Dudo%20que%20me%20puedas%20ganar!\nEntra%20con%20este%20link%20desde%20tu%20celular%20o%20computadora%20así%20me%20haces%20ganar%20monedas:%20'+linkText+'%20 \nGracias%20:)';
 	whatsapp.setAttribute("data-tournament-type", "share/whatsapp/share");
 	document.body.appendChild(whatsapp);
-	whatsapp.click();*/
+	whatsapp.click();
 }
 /* Notificacion de como es el mensaje de contacto */
 function inviteFriendsMail(){

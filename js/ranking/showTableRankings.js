@@ -1,6 +1,6 @@
 // JavaScript Document
 //mensajeAlServidorPidiendoRankingLibertadores();
-window.onload=setTimeout(function(){showCompleteRanking();}, 1000);
+window.onload=setTimeout(function(){ showCompleteRanking(); }, 1000);
 function showCompleteRanking(){
 	previousRankingArgentino=getCookie("ranking-TArgentino-Jp");
 	previousRankingChileno=getCookie("ranking-Chileno-Jp");
