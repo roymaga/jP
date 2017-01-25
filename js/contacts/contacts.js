@@ -63,7 +63,6 @@ function resetTimeOfLastContactAskToServer(){
 	setCookie("usersToSync-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableContactsToPlay(json){
-	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -89,15 +88,12 @@ function showAvailableContactsToPlay(json){
 		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/address_books/synch/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	}else{
-			setTimeout(function(){showAvailableContactsToPlay(json);}, 1000); 
-		}
+		xmlhttp.send(json);	
 }
 function askAvailableContactsToPlay(){
 	if(document.getElementById("contact-list-friends")!=null){
 		addLoaderToCertainContainer(document.getElementById("contact-list-friends"));
 	}
-	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -132,9 +128,7 @@ function askAvailableContactsToPlay(){
 		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/address_books/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}else{
-			setTimeout(askAvailableContactsToPlay, 1000); 
-		}
+		xmlhttp.send();	
 }
 function analizeShowContactsToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas

@@ -40,7 +40,7 @@ function showAvailableTablesToPlay(){
 	if(document.getElementById("tables-container-show")!=null){
 		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
 	}
-	if(checkConnection2()){var xmlhttp;
+	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -54,7 +54,8 @@ function showAvailableTablesToPlay(){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			var jsonStr=xmlhttp.responseText;
+			jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			//alert(jsonStr);
 			resetTimeOfLastTableAskToServer();
 			setCookie("tablesToPlay-Jp", jsonStr, 120);

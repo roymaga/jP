@@ -81,9 +81,9 @@ function showMoreNotificationsObject(notif,next){
 function parseNotification(notification, oddEven){
 	var id="jpn"+notification.created_at.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 	if(oddEven%2==0){var oddOrEven="odd";}else{var oddOrEven="even";}
-	if(notification.type=="challenge"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div><div class="col-xs-10 player-name"> <p><b>'+notification.title+'</b></p><p><small>'+parseTableChallengeMatchName(notification.text)+'</small></p></div></div>';}
-	if(notification.type=="exchange-ready"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-gift fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p>'+notification.title+'</p> </div><div class="col-xs-4 text-right"> <button type="button" class="btn btn-default btn-style2" onclick="'+notification.action+'">Premios</button> </div></div>';}
-	if(notification.type=="result"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-futbol-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p><b>'+notification.title+'</b></p><p><small>'+notification.text+'</small></p></div><div class="col-xs-4 text-right"> <button type="button" class="btn btn-default btn-style2" onclick="'+notification.action+'">Historial</button> </div></div>';}
+	if(notification.type_name=="challenge"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p>'+notification.title+'</p></div><div class="col-xs-4 text-right"> <button type="button" class="btn btn-default btn-style2" onclick="'+notification.action+'">¡Jugar!</button> </div></div>';}
+	if(notification.type_name=="exchange-ready"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-gift fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p>'+notification.title+'</p> </div><div class="col-xs-4 text-right"> <button type="button" class="btn btn-default btn-style2" onclick="'+notification.action+'">Premios</button> </div></div>';}
+	if(notification.type_name=="result"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-futbol-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p>'+notification.title+'</p></div><div class="col-xs-4 text-right"> <button type="button" class="btn btn-default btn-style2" onclick="'+notification.action+'">Historial</button> </div></div>';}
 	if(notification.type_name=="friend-invitation"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p>'+notification.title+'</p></div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style2">'+notification.text+'</span> <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 20px;"></p></div></div>';}
 	if(notification.type_name=="new" || notification.type_name=="personal"){return '<div class="row players-list-item vertical-align bg-color2 text-color2"> <div class="col-xs-2"><i class="fa fa-bell-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-8 player-name"> <p>'+notification.title+'</p></div><div class="col-xs-2 text-right"> <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#'+id+'"><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div></div><div id="'+id+'" class="collapse"> <div class="row players-list-item vertical-align color-player-list2 even"> <div class="container"> <p>'+notification.text+'</p></div></div></div>';}
 }
@@ -116,7 +116,7 @@ function updateNotificationAsRead(notfId){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/notifications/"+notfId,true);// El false hace que lo espere
+		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId()+"/notifications/"+notfId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
@@ -142,7 +142,7 @@ function updateNotifications(){
 			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			 if(IsJsonString(jsonStr)){
-				 updateNotificationsObject( JSON.parse(jsonStr).notifications);
+				 updateNotificationsObject( JSON.parse(jsonStr));
 			 }else{
 				 updateNotifications();
 			 }
@@ -152,7 +152,7 @@ function updateNotifications(){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/notifications?from=0&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
+		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId()+"/notifications?from=0&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
@@ -191,7 +191,7 @@ function showMoreNotifications(element,from,e){
 			jsonStr=xmlhttp.responseText;
 			 if(IsJsonString(jsonStr)){
 				 element.parentNode.removeChild(element);
-				 showMoreNotificationsObject( JSON.parse(jsonStr).notifications, (parseInt(from)+parseInt(window.notificationsLimtToShow)));
+				 showMoreNotificationsObject( JSON.parse(jsonStr), (parseInt(from)+parseInt(window.notificationsLimtToShow)));
 			 }else{
 				 showMoreNotifications(element,from,e);
 			 }
@@ -201,7 +201,7 @@ function showMoreNotifications(element,from,e){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/notifications?from="+from+"&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
+		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId()+"/notifications?from="+from+"&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

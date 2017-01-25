@@ -27,18 +27,19 @@ function loadAllUsersInvitatios(){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/invitation_requests",true);// El false hace que lo espere
+		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId()+"/requests/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
 	}
 }
-function loadAllUsersInvited(response){
+function loadAllUsersInvited(invitatios){
 	var InvitedUsers=[];
-	var invitations= response.invitation_requests;
-	for(invitation in invitations){
-		for(invited in invitations[invitation].accepted){
-				InvitedUsers.push({"type":invitations[invitation].type, "date":invitations[invitation].accepted[invited].when, "nick":invitations[invitation].accepted[invited].user.nickname, "won_coins":10 });
+	for(invitation in invitatios){
+		for(invited in invitatios[invitation].invitations){
+			if(invitatios[invitation].invitations[invited].status=="Registered"){
+				InvitedUsers.push({"type":invitatios[invitation].request_type, "date":invitatios[invitation].invitations[invited].created_at, "nick":invitatios[invitation].invitations[invited].guest_user.nickname, "won_coins":invitatios[invitation].invitations[invited].won_coins });
+			}
 		}
 	}
 	showAllUserInvited(InvitedUsers);

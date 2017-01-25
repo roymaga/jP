@@ -9,7 +9,7 @@ function abrirLogIn(){
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up',
 			 title: "Log in",
-            message: "<div class='row'><div onclick='processFacebook(\"login\");' class='botton-general-size facebook'>Log-In con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><a style=' margin-right: 20px; cursor: pointer;' onclick='passwordRecovery();'>¿Olvido su contraseña?</a><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
+            message: "<div class='row'><div onclick='processFacebook();' class='botton-general-size facebook'>Log-In con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><a style=' margin-right: 20px; cursor: pointer;' onclick='passwordRecovery();'>¿Olvido su contraseña?</a><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
 			buttons: [{
                 label: 'Log In',
 				id:'boton-panel-login',
@@ -104,61 +104,25 @@ function analizarRespuestaLogIn(servidor){
 }
 // Fin de log-In Comun
 // Comienzo Log-in/ Registro Fb
-function processFacebook(type){
+function processFacebook(){
 	if(document.getElementById("checkKeepLogIn")!=null){
 		if(document.getElementById("checkKeepLogIn").checked){
 			setCookie("jugaPlayUserRemember", "true", 120);
 			setCookie("jugaPlayUserFacebook", "true", 120);
 		}}
-	//fbq('track', 'CompleteRegistration');// Esto nos va a traer inconsistencias por que no diferencia quien se registra de quien no
-	if(window.invitationTknId>0 && type=="register"){
-		var windowB=window.open('http://app.jugaplay.com/api/v1/users/auth/facebook?invitation_token='+window.invitationTknId);
-	}else{
-		var windowB=window.open('http://app.jugaplay.com/api/v1/users/auth/facebook');
-	}
-	setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
+		openFacebookConnectRegister('http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1');
 }
-function checkIfWindowFacebookClose(windowB,type){
-	if (windowB.closed) {
-		checkIfLogInWithFacebook(type);
-    }else{
-		setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
-	}
+function openFacebookConectLogIn(url){
+		 var myWindow = window.open(url);
+		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 10000);
 }
-function checkIfLogInWithFacebook(type){
-	if(checkConnection()){var xmlhttp;
-		if (window.XMLHttpRequest)
-	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  		}
-		else
-	  	{// code for IE6, IE5
-	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	 	 }
-		xmlhttp.onreadystatechange=function()
-	  	{
-	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
-	    {
-			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
-			//alert("Lo que lee el servidor"+jsonStr);
-			var json=JSON.stringify(jsonStr);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
-			if(type=="register"){
-				analizarRespuestaLogInPostRegistro(doble);
-			}else{
-				analizarRespuestaDatosUsuarioLogIn(doble);
-			}
-			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 return;
-			}
-	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
-		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}
+function openFacebookConnectRegister(url){
+		 var myWindow = window.open(url);
+		 setTimeout(function(){ checkOpenedFacebookWindow(myWindow); }, 30000);
+}
+function checkOpenedFacebookWindow(myWindow){
+	myWindow.close(); //Cierra la ventana
+	analizarSiyaEstaLogueado();
 }
 // Fin Log in registro Fb
 // Comienzo password Recovery

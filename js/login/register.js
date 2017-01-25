@@ -1,6 +1,7 @@
 // JavaScript Document
 // Este javascript esta encargado de manejar el registro del sitio
-window.invitationTknId=0;
+window.invitationId=0;
+window.invitationUserId=0;
 function abrirRegistro(){
   		if (checkCookie()!=true) { 
     		avisoEmergenteJugaPlay("Habilitar las cookies","<p>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
@@ -8,7 +9,7 @@ function abrirRegistro(){
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up register',
 			 title: "Registrate Gratis",
-            message: "<div class='row'><div onclick='processFacebook(\"register\");' class='botton-general-size facebook'>Registro con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='Nickname' id='nickname-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
+            message: "<div class='row'><div onclick='processFacebook();' class='botton-general-size facebook'>Registro con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='Nickname' id='nickname-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
 			buttons: [{
                 label: 'Registrarse',
 				id:'boton-panel-registro',
@@ -44,11 +45,11 @@ function registrarUsuarioEnElSitio(){
 		return false ;
 	};// Si paso es que los campos estan bien
 	//https://www.jugaplay.com/?invitedby=RiverCampeon2&cnl=fy
-	if(window.invitationTknId>0){
-		var json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname } ,"invitation_token":window.invitationTknId });
-	}else{
-		var json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname } });
-	}
+	if(window.invitationId>0){
+			 var json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname, "invited_by_id": String(window.invitationUserId), "invitation_id": String(window.invitationId1) } });
+		}else{
+			 var json=JSON.stringify({ "user": { "first_name": "NONE","last_name": "NONE", "email": mail, "password":pass,"nickname":nickname } });
+		}
 	if(startLoadingAnimation()==true){
 	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
 }
@@ -152,34 +153,31 @@ function probarSinRegistro(){
 	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
 	
 }
-
-function probarSinRegistro(){
-	var rand = Math.floor((Math.random() * 100000000000000) + 1);
-	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
-	var mail=rand+"@guest.com";
-	var pass=traducirInvitacionAlSitio(rand2);
-	var nickname="Invitado"+rand;
-	setCookie("jugaPlayUserRemember", "true", 120);
-	setCookie("jugaPlayUserFacebook", "false", 120);
-	setCookie("juga-Play-User", mail, 120);
-	setCookie("juga-Play-Pass", pass, 120);
-	var mailInput = document.createElement("input");
-	mailInput.type="hidden";
-	mailInput.value=mail;
-	mailInput.id="email-pop";
-	document.body.appendChild(mailInput);
-	var passInput = document.createElement("input");
-	passInput.type="hidden";
-	passInput.value=pass;
-	passInput.id="password-pop";
-	document.body.appendChild(passInput);
-	var json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
-	if(startLoadingAnimation()==true){
-	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
-	
+window.onload=setTimeout(function(){ checkIfUsersLinkHasInvitationCode(); }, 1000);
+function checkIfUsersLinkHasInvitationCode(){
+	// cnl user Id
+	// cri request Id
+	if(getQueryVariableTranslated("cri")>-1){
+		askForInvitationIdFromRequest(getQueryVariableTranslated("cri"));
+		window.invitationUserId=getQueryVariableTranslated("cnl");
+	}
 }
-function askForInvitationIdFromRequest(requestTkn){
-	var json=JSON.stringify({"token": requestTkn });
+function getQueryVariableTranslated(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return traducirInvitacionAlSitio(pair[1]);
+    }
+  } 
+  return -1;
+}
+function traducirInvitacionAlSitio(invitacion){
+	return parseInt(invitacion, 36)-500;
+}
+function askForInvitationIdFromRequest(requestId){
+	json=JSON.stringify({"invitation_status": "Unused" });
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -259,15 +257,4 @@ function analizarRespuestaLogInPostRegistro(servidor){
 		setCookie("juga-Play-Data", cookieSave, 120);
 		window.location="game.html";
 	}
-}
-function getQueryVariableTranslated(variable) {
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-    if (pair[0] == variable) {
-      return pair[1];
-    }
-  } 
-  return -1;
 }
