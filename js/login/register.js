@@ -131,7 +131,7 @@ function probarSinRegistro(){
 	var rand = Math.floor((Math.random() * 100000000000000) + 1);
 	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
 	var mail=rand+"@guest.com";
-	var pass=traducirInvitacionAlSitio(rand2);
+	var pass="testpassw"+rand2;
 	var nickname="Invitado"+rand;
 	setCookie("jugaPlayUserRemember", "true", 120);
 	setCookie("jugaPlayUserFacebook", "false", 120);
