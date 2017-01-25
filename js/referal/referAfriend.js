@@ -3,30 +3,30 @@
 window.sendMailsInvitatios=[];
 window.onload=setTimeout(function(){ showRecomendationUrl(); }, 1000);
 function showRecomendationUrl(){
-	var linkText=getCookie("recomJPUsu-"+getUserJugaplayId()+"-Jp");
+	var linkText=getCookie("recomendationLinkJPUsu-"+getUserJugaplayId());
 	if(linkText.length>4){
 		var element=document.getElementById("recomendationLink");
 		if (typeof(element) != 'undefined' && element != null)
 		{ 	
 			document.getElementById("recomendationLink").value=linkText;
-			setCookie("recomJPUsu-"+getUserJugaplayId()+"-Jp", linkText, 120);
+			setCookie("recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
 			document.getElementById("recomendationLink").value=linkText;
 		}else{
 			setTimeout(function(){showRecomendationUrl();}, 500);
 		}
 	}else{
 		askForRequestInvitationId('Link');
-	}	
+	}
 }
-function inviteFriendsLink(idRequest){
+function inviteFriendsLink(tknRequest){
 		var element=document.getElementById("recomendationLink");
 		if (typeof(element) != 'undefined' && element != null)
 		{ 	
-			var linkText="http://www.jugaplay.com/?cnl="+hideUserHashNot(getUserJugaplayId())+"&cri="+hideUserHashNot(idRequest);
-			setCookie("recomJPUsu-"+getUserJugaplayId()+"-Jp", linkText, 120);
+			var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
+			setCookie("recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
 			document.getElementById("recomendationLink").value=linkText;
 		}else{
-			setTimeout(function(){inviteFriendsLink(idRequest);}, 500);
+			setTimeout(function(){inviteFriendsLink(tknRequest);}, 500);
 		}
 }
 // Copiar el link
@@ -44,27 +44,28 @@ function copySelectedText(){
 	console.log('Error ' + err);
   }
 }
-function relocateInvitationRequest(idRequest, type){
-	if(type=="Twitter"){inviteFriendsTwitter(idRequest);}
-	if(type=="Facebook"){inviteFriendsFacebook(idRequest);}
-	if(type=="Whatsapp"){inviteFriendsWhatsapp(idRequest);}
-	if(type=="Mail"){sendMailsRecomendations(idRequest);}
-	if(type=="Link"){inviteFriendsLink(idRequest);}
+function relocateInvitationRequest(tknRequest, type){
+	if(type=="Twitter"){inviteFriendsTwitter(tknRequest);}
+	if(type=="Facebook"){inviteFriendsFacebook(tknRequest);}
+	if(type=="Whatsapp"){inviteFriendsWhatsapp(tknRequest);}
+	if(type=="Mail"){sendMailsRecomendations(tknRequest);}
+	if(type=="Link"){inviteFriendsLink(tknRequest);}
+	// SMS
 }
 // Otras funciones de recomendacion!! 
-function inviteFriendsFacebook(idRequest){
+function inviteFriendsFacebook(tknRequest){
   document.getElementById('recomendationLink').click();// Hace click para evitar que se bloquee el pop up de Fb
-  linkText="http://www.jugaplay.com/?cnl="+hideUserHashNot(getUserJugaplayId())+"&cri="+hideUserHashNot(idRequest);
+  var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
   window.plugins.socialsharing.share(linkText);
 }
-function inviteFriendsTwitter(idRequest){
-	linkText="http://www.jugaplay.com/?cnl="+hideUserHashNot(getUserJugaplayId())+"&cri="+hideUserHashNot(idRequest);
+function inviteFriendsTwitter(tknRequest){
+	var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
 	window.plugins.socialsharing.share(linkText);
 }
 //<a href="whatsapp://send?text=The text to share!" data-action="share/whatsapp/share">Share via Whatsapp</a>
-function inviteFriendsWhatsapp(idRequest){
+function inviteFriendsWhatsapp(tknRequest){
 	var whatsapp = document.createElement("a");
-	linkText="http://www.jugaplay.com/%3fcnl%3d"+hideUserHashNot(getUserJugaplayId())+"%26cri%3d"+hideUserHashNot(idRequest);
+	var linkText="http://www.jugaplay.com/%3ftkn%3d"+tknRequest;
 		whatsapp.href='whatsapp://send?text=Te%20desafío%20a%20jugar%20en%20Jugaplay,%20la%20mejor%20competencia%20de%20futbol%20fantasía%20en%20todo%20América.%20Dudo%20que%20me%20puedas%20ganar!\nEntra%20con%20este%20link%20desde%20tu%20celular%20o%20computadora%20así%20me%20haces%20ganar%20monedas:'+linkText+'\nGracias%20:)';
 	whatsapp.setAttribute("data-tournament-type", "share/whatsapp/share");
 	document.body.appendChild(whatsapp);
@@ -106,9 +107,9 @@ function validateMailToSend(dialog){
 			avisoEmergenteJugaPlay("Sin Contenido","<p>El campo mails es obligatorio</p>");
 	}
 }
-function sendMailsRecomendations(idRequest){
+function sendMailsRecomendations(tknRequest){
 	if(getUserJugaplayEmail()!=null){var sendFrom=getUserJugaplayEmail();}else{var sendFrom="info@jugaplay.com";}
-	var linkText="http://www.jugaplay.com/?cnl="+hideUserHashNot(getUserJugaplayId())+"&cri="+hideUserHashNot(idRequest);
+	var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
 	var json=JSON.stringify({ "from": "info@jugaplay.com", "to": window.sendMailsInvitatios, "from_user_id":getUserJugaplayId(), "sender_link":linkText, "content_mail":" "});
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -138,7 +139,7 @@ function sendMailsRecomendations(idRequest){
 	}
 }
 function askForRequestInvitationId(type){
-	json=JSON.stringify({ "request_type_name": type });
+	json=JSON.stringify({ "type": type });
 	startLoadingAnimation();
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -167,7 +168,7 @@ function askForRequestInvitationId(type){
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId()+"/requests/",true);// El false hace que lo espere
+		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/invitation_requests/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
