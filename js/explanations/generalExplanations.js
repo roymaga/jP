@@ -3,7 +3,7 @@ window.readExplanations=[];
 // La idea es, de ser necesario pregunta, si no esta hace la consulta, si en la consulta no esta muestra la explicacion.
 // Cargo lo leido a una variable global
 // La funcion hasBeenRead() es la que se pone para ir mostrando
-window.onload=setTimeout(function(){initializeExplanations();}, 1000);
+window.onload=setTimeout(function(){ initializeExplanations(); }, 1000);
 function initializeExplanations(){
 previousReadExplanations=getCookie("readExplanations-Jp-"+getUserJugaplayId());
 	if(previousReadExplanations.length>4){		
