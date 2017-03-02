@@ -242,7 +242,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-						  $("#desafiosPlus").remove();
+					$("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":

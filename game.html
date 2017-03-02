@@ -33,9 +33,9 @@
     <script src="js/session/handleCookies.js?8"></script>
     <script src="js/specialAppFunctions.js"></script>
     <script src="js/session/userDataJugaPlayUpdate.js?8"></script> 
-    <script src="js/session/checkUsers.js?8"></script>  
+    <script src="js/session/checkUsers.js?8"></script> 
     <link href="plugins/owl-carousel/owl.carousel.css" rel="stylesheet">
-    <link href="plugins/owl-carousel/owl.theme.css" rel="stylesheet">
+    <link href="plugins/owl-carousel/owl.theme.css" rel="stylesheet"> 
 </head>
 <body>
 <!-- START > CONTENT -->
@@ -49,14 +49,19 @@
 				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
 				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
 			</ol>
 			
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
-				<div onClick="window.location='store.html'" class="item active">
-					<img src="img/slider/slide1.jpg" alt="">
-					<div class="carousel-caption"></div>
-				</div>
+				<div onClick="window.location='ranking.html'" class="item active">
+                    <img src="img/slider/slide-ganadores.jpg" alt="">
+                    <div class="carousel-caption"></div>
+                </div>
+                <div onClick="window.location='store.html'" class="item">
+                    <img src="img/slider/slide1.jpg" alt="">
+                    <div class="carousel-caption"></div>
+                </div>
 				<div onClick="window.location='referal.html'" class="item">
 					<img src="img/slider/slide2.jpg" alt="">
 					<div class="carousel-caption"></div>
@@ -153,7 +158,7 @@
 	
 
 </div>
-	
+		
 </body>
 <!-- start Design Scripts -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -195,6 +200,7 @@
 <script src="js/contacts/contacts.js?63"></script>
 <script src="js/contacts/phoneparser.js?63"></script>
 <script src="plugins/owl-carousel/owl.carousel.js"></script>
+<script src="js/contacts/client.js?onload=checkAuth"></script>
 <!-- End Functions of Game -->
     
 <!-- start Google Analytics -->

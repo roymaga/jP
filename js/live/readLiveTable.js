@@ -6,7 +6,7 @@ window.liveMatchOpen={"users":[],"players":[],"stats":[]};
 window.readInidences=[];
 window.resultArrayTeams=[];
 function readInidecesOfOpenTable(tableDescription){
-	var splitArray=tableDescription.split('-'); // Ejemplo "libertad
+	var splitArray=tableDescription.split('-'); // Ejemplo "libertadores-257742"
 	json=JSON.stringify({"table_tournament":splitArray[0],"table_match":splitArray[1]});
 	//startLoadingAnimation();
 	if(checkConnection2()){var xmlhttp;

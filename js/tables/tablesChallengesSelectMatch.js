@@ -159,7 +159,7 @@ function openMatchesFilterWindow(){
 	openFilterWindow(tableTitle,content);
 }
 function createShowMatchesFilter(){
-	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"8","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"7","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"9","showName":"Champions League","openFunction":null}];
+	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"8","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"10","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"9","showName":"Champions League","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"11","showName":"Liga Española","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"12","showName":"Premier League","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"3","showName":"Partidos Especiales","openFunction":null}];
 	content='<div class="list-style1">';
 	for(individual in simulateTablesFilter){
 		if(window.matchesFilterArray.indexOf(simulateTablesFilter[individual].dataFilter)!=-1){// Esta contenido en el Arreglo

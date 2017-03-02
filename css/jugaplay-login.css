@@ -39,6 +39,7 @@ min-height:100vh;
 .log-in-pop-up .modal-dialog .modal-content .modal-header{
 	background-color: transparent;
 	border:none;
+	padding-bottom: 0px;
 }
 .log-in-pop-up .modal-dialog .modal-content .modal-header .bootstrap-dialog-header .bootstrap-dialog-title{
 	width:100%;
