@@ -131,32 +131,6 @@ function probarSinRegistro(){
 	var rand = Math.floor((Math.random() * 100000000000000) + 1);
 	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
 	var mail=rand+"@guest.com";
-	var pass=traducirInvitacionAlSitio(rand2);
-	var nickname="Invitado"+rand;
-	setCookie("jugaPlayUserRemember", "true", 120);
-	setCookie("jugaPlayUserFacebook", "false", 120);
-	setCookie("juga-Play-User", mail, 120);
-	setCookie("juga-Play-Pass", pass, 120);
-	var mailInput = document.createElement("input");
-	mailInput.type="hidden";
-	mailInput.value=mail;
-	mailInput.id="email-pop";
-	document.body.appendChild(mailInput);
-	var passInput = document.createElement("input");
-	passInput.type="hidden";
-	passInput.value=pass;
-	passInput.id="password-pop";
-	document.body.appendChild(passInput);
-	var json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
-	if(startLoadingAnimation()==true){
-	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
-	
-}
-
-function probarSinRegistro(){
-	var rand = Math.floor((Math.random() * 100000000000000) + 1);
-	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
-	var mail=rand+"@guest.com";
 	var pass="testpassw"+rand2;
 	var nickname="Invitado"+rand;
 	setCookie("jugaPlayUserRemember", "true", 120);
