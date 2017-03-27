@@ -65,11 +65,11 @@ function showAvailableTablesToPlay(){
 			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	}
@@ -83,6 +83,8 @@ function analizeShowAvailableTablesToPlay(obj){
 		}else{
 				if(document.getElementById("tables-container-show")!=null){ // Si no hay un elemento visible solo las guarda en memoria cookie tablesToPlay-Jp
 					obj.sort(compareTablesSort);
+					// Vacio las mesas en vivo para que no queden una vez cerradas, total se vuelven a agregar en la consulta
+					window.liveMatchesArray=[];
 					//arregloDeMesasConComentarios=new Array();
 					for (var i = 0; i < obj.length; i++) {
 						if(mesaDisponibleParaJugarHorario(obj[i]['start_time'])==true){
@@ -173,7 +175,7 @@ function deletTableFromVisibleHmtl(tableId, private){
 function costOfTable(coins, sms){
 	if(coins>0 || sms==true){
 		if(coins>0){
-			return '<p>'+coins+'</p><img src="img/icons/coins/coins.gif">';
+			return '<p>'+coins+'</p><img src="img/icons/coins/coin.png">';
 		}else
 		{
 			return '<img src="img/tables/icon-sms.png">';
@@ -184,7 +186,7 @@ function costOfTable(coins, sms){
 }
 function earnsOfTable(pot_prize){
 	if(pot_prize>0){
-			return '<p>'+pot_prize+'</p><img src="img/icons/coins/treasure.gif">';
+			return '<p>'+pot_prize+'</p><img src="img/icons/coins/coins.png">';
 	}
 	else
 	return ' ';
@@ -230,7 +232,7 @@ function firstTimeGameVars(){
 	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
 	$("#jp-section-title #title-icon").addClass("fa-sliders");
 	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'></div>" );
+	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'>" );
 }
 function initializeGameVars(){					  
 					$('.jp-tabs li a').click(function (e) {
@@ -242,7 +244,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-						  $("#desafiosPlus").remove();
+					$("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":

@@ -31,6 +31,10 @@ function showAvailableLiveMatches(){
 	for(option in window.liveMatchesArray){
 			content+='<a onClick="selectLiveMatchToWatch(this,\''+window.liveMatchesArray[option].id+'\')">'+window.liveMatchesArray[option].title+'</a>';
 	}
+	if(window.liveMatchesArray.length==0){ // Por si quedo abierto sin partidos
+		content+='<a>Sin partidos disponibles</a>';
+		document.getElementById("live-matches-playing").style.display="none";
+	}
 	content+='</div>';
 	openLiveWindow(title,content);
 	//setTimeout(hasBeenRead(6), 3000);// A los 3 segundos de mostrarse el primer partido en vivo muestro la explicacion de que es!! 
@@ -94,11 +98,11 @@ function openTableToPlayLive(table){
 			crateHtmlLiveTable(doble);
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+table.id,true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tables/"+table.id,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

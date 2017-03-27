@@ -1,6 +1,5 @@
 // JavaScript Document
-
-window.onload=setTimeout(function(){ showChampionsOfTheWorld(); }, 1000);
+window.onload=setTimeout(function(){showChampionsOfTheWorld();}, 1000);
 function showChampionsOfTheWorld(){
 	previousChampionsLoad=getCookie("championsShow-Changed-Jp");
 	if(previousChampionsLoad.length>4){		
@@ -37,8 +36,8 @@ function showAvailableChampions(){
 			var doble=JSON.parse(servidor);
 			showChampions(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }

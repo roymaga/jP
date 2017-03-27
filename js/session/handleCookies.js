@@ -1,4 +1,7 @@
 // JavaScript Document
+function getJPApiURL(){
+	return "http://app.jugaplay.com/api/v1/";
+}
 function acceptsLocalStorage(){
 	if(typeof(Storage) !== "undefined") {
     return true;

@@ -1,7 +1,7 @@
 // JavaScript Document
 // Deberia ponerle un loader cuando arranca y cada vez que carga y borrarlo cada vez
 window.historyOfPlays=[];
-window.onload=setTimeout(function(){ showCompleteHistory(0); }, 1000);
+window.onload=setTimeout(function(){showCompleteHistory(0);}, 1000);
 function showCompleteHistory(from){
 	/*previousHistory=getCookie("history-Jp");
 	if(previousHistory.length>4){		
@@ -49,12 +49,12 @@ function armadoDelHistorialCuerpoHistoria(from){
 				armadoDelHistorialCuerpoHistoria(from);
 			}			
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/plays"+paginate,true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"plays"+paginate,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

@@ -1,6 +1,5 @@
 
-
-window.onload=setTimeout(function(){ loadWalletBalance(); }, 1000);
+window.onload=setTimeout(function(){loadWalletBalance();}, 1000);
 function updateWalletBalance(objWallet){
 	var d = new Date();
 	var monthName = returnFullMonthName(d.getMonth()+1);
@@ -52,12 +51,12 @@ function loadWalletBalance(){
 				loadWalletBalance();
 			}			
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/wallet_history"+paginate,true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"wallet_history"+paginate,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
@@ -65,11 +64,15 @@ function loadWalletBalance(){
 }
 function parseAppendDetailMovement(idToCollapse,htmlDetailGenerator,from){
 		var html='';var oddOrEven;
+		if(idToCollapse=="idWallPc"){
+			var temp=htmlDetailGenerator.prizes;
+			htmlDetailGenerator=temp;
+			}
 		for(i in htmlDetailGenerator){
-			if((i+parseInt(from)-1)%2==0){oddOrEven="odd";}else{oddOrEven="even";}
+			if((parseInt(i)+parseInt(from)-1)%2==0){oddOrEven="odd";}else{oddOrEven="even";}
 			html+='<div class="row players-list-item vertical-align color-player-list3 '+oddOrEven+'"> <div class="col-xs-6 player-name"><p>'+htmlDetailGenerator[i].detail+'</p></div><div class="col-xs-2 text-right nopadding"> '+dateFormatViewDay(htmlDetailGenerator[i].date)+' </div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style1">'+htmlDetailGenerator[i].coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px;margin-left: 5px;width: 15px;"></p></div></div>';
 		}
-	if(htmlDetailGenerator.length>=5){html+='<a class="btn btn-style3 full-width bg-color3" onclick="showMoreWalletDetail(this,\''+idToCollapse+'\','+from+');">VER +</a>'}
+	if((htmlDetailGenerator.length>=5 && idToCollapse!="idWallPc")||htmlDetailGenerator.length>=25 ){html+='<a class="btn btn-style3 full-width bg-color3" onclick="showMoreWalletDetail(this,\''+idToCollapse+'\','+from+');">VER +</a>'}
 	removeLoaderFromCertainContainer(document.getElementById(idToCollapse));document.getElementById(idToCollapse).innerHTML+=html;
 }
 function showMoreWalletDetail(element,idToCollapse,from){
@@ -78,7 +81,7 @@ function showMoreWalletDetail(element,idToCollapse,from){
 	var paginate="?from="+from+"&to=5";
 	if(idToCollapse=="idWallWc"){var dir="t_withdraws"+paginate;}
 	if(idToCollapse=="idWallEfC"){var dir="t_entry_fees"+paginate;}
-	if(idToCollapse=="idWallPc"){var dir="t_prizes"+paginate;}
+	if(idToCollapse=="idWallPc"){var dir="prizes?page="+(parseInt(from/5+1));}// Prizes queda distinto resuelvo simple algo que va a andar
 	if(idToCollapse=="idWallFc"){var dir="t_promotions"+paginate;}
 	if(idToCollapse=="idWallBcHC"){var dir="t_deposits"+paginate;;}
 	if(checkConnection()){var xmlhttp;
@@ -105,12 +108,12 @@ function showMoreWalletDetail(element,idToCollapse,from){
 				showMoreWalletDetail(element,idToCollapse,from);
 			}			
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/"+dir,true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+""+dir,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

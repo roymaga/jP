@@ -68,12 +68,12 @@ function mensajeAlServidorConContenidoLogIn(json){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaLogIn(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		
@@ -112,9 +112,9 @@ function processFacebook(type){
 		}}
 	//fbq('track', 'CompleteRegistration');// Esto nos va a traer inconsistencias por que no diferencia quien se registra de quien no
 	if(window.invitationTknId>0 && type=="register"){
-		var windowB=window.open('http://app.jugaplay.com/api/v1/users/auth/facebook?invitation_token='+window.invitationTknId);
+		var windowB=window.open(getJPApiURL()+'users/auth/facebook?invitation_token='+window.invitationTknId);
 	}else{
-		var windowB=window.open('http://app.jugaplay.com/api/v1/users/auth/facebook');
+		var windowB=window.open(getJPApiURL()+'users/auth/facebook');
 	}
 	setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
 }
@@ -151,14 +151,14 @@ function checkIfLogInWithFacebook(type){
 				analizarRespuestaDatosUsuarioLogIn(doble);
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}
+		xmlhttp.send();	}	
 }
 // Fin Log in registro Fb
 // Comienzo password Recovery
@@ -207,11 +207,11 @@ function recoverProcess(dialogItself){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaDatosPasswordRecovery(doble, dialogItself);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send(json);	

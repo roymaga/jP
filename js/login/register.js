@@ -74,12 +74,12 @@ function mensajeAlServidorConContenidoRegistro(json, mail, pass){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaRegistro(doble, mail, pass);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"users",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		
@@ -121,38 +121,12 @@ function hacerLogOutPreventivo(){
 			return true;
 	    }
 	 	 }
-		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
+		xmlhttp.open("DELETE",getJPApiURL()+"logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
 	}
 }
-function probarSinRegistro(){
-	var rand = Math.floor((Math.random() * 100000000000000) + 1);
-	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
-	var mail=rand+"@guest.com";
-	var pass=traducirInvitacionAlSitio(rand2);
-	var nickname="Invitado"+rand;
-	setCookie("jugaPlayUserRemember", "true", 120);
-	setCookie("jugaPlayUserFacebook", "false", 120);
-	setCookie("juga-Play-User", mail, 120);
-	setCookie("juga-Play-Pass", pass, 120);
-	var mailInput = document.createElement("input");
-	mailInput.type="hidden";
-	mailInput.value=mail;
-	mailInput.id="email-pop";
-	document.body.appendChild(mailInput);
-	var passInput = document.createElement("input");
-	passInput.type="hidden";
-	passInput.value=pass;
-	passInput.id="password-pop";
-	document.body.appendChild(passInput);
-	var json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
-	if(startLoadingAnimation()==true){
-	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
-	
-}
-
 function probarSinRegistro(){
 	var rand = Math.floor((Math.random() * 100000000000000) + 1);
 	var rand2 = Math.floor((Math.random() * 100000000000000) + 1);
@@ -201,12 +175,12 @@ function askForInvitationIdFromRequest(requestTkn){
 				askForInvitationIdFromRequest(requestId);
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/requests/"+requestId+"/invitations",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"requests/"+requestId+"/invitations",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
@@ -236,12 +210,12 @@ function logInUsuarioEnElSitioPostRegistro(mail, pass){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaLogInPostRegistro(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	

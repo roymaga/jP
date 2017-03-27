@@ -18,7 +18,7 @@ function createNewGroupOfFriends(){
 	searchOptionsForNoneFriendsUsers('',1);
 }
 function parseUserFriendAddToGroup(friend){
-	return '<div class="row-fluid vertical-align friend-item" data-user-id="'+friend.user.id+'" data-user-name="'+friend.nickname.toUpperCase()+'" data-user-nick="'+friend.user.nickname.toUpperCase()+'" onclick="selectUserForAddingToGroup(\''+friend.user.id+'\',\''+friend.user.nickname+'\');"><div class="col-xs-3"><span class="fa-stack fa-2x friend-picture"><i class="fa fa-circle fa-stack-2x" style="color: lightgray;"></i></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></div><div class="col-xs-6"><h3 class="friend-nick">'+friend.nickname+'</h3><p class="friend-name">'+friend.user.nickname+'</p></div><div class="col-xs-3 icons"></div></div>';
+	return '<div class="row-fluid vertical-align friend-item" data-user-id="'+friend.user.id+'" data-user-name="'+friend.nickname.toUpperCase()+'" data-user-nick="'+friend.user.nickname.toUpperCase()+'" onclick="selectUserForAddingToGroup(\''+friend.user.id+'\',\''+friend.user.nickname+'\');"><div class="col-xs-3"><span class="fa-stack fa-2x friend-picture"><i class="fa fa-circle fa-stack-2x" style="color: lightgray;"></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></div><div class="col-xs-6"><h3 class="friend-nick">'+friend.nickname+'</h3><p class="friend-name">'+friend.user.nickname+'</p></div><div class="col-xs-3 icons"></div></div>';
 }
 function startAllCreateNewGroupOfFriendsFunctions(){
 		window.lastSearchQContentLastPageShown=[];
@@ -114,11 +114,11 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/users/search/?page="+page,true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"users/search/?page="+page,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);}
@@ -172,7 +172,7 @@ function showMoreOptionsForNoneFriendsUsers(searchQ, next, container){
 }
 function parseUserAddToContainer(user){
 	//alert("Add");
-	return '<div class="row-fluid vertical-align friend-item" data-user-id="'+user.id+'" data-user-nick="'+user.nickname.toUpperCase()+'" data-user-name="" onclick="selectUserForAddingToGroup(\''+user.id+'\',\''+user.nickname+'\');"><div class="col-xs-3"><span class="fa-stack fa-2x friend-picture"><i class="fa fa-circle fa-stack-2x" style="color: lightgray;"></i></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></div><div class="col-xs-6"><h3 class="friend-nick mb30">'+user.nickname+'</h3></div><div class="col-xs-3 icons"></div></div>';
+	return '<div class="row-fluid vertical-align friend-item" data-user-id="'+user.id+'" data-user-nick="'+user.nickname.toUpperCase()+'" data-user-name="" onclick="selectUserForAddingToGroup(\''+user.id+'\',\''+user.nickname+'\');"><div class="col-xs-3"><span class="fa-stack fa-2x friend-picture"><i class="fa fa-circle fa-stack-2x" style="color: lightgray;"></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></div><div class="col-xs-6"><h3 class="friend-nick mb30">'+user.nickname+'</h3></div><div class="col-xs-3 icons"></div></div>';
 }
 // window.selectedUsersToFromGroup=[];
 // Add element to carruserl

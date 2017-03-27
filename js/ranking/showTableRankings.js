@@ -52,12 +52,12 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 			analizarRespuestaRankingUsuarioPrimeraA(doble);
 			mensajeAlServidorPidiendoRankingChileno();	
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/8/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tournaments/8/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();	}else{
@@ -103,12 +103,12 @@ function mensajeAlServidorPidiendoRankingChileno(){
 			analizarRespuestaRankingUsuarioChileno(doble);
 			mensajeAlServidorPidiendoRankingChampions();
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/10/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tournaments/10/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();	}else{
@@ -155,12 +155,12 @@ function mensajeAlServidorPidiendoRankingChampions(){
 			mensajeAlServidorPidiendoRankingLibertadores();
 			analizarRespuestaRankingUsuarioChampions(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/9/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tournaments/9/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();	}else{
@@ -205,12 +205,12 @@ function mensajeAlServidorPidiendoRankingLibertadores(){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaRankingUsuarioLibertadores(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tournaments/11/rankings",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tournaments/11/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();	}else{

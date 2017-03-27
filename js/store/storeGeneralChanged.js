@@ -1,10 +1,5 @@
 // JavaScript Document
-/*window.onload=startLoadingStore();
-function startLoadingStore(){
-preLoadStore1=[{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null },{"img":"http://jugaplay.com/img/premios/store/botines-tiempo-rio.jpg", "title":"Botines Nike", "price":"1200","country":"Argentina","detail":null,"duration":null }];
-loadStore(preLoadStore1);
-}*/
-window.onload=setTimeout(function(){ showPrizesChengedInStore(); }, 1000);
+window.onload=setTimeout(function(){showPrizesChengedInStore();}, 1000);
 function showPrizesChengedInStore(){
 	previousStoresLoad=getCookie("storesShow-Changed-Jp");
 	if(previousStoresLoad.length>4){		
@@ -42,8 +37,8 @@ function showAvailablePrizesChangedStore(){
 			var doble=JSON.parse(servidor);
 			loadChangeStore(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
@@ -63,7 +58,7 @@ function loadChangeStore(preLoadStore){
 	document.getElementById("show-store-container").innerHTML=textOfStore;
 }
 function returnPrizeToShow(prize){
-	return '<div class="col-xs-6 reward"><img src="'+prize.img+'" class="full-width"><h5>'+prize.title+'</h5> <h4>'+prize.country+'</h4><p class="text-color3">'+prize.price+' <img src="img/icons/coins/coins.gif" width="15px"> </p>'+generateButtonForPrize(prize.changeLink)+'</div>'
+	return '<div class="col-xs-6 reward"><img src="'+prize.img+'" class="full-width"><h5>'+prize.title+'</h5> <h4>'+prize.country+'</h4><p class="text-color3">'+prize.price+' <img src="img/icons/coins/coin.png" width="15px"> </p>'+generateButtonForPrize(prize.changeLink)+'</div>'
 }
 function generateButtonForPrize(linkForPrize){
 	if(linkForPrize!=null){return'<button class="btn btn-primary btn-style3" onClick="openPrizeInNewWindow(\''+linkForPrize+'\');" type="submit">Boucher</button>'}

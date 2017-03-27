@@ -37,12 +37,12 @@ function mensajeAlServidorComentarioContacto(json){
 			document.getElementById("mailContacto").value=null;
 			document.getElementById("contenidoContactoTxt").value=null;
 			
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/comments",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"comments",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		

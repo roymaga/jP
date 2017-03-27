@@ -247,6 +247,7 @@ body {
 .match-type {}
 .match-type img {
 	width: 23px;
+	margin-left: 3px;
 }
 .match-type p {
     display: inline-flex;
@@ -260,6 +261,7 @@ body {
 .prize-type img {
 	width: 30px;
 	margin-right: -20px;
+	margin-left: 5px;
 }
 .prize-type p {
     display: inline-flex;
@@ -364,7 +366,6 @@ a.social-icon .circle-icon {
     margin-bottom: 25px;
 }
 .rewards-container .reward img {
-    border: 1px solid #e8e8e8;
     margin-bottom: 10px;
 }
 .rewards-container .reward h5 {

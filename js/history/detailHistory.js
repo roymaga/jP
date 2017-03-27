@@ -64,12 +64,12 @@ function detallesHistoricosPuntaje(playerId,idMesa){
 			var doble=JSON.parse(servidor);
 			buscarEstadisticasJugador(doble,playerId);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+idMesa+"/",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tables/"+idMesa+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
@@ -118,12 +118,12 @@ function consultaEstadisticasJugadores(mesa,playerId,matchLooked,nameMatchLooked
 			var doble=JSON.parse(servidor);
 			mostrarEstadisticasDelJugadorHistorial(doble,mesa,nameMatchLooked);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/matches/"+matchLooked+"/players/"+playerId+"/stats",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"matches/"+matchLooked+"/players/"+playerId+"/stats",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

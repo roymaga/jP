@@ -82,11 +82,11 @@ function showAvailableContactsToPlay(json){
 			askAvailableContactsToPlay();
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/address_books/synch/",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"address_books/synch/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	}else{
@@ -124,12 +124,12 @@ function askAvailableContactsToPlay(){
 			var doble=JSON.parse(servidor);
 			analizeShowContactsToPlay(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/address_books/",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"address_books/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	}else{
@@ -165,7 +165,7 @@ function loadUserToVisibleDom(user){
 	addUserToListoOfUsers(createUser);
 }
 function parseSyncIcons(user){
-	// SyncOptions </i> <i class="fa fa-mobile fa-2x " aria-hidden="true"></i>					<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>
+	// SyncOptions  <i class="fa fa-mobile fa-2x " aria-hidden="true"></i>					<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>
 		var text='';
 		if(user.synched_by_facebook == true){text+='<i class="fa fa-facebook-square fa-2x " aria-hidden="true"></i>';}
 		if(user.synched_by_email == true){text+='<i class="fa fa-envelope-o fa-2x " aria-hidden="true"></i>';}
@@ -189,7 +189,7 @@ function addUserToListoOfUsers(userToCreate){ // Add User to container if alread
 	if(flag==0){document.getElementById("contact-list-friends").appendChild(userToCreate);}
 }
 function lookFriendsInFacebook(){
-	var windowB=window.open('http://app.jugaplay.com/api/v1/users/auth/facebook');
+	var windowB=window.open(getJPApiURL()+'users/auth/facebook');
 	setTimeout(function (){checkIfWindowFacebookCloseSync(windowB);}, 500);
 }
 function checkIfWindowFacebookCloseSync(windowB){

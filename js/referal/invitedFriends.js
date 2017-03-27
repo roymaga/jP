@@ -1,5 +1,5 @@
 // JavaScript Document
-window.onload=setTimeout(function(){ loadAllUsersInvitatios(); }, 1000);
+window.onload=setTimeout(function(){loadAllUsersInvitatios();}, 1000);
 function loadAllUsersInvitatios(){
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -22,12 +22,12 @@ function loadAllUsersInvitatios(){
 				loadAllUsersInvitatios();
 			}
 			
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/invitation_requests",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"invitation_requests",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

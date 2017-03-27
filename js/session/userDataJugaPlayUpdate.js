@@ -11,7 +11,7 @@ function userDataJugaPlayUpdate(data){
 	cookieSave=JSON.stringify(data);
 	setCookie("juga-Play-Data", cookieSave, 120);
 	window.userDataJugaPlay=data;
-	updateMenusValues();// Update menu / menus with data
+	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}// Update menu / menus with data
 }
 // Hacer el Log out de la cuenta
 function logOutFromJugaPlay(){
@@ -40,7 +40,7 @@ function logOutFromJugaPlay(){
 			return true;
 	    }
 	 	 }
-		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
+		xmlhttp.open("DELETE",getJPApiURL()+"logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
@@ -84,7 +84,7 @@ function editXCoinsFromUsersWallet(coins){// it can be positive or negative
 	window.userDataJugaPlay.coins+=coins;
 	cookieSave=JSON.stringify(window.userDataJugaPlay);
 	setCookie("juga-Play-Data", cookieSave, 120);
-	updateMenusValues();
+	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}
 }
 function editDataFromUser(first_name, last_name, email, nickname){
 	window.userDataJugaPlay.first_name=first_name;
@@ -93,5 +93,5 @@ function editDataFromUser(first_name, last_name, email, nickname){
 	window.userDataJugaPlay.nickname=nickname;
 	cookieSave=JSON.stringify(window.userDataJugaPlay);
 	setCookie("juga-Play-Data", cookieSave, 120);
-	updateMenusValues();
+	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}
 }

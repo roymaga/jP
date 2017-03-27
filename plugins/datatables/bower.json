@@ -3,7 +3,7 @@
 	"version": "1.10.10",
 	"main": [
 		"media/js/jquery.dataTables.js?63",
-		"media/css/jquery.dataTables.css?33",
+		"media/css/jquery.dataTables.css?55",
 		"media/images/sort_asc.png",
 		"media/images/sort_asc_disabled.png",
 		"media/images/sort_both.png",

@@ -3,6 +3,7 @@
 // Dependency -- dialog-master
 
 // Load functions animation depends of dialog-master
+window.alertShown=false;
 function startLoadingAnimation(){
 		 BootstrapDialog.show({
 			 cssClass: 'loading-pop-up',
@@ -43,34 +44,80 @@ function avisoEmergenteJugaPlay(titulo,texto){
 		 });
 		 return false;
 	}
-
+function avisoEmergenteJugaPlayConnectionError(){
+	if ((typeof(document.getElementById('boton-panel-registro-aviso-error-conexion-pop-up')) == 'undefined' || document.getElementById('boton-panel-registro-aviso-error-conexion-pop-up') == null)&&window.alertShown==false){
+		window.alertShown=true;// Por que como tarda en abrir sino se solapan
+		setTimeout(function(){window.alertShown=false;}, 5000); // Por si lo cierra con la cruz
+	BootstrapDialog.show({
+			 cssClass: 'general-modal-msj',
+			 title: "<H1>ERROR DE CONEXIÓN</H1>",
+            message: "Hubo un error de conexión intente nuevamente",
+			buttons: [{
+                label: 'Aceptar',
+				id:'boton-panel-registro-aviso-error-conexion-pop-up',
+                action: function(dialogItself){
+                    dialogItself.close();
+					window.alertShown=false;
+                }
+            }]		 
+		 });}
+		 return true;
+}
 // Show days in diferent ways 
-function dateFormatView(d){
+function dateFormatView(fechaHora){
+	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
 	//2016-01-05T20:14:00.919Z
-	//01234567890123456789
-	dia= d.substring(8, 10);// Dia del mes
-	mes= d.substring(5, 7);// que mes
-	hora= d.substring(11, 13);// hora
-	minutos=d.substring(14, 16);// minutos
-    return hora+':'+minutos+' Hs <b>'+dia+'/'+lettersOfMonth(mes)+'</b>';
+	var d = new Date();
+	var dia= fechaHora.substring(8, 10);// Dia del mes
+	var mes= fechaHora.substring(5, 7);// que mes
+	var ano= fechaHora.substring(0, 4);// que ano
+	var hora= fechaHora.substring(11, 13);// hora
+	var minutos=fechaHora.substring(14, 16);// minutos
+	var diff=d.getTimezoneOffset();
+	var diffMinutos= diff-180;
+	d.setFullYear(ano, (mes-1), dia);
+	d.setHours(hora);
+	d.setMinutes(minutos);
+	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+    return parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b>';
 }
-function dateFormatViewDay(d){
+function dateFormatViewDay(fechaHora){
+	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
 	//2016-01-05T20:14:00.919Z
-	//01234567890123456789
-	dia= d.substring(8, 10);// Dia del mes
-	mes= d.substring(5, 7);// que mes
-	hora= d.substring(11, 13);// hora
-	minutos=d.substring(14, 16);// minutos
-    return dia+'/'+lettersOfMonth(mes);
+	var d = new Date();
+	var dia= fechaHora.substring(8, 10);// Dia del mes
+	var mes= fechaHora.substring(5, 7);// que mes
+	var ano= fechaHora.substring(0, 4);// que ano
+	var hora= fechaHora.substring(11, 13);// hora
+	var minutos=fechaHora.substring(14, 16);// minutos
+	var diff=d.getTimezoneOffset();
+	var diffMinutos= diff-180;
+	d.setFullYear(ano, (mes-1), dia);
+	d.setHours(hora);
+	d.setMinutes(minutos);
+	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+    return parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1);
 }
-function dateFormatViewNormal(d){
+function dateFormatViewNormal(fechaHora){
+	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
 	//14/01/2016 - 22:10
-	//012345678901234567
-	dia= d.substring(0, 2);// Dia del mes
-	mes= d.substring(3, 5);// que mes
-	hora= d.substring(13, 15);// hora
-	minutos=d.substring(16);// minutos
-    return hora+':'+minutos+' Hs</br><b>'+dia+'/'+lettersOfMonth(mes)+'</b>';
+	var d = new Date();
+	var dia= fechaHora.substring(0, 2);// Dia del mes
+	var mes= fechaHora.substring(3, 5);// que mes
+	var ano= fechaHora.substring(6, 10);// que ano
+	var hora= fechaHora.substring(13, 15);// hora
+	var minutos=fechaHora.substring(16);// minutos
+	var diff=d.getTimezoneOffset();
+	var diffMinutos= diff-180;
+	d.setFullYear(ano, (mes-1), dia);
+	d.setHours(hora);
+	d.setMinutes(minutos);
+	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+    return parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs</br><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b>';
+}
+function parse0LessThan10(int){
+	int=parseInt(int);
+	if(int<10){return"0"+int;}else{return int;}
 }
 function lettersOfMonth(month){
 	month=parseInt(month);
@@ -221,7 +268,6 @@ function removeLoaderFromCertainContainer(container){
 	}
 	return true;
 }
-
 function parseTableChallengeMatchName(title){
 	var index= title.indexOf("-unchn");
 	if(index!=-1){
@@ -262,4 +308,36 @@ function mesaDisponibleParaJugarHorario(fechaHora){
 	if(t<d){return true;}else{
 		return false;
 	}
+}
+// Hacer el log in y mantenerlo
+function changeAndKeepLogIn(mail,pass){
+	var json=JSON.stringify({ "user": { "email": mail, "password":pass } });
+	if(getCookie("jugaPlayUserRemember")=="true"){
+		setCookie("jugaPlayUserFacebook", "false", 120);
+		setCookie("juga-Play-User", mail, 120);
+		setCookie("juga-Play-Pass", pass, 120);
+	}
+	var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
+	    {
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
+			 return "ERROR";
+			}
+	 	 }
+		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send(json);		
 }

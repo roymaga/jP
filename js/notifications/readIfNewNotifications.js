@@ -2,8 +2,7 @@
 // User data Control
 window.notificationsLimtToShow=5;
 window.JpNotHtmlNotificatios=null;
-
-window.onload=setTimeout(function(){ controlJpNotifications(); }, 1000);
+window.onload=setTimeout(function(){controlJpNotifications();}, 1000);
 //setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds
 function controlJpNotifications(){
 	if(getUserJugaplayId()!=null){
@@ -112,11 +111,11 @@ function updateNotificationAsRead(notfId){
 			 }
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/notifications/"+notfId,true);// El false hace que lo espere
+		xmlhttp.open("PATCH",getJPApiURL()+"notifications/"+notfId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
@@ -147,12 +146,12 @@ function updateNotifications(){
 				 updateNotifications();
 			 }
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/notifications?from=0&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"notifications?from=0&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
@@ -196,12 +195,12 @@ function showMoreNotifications(element,from,e){
 				 showMoreNotifications(element,from,e);
 			 }
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/notifications?from="+from+"&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"notifications?from="+from+"&to="+window.notificationsLimtToShow,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

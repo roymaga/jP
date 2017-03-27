@@ -58,11 +58,11 @@ function selectMatchToPlayAsChallenge(tableId){
 			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/tables/"+tableId+"/",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	}
@@ -93,12 +93,12 @@ function createGroupToChallenge(matchDetails){
 				createGroupToChallenge(matchDetails);
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/groups/",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"groups/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);}
@@ -137,12 +137,12 @@ function createMatchChallenge(groupId,matchDetails){
 				createMatchChallenge(groupId,matchDetails)
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/tables",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"tables",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);}
@@ -159,7 +159,7 @@ function openMatchesFilterWindow(){
 	openFilterWindow(tableTitle,content);
 }
 function createShowMatchesFilter(){
-	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"8","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"10","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"9","showName":"Champions League","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"11","showName":"Liga Española","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"12","showName":"Premier League","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"3","showName":"Partidos Especiales","openFunction":null}];
+	simulateTablesFilter=[{"filterName":"dataTournament-type","dataFilter":"8","showName":"Torneo Argentino","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"10","showName":"Torneo Chileno","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"9","showName":"Champions League","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"11","showName":"Copa Libertadores","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"12","showName":"Liga Española","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"13","showName":"Premier League","openFunction":null},{"filterName":"dataTournament-type","dataFilter":"3","showName":"Partidos Especiales","openFunction":null}];
 	content='<div class="list-style1">';
 	for(individual in simulateTablesFilter){
 		if(window.matchesFilterArray.indexOf(simulateTablesFilter[individual].dataFilter)!=-1){// Esta contenido en el Arreglo

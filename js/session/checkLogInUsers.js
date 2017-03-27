@@ -35,12 +35,12 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaLogInSaved(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXI&Oacute;N","<p>Hubo un error de conexi&oacute; intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("POST","http://app.jugaplay.com/api/v1/login",true);// El false hace que lo espere
+		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		
@@ -89,11 +89,11 @@ function analizarSiyaEstaLogueado(){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaDatosUsuarioLogIn(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }
-		xmlhttp.open("GET","http://app.jugaplay.com/api/v1/users/33",true);// El false hace que lo espere
+		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send();	
@@ -113,7 +113,7 @@ function analizarRespuestaDatosUsuarioLogIn(servidor){
 function checkLogInFacebook(){
 	if(document.body!=null){
 	var iframe = document.createElement('iframe');
-	iframe.src = 'http://app.jugaplay.com/api/v1/users/auth/facebook?invited_by=1';
+	iframe.src = getJPApiURL()+'users/auth/facebook?invited_by=1';
 	iframe.style.display="none";
 	iframe.onload = function() {
 		analizarSiyaEstaLogueado();

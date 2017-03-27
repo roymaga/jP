@@ -63,11 +63,11 @@ function passwordRecoveryTransaction(dialogItself, passToken){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaDatosPasswordRecoveryReset(doble, dialogItself);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }
-		xmlhttp.open("PUT","http://api.jugaplay.com/api/v1/users/password",true);// El false hace que lo espere
+		xmlhttp.open("PUT",getJPApiURL()+"users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send(json);	
@@ -104,7 +104,7 @@ function hacerLogOutDeLaCuentaPreventivoPassReset(){
 			return true;
 	    }
 	 	 }
-		xmlhttp.open("DELETE","http://app.jugaplay.com/api/v1/logout",true);// El false hace que lo espere
+		xmlhttp.open("DELETE",getJPApiURL()+"logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	

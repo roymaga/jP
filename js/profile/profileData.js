@@ -1,6 +1,6 @@
 // JavaScript Document
 // Starts complete data of user
-window.onload=setTimeout(function(){ loadDataToProfile(); }, 1000);
+window.onload=setTimeout(function(){loadDataToProfile();}, 1000);
 function loadDataToProfile(){
 	if(window.userDataJugaPlay!=null){
 		completeDataOfProfile();
@@ -74,12 +74,12 @@ function mensajeAlServidorConContenidoRegistro(json){
 			var doble=JSON.parse(servidor);
 			analizarRespuestaCambiarDatosUsuarios(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
-			 avisoEmergenteJugaPlay("ERROR DE CONEXIÓN","<p>Hubo un error de conexió intente nuevamente</p>");
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
 	 	 }
-		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+userId,true);// El false hace que lo espere
+		xmlhttp.open("PATCH",getJPApiURL()+"users/"+userId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
@@ -89,10 +89,10 @@ function analizarRespuestaCambiarDatosUsuarios(servidor){
 	//alert(JSON.stringify(servidor));
 	closeLoadingAnimation();
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
-			if (typeof(doble.errors.email) !== 'undefined'){
+			if (typeof(servidor.errors.email) !== 'undefined'){
 						avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("formUserEmail").value+"</b> ya esta registrado en JugaPlay</p>");
 						return false;
-						}else if(typeof(doble.errors.nickname) !== 'undefined'){
+						}else if(typeof(servidor.errors.nickname) !== 'undefined'){
 						avisoEmergenteJugaPlay("Nick en uso","<p>El Nick <b>"+nickname+"</b> ya esta registrado en JugaPlay, elija otro</p>");
 						}else{
 						avisoEmergenteJugaPlay("Error inesperado","<p>Algo salio mal, vuelva a intentar</p>");
@@ -106,7 +106,7 @@ function analizarRespuestaCambiarDatosUsuarios(servidor){
 }
 // Reset password
 function passwordResetRequest(){
-	var html='<div class="container container-full"><div class="form-style1 text-color1"><fieldset class="form-group"> Nueva contraseña<input type="text" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset><fieldset class="form-group"> Repetir nueva contraseña <input class="form-control" type="text" id="formUserPassWordRepeat" placeholder="Repetir contraseña"></fieldset></div></div>';
+	var html='<div class="container container-full"><div class="form-style1 text-color1"><fieldset class="form-group"> Nueva contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset><fieldset class="form-group"> Repetir nueva contraseña <input class="form-control" type="password" id="formUserPassWordRepeat" placeholder="Repetir contraseña"></fieldset></div></div>';
 	 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj',
 			 title: "<H1>Cambiar contraseña</H1>",
@@ -152,13 +152,14 @@ function serverPasswordResetRequest(dialog){
 			stopTimeToWait();
 			closeLoadingAnimation();
 			dialog.close();
+			changeAndKeepLogIn(getUserJugaplayEmail(),password);// Para hacer el log in ya que lo echa
 			avisoEmergenteJugaPlay("Cambio de contraseña","<p>El cambio de contraseña se concretó correctamente.</p>");
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }
-		xmlhttp.open("PATCH","http://app.jugaplay.com/api/v1/users/"+getUserJugaplayId(),true);// El false hace que lo espere
+		xmlhttp.open("PATCH",getJPApiURL()+"users/"+getUserJugaplayId(),true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
 		xmlhttp.send(json);	
