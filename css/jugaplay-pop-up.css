@@ -55,20 +55,23 @@ min-height:100vh;
 }
 .loading-pop-up .modal-content{
 	background-color: transparent;
-	background:url(../img/pop-ups/loading.gif) no-repeat;
-	background-size:contain;
+	background:url(../img/pop-ups/loading.svg) no-repeat;
+	background-size: 200px 200px;
 	background-position:center center;
-	width::295px;
-	height:295px;
+	width::200px;
+	height:200px;
 	margin-left: auto;
     margin-right: auto;
 	text-align: center;
 	border:none;
 	-webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0);
--moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0);
-box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0);
-opacity: 0.5;
-    filter: alpha(opacity=50);
+	-moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0);
+	box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0);
+	opacity: 0.8;
+    filter: alpha(opacity=80);
+	-webkit-animation : spin 2s infinite linear;  
+	-moz-animation : spin 2s infinite linear; 
+	-ms-animation: spin 2s infinite linear; 
 }
 .loading-pop-up .modal-dialog .modal-content .modal-header, .loading-pop-up .modal-content .modal-footer, .loading-pop-up .btn-default {
 	display:none;
@@ -165,4 +168,21 @@ opacity: 0.5;
 .filter-pop-up .modal-dialog .modal-content .modal-header{
 	    background-color: initial;
 		font-size: 1.8em;
+}
+/* Para animaciones, agregar asi: 
+-webkit-animation : spin 2s infinite linear;  
+	-moz-animation : spin 2s infinite linear; 
+	-ms-animation: spin 2s infinite linear;
+*/
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
 }

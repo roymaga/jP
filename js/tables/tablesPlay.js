@@ -281,7 +281,7 @@ function endOfPlayedTable(idTabla){
 	setTimeout(function(){changeOptionToPlayed(idTabla);playedGameThanksMessage();}, 1000);
 }
 function playedGameThanksMessage(){
-	if(!getUserSyncEmail()){noneRegisterPlayerPlayed();}else{avisoEmergenteJugaPlay("Gracias por Jugar","<p>¡Te deseamos mucha suerte!</p>");setTimeout(function(){hasBeenRead(4);}, 2000);}
+	if(!getUserSyncEmail()){noneRegisterPlayerPlayed();}else{avisoEmergenteJugaPlay("YA ELEGISTE TUS JUGADORES! AHORA JUGÁLO EN VIVO! ","<p>1- Ingresa en Jugaplay cuando comienza el partido.</p><p>2- Clickea \"PARTIDOS EN VIVO\" para seguir el rendimiento de tus jugadores y monedas minuto a minuto!</p><p>3- Al finalizar el partido, ingresa a tu historial o espera un email que te llegará al instante con tu resultado.</p>");setTimeout(function(){hasBeenRead(4);}, 2000);}
 }
 // Fin Funciones Juego de mesa
 // Funciones complementarias para El Play Tables

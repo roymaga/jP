@@ -19,7 +19,7 @@ function parseDetailMovement(idToCollapse,htmlDetailGenerator){
 	if(htmlDetailGenerator.length==0){html='Sin detalles'}else{
 		for(i in htmlDetailGenerator){
 			if(i%2==0){oddOrEven="odd";}else{oddOrEven="even";}
-			html+='<div class="row players-list-item vertical-align color-player-list3 '+oddOrEven+'"> <div class="col-xs-6 player-name"><p>'+htmlDetailGenerator[i].detail+'</p></div><div class="col-xs-2 text-right nopadding"> '+dateFormatViewDay(htmlDetailGenerator[i].date)+' </div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style1">'+htmlDetailGenerator[i].coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px;margin-left: 5px;width: 15px;"></p></div></div>';
+			html+='<div class="row players-list-item vertical-align color-player-list3 '+oddOrEven+'"> <div class="col-xs-6 player-name"><p>'+parseTableChallengeMatchName(htmlDetailGenerator[i].detail)+'</p></div><div class="col-xs-2 text-right nopadding"> '+dateFormatViewDay(htmlDetailGenerator[i].date)+' </div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style1">'+htmlDetailGenerator[i].coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px;margin-left: 5px;width: 15px;"></p></div></div>';
 		}
 	}
 	if(htmlDetailGenerator.length>=5){html+='<a class="btn btn-style3 full-width bg-color3" onclick="showMoreWalletDetail(this,\''+idToCollapse+'\',5);">VER +</a>'}
@@ -65,12 +65,12 @@ function loadWalletBalance(){
 function parseAppendDetailMovement(idToCollapse,htmlDetailGenerator,from){
 		var html='';var oddOrEven;
 		if(idToCollapse=="idWallPc"){
-			var temp=htmlDetailGenerator.prizes;
+			var temp=htmlDetailGenerator.table_rankings;
 			htmlDetailGenerator=temp;
 			}
 		for(i in htmlDetailGenerator){
 			if((parseInt(i)+parseInt(from)-1)%2==0){oddOrEven="odd";}else{oddOrEven="even";}
-			html+='<div class="row players-list-item vertical-align color-player-list3 '+oddOrEven+'"> <div class="col-xs-6 player-name"><p>'+htmlDetailGenerator[i].detail+'</p></div><div class="col-xs-2 text-right nopadding"> '+dateFormatViewDay(htmlDetailGenerator[i].date)+' </div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style1">'+htmlDetailGenerator[i].coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px;margin-left: 5px;width: 15px;"></p></div></div>';
+			html+='<div class="row players-list-item vertical-align color-player-list3 '+oddOrEven+'"> <div class="col-xs-6 player-name"><p>'+parseTableChallengeMatchName(htmlDetailGenerator[i].detail)+'</p></div><div class="col-xs-2 text-right nopadding"> '+dateFormatViewDay(htmlDetailGenerator[i].date)+' </div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style1">'+htmlDetailGenerator[i].coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px;margin-left: 5px;width: 15px;"></p></div></div>';
 		}
 	if((htmlDetailGenerator.length>=5 && idToCollapse!="idWallPc")||htmlDetailGenerator.length>=25 ){html+='<a class="btn btn-style3 full-width bg-color3" onclick="showMoreWalletDetail(this,\''+idToCollapse+'\','+from+');">VER +</a>'}
 	removeLoaderFromCertainContainer(document.getElementById(idToCollapse));document.getElementById(idToCollapse).innerHTML+=html;
@@ -81,7 +81,7 @@ function showMoreWalletDetail(element,idToCollapse,from){
 	var paginate="?from="+from+"&to=5";
 	if(idToCollapse=="idWallWc"){var dir="t_withdraws"+paginate;}
 	if(idToCollapse=="idWallEfC"){var dir="t_entry_fees"+paginate;}
-	if(idToCollapse=="idWallPc"){var dir="prizes?page="+(parseInt(from/5+1));}// Prizes queda distinto resuelvo simple algo que va a andar
+	if(idToCollapse=="idWallPc"){var dir="table_rankings?page="+(parseInt(from/5+1));}// Prizes queda distinto resuelvo simple algo que va a andar
 	if(idToCollapse=="idWallFc"){var dir="t_promotions"+paginate;}
 	if(idToCollapse=="idWallBcHC"){var dir="t_deposits"+paginate;;}
 	if(checkConnection()){var xmlhttp;

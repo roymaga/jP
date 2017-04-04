@@ -82,6 +82,13 @@ function showMoreHistory(element,next){
 }
 function generateBoxForHistoryShow(historyMatch){
 	if(historyMatch.table.points != "N/A"){
-	return '<div class="container container-full historial-list-item"><h1>'+historyMatch.table.position+'&deg;</h1><h2>'+historyMatch.table.title+'</h2><!--h4>fecha Pendiente</h4--><div class="container"><div class="row"><div class="col-xs-6"><h1>'+historyMatch.points+'</h1><h5>Puntos de Jugadores</h5></div><div class="col-xs-6"><h1>'+historyMatch.earn_coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"></h1><h5>Monedas Obtenidas</h5></div></div></div><a onClick="openDetailHistory(\''+historyMatch.table.id+'\')" class="btn btn-primary btn-style3 full-width">Ver Detalle</a></div>';}
+	return '<div class="container container-full historial-list-item"><h1>'+historyMatch.table.position+'&deg;</h1><h2>'+parseTableChallengeMatchName(historyMatch.table.title)+'</h2>'+generateChallangeTitle(historyMatch.table.group_name)+'<!--h4>fecha Pendiente</h4--><div class="container"><div class="row"><div class="col-xs-6"><h1>'+historyMatch.points+'</h1><h5>Puntos de Jugadores</h5></div><div class="col-xs-6"><h1>'+historyMatch.earn_coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"></h1><h5>Monedas Obtenidas</h5></div></div></div><a onClick="openDetailHistory(\''+historyMatch.table.id+'\')" class="btn btn-primary btn-style3 full-width">Ver Detalle</a></div>';}
 	else{return '';}
+}
+function generateChallangeTitle(group_name){
+	if(typeof(group_name) !== 'undefined'){
+		return '<h4 class="text-color8">'+group_name+'</h4>';
+	}else{
+		 return '';
+	}
 }
