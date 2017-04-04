@@ -6,7 +6,7 @@ window.liveMatchOpen={"users":[],"players":[],"stats":[]};
 window.readInidences=[];
 window.resultArrayTeams=[];
 function readInidecesOfOpenTable(tableDescription){
-	var splitArray=tableDescription.split('-'); // Ejemplo "libertad
+	var splitArray=tableDescription.split('-'); // Ejemplo "libertadores-257742"
 	json=JSON.stringify({"table_tournament":splitArray[0],"table_match":splitArray[1]});
 	//startLoadingAnimation();
 	if(checkConnection2()){var xmlhttp;
@@ -30,7 +30,7 @@ function readInidecesOfOpenTable(tableDescription){
 			return true;}else{
 				readInidecesOfOpenTable(tableDescription);
 			}
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
