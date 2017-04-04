@@ -49,7 +49,7 @@ function askServerToUpdateDataFromUser(){
 			var doble=JSON.parse(servidor);
 			analizeAskServerToUpdateDataFromUser(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 return;
 			}
 	 	 }

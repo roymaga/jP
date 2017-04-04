@@ -29,7 +29,6 @@ function closeOverLapseWindow(windowToClose){
 	if (typeof initializeGameVars == 'function') { 
  		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
-	
 }
 function closeAllOverLapseWindow(){
 	while(window.lastScreenArray.length>0){

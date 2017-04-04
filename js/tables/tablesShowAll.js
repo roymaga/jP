@@ -64,7 +64,7 @@ function showAvailableTablesToPlay(){
 				showAvailableTablesToPlay();
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -232,7 +232,7 @@ function firstTimeGameVars(){
 	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
 	$("#jp-section-title #title-icon").addClass("fa-sliders");
 	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'>" );
+	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'></div>" );
 }
 function initializeGameVars(){					  
 					$('.jp-tabs li a').click(function (e) {
@@ -244,7 +244,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-					$("#desafiosPlus").remove();
+						  $("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":
