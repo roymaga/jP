@@ -234,10 +234,10 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 function sendPlayToJugaplay(idTabla,bet){
 	startLoadingAnimation();
 	if(bet!="false"){
-		var json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected],"bet":bet});
+		var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected,"bet":bet});
 	}
 	else{
-		var json=JSON.stringify({"table_id":idTabla, "player_ids":[window.arrPlayersSelected]});
+		var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected});
 	}
 	//alert(json);
 	if(checkConnection()){var xmlhttp;
