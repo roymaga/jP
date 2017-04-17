@@ -2,7 +2,8 @@
 // User data Control
 window.notificationsLimtToShow=5;
 window.JpNotHtmlNotificatios=null;
-window.onload=setTimeout(function(){controlJpNotifications();}, 1000);
+
+window.onload=setTimeout(function(){ controlJpNotifications(); }, 1000);
 //setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds
 function controlJpNotifications(){
 	if(getUserJugaplayId()!=null){
@@ -110,7 +111,7 @@ function updateNotificationAsRead(notfId){
 				 updateNotifications(notfId);
 			 }
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
