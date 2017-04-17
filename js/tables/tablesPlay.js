@@ -24,7 +24,7 @@ function openTableToPlayOverLapseWindow(tableId){
 			var doble=JSON.parse(servidor);
 			readOpenTable(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -46,15 +46,15 @@ function readOpenTable(openTable){
 		setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
 function contentForOpenTableWindow(openTable){
-	startTopBlocks='<div class="container players-top-container" style="width:100%; padding:0; position:fixed; z-index:10;">';
-	fisrtBlockShownWithData='<div class="container container-style1 bg-color2"><div class="row text-color2 vertical-align"><div class="col-xs-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 text-right match-info"><a onClick="openTableInformation(0);"><img src="img/icon-i-white.png"></a></div><div class="col-xs-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</p></div></div></div>';
-	secondBlockWithFilters='<div class="container container-style1 container-spacing-style1 bg-color3"><a onClick="createShowIndividualTableFilter();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a><div class="filter-list" id="filter-list-shown-in-table"></div></div>';
-	thirdBlockWithPLayersSelected='<div class="container selected-players" id="container-selected-players-table"><div class="arrow-drag up" onClick="colapseSelectedPlayers(this);"></div></div>';
-	endTopBlocks='</div>';
-	fourthBlockWithPLayersSelected='<div class="container players-list" id="container-listed-players-table">'+addPlayersInToTable(openTable)+'</div>';
-	lastWithButton='<div class="container bg-color2 btn-play-container"><button type="button" id="button-play-of-table" onClick="buttomPlayTable();" class="btn btn-play pending">FALTAN '+openTable.number_of_players+' JUGADORES</button></div>';
+	setTimeout(function(){hasBeenRead(5);}, 500);// Explicacion de capitanes
+	var startTopBlocks='<div class="container players-top-container" style="width:100%; padding:0; position:fixed; z-index:10;">';
+	var fisrtBlockShownWithData='<div class="container container-style1 bg-color2"><div class="row text-color2 vertical-align"><div class="col-xs-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 text-right match-info"><a onClick="openTableInformation(0);"><img src="img/icon-i-white.png"></a></div><div class="col-xs-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</p></div></div></div>';
+	var secondBlockWithFilters='<div class="container container-style1 container-spacing-style1 bg-color3"><a onClick="createShowIndividualTableFilter();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a><div class="filter-list" id="filter-list-shown-in-table"></div></div>';
+	var thirdBlockWithPLayersSelected='<div class="container selected-players" id="container-selected-players-table"><div class="arrow-drag up" onClick="colapseSelectedPlayers(this);"></div></div>';
+	var endTopBlocks='</div>';
+	var fourthBlockWithPLayersSelected='<div class="container players-list" id="container-listed-players-table">'+addPlayersInToTable(openTable)+'</div>';
+	var lastWithButton='<div class="container bg-color2 btn-play-container"><button type="button" id="button-play-of-table" onClick="buttomPlayTable();" class="btn btn-play pending">FALTAN '+openTable.number_of_players+' JUGADORES</button></div>';
 	return startTopBlocks+fisrtBlockShownWithData+secondBlockWithFilters+thirdBlockWithPLayersSelected+endTopBlocks+fourthBlockWithPLayersSelected+lastWithButton ;
-	//return playerTest()+lastWithButton ;
 }
 function addPlayersInToTable(mesa){
 	tabalasSelect="";
@@ -75,14 +75,13 @@ function addPlayersInToTable(mesa){
 	return tabalasSelect;
 }
 function tablaSelectJugador(player,team,teamId,partido){
-	id=player.id;
-	img='<img class="player-profile-pic" src="'+playerGetImage(id)+'">';
-	imgTeamLogo='<img class="team-logo" src="'+clubGetLogo(teamId)+'">';
-	
-	name=player.last_name+" "+player.first_name;
-	posicion=traducirPosicionJugadorMesa(player.position);
-	nacionalidad=player.nationality;
-	linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" class="row players-list-item vertical-align" onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');"><div class="col-xs-2">'+img+'</div><div class="col-xs-8 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2">'+imgTeamLogo+'</div></div>';
+	var id=player.id;
+	var img='<img class="player-profile-pic" class="player-profile-pic" src="'+playerGetImage(id)+'">';
+	var imgTeamLogo='<img class="team-logo" src="'+clubGetLogo(teamId)+'">';
+	var name=player.last_name+" "+player.first_name;
+	var posicion=traducirPosicionJugadorMesa(player.position);
+	var nacionalidad=player.nationality;
+	var linea='<div data-player-name="'+name+'" data-player-team="'+team+'" data-player-position="'+player.position+'" data-player-id="'+id+'" class="row players-list-item vertical-align" onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');"><div class="col-xs-2">'+img+'</div><div class="col-xs-6 player-name"><p><strong>'+name+'</strong></p><p>'+posicion+'</p></div><div class="col-xs-2 cap-cont"></div><div class="col-xs-2">'+imgTeamLogo+'</div></div>';
 	return linea;
 }
 function comparePlayersInTeamSort(a,b) {
@@ -106,7 +105,7 @@ function returnPositionAsNumber(position){
 	if(position=="forward"){return 3;}
 	return 4;// No deberia salir por aca pero por las dudas...
 }
-// <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>✓</span></button></div>
+// <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div>
 function colapseSelectedPlayers(arrowElement){
 	selectedPlayerContainer=arrowElement.parentNode;
 	// collapse
@@ -127,7 +126,12 @@ function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
 	//playerRow=elementBoton.parentNode.parentNode;
 	if(playerRow.classList.contains("selected")){
 		returnToPlayerListInOrder(playerRow);
-		//document.getElementById("container-listed-players-table").appendChild(playerRow); 
+		var capitan = playerRow.getElementsByClassName("capitan");
+		for(c in capitan){ // Saca el logo de capitan si es que hay
+			if(capitan[c].innerHTML !== undefined){
+				capitan[c].parentNode.removeChild(capitan[c]);
+			}
+		}  
 		playerRow.classList.remove("selected");
 		index=window.arrPlayersSelected.indexOf(idPlayer);
 		if(index>-1){window.arrPlayersSelected.splice(index, 1);}	
@@ -170,28 +174,11 @@ function returnToPlayerListInOrder(playerRow){
 	document.getElementById("container-listed-players-table").appendChild(playerRow);// Si no lo ubico antes
 	return;
 }
-/*
-function gameMesaSelectPlayerForTeam(elementBoton,idPlayer){
-	playerRow=elementBoton.parentNode.parentNode;
-	if(elementBoton.classList.contains("selected")){
-		document.getElementById("container-listed-players-table").appendChild(playerRow); 
-		elementBoton.classList.remove("selected");
-		index=window.arrPlayersSelected.indexOf(idPlayer);
-		if(index>-1){window.arrPlayersSelected.splice(index, 1);}	
-	}else{
-		if(restPlayersToAdd()){
-		document.getElementById("container-selected-players-table").appendChild(playerRow);
-		elementBoton.classList.add("selected");
-		window.arrPlayersSelected.push(idPlayer);
-		}else{avisoEmergenteJugaPlay("Listado Completo","<p>Ya selecciono los  <b>"+window.actualOpenTable.number_of_players+"</b> jugadores para jugar esta mesa. Si desea agregar uno distinto debe sacar uno del listado de seleccionados.</p>");}
-	} 
-	 updatePositionOfPlayersForWindow();
-	 updateButtomOfTable(); 
-}*/
 function restPlayersToAdd(){
 	return (window.arrPlayersSelected.length<window.actualOpenTable.number_of_players)
 }
 function updateButtomOfTable(){
+	updateCapitans();
 	buttom=document.getElementById("button-play-of-table");
 	if(restPlayersToAdd()){
 		if(!buttom.classList.contains("pending")){buttom.classList.add("pending");}
@@ -201,6 +188,39 @@ function updateButtomOfTable(){
 		if(buttom.classList.contains("pending")){buttom.classList.remove("pending");}
 		buttom.innerHTML="JUGAR";
 	}
+}
+function updateCapitans(){
+	var listedPlayers=document.getElementById("container-selected-players-table");
+	for (player in window.arrPlayersSelected){
+		for(op in listedPlayers){
+				try{
+					if(listedPlayers[op].getAttribute('data-player-id')==window.arrPlayersSelected[player]){
+						addCapitanIcon(listedPlayers[op],player);
+					}
+				}catch(e){}// Sino no va, sale error --> getAttribute is not a function
+		}
+	}
+	
+}
+function addCapitanIcon(element,pos){
+	// alert(" addCapitanIcon("+element+","+pos+")");
+	var capitan = element.getElementsByClassName("capitan");
+		for(c in capitan){ // Saca el logo de capitan si es que hay
+			if(capitan[c].innerHTML !== undefined){
+				capitan[c].parentNode.removeChild(capitan[c]);
+			}
+		}
+	var divForCap = element.getElementsByClassName("cap-cont");
+		for(t in divForCap){ // Saca el logo de capitan si es que hay
+			if(divForCap[t].innerHTML !== undefined){
+				if(pos==0){
+					divForCap[t].innerHTML+='<img class="team-logo small capitan" src="img/icons/capitan/capitan.svg">';
+				}
+				if(pos==1){
+					divForCap[t].innerHTML+='<img class="team-logo small capitan" src="img/icons/capitan/sub_capitan.svg">';
+				}
+			}
+		}		
 }
 // Una vez que se apreta el boton
 function buttomPlayTable(){
@@ -239,7 +259,6 @@ function sendPlayToJugaplay(idTabla,bet){
 	else{
 		var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected});
 	}
-	//alert(json);
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -299,7 +318,7 @@ function noneRegisterPlayerPlayed(){
 		 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj',
 			 title: "<H1>Gracias por Jugar</H1>",
-            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios, encontrar te con amigos y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset><p></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset><p></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset><p></p>',
+            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios, encontrar te con amigos y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset></p>',
 			buttons: [{
                 label: 'Registrar',
 				id:'boton-panel-registro-aviso-error-pop-up',

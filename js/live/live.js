@@ -26,8 +26,8 @@ function isTableInLiveArray(table){
 	return false;
 }
 function showAvailableLiveMatches(){
-	title='<H4>Partidos en vivo</H4>';
-	content='<div class="list-style1">';
+	var title='<H4>Partidos en vivo</H4>';
+	var content='<div class="list-style1">';
 	for(option in window.liveMatchesArray){
 			content+='<a onClick="selectLiveMatchToWatch(this,\''+window.liveMatchesArray[option].id+'\')">'+window.liveMatchesArray[option].title+'</a>';
 	}
@@ -64,7 +64,7 @@ function crateHtmlLiveTable(table){
 	var liveDf ='<iframe src="http://jugaplay.com/ftpdatafactory/html/v3/model.html?channel=deportes.futbol.'+table.description.replace("-", ".")+'&lang=es_LA&model=gamecast_v6&hidePagesMenu=true" width="100%" height="'+h+'" scrolling="auto" style="width: 1px; min-width: 100%; width: 100%;" class=""></iframe>';
 	// Borro las actualizaciones automaticas
 	if(window.keepLiveTablesUpdateVar!=null){clearTimeout(window.keepLiveTablesUpdateVar);}
-	var htmlLiveContent='<div class="container container-full" id="complete-live-container"> <div class="bg-color10 text-color2 vertical-align"> <div class="col-xs-3"> <h3 class="title-style2">En vivo</h3> </div><div class="col-xs-1"> <i class="fa fa-refresh" aria-hidden="true"></i> </div><div class="col-xs-8 text-right"> '+table.title+' <span class="caret" onClick="showAvailableLiveMatches();"></span> </div></div><ul class="nav nav-tabs2 bg-color10 text-color2" role="tablist"> <li role="presentation" class="active"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab" aria-expanded="true">Posiciones</a></li><li role="presentation" class=""><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab" aria-expanded="false">Jugadores</a></li><li role="presentation"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab" aria-expanded="false">Partido</a></li></ul> <div class="tab-content"> <div role="tabpanel" class="tab-pane active in" id="InformationTab1"> <div class="container"> <div class="row text-color1 vertical-align information-box-style1"> <div class="col-xs-4"><p class="text-block-style3" id="usersShowLive-userPosition">...</p></div><div class="col-xs-4 match-info text-block-style2 text-color6 nopadding"><span class="text-block-style2" id="usersShowLive-userCoins">...</span><img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"> <br></div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style2" id="usersShowLive-userPts">...</span> <b>Pts</b></p></div></div><div id="usersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab2"> <div class="container"> <div id="playersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab3">'+liveDf+'</div></div></div>';
+	var htmlLiveContent='<div class="container container-full" id="complete-live-container"> <div class="bg-color10 text-color2 vertical-align"> <div class="col-xs-3"> <h3 class="title-style2">En vivo</h3> </div><div class="col-xs-1"> <i class="fa fa-refresh" aria-hidden="true"></i> </div><div class="col-xs-8 text-right" onClick="showAvailableLiveMatches();"> '+table.title+' <span class="caret"></span> </div></div><ul class="nav nav-tabs2 bg-color10 text-color2" role="tablist"> <li role="presentation" class="active"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab" aria-expanded="true">Posiciones</a></li><li role="presentation" class=""><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab" aria-expanded="false">Jugadores</a></li><li role="presentation"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab" aria-expanded="false">Partido</a></li></ul> <div class="tab-content"> <div role="tabpanel" class="tab-pane active in" id="InformationTab1"> <div class="container"> <div class="row text-color1 vertical-align information-box-style1"> <div class="col-xs-4"><p class="text-block-style3" id="usersShowLive-userPosition">...</p></div><div class="col-xs-4 match-info text-block-style2 text-color6 nopadding"><span class="text-block-style2" id="usersShowLive-userCoins">...</span><img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"> <br></div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style2" id="usersShowLive-userPts">...</span> <b>Pts</b></p></div></div><div id="usersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab2"> <div class="container"> <div id="playersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab3">'+liveDf+'</div></div></div>';
 	if(document.getElementById("complete-live-container")!=null){
 		document.getElementById("complete-live-container").innerHTML=htmlLiveContent;
 	}else{
@@ -97,7 +97,7 @@ function openTableToPlayLive(table){
 			var doble=JSON.parse(servidor);
 			crateHtmlLiveTable(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}

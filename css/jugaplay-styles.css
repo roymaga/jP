@@ -1173,6 +1173,7 @@ a:active, a:focus { outline-style: none; -moz-outline-style:none; }
 .bg-color9 {background-color: #90880C;} /* Yellow \w/ */
 .bg-color10 {background-color: #EE1D23;} /* Live Red \w/ */
 .bg-color11 {background-color: #ff9900;} /* Orange \w/ */
+.bg-color12 {background-color: #ffff00;} /* Pure Yellow \w/ */
 
 .text-color1 {color: #221F1F;} /* Almost Black */
 .text-color2 {color: #ffffff;} /* White */

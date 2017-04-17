@@ -3,7 +3,7 @@ window.readExplanations=[];
 // La idea es, de ser necesario pregunta, si no esta hace la consulta, si en la consulta no esta muestra la explicacion.
 // Cargo lo leido a una variable global
 // La funcion hasBeenRead() es la que se pone para ir mostrando
-window.onload=setTimeout(function(){initializeExplanations();}, 1000);
+window.onload=setTimeout(function(){ initializeExplanations(); }, 1000);
 function initializeExplanations(){
 previousReadExplanations=getCookie("readExplanations-Jp-"+getUserJugaplayId());
 	if(previousReadExplanations.length>4){		
@@ -19,7 +19,9 @@ function readAlExplanationsFromServer(explanations,explanationId){
 	setCookie("readExplanations-Jp-"+getUserJugaplayId(), JSON.stringify(window.readExplanations), 120);
 	if(window.readExplanations.indexOf(explanationId)==-1){
 		showExplanationId(explanationId);
-		markInServerAsRead(explanationId);
+		if(explanationId!=5){// Tiene otra forma de marcarse, con la X
+			markInServerAsRead(explanationId);
+		}
 	}
 }
 
@@ -37,6 +39,9 @@ function showExplanationId(explanationId){
 		break;
 		case 4:
 			openSpecificExplanationWindow(["ver_vivo/1.jpg"],"En vivo!");
+		break;
+		case 5:
+			showCapitanSelectExplanation();
 		break;
 		case 6:
 			//avisoEmergenteJugaPlay("Explicacion Nro: "+explanationId+" Jugar en vivo");
@@ -75,7 +80,7 @@ function markInServerAsRead(explanationId){
 				markInServerAsRead(explanationId);
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -142,7 +147,7 @@ function returnContentExplanations(images){
 			hmtlDivImg+='<div onClick="" class="item"><img src="img/explicaciones/'+images[img]+'" alt=""><div class="carousel-caption"></div></div>';
 		}
 	}
-	return'<div id="carousel-explanation-information" class="carousel slide" data-ride="carousel"><ol class="carousel-indicators">'+hmtlLi+'</ol><div class="carousel-inner" role="listbox">'+hmtlDivImg+'</div><a class="left carousel-control" href="#carousel-explanation-information" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="right carousel-control" href="#carousel-explanation-information" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>'
+	return'<div id="carousel-explanation-information" class="carousel slide" data-ride="carousel"><ol class="carousel-indicators">'+hmtlLi+'</li></ol><div class="carousel-inner" role="listbox">'+hmtlDivImg+'</div><a class="left carousel-control" href="#carousel-explanation-information" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="right carousel-control" href="#carousel-explanation-information" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>'
 }
 function openExplantationWindow(title,content){
 	useId='BS-FL-'+Math.floor((Math.random() * 1000000000) + 1);
@@ -152,4 +157,21 @@ function openExplantationWindow(title,content){
 			 title: title,
             message: content	
 		 });  
+}
+// Explicaciones detalladas
+// Capitanes
+function showCapitanSelectExplanation(){
+	if(document.getElementById("filter-list-shown-in-table")!=null){
+	var html=document.getElementById("filter-list-shown-in-table").parentNode.outerHTML;
+	document.getElementById("filter-list-shown-in-table").parentNode.outerHTML='<div class="container container-style1 bg-color12"><div class="vertical-align text-color1" style=" padding-top: 5px; padding-bottom: 10px;"> <div class="col-xs-11" style=" padding: 0px;"> <strong>En caso de empate: desempatan el capitan <img class="team-logo small" src="img/icons/capitan/capitan.svg" style="margin: 2px;width: 16px;"> y luego el sub capitan <img class="team-logo small" src="img/icons/capitan/sub_capitan.svg" style="margin: 2px;width: 16px;"> </strong> </div><div class="col-xs-1 text-color7" onClick="deleteCapitanExpl(this);"><i class="fa fa-2x fa-times" aria-hidden="true"></i></div></div></div>'+html;
+	setTimeout(function(){ updatePositionOfPlayersForWindow();},200);
+	}else{
+		setTimeout(function(){showCapitanSelectExplanation();}, 300);
+	}
+}
+function deleteCapitanExpl(element){
+	markInServerAsRead(5);
+	var containerRemove = element.parentNode.parentNode;
+	containerRemove.parentNode.removeChild(containerRemove);
+	updatePositionOfPlayersForWindow();
 }

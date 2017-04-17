@@ -7,9 +7,9 @@ window.readInidences=[];
 window.resultArrayTeams=[];
 function readInidecesOfOpenTable(tableDescription){
 	var splitArray=tableDescription.split('-'); // Ejemplo "libertadores-257742"
-	json=JSON.stringify({"table_tournament":splitArray[0],"table_match":splitArray[1]});
+	var json=JSON.stringify({"table_tournament":splitArray[0],"table_match":splitArray[1]});
 	//startLoadingAnimation();
-	if(checkConnection2()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -30,7 +30,7 @@ function readInidecesOfOpenTable(tableDescription){
 			return true;}else{
 				readInidecesOfOpenTable(tableDescription);
 			}
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -39,9 +39,6 @@ function readInidecesOfOpenTable(tableDescription){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
-	}else{
-		setTimeout(function(){ readInidecesOfOpenTable(tableDescription); }, 500);
-	}
 }
 // Initialize functions
 function readOpenTableLive(openTable){
@@ -77,13 +74,14 @@ function parsePlayers(player,teamId, HomeOrAway){
 function parseUsers(user){
 	var players=parseAddPlayerToUser(user.players);
 	// Tengo que intentar no usar el id para identificarlo sino el nickname, no esta repetido el nick no? // 
-	return {"id":user.user_id,"nickname":user.nickname,"players":players,"RankingTournamentPosition":user.RankingTournamentPosition,"playersPoints":0,"userPosition":0}
+	return {"id":user.user_id,"nickname":user.nickname,"players":players,"RankingTournamentPosition":user.RankingTournamentPosition,"playersPoints":0,"userPosition":0,"userPositionToShow":0,"userCoins":0}
 }
 function parseAddPlayerToUser(players){
 	var selectedPlayers=[];
 	for (player in window.liveMatchOpen.players){
-			if(playerHasBeenSelectedByUser( window.liveMatchOpen.players[player],players)){
-				selectedPlayers.push(window.liveMatchOpen.players[player]);
+			var opc=playerHasBeenSelectedByUser( window.liveMatchOpen.players[player],players);
+			if(opc>=0){
+				selectedPlayers[opc]=window.liveMatchOpen.players[player];
 			}
 		}
 	return selectedPlayers
@@ -91,13 +89,14 @@ function parseAddPlayerToUser(players){
 // "players": [{"data_factory_id": 57885},{"data_factory_id": 16266},{"data_factory_id": 572}]
 function playerHasBeenSelectedByUser(player,selectedPlayersByUser){
 	for(a in selectedPlayersByUser){
-		if(selectedPlayersByUser[a].player_id==player.id){return true;}
+		if(selectedPlayersByUser[a].player_id==player.id){return a;}
 	}
-	return false;
+	return -1;
 }
 function incidenceHasBeenConsiderd(nro){
 	if(window.readInidences.indexOf(nro)>-1){ // ya esta
 		return true;
+
 	}else{
 		window.readInidences.push(nro);
 		return false;
@@ -251,12 +250,12 @@ function addIncidenceToPlayer(icidence,player){
 			case 12:// Gol de tiro libre
 			if(player.playerPosition=="goalkeeper"){
 					icidence.name="goalkeeper_scored_goals";
-					icidence.value=tableRules.scored_goals+tableRules.shots+tableRules.goalkeeper_scored_goals+free_kick_goal;
+					icidence.value=tableRules.scored_goals+tableRules.shots+tableRules.goalkeeper_scored_goals+tableRules.free_kick_goal;
 					player.playerStats.push(icidence);
 				}
 			else if(player.playerPosition=="defender"){
 					icidence.name="defender_scored_goals";
-					icidence.value=tableRules.scored_goals+tableRules.shots+tableRules.defender_scored_goals+free_kick_goal;
+					icidence.value=tableRules.scored_goals+tableRules.shots+tableRules.defender_scored_goals+tableRules.free_kick_goal;
 					player.playerStats.push(icidence);
 			}else{
 					icidence.name="scored_goals";
@@ -337,9 +336,30 @@ function calculateUserPoints(){
 	calculateUserPositions();
 }
 function calculateUserPositions(){
+	var samePosition=[];var numPos;var acumCoins;
 	window.liveMatchOpen.users.sort(sortUsersByPointsAndRanking);
 	for (user in window.liveMatchOpen.users){
 		window.liveMatchOpen.users[user].userPosition=parseInt(user)+1;
+		window.liveMatchOpen.users[user].userPositionToShow=parseInt(user)+1;
+		window.liveMatchOpen.users[user].userCoins=coinForPositionTableLiveMain(parseInt(user)+1);
+	}
+	for(var i=0;i<window.liveMatchOpen.users.length-1;i++){ // Calculo posicion y monedas para empates
+		if(usersMusHaveSamePosition(liveMatchOpen.users[i],liveMatchOpen.users[i+1])){
+			var numPos=liveMatchOpen.users[i].userPositionToShow;
+			acumCoins=liveMatchOpen.users[i].userCoins+liveMatchOpen.users[i+1].userCoins;
+			samePosition.push(liveMatchOpen.users[i]);
+			samePosition.push(liveMatchOpen.users[i+1]);
+			i++;
+			for(i;i<window.liveMatchOpen.users.length-1 && usersMusHaveSamePosition(liveMatchOpen.users[i],liveMatchOpen.users[i+1]);i++){
+				samePosition.push(liveMatchOpen.users[i+1]);
+				acumCoins+=liveMatchOpen.users[i+1].userCoins;
+			}
+			for(pl in samePosition){
+				samePosition[pl].userPositionToShow=numPos;
+				samePosition[pl].userCoins=parseInt(acumCoins/samePosition.length);
+			}
+			samePosition=[];
+		}
 	}
 	window.liveMatchOpen.players.sort(sortPlayersByPoints);
 	for (player in window.liveMatchOpen.players){
@@ -371,7 +391,10 @@ function totalValuePlayersPoints(players){
 function sortUsersByPointsAndRanking(a,b){ // -1 va antes 1 despues 0 mantiene
 	if(a.playersPoints == b.playersPoints)
     {
-        return (b.RankingTournamentPosition > a.RankingTournamentPosition) ? -1 : (b.RankingTournamentPosition < a.RankingTournamentPosition) ? 1 : 0;
+		for(player in a.players){
+			if(a.players[player].playerPoints!=b.players[player].playerPoints){return (a.players[player].playerPoints > b.players[player].playerPoints) ? -1 : 1;}
+		}
+		return (a.id > b.id) ? -1 : 1;// En caso de empate lo ordeno por id
     }
     else
     {
@@ -381,5 +404,15 @@ function sortUsersByPointsAndRanking(a,b){ // -1 va antes 1 despues 0 mantiene
 }
 function sortPlayersByPoints(a,b){ // -1 va antes 1 despues 0 mantiene
 	 return (a.playerPoints > b.playerPoints) ? -1 : (a.playerPoints < b.playerPoints) ? 1 : 0;
+}
+function usersMusHaveSamePosition(a,b){
+	if(a.playersPoints == b.playersPoints)
+    {
+		for(player in a.players){
+			if(a.players[player].playerPoints!=b.players[player].playerPoints){return false;}
+		}
+		return true;// En caso de empate lo ordeno por id
+    }
+	return false;
 }
 //Function Sort Players

@@ -29,7 +29,7 @@ function closeOverLapseWindow(windowToClose){
 	if (typeof initializeGameVars == 'function') { 
  		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
-	
+	setTimeout(function(){ updateMenusValues() }, 500);
 }
 function closeAllOverLapseWindow(){
 	while(window.lastScreenArray.length>0){
@@ -40,6 +40,7 @@ function closeAllOverLapseWindow(){
 	if (typeof initializeGameVars == 'function') { 
  		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
+	setTimeout(function(){ updateMenusValues() }, 500);
 }
 function contentOfOverLapseWindow(windowToClose, titleForOpenWindow, contentForOpenWindow){
 	idOpen=windowToClose;
