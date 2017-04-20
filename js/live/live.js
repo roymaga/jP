@@ -26,8 +26,8 @@ function isTableInLiveArray(table){
 	return false;
 }
 function showAvailableLiveMatches(){
-	title='<H4>Partidos en vivo</H4>';
-	content='<div class="list-style1">';
+	var title='<H4>Partidos en vivo</H4>';
+	var content='<div class="list-style1">';
 	for(option in window.liveMatchesArray){
 			content+='<a onClick="selectLiveMatchToWatch(this,\''+window.liveMatchesArray[option].id+'\')">'+window.liveMatchesArray[option].title+'</a>';
 	}
@@ -97,7 +97,7 @@ function openTableToPlayLive(table){
 			var doble=JSON.parse(servidor);
 			crateHtmlLiveTable(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
