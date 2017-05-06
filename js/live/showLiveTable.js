@@ -25,8 +25,16 @@ function updateUsersPlayingLive(){
 			document.getElementById("usersShowLive-userPosition").innerHTML=users[user].userPositionToShow+'°';
 			if(oldPosition>users[user].userPosition){showArrowLive("up",document.getElementById("usersShowLive-userPosition"));}
 			if(oldPosition<users[user].userPosition){showArrowLive("down",document.getElementById("usersShowLive-userPosition"));}
-			document.getElementById("usersShowLive-userCoins").innerHTML=users[user].userCoins;
-			document.getElementById("usersShowLive-userPts").innerHTML=users[user].playersPoints;			
+			if(users[user].bet_multiplier!=null){
+			document.getElementById("usersShowLive-userCoins").innerHTML=users[user].userCoins*users[user].bet_multiplier;
+			}else{
+				document.getElementById("usersShowLive-userCoins").innerHTML=users[user].userCoins;
+			}
+			document.getElementById("usersShowLive-userPts").innerHTML=users[user].playersPoints;
+			if(document.getElementById("usersShowLive-userCoinsImg").src!="img/icons/coins/x2.png" && users[user].bet_multiplier!=null){
+				document.getElementById("usersShowLive-userCoinsImg").src="img/icons/coins/x2.png";	
+				document.getElementById("usersShowLive-userCoinsImg").style.width="50px";
+			}			
 			}
 	}
 	updatePlayersPlayingLive();
@@ -56,7 +64,7 @@ function parseShowUsersComplete(user){
 		collapseHtml+=parseShowPlayersBase(user.players[player],player);
 	}
 	if(user.nickname.length<15){var nick=user.nickname;}else{var nick='<span onClick="showCompleteNickNameLive(this,\''+user.nickname+' \')">'+user.nickname.substr(0, 12)+' ...</span>'}
-	return '<div class="row players-list-item vertical-align color-player-list '+oddEven+'"> <div class="col-xs-2"><p class="text-block-style2" id="live-userTablePositionShow-'+user.id+'">'+user.userPositionToShow+'</p></div><div class="col-xs-4 player-name nopadding"> <p><strong>'+nick+'</strong></p></div><div class="col-xs-2 nopadding" id="live-userTableCoinsShow-'+user.id+'"> '+parseShowCoinsLive(user.userCoins)+'</div><div class="col-xs-2 nopadding" id="live-userTablePointsShow-'+user.id+'"> '+user.playersPoints+' Pts </div><div class="col-xs-2 text-right"> <button type="button" onClick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#live-userPlayersContainer-'+user.id+'" ><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div></div><div id="live-userPlayersContainer-'+user.id+'" class="collapse">'+collapseHtml+'</div>';
+	return '<div class="row players-list-item vertical-align color-player-list '+oddEven+'"> <div class="col-xs-2"><p class="text-block-style2" id="live-userTablePositionShow-'+user.id+'">'+user.userPositionToShow+'</p></div><div class="col-xs-4 player-name nopadding"> <p><strong>'+nick+'</strong></p></div><div class="col-xs-2 nopadding" id="live-userTableCoinsShow-'+user.id+'"> '+parseShowCoinsLive(user.userCoins, user.bet_multiplier)+'</div><div class="col-xs-2 nopadding" id="live-userTablePointsShow-'+user.id+'"> '+user.playersPoints+' Pts </div><div class="col-xs-2 text-right"> <button type="button" onClick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#live-userPlayersContainer-'+user.id+'" ><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div></div><div id="live-userPlayersContainer-'+user.id+'" class="collapse">'+collapseHtml+'</div>';
 }
 function parseUpdateUsersComplete(user){
 	// Animacion del numero con flechita que sube o baja
@@ -69,7 +77,7 @@ function parseUpdateUsersComplete(user){
 	}else{// mantuvo
 	document.getElementById("live-userTablePositionShow-"+user.id).innerHTML=user.userPositionToShow;}
 	// Fin de animacion
-	document.getElementById("live-userTableCoinsShow-"+user.id).innerHTML=parseShowCoinsLive(user.userCoins);
+	document.getElementById("live-userTableCoinsShow-"+user.id).innerHTML=parseShowCoinsLive(user.userCoins, user.bet_multiplier);
 	//showArrowLive(tipe,element) up down
 	document.getElementById("live-userTablePointsShow-"+user.id).innerHTML=user.playersPoints+' Pts ';
 	collapseHtml='';
@@ -136,9 +144,13 @@ function parseCapitanSubLive(nro){
         return '';
 	}
 }
-function parseShowCoinsLive(val){
+function parseShowCoinsLive(val,bet_multiplier){
 	if(val>0){
-		return val +' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 20px;">';
+		if(bet_multiplier!=null){
+			return (parseInt(val)*bet_multiplier)+' <img src="img/icons/coins/x2.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 30px;">';
+		}else{
+			return val +' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 20px;">';
+		}
 	}else{
 		return'';
 	}

@@ -1,6 +1,5 @@
 
-
-window.onload=setTimeout(function(){ loadWalletBalance(); }, 1000);
+window.onload=setTimeout(function(){loadWalletBalance();}, 1000);
 function updateWalletBalance(objWallet){
 	var d = new Date();
 	var monthName = returnFullMonthName(d.getMonth()+1);

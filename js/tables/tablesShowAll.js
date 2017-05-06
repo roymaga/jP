@@ -51,7 +51,7 @@ function showAvailableTablesToPlay(){
 		xmlhttp.onreadystatechange=function()
 	  	{
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
-	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
 			//alert(jsonStr);
@@ -64,9 +64,11 @@ function showAvailableTablesToPlay(){
 				showAvailableTablesToPlay();
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
+			}else if((xmlhttp.readyState==4 && xmlhttp.status==401)){
+				ifLogInIsNeed();
 			}
 	 	 }
 		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
@@ -116,7 +118,7 @@ function cargarTablaDeMatchesConContenidoInicial(shownTable){
 	createTable.setAttribute("data-tournament-type", shownTable.tournament_id);
 	createTable.setAttribute("data-table-id", shownTable.id);
 	//mesaACrear.style=premiumTable(coins, sms);
-	createTable.innerHTML='<div class="container container-title bg-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><div class="col-xs-9 nopadding"><h3>'+shownTable.title+' <i class="fa fa-info-circle" aria-hidden="true"></i> </h3></div><div class="col-xs-3 nopadding text-right"><h3>'+shownTable.amount_of_users_playing+' <i class="fa fa fa-users" aria-hidden="true"></i></h3></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-left match-time"><p>'+dateFormatViewNormal(shownTable.start_time)+'</p></div><div class="col-xs-2 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(shownTable.pot_prize)+'</a></div><div class="col-xs-4 text-right match-button">'+buttonOfTable(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
+	createTable.innerHTML='<div class="container container-title bg-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><div class="row"><div class="col-xs-2"><h3><i class="fa fa-info-circle" aria-hidden="true"></i></h3></div><div class="col-xs-8 details nopadding"><h3>'+shownTable.title+dateFormatViewTable(shownTable.start_time)+' </h3></div><div class="col-xs-2 nopadding text-center"><h3>'+shownTable.amount_of_users_playing+' <i class="fa fa fa-users" aria-hidden="true"></i></h3></div></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-cup" onClick="playTurboOption(\''+shownTable.id+'\','+shownTable.bet_multiplier+',\''+shownTable.multiplier_chips_cost+'\','+shownTable.has_been_played_by_user+');">'+showTurboOption(shownTable.bet_multiplier)+'</div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(shownTable.pot_prize)+'</a></div><div class="col-xs-3 text-right match-button">'+buttonOfTable(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
 	addTableToShownMatches(createTable);
 }
 function addTableToShownMatches(tableToCreate){ // Add Table to container if already exists it actualize it
@@ -169,6 +171,14 @@ function deletTableFromVisibleHmtl(tableId, private){
 				{tablesInContainer[table].parentNode.removeChild(tablesInContainer[table]);
 				return;}
 		}
+	}
+}
+function showTurboOption (bet_multiplier){
+	// null no jugado, sino nro
+	if(bet_multiplier==null){
+		return '<img class="grey-img" src="img/icons/coins/x2.png">';
+	}else{
+		return '<img src="img/icons/coins/x2.png" >';
 	}
 }
 // Funcion generales utilizadas
@@ -232,7 +242,7 @@ function firstTimeGameVars(){
 	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
 	$("#jp-section-title #title-icon").addClass("fa-sliders");
 	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'></div>" );
+	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'>" );
 }
 function initializeGameVars(){					  
 					$('.jp-tabs li a').click(function (e) {
@@ -244,7 +254,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-						  $("#desafiosPlus").remove();
+					$("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":
@@ -291,6 +301,35 @@ function initializeGameVars(){
 						//Default is 75px -- sensiblidad con la que se mueve
 						threshold:75
 					});
+}
+function changeOptionTox2(idTabla){
+	var tablesInContainer=document.getElementById("tables-container-show").getElementsByClassName("match-list-item");
+	for(table in tablesInContainer){
+		if(tablesInContainer[table].innerHTML !== undefined){
+			actualAttributeId=tablesInContainer[table].getAttribute('data-table-id');
+			if(idTabla==actualAttributeId)
+				{
+					if(tablesInContainer[table].getElementsByClassName("grey-img").length>0){
+						var x2Element=tablesInContainer[table].getElementsByClassName("grey-img").item(0);
+						x2Element.classList.remove("grey-img");
+					}
+					}			
+		}
+	}
+	var previousTablesLoad=getCookie("tablesToPlay-Jp");
+	if(previousTablesLoad.length>4){		
+			var json=JSON.stringify(previousTablesLoad);
+			var servidor=JSON.parse(json);
+			var tablesInContainer=JSON.parse(servidor);
+			for(table in tablesInContainer){
+				if(tablesInContainer[table]['id'] == idTabla){
+					tablesInContainer[table]['bet_multiplier']=2;
+				}
+
+			}
+			var jsonStr=JSON.stringify(tablesInContainer);	
+			setCookie("tablesToPlay-Jp", jsonStr, 120);
+	}
 }
 function avisoProximamente(){
 	avisoEmergenteJugaPlay("PROXIMAMENTE","<p>Esto es una beta y esta función no está disponible.</p><p>Segura mente la semana que viene la tengamos habilitada.</p>");

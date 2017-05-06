@@ -1,6 +1,6 @@
 /*
-JugaPlay Styles: 2016
-Author: Hernán Miceli
+JugaPlay Styles: 2017
+Autor: Ezequiel Wernicke
 */
 
 
@@ -115,7 +115,7 @@ body {
 /*-- > IMPORTANT --*/
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
     max-height: calc(100vh - 60px);
-    width: calc(70vw);
+    width: calc(85vw);
 	overflow-x: hidden;
     padding-left: 0;
     padding-right: 0;
@@ -164,13 +164,16 @@ body {
     font-size: 1.15em;
 }
 
-.top-nav-stats .credits, .top-nav-stats .coins {
+.top-nav-stats .chips, .top-nav-stats .coins {
     background: #199e49 none repeat scroll 0 0;
     padding: 15px 0;
     text-align: center;
 }
 .top-nav-stats .coins {
 	background-color: #a7a9ac;
+}
+.top-nav-stats .chips {
+	background-color: #113c50;
 }
 .top-nav-stats h2 {
     font-size: 2.8em;
@@ -214,10 +217,10 @@ body {
     padding: 0;
 }
 .match-data .row > div:last-child {
-    padding-right: 15px;
+    padding-right: 5px;
 }
 .match-data .row > div:first-child {
-    padding-left: 15px;
+    padding-left: 5px;
 }
 /* Special title for friends */
 .match-list-item .container-title.bg-color11  h3{
@@ -246,7 +249,7 @@ body {
 /*-- Match Type --*/
 .match-type {}
 .match-type img {
-	width: 23px;
+	width: 27px;
 	margin-left: 3px;
 }
 .match-type p {
@@ -259,9 +262,9 @@ body {
 /*-- Match Type --*/
 .prize-type {}
 .prize-type img {
-	width: 30px;
-	margin-right: -20px;
-	margin-left: 5px;
+	 width: 38px;
+    margin-right: -18px;
+    margin-left: 2px;
 }
 .prize-type p {
     display: inline-flex;
@@ -730,6 +733,7 @@ a.social-icon .circle-icon {
 .stats-section .head h1 {
     font-size: 1.5em;
     font-weight: 600;
+
     margin: 5px 0;
     text-transform: uppercase;
 }
@@ -906,6 +910,11 @@ a.social-icon .circle-icon {
     font-size: 1.15em;
     font-weight: 400;
     margin: 13px 0;
+	text-shadow: 1.5px 1.5px rgba(0, 0, 0, 0.32);
+}
+.container-title .details h3 {
+    margin: 6px 0;
+	font-size: 1.25em;
 }
 .container-title h3 i{
 	margin-left: 10px;
@@ -972,12 +981,16 @@ a.social-icon .circle-icon {
     font-weight: 400;
     line-height: 1em;
     margin: 0;
-    padding: 5px;
+    padding: 12px 5px;
+	border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
 }
 .btn-style2.selected {
 	background-color: #000000;
 	border-color: #000000;
 	color: #ffffff;
+	font-size:0.85em;
 }
 
 .btn-style3 {
@@ -1298,6 +1311,15 @@ button.close {
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
+.general-modal-msj.x2 .modal-dialog {
+    margin: 5% 10px 10px;
+    text-align: center;
+}
+.general-modal-msj.x2 .modal-dialog .modal-body img {
+	max-height:60vh;
+	padding-left:auto;
+	padding-right:auto;
+}
 .general-modal-msj .modal-dialog .modal-content .modal-header{
 	padding: 15px;
   border-bottom: none;
@@ -1311,6 +1333,9 @@ button.close {
   color:#FFF;
   text-align:center;
   background-color:#35B44A;
+}
+.general-modal-msj.payment .modal-dialog .modal-content .modal-header {
+  background-color:#113c50;
 }
 .general-modal-msj .modal-header h1 {font-size:1.3em;}
 .general-modal-msj .modal-header h2 {font-size:1.2em;}
@@ -1703,6 +1728,7 @@ button.close {
     height: 50px;
     margin: 0;
     padding: 0;
+
     position: fixed;
     right: 0;
     width: 100%;
@@ -1801,3 +1827,105 @@ button.close {
 /* ==========================================================================
    SECTION > MI CUENTA > Notificaciones
    ========================================================================== */
+   /* Estilos para pagos pop up */
+.no-content-pop-up-gen.payment .modal-dialog{
+		max-width:800px;
+	}
+	.no-content-pop-up-gen.payment .modal-dialog .home-big-btns a{
+		    font-size: 1.2em;
+	}
+	.payment-methods {
+		position: relative;
+	}
+	
+	.payment-methods .help-block {
+		margin-top: 15px;
+		margin-bottom: 0;
+	}
+	
+	.payment-methods .nav-tabs li a {
+		padding: 10px;
+		color: #1b471f;
+	}
+	
+	.payment-methods .nav-tabs li.active a {
+		color: #555;
+	}
+	
+	.payment-methods .nav-tabs li a:hover {
+		border-bottom: transparent;
+		background: #eee;
+	}
+	
+	.payment-methods .nav-tabs li.active a:hover {
+		border-bottom: 1px solid #FFF;
+		background: #FFF;
+	}
+	.available-cards .radio {
+		display: inline-block;
+		padding: 5px 10px;
+		margin: 5px 0 0 0;
+		border: 1px solid #EEE;
+		width: 50%;
+	}
+	.available-cards .radio img{
+		 width: 100%;
+	}
+	
+	.available-cards input[type="radio"] {
+		margin: 15px -20px;
+	}
+	
+	#pay-ccard .form-group {
+		margin-bottom: 4px;
+	}
+	
+	.ccard-container {
+		padding: 0;
+		max-width: 100%;
+		min-width: 170px;
+	}
+	.btn-secundary {
+		background: #1b471f;
+		color: #FFF;
+		border-bottom: 2px solid #309339;
+	}
+	.btn-secundary:hover {
+		background: #09160a;
+		color: #FFF;
+		border-bottom: 2px solid #309339;
+	}
+	.coins-pack{
+		cursor:pointer;
+	}
+	
+	.coins-pack a{
+		color:#333333;
+	}
+	.coins-pack.selected a{
+		color:#113c50;
+	}
+	.coins-pack.selected .pic{
+		border:solid #ffc107;
+	}
+	.coins-pack .pic img{
+		width:100%;
+	}
+	.coins-pack:hover{
+		opacity: 0.7;
+	}
+/* **********X2************ */
+	.grey-img{
+		-webkit-filter: grayscale(100%);
+		-moz-filter: grayscale(100%);
+		-o-filter: grayscale(100%);
+		-ms-filter: grayscale(100%);
+		filter: grayscale(100%);
+	}
+	.grey-img:hover {
+		-webkit-filter: grayscale(0%);
+		-moz-filter: grayscale(0%);
+		-o-filter: grayscale(0%);
+		-ms-filter: grayscale(0%);
+		filter: grayscale(0%);
+	}

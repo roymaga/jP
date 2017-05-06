@@ -50,11 +50,17 @@ function logOutFromJugaPlay(){
 function userCanSpentXCoins(costOfTransaction){
 	return !(window.userDataJugaPlay.coins<costOfTransaction);
 }
+function userCanSpentXChips(costOfTransaction){
+	return !(window.userDataJugaPlay.chips<costOfTransaction);
+}
 function getUserJugaplayId(){
 	return window.userDataJugaPlay.id;
 }
 function getUserJugaplayCoins(){
 	return window.userDataJugaPlay.coins;
+}
+function getUserJugaplayChips(){
+	return window.userDataJugaPlay.chips;
 }
 function getUserJugaplayEmail(){
 	return window.userDataJugaPlay.email;
@@ -82,6 +88,12 @@ function getUserSyncEmail(){
 }
 function editXCoinsFromUsersWallet(coins){// it can be positive or negative
 	window.userDataJugaPlay.coins+=coins;
+	cookieSave=JSON.stringify(window.userDataJugaPlay);
+	setCookie("juga-Play-Data", cookieSave, 120);
+	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}
+}
+function editXChipsFromUsersWallet(chips){// it can be positive or negative
+	window.userDataJugaPlay.chips+=chips;
 	cookieSave=JSON.stringify(window.userDataJugaPlay);
 	setCookie("juga-Play-Data", cookieSave, 120);
 	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}

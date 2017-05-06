@@ -11,16 +11,16 @@
     <script> window.menuTitleOfWindow="Monedero"</script>
 	<link rel="shortcut icon" type="image/png" href="img/icons/favicon.png">
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css?190417" 		rel="stylesheet">
-    <link href="css/jugaplay-styles.css?190417" 	rel="stylesheet">
-    <link href="css/jugaplay-pop-up.css?190417" 	rel="stylesheet">
+    <link href="css/bootstrap.min.css?050517" 		rel="stylesheet">
+    <link href="css/jugaplay-styles.css?050517" 	rel="stylesheet">
+    <link href="css/jugaplay-pop-up.css?050517" 	rel="stylesheet">
 	
     <!-- Google Fonts -->
 	<link href='fonts/fontsFjallaOne.css ' rel='stylesheet' type='text/css'>
 	<link href='fonts/fontsHinds.css ' rel='stylesheet' type='text/css'>
 	
 	<!-- Bootstrap CDN | Font Awesome -->
-	<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css?190417">
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css?050517">
 	
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,10 +56,10 @@
                     <p>Ganadas en partidos</p>
                 </div>
                 <div class="col-xs-2 text-right">
-                    <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#wallet-detail_prizes-container"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+                    <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#wallet-detail_prizes-container"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
                 </div>
             </div>
-            <div id="wallet-detail_prizes-container" class="collapse">
+            <div id="wallet-detail_prizes-container" class="collapse in">
                 <div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
             </div>
             <!-- End Individual Wallet Section -->
@@ -84,10 +84,10 @@
                     <p>Ganadas por invitaciones</p>
                 </div>
                 <div class="col-xs-2 text-right">
-                    <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#wallet-invited_friends-container"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+                    <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#wallet-invited_friends-container"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
                 </div>
             </div>
-            <div id="wallet-invited_friends-container" class="collapse">
+            <div id="wallet-invited_friends-container" class="collapse in">
                <div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
             </div>
             <!-- End Individual Wallet Section -->
@@ -121,7 +121,7 @@
 <!-- end Design Scripts -->
 <!-- Basic Functions -->
 	<!-- Start Monkey-Dialog JavaScript -->
-        <link href="plugins/dialog-master/css/bootstrap-dialog.css?190417" rel="stylesheet" type="text/css" />
+        <link href="plugins/dialog-master/css/bootstrap-dialog.css?050517" rel="stylesheet" type="text/css" />
         <script src="plugins/dialog-master/js/bootstrap-dialog.js?8"></script>
     <!-- End Monkey-Dialog JavaScript -->
     <script src="js/interaction.js?8"></script>
@@ -131,6 +131,8 @@
     <script src="js/openFilterWindow.js?8"></script>
     <script src="js/notifications/readIfNewNotifications.js?8"></script>
     <script src="js/explanations/generalExplanations.js"></script>
+<script src="js/payments/payments.js"></script>
+<script src="js/payments/countries.js"></script>
 <!-- End Basic Functions -->
 	<script src="js/payments/wallet.js?8"></script>
 <!-- start Google Analytics -->

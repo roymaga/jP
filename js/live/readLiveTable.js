@@ -74,7 +74,7 @@ function parsePlayers(player,teamId, HomeOrAway){
 function parseUsers(user){
 	var players=parseAddPlayerToUser(user.players);
 	// Tengo que intentar no usar el id para identificarlo sino el nickname, no esta repetido el nick no? // 
-	return {"id":user.user_id,"nickname":user.nickname,"players":players,"RankingTournamentPosition":user.RankingTournamentPosition,"playersPoints":0,"userPosition":0,"userPositionToShow":0,"userCoins":0}
+	return {"id":user.user_id,"nickname":user.nickname,"bet_multiplier":user.bet_multiplier,"players":players,"RankingTournamentPosition":user.RankingTournamentPosition,"playersPoints":0,"userPosition":0,"userPositionToShow":0,"userCoins":0}
 }
 function parseAddPlayerToUser(players){
 	var selectedPlayers=[];
