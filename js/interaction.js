@@ -115,6 +115,23 @@ function dateFormatViewNormal(fechaHora){
 	d.setMinutes ( d.getMinutes() + diffMinutos ); 
     return parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs</br><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b>';
 }
+function dateFormatViewTable(fechaHora){
+	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
+	//14/01/2016 - 22:10
+	var d = new Date();
+	var dia= fechaHora.substring(0, 2);// Dia del mes
+	var mes= fechaHora.substring(3, 5);// que mes
+	var ano= fechaHora.substring(6, 10);// que ano
+	var hora= fechaHora.substring(13, 15);// hora
+	var minutos=fechaHora.substring(16);// minutos
+	var diff=d.getTimezoneOffset();
+	var diffMinutos= diff-180;
+	d.setFullYear(ano, (mes-1), dia);
+	d.setHours(hora);
+	d.setMinutes(minutos);
+	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+    return '</br><span style="font-size: 0.85em;">'+parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <span style="font-size: 0.9em;"><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b></span></span>';
+}
 function parse0LessThan10(int){
 	int=parseInt(int);
 	if(int<10){return"0"+int;}else{return int;}
