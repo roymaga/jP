@@ -64,7 +64,7 @@ function showAvailableTablesToPlay(){
 				showAvailableTablesToPlay();
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}else if((xmlhttp.readyState==4 && xmlhttp.status==401)){
@@ -173,6 +173,7 @@ function deletTableFromVisibleHmtl(tableId, private){
 		}
 	}
 }
+// Funcion generales utilizadas
 function showTurboOption (bet_multiplier){
 	// null no jugado, sino nro
 	if(bet_multiplier==null){
@@ -181,7 +182,6 @@ function showTurboOption (bet_multiplier){
 		return '<img src="img/icons/coins/x2.png" >';
 	}
 }
-// Funcion generales utilizadas
 function costOfTable(coins, sms){
 	if(coins>0 || sms==true){
 		if(coins>0){
@@ -242,7 +242,7 @@ function firstTimeGameVars(){
 	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
 	$("#jp-section-title #title-icon").addClass("fa-sliders");
 	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'>" );
+	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'></div>" );
 }
 function initializeGameVars(){					  
 					$('.jp-tabs li a').click(function (e) {
@@ -254,7 +254,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-					$("#desafiosPlus").remove();
+						  $("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":
