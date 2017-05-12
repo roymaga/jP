@@ -124,6 +124,16 @@ function cargarTablaDeMatchesConContenidoInicial(shownTable){
 	createTable.innerHTML='<div class="container container-title bg-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><div class="row"><div class="col-xs-2"><h3><i class="fa fa-info-circle" aria-hidden="true"></i></h3></div><div class="col-xs-8 details nopadding"><h3>'+shownTable.title+dateFormatViewTable(shownTable.start_time)+' </h3></div><div class="col-xs-2 nopadding text-center"><h3>'+shownTable.amount_of_users_playing+' <i class="fa fa fa-users" aria-hidden="true"></i></h3></div></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-cup" onClick="playTurboOption(\''+shownTable.id+'\','+shownTable.bet_multiplier+',\''+shownTable.multiplier_chips_cost+'\','+shownTable.has_been_played_by_user+');">'+showTurboOption(shownTable.bet_multiplier)+'</div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(shownTable.pot_prize)+'</a></div><div class="col-xs-3 text-right match-button">'+buttonOfTable(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
 	addTableToShownMatches(createTable);
 }
+function cargarTablaDeMatchesConContenidoInicial(shownTable){
+	// Reviso si es grupal o no
+	var createTable = document.createElement('div');
+	createTable.className="match-list-item";
+	createTable.setAttribute("data-tournament-type", shownTable.tournament_id);
+	createTable.setAttribute("data-table-id", shownTable.id);
+	//mesaACrear.style=premiumTable(coins, sms);
+	createTable.innerHTML='<div class="container container-title bg-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><div class="row"><div class="col-xs-2"><h3><i class="fa fa-info-circle" aria-hidden="true"></i></h3></div><div class="col-xs-8 details nopadding"><h3>'+shownTable.title+dateFormatViewTable(shownTable.start_time)+' </h3></div><div class="col-xs-2 nopadding text-center"><h3>'+shownTable.amount_of_users_playing+' <i class="fa fa fa-users" aria-hidden="true"></i></h3></div></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-cup" onClick="playTurboOption(\''+shownTable.id+'\','+shownTable.bet_multiplier+',\''+shownTable.multiplier_chips_cost+'\','+shownTable.has_been_played_by_user+');">'+showTurboOption(shownTable.bet_multiplier)+'</div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(shownTable.pot_prize)+'</a></div><div class="col-xs-3 text-right match-button">'+buttonOfTable(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
+	addTableToShownMatches(createTable);
+}
 function addTableToShownMatches(tableToCreate){ // Add Table to container if already exists it actualize it
 	// Reviso si es grupal o no
 	flag=0;
@@ -176,6 +186,7 @@ function deletTableFromVisibleHmtl(tableId, private){
 		}
 	}
 }
+// Funcion generales utilizadas
 function showTurboOption (bet_multiplier){
 	// null no jugado, sino nro
 	if(bet_multiplier==null){
@@ -184,7 +195,6 @@ function showTurboOption (bet_multiplier){
 		return '<img src="img/icons/coins/x2.png" >';
 	}
 }
-// Funcion generales utilizadas
 function costOfTable(coins, sms){
 	if(coins>0 || sms==true){
 		if(coins>0){
@@ -259,7 +269,7 @@ function firstTimeGameVars(){
 	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
 	$("#jp-section-title #title-icon").addClass("fa-sliders");
 	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'>" );
+	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'></div>" );
 }
 function initializeGameVars(){					  
 					$('.jp-tabs li a').click(function (e) {
@@ -271,7 +281,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-					$("#desafiosPlus").remove();
+						  $("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":

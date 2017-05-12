@@ -285,6 +285,7 @@ function removeLoaderFromCertainContainer(container){
 	}
 	return true;
 }
+
 function parseTableChallengeMatchName(title){
 	var index= title.indexOf("-unchn");
 	if(index!=-1){
