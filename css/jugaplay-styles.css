@@ -1929,3 +1929,20 @@ button.close {
 		-ms-filter: grayscale(0%);
 		filter: grayscale(0%);
 	}
+/* Nuevos */
+#challenges-container-show p{
+	margin:0px;
+}
+.chpadding{
+	padding:5px 0px 0px 0px;
+}
+.addFriendImgPlus{
+	color: #35b44a;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    background-color: white;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}

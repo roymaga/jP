@@ -47,7 +47,7 @@ function createChallengeInitializeVariables(formedGroup){
 	}	,1500);
 }
 function estimatePotPrizeforChallege(){
-	var coins=document.getElementById("priceOfChallenge").value;
+		var coins=document.getElementById("priceOfChallenge").value;
 	document.getElementById("potSize").value=window.amountOfUsersForChallange*coins;
 }
 function continueToSelectMatch(){

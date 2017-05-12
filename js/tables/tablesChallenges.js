@@ -1,7 +1,24 @@
 // JavaScript Document
 window.groupAllreadyCreated=null;
-function createANewChallenge(){
+function createOrEnterAChallenge(){
+	var useId='Btn-'+Math.floor((Math.random() * 1000000000) + 1);
+	BootstrapDialog.show({
+			 id: useId,
+			 cssClass: 'filter-pop-up fade',
+			 title: '<H4>Opciones</H4>',
+            message: '<div class="list-style1"><a onClick="createANewChallenge(\''+useId+'\')">Crear nuevo desafío</a><a onClick="enterChallengeWithCode(\''+useId+'\')">Tengo un código</a></div>',
+			buttons: [{
+                label: 'Cancelar',
+				id:useId,
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }]	
+		 });  
+}
+function createANewChallenge(windowToClose){
 	//alert("Create New");
+	closeFilterWindow(windowToClose);
 	startLoadingAnimation();
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -28,7 +45,7 @@ function createANewChallenge(){
 				createANewChallenge();
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -56,4 +73,59 @@ function parseGroupOfFriends(group){
 function selectCertainGroupOfFriendsToChallenge(groupId, groupName, amountOfUsers){
 	window.groupAllreadyCreated=groupId;
 	createChallengeWithFormedGroupOfFriends(groupId, groupName, amountOfUsers);
+}
+function enterChallengeWithCode(windowToClose){
+	document.getElementById(windowToClose).click();
+	BootstrapDialog.show({
+			 cssClass: 'general-modal-msj',
+			 title: "<H1>Usar códigos</H1>",
+            message: '<p> Ingrese el código recibido: </p><p><input id="groupCodeInput" placeholder="INGRESE CÓDIGO" type="text" style=" width: 100%; text-align: center;" value="" ></p><p><small>Código valido por 48Hs</small></p>',
+			buttons: [{
+                label: ' Ingresar',
+                action: function(dialogItself){
+						addUserToGroup(dialogItself);
+					}
+				}
+			]		 
+		 });
+		 return false;
+}
+function addUserToGroup(dialogItself){
+	if(checkConnection()){
+	startLoadingAnimation();
+	var tkn=document.getElementById("groupCodeInput").value;
+	var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==400))
+	    {
+			var jsonStr=xmlhttp.responseText;
+			closeLoadingAnimation();
+			var json=JSON.parse(jsonStr);
+			if (typeof(json.error) !== 'undefined' || typeof(json.errors) !== 'undefined'){
+				avisoEmergenteJugaPlay("Código erróneo","<p>No se encontró ningún grupo o desafío con ese código, por favor verifique que el mismo se ingresara correctamente.</p>");
+			}else{
+				avisoEmergenteJugaPlay('Bien venido a "'+json.name+'" ','<p>Ya sos parte del grupo <b>"'+json.name+'"</b> y podrás jugar sus desafíos.</p>');
+				dialogItself.close();
+				showAvailableTablesToPlay();				
+			}
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 avisoEmergenteJugaPlayConnectionError();
+			 return "ERROR";
+			}
+	 	 }
+		xmlhttp.open("POST",getJPApiURL()+"groups/join?token="+tkn,true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send();	}
 }

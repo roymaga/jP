@@ -69,12 +69,15 @@ function showAvailableTablesToPlay(){
 			 return "ERROR";
 			}else if((xmlhttp.readyState==4 && xmlhttp.status==401)){
 				ifLogInIsNeed();
+				setTimeout(function(){showAvailableTablesToPlay();}, 1000);
 			}
 	 	 }
 		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();	}else{
+			setTimeout(function(){showAvailableTablesToPlay();}, 1000);
+		}
 }
 function analizeShowAvailableTablesToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
@@ -143,7 +146,7 @@ function cargarTablaDeChallengesConContenidoInicial(shownTable){
 	createTable.setAttribute("data-tournament-type", shownTable.tournament_id);
 	createTable.setAttribute("data-table-id", shownTable.id);
 	var potPrize= shownTable.group.size*shownTable.entry_coins_cost;
-	createTable.innerHTML='<div class="container container-title bg-color11" ><div class="col-xs-9 nopadding"><h3>'+shownTable.group.name+' </h3></div><div class="col-xs-3 nopadding text-right"><h3>'+shownTable.group.size+' <i class="fa fa-reply-all" aria-hidden="true"></i></h3></div></div><div class="container container-title bg-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><div class="col-xs-9 nopadding"><h3>'+parseTableChallengeMatchName(shownTable.title)+' <i class="fa fa-info-circle" aria-hidden="true"></i> </h3></div><div class="col-xs-3 nopadding text-right"><h3>'+shownTable.amount_of_users_playing+' <i class="fa fa fa-users" aria-hidden="true"></i></h3></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-left match-time"><p>'+dateFormatViewNormal(shownTable.start_time)+'</p></div><div class="col-xs-2 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(potPrize)+'</a></div><div class="col-xs-4 text-right match-button">'+buttonOfTable(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
+	createTable.innerHTML='<div class="container container-title bg-color11 text-color2" ><div class="col-xs-9 nopadding"><h3>'+shownTable.group.name+' </h3><p>Grupo</p></div><div class="col-xs-3 nopadding text-right"><h3>'+shownTable.group.size+' <i class="fa fa-reply-all" aria-hidden="true"></i></h3><p>Invitados</p></div></div><div class="container container-title bg-color2 text-color2" onClick="openTableDfInformation(\''+shownTable.id+'\');" ><div class="row"><div class="col-xs-2 chpadding"><h3><i class="fa fa-info-circle" aria-hidden="true"></i></h3></div><div class="col-xs-7 details chpadding"><h3>'+parseTableChallengeMatchName(shownTable.title)+dateFormatViewTable(shownTable.start_time)+' </h3></div><div class="col-xs-3 nopadding text-center"><h3>'+shownTable.amount_of_users_playing+' <i class="fa fa fa-users" aria-hidden="true"></i></h3><p style="margin-top: -10px;">Anotados</p></div></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-3 text-center match-type"><a onClick="openTableInformation(\''+shownTable.id+'\');">'+costOfTable(shownTable.entry_coins_cost, shownTable.has_password)+'</a></div><div class="col-xs-2 text-center prize-type"><a onClick="openTablePrizeInformation(\''+shownTable.id+'\');">'+earnsOfTable(potPrize)+'</a></div><div class="col-xs-4 text-right match-button">'+buttonOfChallenge(shownTable.id,shownTable.has_been_played_by_user)+'</div></div></div>';
 	addTableToShownChallenges(createTable);
 }
 function addTableToShownChallenges(tableToCreate){ // Add Table to container if already exists it actualize it
@@ -173,7 +176,6 @@ function deletTableFromVisibleHmtl(tableId, private){
 		}
 	}
 }
-// Funcion generales utilizadas
 function showTurboOption (bet_multiplier){
 	// null no jugado, sino nro
 	if(bet_multiplier==null){
@@ -182,6 +184,7 @@ function showTurboOption (bet_multiplier){
 		return '<img src="img/icons/coins/x2.png" >';
 	}
 }
+// Funcion generales utilizadas
 function costOfTable(coins, sms){
 	if(coins>0 || sms==true){
 		if(coins>0){
@@ -206,6 +209,20 @@ function buttonOfTable(idMesa,yaJugada){
 		return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openTablePlayedDetail(\''+idMesa+'\');">Anotado</button>';
 	}else{
 		return'<button type="button" class="btn btn-default btn-style2" onClick="openTableToPlayOverLapseWindow(\''+idMesa+'\');">¡Jugar!</button>';}
+}
+function buttonOfChallenge(idMesa,yaJugada){
+	if(yaJugada==true){
+		return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openChallengeToPlayOverLapseWindow(\''+idMesa+'\');">Anotado</button>';
+	}else{
+		return'<button type="button" class="btn btn-default btn-style2" onClick="openChallengeToPlayOverLapseWindow(\''+idMesa+'\');">¡Jugar!</button>';}
+}
+function buttonOfChallengeTable(idMesa,playing){
+	for(user in playing){
+		if(getUserJugaplayId()==playing[user].user_id){
+			return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openTablePlayedDetail(\''+idMesa+'\');">Anotado</button>';
+		}
+	}
+	return'<button type="button" class="btn btn-default btn-style2" onClick="openTableOfMatch();">¡Jugar!</button>';
 }
 // Functions with tables
 function changeOptionToPlayed(idTabla){
@@ -242,7 +259,7 @@ function firstTimeGameVars(){
 	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
 	$("#jp-section-title #title-icon").addClass("fa-sliders");
 	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'></div>" );
+	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick='openTablesFilterWindow();'>" );
 }
 function initializeGameVars(){					  
 					$('.jp-tabs li a').click(function (e) {
@@ -254,7 +271,7 @@ function initializeGameVars(){
 					  if(icono.parent().is("a")){
 							  $("#jp-section-title #title-icon").unwrap();
 						  }
-						  $("#desafiosPlus").remove();
+					$("#desafiosPlus").remove();
 					  switch (section){
 						  
 						  case "contactos":
@@ -274,7 +291,7 @@ function initializeGameVars(){
  						  $("#jp-section-title #title-section").text(title);
  						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x fa-trophy");
  						  $("#jp-section-title #title-icon").parent("div").append("<i id='desafiosPlus' class='fa fa-1x fa-plus' style='color:#FFF;'/>");
- 						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='createANewChallenge();'></a>" );
+ 						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='createOrEnterAChallenge();'></a>" );
 						  setTimeout(function(){hasBeenRead(3);}, 1000);
 						  break;
 						  
