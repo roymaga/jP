@@ -5,6 +5,24 @@ if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
 }else{
 	window.lastTableCheck=new Date(1401507903635);// 2014
 }
+if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
+	try{
+	window.previusSeenChallenges=JSON.parse(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()));
+	for(table in window.previusSeenChallenges){
+		if(!mesaDisponibleParaJugarHorario(window.previusSeenChallenges[table].startTime)){
+			window.previusSeenChallenges[table].pop();
+			table--;
+		}
+	}
+	window.newChallengeOptions=false;
+	}catch(e){
+		window.previusSeenChallenges=[];
+		window.newChallengeOptions=false;
+	}
+}else{
+	window.previusSeenChallenges=[];
+	window.newChallengeOptions=false;
+}
 window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
 function showRecordAvailableTablesToPlay(){
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
@@ -151,6 +169,7 @@ function addTableToShownMatches(tableToCreate){ // Add Table to container if alr
 }
 function cargarTablaDeChallengesConContenidoInicial(shownTable){
 	// Reviso si es grupal o no
+	addTableToArrayOfChallengesSeen(shownTable.id, shownTable.start_time,shownTable.has_been_played_by_user);
 	var createTable = document.createElement('div');
 	createTable.className="match-list-item";
 	createTable.setAttribute("data-tournament-type", shownTable.tournament_id);
@@ -302,6 +321,7 @@ function initializeGameVars(){
  						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x fa-trophy");
  						  $("#jp-section-title #title-icon").parent("div").append("<i id='desafiosPlus' class='fa fa-1x fa-plus' style='color:#FFF;'/>");
  						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='createOrEnterAChallenge();'></a>" );
+						  seenAllChallenges();
 						  setTimeout(function(){hasBeenRead(3);}, 1000);
 						  break;
 						  
@@ -360,4 +380,34 @@ function changeOptionTox2(idTabla){
 }
 function avisoProximamente(){
 	avisoEmergenteJugaPlay("PROXIMAMENTE","<p>Esto es una beta y esta función no está disponible.</p><p>Segura mente la semana que viene la tengamos habilitada.</p>");
+}
+// 
+function addTableToArrayOfChallengesSeen(tableId, startTime, played){
+	if(mesaDisponibleParaJugarHorario(startTime)==true && !played){
+		for(table in window.previusSeenChallenges){
+			if(window.previusSeenChallenges[table].tableId==tableId){
+				return;
+			}
+			if(!window.previusSeenChallenges[table].seen){newChallengesNotSeen();}
+		}
+		window.previusSeenChallenges.push({"tableId":tableId,"startTime":startTime,"seen":false});
+		newChallengesNotSeen();
+		setCookie("challengesSeenToPlay-Jp"+getUserJugaplayId(), JSON.stringify(window.previusSeenChallenges), 120);
+	}
+}
+function newChallengesNotSeen(){
+	if(!window.newChallengeOptions){
+		window.newChallengeOptions=true;
+		document.getElementById("new-challenge-notf").innerHTML='<i class="fa fa-circle" aria-hidden="true" style="font-size: 0.7em;margin-left: 12px;"></i>';
+	}
+}
+function seenAllChallenges(){
+	if(window.newChallengeOptions){
+		window.newChallengeOptions=false;
+		document.getElementById("new-challenge-notf").innerHTML='';
+		for(table in window.previusSeenChallenges){
+			window.previusSeenChallenges[table].seen=true;
+		}
+		setCookie("challengesSeenToPlay-Jp"+getUserJugaplayId(), JSON.stringify(window.previusSeenChallenges), 120);
+	}
 }

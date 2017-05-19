@@ -77,12 +77,13 @@ function contentInformationForOpenTableWindow(openTable){
 }
 function generateTabsWithData(openTable){
 	if(hasDfInformation(openTable.description)){
-		var dfHtml='<li role="presentation" class="'+showIfActive(0)+'"><a href="#InformationTab0" aria-controls="tab1" role="tab" data-toggle="tab">Info</a></li>';
+		var dfHtml='<li role="presentation" class="'+showIfActive(0)+'"><a href="#InformationTab0" aria-controls="tab1" role="tab" data-toggle="tab">DATOS</a></li>';
 	}else{
 		var dfHtml=' ';
 	}
-	return '<ul class="nav nav-tabs" role="tablist">'+dfHtml+'<li role="presentation" class="'+showIfActive(1)+'"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab">Est</a></li><li role="presentation" class="'+showIfActive(2)+'"><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab">Premios</a></li><li role="presentation" class="'+showIfActive(3)+'"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab">'+positionsOrPlayingText(openTable)+'</a></li></ul>';
+	return '<ul class="nav nav-tabs" role="tablist">'+dfHtml+'<li role="presentation" class="'+showIfActive(1)+'"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab">PUNTAJES</a></li><li role="presentation" class="'+showIfActive(2)+'"><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab">PREMIOS</a></li><li role="presentation" class="'+showIfActive(3)+'"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab">'+positionsOrPlayingText(openTable)+'</a></li></ul>';
 }
+
 function generateCeroTabWithData(openTable){
 	var h = window.innerHeight-100;
 	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(0)+'" id="InformationTab0"><iframe src="http://jugaplay.com/ftpdatafactory/html/v3/model.html?channel=deportes.futbol.'+openTable.description.replace("-", ".")+'&lang=es_LA&model=gamecast_v6&hidePagesMenu=true" width="100%" height="'+h+'" scrolling="auto" style="width: 1px; min-width: 100%; width: 100%;" class=""></iframe></div>';

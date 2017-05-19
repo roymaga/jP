@@ -16,7 +16,8 @@ function openChallengeToPlayOverLapseWindow(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -204,6 +205,7 @@ function leaveGroupAndTable(groupId){
 			closeAllOverLapseWindow();
 			showAvailableTablesToPlay();
 			deletAllGroupsFromVisibleDomWhenPosible();
+			stopTimeToWait();
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
