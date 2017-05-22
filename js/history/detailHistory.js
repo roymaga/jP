@@ -30,12 +30,8 @@ function buscoEnElHistorialJugadaRealizada(historialJugadas, tableId,time){
 		}
 }
 function bodyOfDetailHistory(historyMatch){
-	try{
 	jpAnalyticsEvent("MATCH_RESULT", historyMatch.table.id+"-"+historyMatch.table.title, (historyMatch.table.position).toString());
 	return '<div class="container container-full historial-detalle"><div class="container container-title bg-color2"><h3>'+historyMatch.table.title+'</h3></div><div class="container head-detalle text-center text-color2 text-uppercase"><div class="row text-center"><div class="col-xs-6"><h1>'+historyMatch.table.position+'</h1><h5>Mi posición en este partido</h5></div><div class="col-xs-6"><h1>'+historyMatch.earn_coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"></h1><h5>Monedas Obtenidas</h5></div></div></div><div class="container bg-color5 row" style="margin: 0px;padding: 0px;"><a class="btn btn-primary btn-style3 full-width" onClick="openTableInformation(\''+historyMatch.table.id+'\');"><i class="fa fa-info-circle" aria-hidden="true"></i> Detalle del partido</a></div><div class="container list-style2 text-color2">'+jugadoresParaElHistorial(historyMatch.players,historyMatch.table.id)+'</div></div>';
-	}catch(e){
-		alert(e);
-	}
 }
 function jugadoresParaElHistorial(playersSel,tableId){
 	contentAgregarPlayer='';
