@@ -80,6 +80,7 @@ function mensajeAlServidorConContenidoLogIn(json){
 	}
 }
 function analizarRespuestaLogIn(servidor){
+	try{
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 			avisoEmergenteJugaPlay("Datos Incorrectos","<p>El <b> mail o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
 			return false;
@@ -102,6 +103,9 @@ function analizarRespuestaLogIn(servidor){
 		cookieSave=JSON.stringify(servidor);
 		setCookie("juga-Play-Data", cookieSave, 120);
 		window.location="game.html";
+	}
+	}catch(e){
+		alert(e);
 	}
 }
 // Fin de log-In Comun

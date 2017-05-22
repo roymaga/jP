@@ -82,6 +82,7 @@ function jpAnalyticsUserId(USER_ID){
 	amplitude.getInstance().setUserId(USER_ID);
 	//fbq.setUserID(USER_ID); // Me parece que esto no existe
 	window.ga.setUserId(USER_ID);
+	window.ga.setAppVersion('2.7.0');
 }
  // Establezca el ID de usuario mediante el user_id con el que haya iniciado sesión.
 function jpAnalyticsEvent(eventCategory, eventAction, eventLabel){

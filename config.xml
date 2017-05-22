@@ -45,7 +45,7 @@
 	<gap:plugin name="nl.x-services.plugins.socialsharing" source="npm" />
 	<gap:plugin name="cordova-plugin-backbutton" source="npm"/>
 	<plugin name="cordova-plugin-network-information" source="npm"/>
-	<plugin name="com.cmackay.plugins.googleanalytics" source="npm" />
+	<plugin name="cordova-plugin-google-analytics" source="npm" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
 	<!-- GeoLocation platform. -->
 	
