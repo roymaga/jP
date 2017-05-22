@@ -56,11 +56,11 @@ function detallesHistoricosPuntaje(playerId,idMesa){
 		xmlhttp.onreadystatechange=function()
 	  	{
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
-			 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401)||  (xmlhttp.readyState==4 && xmlhttp.status==400))
+	 	  if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401)||  (xmlhttp.readyState==4 && xmlhttp.status==400))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			closeLoadingAnimation();
 			stopTimeToWait();
+			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
