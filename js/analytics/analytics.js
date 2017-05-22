@@ -2,7 +2,7 @@
  
 // ----------- Comienzo INIT
 // Analytics for App
-setTimeout(function(){window.analytics.startTrackerWithId('UA-43402607-2');}, 500);	
+setTimeout(function(){window.ga.startTrackerWithId('UA-43402607-2');}, 500);	
 // Init Facebook "pixel"
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -81,7 +81,7 @@ function jpAnalyticsUserId(USER_ID){
 	USER_ID=USER_ID.toString();
 	amplitude.getInstance().setUserId(USER_ID);
 	//fbq.setUserID(USER_ID); // Me parece que esto no existe
-	window.analytics.setUserId(USER_ID);
+	window.ga.setUserId(USER_ID);
 }
  // Establezca el ID de usuario mediante el user_id con el que haya iniciado sesión.
 function jpAnalyticsEvent(eventCategory, eventAction, eventLabel){
@@ -92,7 +92,7 @@ function jpAnalyticsEvent(eventCategory, eventAction, eventLabel){
 		}else{
 			fbq('trackCustom', eventCategory, { content_name: eventAction, content_category: eventLabel});
 		}
-	window.analytics.trackEvent(eventCategory, eventAction, eventLabel);	
+	window.ga.trackEvent(eventCategory, eventAction, eventLabel);	
 }
 function isStandardFacebookEvent(eventCategory){
 	return ["COMPLETED_REGISTRATION"].indexOf(eventCategory) > -1;
@@ -102,7 +102,7 @@ function jpAnalyticsPageView(name){
 	amplitude.getInstance().logEvent('PAGE_VIEW_'+name);
 	fbq('track', 'PageView'); // ViewContent
 	fbq('track', 'ViewContent', { content_name: name});
-	window.analytics.trackView(name);}, 1000);// Da tiempo a inicializar
+	window.ga.trackView(name);}, 1000);// Da tiempo a inicializar
 }
 // Cada vez que abre una pagina se lanza
 //jpAnalyticsPageView((window.location.href.toUpperCase()).split("COM")[1].split(".HTML")[0]); // Para Web, Mobile es V2, App lo marco
