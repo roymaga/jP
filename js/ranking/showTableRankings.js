@@ -1,6 +1,7 @@
 // JavaScript Document
 //mensajeAlServidorPidiendoRankingLibertadores();
 window.onload=setTimeout(function(){showCompleteRanking();}, 500);
+window.rankingForAnalytics=[];
 function showCompleteRanking(){
 	var previousRankingArgentino=getCookie("ranking-TArgentino-Jp");
 	var previousRankingChileno=getCookie("ranking-Chileno-Jp");
@@ -235,10 +236,10 @@ function editarDatosRankingLibertadoresJugaPlay(ranking){
 }
 /* */ 
 function armarTablaConRankinGeneral(rankingGN,nombre){
-	usuId=window.userDataJugaPlay.id;
-	cantidadDeJugadores=rankingGN.length;
-	titulo='';
-	lineaRanking='';
+	var usuId=window.userDataJugaPlay.id;
+	var cantidadDeJugadores=rankingGN.length;
+	var titulo='';
+	var lineaRanking='';
 	for(a in rankingGN){
 		if((rankingGN[a].user_id)!=usuId){
 			lineaRanking+='<tr><td>'+rankingGN[a].position+'</td><td>'+rankingGN[a].user_nickname+'</td><td>'+rankingGN[a].points+' Pts</td></tr>';
@@ -246,12 +247,16 @@ function armarTablaConRankinGeneral(rankingGN,nombre){
 		else{
 			lineaRanking+='<tr><th>'+rankingGN[a].position+'</th><th>'+rankingGN[a].user_nickname+'</th><th>'+rankingGN[a].points+' Pts</th></tr>';
 			titulo='<p><b> Tu posicion es '+rankingGN[a].position+'° de '+cantidadDeJugadores+' Jugadores</b><p>';
+			window.rankingForAnalytics[nombre]=rankingGN[a].position;
 		}
 	}
-	l1='<table class="table table-striped table-bordered table-hover" id="dataTables-table-ranking'+nombre+'">';
-	l2='<thead><tr><th>Posicion</th><th>Nick</th><th>Puntos</th></tr></thead><tbody>';
+	var l1='<table class="table table-striped table-bordered table-hover" id="dataTables-table-ranking'+nombre+'">';
+	var l2='<thead><tr><th>Posicion</th><th>Nick</th><th>Puntos</th></tr></thead><tbody>';
 	//l3='<tr><td>1°</td><td>River Campeon</td><td>48 Pts</td></tr>';
-	l4='</tbody></table>';
-	texto=titulo+l1+l2+lineaRanking+l4;
+	var l4='</tbody></table>';
+	var texto=titulo+l1+l2+lineaRanking+l4;
 	return texto;
+}
+function changeTournament(tournament){
+	jpAnalyticsEvent("ENTER_RANKING", tournament, window.rankingForAnalytics[tournament].toString());
 }

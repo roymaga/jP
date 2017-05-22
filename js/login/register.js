@@ -96,7 +96,19 @@ function analizarRespuestaRegistro(servidor, mail, pass){
 			return false;
 		}
 	}else{// Salio todo bien
-		fbq('track', 'CompleteRegistration');
+		if(mail.indexOf("@guest.com")>-1){
+			if(window.invitationTknId.length>2){
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "MAIL", "FRIEND");
+			}else{
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "MAIL", "NORMAL");
+			}
+		}else{
+			if(window.invitationTknId.length>2){
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "GUEST", "FRIEND");
+			}else{
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "GUEST", "NORMAL");
+			}
+		}
 		window.registerInSite=true;
 		logInUsuarioEnElSitioPostRegistro(mail, pass);
 	}

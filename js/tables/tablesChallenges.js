@@ -114,6 +114,7 @@ function addUserToGroup(dialogItself){
 			if (typeof(json.error) !== 'undefined' || typeof(json.errors) !== 'undefined'){
 				avisoEmergenteJugaPlay("Código erróneo","<p>No se encontró ningún grupo o desafío con ese código, por favor verifique que el mismo se ingresara correctamente.</p>");
 			}else{
+				jpAnalyticsEvent("JOIN_GROUP", json.name, json.size);
 				avisoEmergenteJugaPlay('Bien venido a "'+json.name+'" ','<p>Ya sos parte del grupo <b>"'+json.name+'"</b> y podrás jugar sus desafíos.</p>');
 				dialogItself.close();
 				showAvailableTablesToPlay();				

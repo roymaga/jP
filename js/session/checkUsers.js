@@ -66,6 +66,7 @@ function analizeAskServerToUpdateDataFromUser(servidor){
 			// Borrar las cookies guardadas
 			 ifLogInIsNeed();// If went wrong try with log in	
 	}else{// Salio todo bien
+		jpAnalyticsUserId(servidor.id);
 		userDataJugaPlayUpdate(servidor);
 		setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds
 	}
@@ -188,6 +189,7 @@ function analizeLastOptionToKeepUserLogedIn(servidor){
 			// Borrar las cookies guardadas
 			 logOutFromJugaPlay();// If went wrong try with log in	
 	}else{// Salio todo bien
+		jpAnalyticsUserId(servidor.id);
 		userDataJugaPlayUpdate(servidor);
 		setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds
 	}

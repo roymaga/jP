@@ -295,7 +295,11 @@ function sendPlayToJugaplay(idTabla,bet){
 		xmlhttp.send(json);}
 }
 function endOfPlayedTable(idTabla){
-	
+	if(!window.actualOpenTable.private){
+		jpAnalyticsEvent("START_MATCH", idTabla+"-"+window.actualOpenTable.title, window.actualOpenTable.entry_coins_cost.toString());
+	}else{
+		jpAnalyticsEvent("ACCEPT_CHALLENGE", idTabla+"-"+window.actualOpenTable.title, window.actualOpenTable.entry_coins_cost.toString());
+	}
 	closeAllOverLapseWindow();
 	setTimeout(function(){changeOptionToPlayed(idTabla);playedGameThanksMessage();}, 1000);
 }
@@ -383,6 +387,7 @@ function noneRegisterPlayerRegister(dialogItself){
 						return false;
 						}
 				}else{// Salio todo bien
+					jpAnalyticsEvent("GUEST_TO_USER_CONVERTION", idTabla+"-"+window.actualOpenTable.title, doble.id.toString());
 					changeAndKeepLogIn(mail,password);// Para hacer el log in ya que lo echa
 					dialogItself.close();
 					setTimeout(function(){avisoEmergenteJugaPlay("Registro Completo","<p>Se ha registrado correctamente en Jugaplay. En la sección mi perfil podrá editar el resto de sus datos.</p>");}, 2000);

@@ -87,6 +87,7 @@ function createGroupToChallenge(matchDetails){
 			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
+				jpAnalyticsEvent("CREATE_GROUP", window.nameForGroup, window.selectedUsersToFromGroup.length.toString());
 				createMatchChallenge(doble.id, matchDetails);
 			}else{
 				//alert("jsonError");
@@ -126,11 +127,12 @@ function createMatchChallenge(groupId,matchDetails){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				closeLoadingAnimation();
 				closeAllOverLapseWindow();
+				jpAnalyticsEvent("CHALLENGE_PLAYER", window.nameForGroup, window.selectedUsersToFromGroup.length.toString());
 				setTimeout(function(){endOfFormMatch();}, 1000);
 			}else{
 				//alert("jsonError");

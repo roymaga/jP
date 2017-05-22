@@ -33,6 +33,7 @@ function askToServerForTableInformation(tableId){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
+			stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);

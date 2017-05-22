@@ -44,6 +44,11 @@ function readInidecesOfOpenTable(tableDescription){
 function readOpenTableLive(openTable){
 		openTable=parseTableForGroupPlayingOption(openTable);
 		window.liveTableOpen=openTable;
+		if(!openTable.private){
+			jpAnalyticsEvent("LIVE_EVENT", openTable.title, "GENERAL");
+		}else{
+			jpAnalyticsEvent("LIVE_EVENT", openTable.title, "PRIVATE");
+		}
 		initializeAddAllPlayers(openTable);
 	}
 // All players

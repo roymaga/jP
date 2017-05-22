@@ -32,7 +32,8 @@
     <script src="js/session/handleCookies.js?8"></script>
     <script src="js/specialAppFunctions.js"></script>
     <script src="js/session/userDataJugaPlayUpdate.js?8"></script> 
-    <script src="js/session/checkUsers.js?8"></script>  
+    <script src="js/session/checkUsers.js?8"></script>
+    <script src="js/analytics/analytics.js?8"></script>  
 </head>
 <body>
 <!-- START > CONTENT -->
@@ -205,14 +206,7 @@ El usuario da por entendido que en caso de no enviar sus selfies para el sector 
 <!-- End Basic Functions -->
 <!-- start Google Analytics -->
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-43402607-2', 'auto');
-  ga('send', 'pageview');
-
+jpAnalyticsPageView("/TERMS-CONDITIONS");
 </script>
 <!-- end Google Analytics -->
 </html>

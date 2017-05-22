@@ -30,6 +30,7 @@ function buscoEnElHistorialJugadaRealizada(historialJugadas, tableId,time){
 		}
 }
 function bodyOfDetailHistory(historyMatch){
+	jpAnalyticsEvent("MATCH_RESULT", historyMatch.table.id+"-"+historyMatch.table.title, (historyMatch.table.position).toString());
 	return '<div class="container container-full historial-detalle"><div class="container container-title bg-color2"><h3>'+historyMatch.table.title+'</h3></div><div class="container head-detalle text-center text-color2 text-uppercase"><div class="row text-center"><div class="col-xs-6"><h1>'+historyMatch.table.position+'</h1><h5>Mi posición en este partido</h5></div><div class="col-xs-6"><h1>'+historyMatch.earn_coins+' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"></h1><h5>Monedas Obtenidas</h5></div></div></div><div class="container bg-color5 row" style="margin: 0px;padding: 0px;"><a class="btn btn-primary btn-style3 full-width" onClick="openTableInformation(\''+historyMatch.table.id+'\');"><i class="fa fa-info-circle" aria-hidden="true"></i> Detalle del partido</a></div><div class="container list-style2 text-color2">'+jugadoresParaElHistorial(historyMatch.players,historyMatch.table.id)+'</div></div>';
 }
 function jugadoresParaElHistorial(playersSel,tableId){
@@ -59,6 +60,7 @@ function detallesHistoricosPuntaje(playerId,idMesa){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
+			stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -170,6 +172,7 @@ function contenidoDelDetalleHistoricoSumado(){
 	textDetailPlayer+='<div class="container"><div class="line-divider"></div></div><div class="container stats1 text-center"><h4>Pases</h4><div class="grafico-pases"><div class="correcto" style="width:'+porcentualRightPases(window.statsFromPlayer.stats.right_passes,window.statsFromPlayer.stats.wrong_passes)+';"></div></div><div class="row"><div class="col-xs-6"><h2 class="color1">'+window.statsFromPlayer.stats.right_passes+'</h2><p>Correctos</p></div><div class="col-xs-6"><h2 class="color4">'+window.statsFromPlayer.stats.wrong_passes+'</h2><p>Incorrectos</p></div></div><h5 class="boxed">Puntos por pases: '+scorePases+'</h5></div><div class="container"><div class="line-divider"></div></div></div>'; // detail pases y cierre del principio
 	textDetailPlayer+='<div class="container"><table class="table table-sm table-hover" style="font-size: 14px;"><tbody><tr class="first-row"><th scope="row">Faltas</th><td>'+window.statsFromPlayer.stats.faults+'</td><th>'+window.statsFromPlayer.stats.faults*window.rulesFromTable.faults+' PTS</th></tr><tr><th scope="row">Recuperaciones</th><td>'+window.statsFromPlayer.stats.recoveries+'</td><th>'+window.statsFromPlayer.stats.recoveries*window.rulesFromTable.recoveries+' PTS</th></tr>	<tr><th scope="row">Asistencias</th><td>'+window.statsFromPlayer.stats.assists+'</td><th>'+window.statsFromPlayer.stats.assists*window.rulesFromTable.assists+' PTS</th></tr>	<tr><th scope="row">Atajadas</th><td>'+window.statsFromPlayer.stats.saves+'</td><th>'+window.statsFromPlayer.stats.saves*window.rulesFromTable.saves+' PTS</th></tr>	<tr><th scope="row">Equipo Ganador</th><td>'+undefeatDefence(window.statsFromPlayer.stats.winner_team)+'</td><th>'+window.statsFromPlayer.stats.winner_team*window.rulesFromTable.winner_team+' PTS</th></tr>	<tr><th scope="row">Valla invicta</th><td>'+undefeatDefence(addPlusTwoNumbers(window.statsFromPlayer.stats.undefeated_defense, window.statsFromPlayer.stats.undefeated_goal))+'</td><th>'+tableInvictus+' PTS</th></tr>	<tr><th scope="row">Fuera de juego</th><td>'+window.statsFromPlayer.stats.offside+'</td><th>'+window.statsFromPlayer.stats.offside*window.rulesFromTable.offside+' PTS</th></tr>	<tr><th scope="row">No Atajadas</th><td>'+window.statsFromPlayer.stats.missed_saves+'</td><th>'+window.statsFromPlayer.stats.missed_saves*window.rulesFromTable.missed_saves+' PTS</th></tr>	<tr><th scope="row">Penales</th><td>'+undefeatDefence(addPlusTwoNumbers(window.statsFromPlayer.stats.missed_penalties,window.statsFromPlayer.stats.saved_penalties))+'</td><th>'+tablePenalties+' PTS</th></tr></tbody></table></div>'; // tabla final 
 	textDetailPlayer+='<div class="container stats-section text-center"><h5 class="boxed">Puntos total: '+totalScore+'</h5></div><div class="container"><div class="line-divider"></div></div>'; // cierre
+	jpAnalyticsEvent("PLAYER_RESULT", window.statsFromPlayer.id+'-'+window.statsFromPlayer.first_name+' '+window.statsFromPlayer.last_name, totalScore.toString());
 	return textDetailPlayer;
 }
 function addPlusTwoNumbers(a,b){// Hago esta funcion por que sino en IE no lo toma

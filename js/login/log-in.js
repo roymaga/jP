@@ -85,7 +85,9 @@ function analizarRespuestaLogIn(servidor){
 			return false;
 	}else{// Salio todo bien
 		if(window.registerInSite!=true){// No vengo del registro
-		fbq('track', 'returningUser');}
+			jpAnalyticsEvent("LOGIN", servidor.id.toString(), "ANDROID");
+		}
+		jpAnalyticsUserId(servidor.id);
 		if(document.getElementById("checkKeepLogIn")!=null){
 		if(document.getElementById("checkKeepLogIn").checked){
 			var mail=document.getElementById("email-pop").value;
@@ -115,6 +117,13 @@ function processFacebook(type){
 		var windowB=window.open(getJPApiURL()+'users/auth/facebook?invitation_token='+window.invitationTknId);
 	}else{
 		var windowB=window.open(getJPApiURL()+'users/auth/facebook');
+	}
+	if(type=="register"){
+			if(window.invitationTknId.length>2){
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "FRIEND");
+			}else{
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "NORMAL");
+			}
 	}
 	setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
 }

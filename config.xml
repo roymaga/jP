@@ -2,8 +2,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.JugaPlay"
-		versionCode="25370"
-        version   = "2.6.7">
+		versionCode="25375"
+        version   = "2.7.0">
     <name>JugaPlay</name>
 
     <description>
