@@ -2,7 +2,7 @@
  
 // ----------- Comienzo INIT
 // Analytics for App
-window.onload=setTimeout(function(){window.analytics.startTrackerWithId('UA-43402607-2');}, 500);	
+setTimeout(function(){window.analytics.startTrackerWithId('UA-43402607-2');}, 500);	
 // Init Facebook "pixel"
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
