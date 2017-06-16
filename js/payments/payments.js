@@ -67,6 +67,7 @@ function notifyPaymentStarted(method){
 	}
 }
 
+
 function buyChips(){
 	var useId='BS-FL-'+Math.floor((Math.random() * 1000000000) + 1);
 	BootstrapDialog.show({

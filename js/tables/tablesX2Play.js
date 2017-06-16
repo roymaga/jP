@@ -169,7 +169,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 				if (typeof(json.errors) !== 'undefined'){
 						avisoEmergenteJugaPlay("Algo salió mal",'<p>Algo salió mal, por favor vuelva a intentar.</p>');
 				}else{// Salio todo bien
-					 jpAnalyticsEvent("USE_X2", multiplier_chips_cost, table_id);
+					jpAnalyticsEvent("USE_X2", multiplier_chips_cost, table_id);
 					 editXChipsFromUsersWallet(-multiplier_chips_cost);
 					 changeOptionTox2(table_id);
 				}
