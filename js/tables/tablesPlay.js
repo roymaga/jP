@@ -24,7 +24,7 @@ function openTableToPlayOverLapseWindow(tableId){
 			var doble=JSON.parse(servidor);
 			readOpenTable(doble);
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -42,6 +42,11 @@ function readOpenTable(openTable){
 		 titleSelectedForTable=openTable.title;
 		 contenidoMesa=contentForOpenTableWindow(openTable);
 		 openOverLapseWindow(titleSelectedForTable, contenidoMesa);
+		  if(!openTable.private){
+			jpAnalyticsEvent("VIEW_MATCH", openTable.title, "GENERAL");
+		}else{
+			jpAnalyticsEvent("VIEW_MATCH", openTable.title, "PRIVATE");
+		}
 		setTimeout(function(){hasBeenRead(2);}, 5000);// A los 10 segundos de mostrarse el primer partido muestra como elegir los jugadores 
 		setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
@@ -105,7 +110,7 @@ function returnPositionAsNumber(position){
 	if(position=="forward"){return 3;}
 	return 4;// No deberia salir por aca pero por las dudas...
 }
-// <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>&#10003;</span></button></div>
+// <div class="col-xs-2 text-right"><button onClick="gameMesaSelectPlayerForTeam(this,\''+id+'\');" type="button" class="btn btn-player-select"><span>✓</span></button></div>
 function colapseSelectedPlayers(arrowElement){
 	selectedPlayerContainer=arrowElement.parentNode;
 	// collapse
@@ -140,6 +145,7 @@ function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
 		document.getElementById("container-selected-players-table").appendChild(playerRow);
 		playerRow.classList.add("selected");
 		window.arrPlayersSelected.push(idPlayer);
+		jpAnalyticsEvent("PICK_PLAYER", playerRow.getAttribute('data-player-name'), playerRow.getAttribute('data-player-team'));
 		}else{avisoEmergenteJugaPlay("Listado Completo","<p>Ya selecciono los  <b>"+window.actualOpenTable.number_of_players+"</b> jugadores para jugar este partido. Si desea agregar uno distinto debe sacar uno del listado de seleccionados.</p>");}
 	} 
 	 updatePositionOfPlayersForWindow();
@@ -322,7 +328,7 @@ function noneRegisterPlayerPlayed(){
 		 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj',
 			 title: "<H1>Gracias por Jugar</H1>",
-            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios, encontrar te con amigos y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset></p>',
+            message: '<p>Sincroniza tu cuenta con tus datos para guardar tus jugadas, poder canjear premios, encontrar te con amigos y muchas cosas más.</p><p><fieldset class="form-group"> Nick<input type="text" class="form-control" id="formUserNick" placeholder="Nick"></fieldset><p></p><p><fieldset class="form-group"> E-Mail <input type="email" class="form-control" id="formUserEmail" placeholder="Email"></fieldset><p></p><p><fieldset class="form-group"> Contraseña<input type="password" id="formUserPassWord" class="form-control" placeholder="Nueva contraseña"></fieldset><p></p>',
 			buttons: [{
                 label: 'Registrar',
 				id:'boton-panel-registro-aviso-error-pop-up',

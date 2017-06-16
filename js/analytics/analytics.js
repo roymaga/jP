@@ -1,8 +1,8 @@
 // JavaScript Document
  
 // ----------- Comienzo INIT
-// Init Google Analytics
 // Analytics for App
+if(isProductionMode()){
 setTimeout(function(){window.ga.startTrackerWithId('UA-43402607-2');}, 500);	
 // Init Facebook "pixel"
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -27,7 +27,8 @@ function v(e){function t(t){e[t]=function(){e._q.push([t].concat(Array.prototype
 if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]};e.amplitude=n;
 })(window,document);
 //Nro test 46200453d54c4adfe9d9522c73e355c1
-amplitude.getInstance().init('7e1fbf2d393e868f9ec97eea66bd3362', null, {includeReferrer: true, includeUtm: true, platform:'IOS'});// Nro de test
+amplitude.getInstance().init('7e1fbf2d393e868f9ec97eea66bd3362', null, {includeReferrer: true, includeUtm: true, platform:'ANDROID'});// Nro de test
+}
 // ----------- Fin de INIT
 /*
 --------- Amplitude --------
@@ -79,32 +80,49 @@ fbq('track', 'Purchase', { value: 0.00, currency: 'USD' });
 fbq('trackCustom', 'CustomEvent', { value: 0.00, currency: 'USD' });
 */
 function jpAnalyticsUserId(USER_ID){
+	if(isProductionMode()){
 	USER_ID=USER_ID.toString();
 	amplitude.getInstance().setUserId(USER_ID);
 	//fbq.setUserID(USER_ID); // Me parece que esto no existe
 	window.ga.setUserId(USER_ID);
 	window.ga.setAppVersion('2.7.0');
+	}
 }
  // Establezca el ID de usuario mediante el user_id con el que haya iniciado sesión.
 function jpAnalyticsEvent(eventCategory, eventAction, eventLabel){
 	// eventCategory STR, eventAction STR, eventLabel STR
+	if(isProductionMode()){
 	amplitude.getInstance().logEvent(eventCategory, { 'content_name': eventAction, 'content_category': eventLabel});
 	if(isStandardFacebookEvent(eventCategory)){
 			fbq('track', eventCategory, { content_name: eventAction, content_category: eventLabel});
 		}else{
 			fbq('trackCustom', eventCategory, { content_name: eventAction, content_category: eventLabel});
 		}
-	window.ga.trackEvent(eventCategory, eventAction, eventLabel);	
+	window.ga.trackEvent(eventCategory, eventAction, eventLabel);
+	}
 }
 function isStandardFacebookEvent(eventCategory){
 	return ["COMPLETED_REGISTRATION"].indexOf(eventCategory) > -1;
 }
+function jpAnalyicsEventPurchase(purchaseCategory, purchaseLabel,purchaseValue, purchaseCurrency ){
+	// Solo para las mayores de 0 y lo pongo en Uss por ahora
+	// En las encuestas guardar en label de la red que viene
+	if(isProductionMode()){
+		fbq('track', 'Purchase', {content_type: purchaseCategory,value: purchaseValue,currency: 'USD'});
+		window.ga.addTransaction('Pollfish', purchaseCategory, purchaseValue, 0, 0, 'USD')
+		var revenue = new amplitude.Revenue().setProductId('com.company.productId').setPrice(parseFloat(purchaseValue)).setQuantity(1).eventProperties({ 'content_name': purchaseCategory, 'content_category': purchaseLabel});
+		amplitude.getInstance().logRevenueV2(revenue);
+	}
+}
+
 function jpAnalyticsPageView(name){
+	if(isProductionMode()){
 	setTimeout(function(){
 	amplitude.getInstance().logEvent('PAGE_VIEW_'+name);
 	fbq('track', 'PageView'); // ViewContent
 	fbq('track', 'ViewContent', { content_name: name});
 	window.ga.trackView(name);}, 1000);// Da tiempo a inicializar
+	}
 }
 // Cada vez que abre una pagina se lanza
 //jpAnalyticsPageView((window.location.href.toUpperCase()).split("COM")[1].split(".HTML")[0]); // Para Web, Mobile es V2, App lo marco

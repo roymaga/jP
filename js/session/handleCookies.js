@@ -1,6 +1,13 @@
 // JavaScript Document
+function isProductionMode(){
+	return true;// Enviorment: False-->Test || True-->Production
+}
 function getJPApiURL(){
-	return "http://app.jugaplay.com/api/v1/";
+	if(isProductionMode()){
+		return "http://app.jugaplay.com/api/v1/";
+	}else{
+		return "http://test-api.jugaplay.com/api/v1/";
+	}
 }
 function acceptsLocalStorage(){
 	if(typeof(Storage) !== "undefined") {

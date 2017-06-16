@@ -203,9 +203,9 @@ function leaveGroupAndTable(groupId){
 	    {
 			closeLoadingAnimation();
 			closeAllOverLapseWindow();
+			stopTimeToWait();
 			showAvailableTablesToPlay();
 			deletAllGroupsFromVisibleDomWhenPosible();
-			stopTimeToWait();
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();

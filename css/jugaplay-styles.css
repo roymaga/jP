@@ -1316,7 +1316,7 @@ button.close {
     text-align: center;
 }
 .general-modal-msj.x2 .modal-dialog .modal-body img {
-	max-height:60vh;
+	max-height:45vh;
 	padding-left:auto;
 	padding-right:auto;
 }
@@ -1945,4 +1945,18 @@ button.close {
 	border-radius: 50%;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
+}
+/* Pagos encuestas */
+.btn-default.poll {
+    background: transparent none repeat scroll 0 0 !important;
+    border-radius: 2px;
+    color: #fff;
+    font-size: 1.2em;
+    padding-bottom: 3px;
+    text-transform: uppercase;
+    border-color: #ccc;
+}
+.btn-default.poll.not-available {
+    color: #7d7d7d;
+    border-color: #7d7d7d;
 }

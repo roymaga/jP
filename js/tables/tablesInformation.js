@@ -29,7 +29,7 @@ function askToServerForTableInformation(tableId){
 		xmlhttp.onreadystatechange=function()
 	  	{
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
-	 	  if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401)||  (xmlhttp.readyState==4 && xmlhttp.status==400))
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401)||  (xmlhttp.readyState==4 && xmlhttp.status==400))
 	    {
 			var jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
@@ -45,7 +45,7 @@ function askToServerForTableInformation(tableId){
 					showTableInformation();
 				}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -84,19 +84,18 @@ function generateTabsWithData(openTable){
 	}
 	return '<ul class="nav nav-tabs" role="tablist">'+dfHtml+'<li role="presentation" class="'+showIfActive(1)+'"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab">PUNTAJES</a></li><li role="presentation" class="'+showIfActive(2)+'"><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab">PREMIOS</a></li><li role="presentation" class="'+showIfActive(3)+'"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab">'+positionsOrPlayingText(openTable)+'</a></li></ul>';
 }
-
 function generateCeroTabWithData(openTable){
 	var h = window.innerHeight-100;
 	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(0)+'" id="InformationTab0"><iframe src="http://jugaplay.com/ftpdatafactory/html/v3/model.html?channel=deportes.futbol.'+openTable.description.replace("-", ".")+'&lang=es_LA&model=gamecast_v6&hidePagesMenu=true" width="100%" height="'+h+'" scrolling="auto" style="width: 1px; min-width: 100%; width: 100%;" class=""></iframe></div>';
 }
 function generateFirstTabWithData(openTable){
-	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(1)+'" id="InformationTab1"><div class="container"> <div class="row text-color2 vertical-align" style="background-color:#35b44a;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"><div class="col-xs-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 text-right match-info">Entrada</br>'+informationCostOfCoins(openTable.entry_coins_cost)+'</br></div><div class="col-xs-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</div></div><div class="container"><p>Para Jugar este partido debes elegir <b>'+openTable.number_of_players+'</b> Jugadores</p><p>Los jugadores que elijas serán evaluados según su desempeño en el partido. Sumaran puntos acorde a la siguiente tabla. </p></div><table class="table table-sm table-hover"><tbody>'+showArrayOfIncidencesAndPoints(openTable)+'</tbody></table></div></div>';
+	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(1)+'" id="InformationTab1"><div class="container"> <div class="row text-color2 vertical-align" style="background-color:#35b44a;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"><div class="col-xs-6"><h3 class="title-style1">'+openTable.title+'</h3></div><div class="col-xs-2 text-right match-info">Entrada'+informationCostOfCoins(openTable.entry_coins_cost)+'</div><div class="col-xs-4 text-right"><p class="text-block-style1">'+dateFormatViewNormal(openTable.start_time)+'</div></div><div class="container"><p>Para Jugar este partido debes elegir <b>'+openTable.number_of_players+'</b> Jugadores</p><p>Los jugadores que elijas serán evaluados según su desempeño en el partido. Sumaran puntos acorde a la siguiente tabla. </p></div><table class="table table-sm table-hover"><tbody>'+showArrayOfIncidencesAndPoints(openTable)+'</table></div></div>';
 }
 function generateSecondTabWithData(openTable){
-	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(2)+'" id="InformationTab2"><div class="container"><table class="table table-sm table-hover"><tbody>'+showArrayOfCoinfForWinners(openTable)+'</tbody></table></div></div>';
+	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(2)+'" id="InformationTab2"><div class="container"><table class="table table-sm table-hover"><tbody>'+showArrayOfCoinfForWinners(openTable)+'</table></div></div>';
 }
 function generateThirdTabWithData(openTable){
-	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(3)+'" id="InformationTab3"><div class="container"><table class="table table-sm table-hover"><tbody>'+showArrayOfPlayersOrWinners(openTable)+'</tbody></table></div></div>';
+	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(3)+'" id="InformationTab3"><div class="container"><table class="table table-sm table-hover"><tbody>'+showArrayOfPlayersOrWinners(openTable)+'</table></div></div>';
 }
 function informationCostOfCoins(amountOfCoins){
 	if(amountOfCoins==0){

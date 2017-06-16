@@ -51,7 +51,7 @@ function playTurboOption(table_id, bet_multiplier , multiplier_chips_cost, has_b
 function messageForBuyX2(table_id, multiplier_chips_cost){
 		 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj x2',
-			 title: '<H1 class="x2">DUPLICA con <img src="img/icons/coins/x2.png"></H1>',
+			 title: '<H1 class="x2">DUPLICA con <img src="img/icons/coins/x2.png" width="50px;"></H1>',
             message: '<img src="img/icons/coins/x2_pop.svg">',
 			buttons: [{
                 label: 'CANJEA <img src="img/icons/coins/x2.png" width="50px;"> por <b style="font-size: 1.7em; margin-left: 5px;">'+multiplier_chips_cost+'</b> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;">',
@@ -91,6 +91,7 @@ function activateX2ForPlay(table_id,multiplier_chips_cost){
 	if(checkConnection2()){
 		if(startLoadingAnimation()==true){
 			callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
+			jpAnalyticsEvent("TRY_TO_USE_X2", multiplier_chips_cost, table_id);
 		}
 			}else{
 			setTimeout(function(){activateX2ForPlay(table_id,multiplier_chips_cost);}, 300);
@@ -168,6 +169,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 				if (typeof(json.errors) !== 'undefined'){
 						avisoEmergenteJugaPlay("Algo salió mal",'<p>Algo salió mal, por favor vuelva a intentar.</p>');
 				}else{// Salio todo bien
+					 jpAnalyticsEvent("USE_X2", multiplier_chips_cost, table_id);
 					 editXChipsFromUsersWallet(-multiplier_chips_cost);
 					 changeOptionTox2(table_id);
 				}
