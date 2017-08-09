@@ -30,7 +30,6 @@ function closeOverLapseWindow(windowToClose){
  		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
 	setTimeout(function(){ updateMenusValues() }, 500);
-	
 }
 function closeAllOverLapseWindow(){
 	while(window.lastScreenArray.length>0){

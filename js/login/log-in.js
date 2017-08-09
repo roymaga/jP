@@ -85,7 +85,7 @@ function analizarRespuestaLogIn(servidor){
 			return false;
 	}else{// Salio todo bien
 		if(window.registerInSite!=true){// No vengo del registro
-			jpAnalyticsEvent("LOGIN", servidor.id.toString(), "ANDROID");
+			jpAnalyticsEvent("LOGIN", servidor.id.toString(), "IOS");
 		}
 		jpAnalyticsUserId(servidor.id);
 		if(document.getElementById("checkKeepLogIn")!=null){
@@ -167,7 +167,7 @@ function checkIfLogInWithFacebook(type){
 		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	}	
+		xmlhttp.send();}
 }
 // Fin Log in registro Fb
 // Comienzo password Recovery

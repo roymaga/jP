@@ -1,5 +1,5 @@
 // JavaScript Document
-window.onload=setTimeout(function(){loadAllUsersInvitatios();}, 1000);
+window.onload=setTimeout(function(){ loadAllUsersInvitatios(); }, 1000);
 function loadAllUsersInvitatios(){
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
