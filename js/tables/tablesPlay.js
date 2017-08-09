@@ -1,8 +1,10 @@
 // JavaScript Document
 // Comienza Funciones armado de tabla
-function openTableToPlayOverLapseWindow(tableId){
+function openTableToPlayOverLapseWindow(tableId, type){
+	window.showTableInformatioType=type;
 	startLoadingAnimation();
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -16,7 +18,7 @@ function openTableToPlayOverLapseWindow(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
@@ -32,7 +34,7 @@ function openTableToPlayOverLapseWindow(tableId){
 		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}	
+		xmlhttp.send();	}
 }
 function readOpenTable(openTable){
 		openTable=parseTableForGroupPlayingOption (openTable);
@@ -42,11 +44,7 @@ function readOpenTable(openTable){
 		 titleSelectedForTable=openTable.title;
 		 contenidoMesa=contentForOpenTableWindow(openTable);
 		 openOverLapseWindow(titleSelectedForTable, contenidoMesa);
-		 if(!openTable.private){
-			jpAnalyticsEvent("VIEW_MATCH", openTable.title, "GENERAL");
-		}else{
-			jpAnalyticsEvent("VIEW_MATCH", openTable.title, "PRIVATE");
-		}
+		 jpAnalyticsEvent("BEGIN_PLAYER_SELECTION", window.showTableInformatioType, openTable.title);
 		setTimeout(function(){hasBeenRead(2);}, 5000);// A los 10 segundos de mostrarse el primer partido muestra como elegir los jugadores 
 		setTimeout(function(){ updatePositionOfPlayersForWindow();},800);// Ya que tarda 500 en abrir la ventana
 	}
@@ -136,7 +134,7 @@ function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
 			if(capitan[c].innerHTML !== undefined){
 				capitan[c].parentNode.removeChild(capitan[c]);
 			}
-		}  
+		} 
 		playerRow.classList.remove("selected");
 		index=window.arrPlayersSelected.indexOf(idPlayer);
 		if(index>-1){window.arrPlayersSelected.splice(index, 1);}	
@@ -152,7 +150,7 @@ function gameMesaSelectPlayerForTeam(playerRow,idPlayer){
 	 updateButtomOfTable(); 
 }
 function returnToPlayerListInOrder(playerRow){
-	listedPlayers=document.getElementById("container-listed-players-table").getElementsByClassName("players-list-item");
+	var listedPlayers=document.getElementById("container-listed-players-table").getElementsByClassName("players-list-item");
 	var beenTroughTeam=false;
 	//var hasBeenAppend=false;
 	for(position in listedPlayers){
@@ -185,14 +183,26 @@ function restPlayersToAdd(){
 }
 function updateButtomOfTable(){
 	updateCapitans();
-	buttom=document.getElementById("button-play-of-table");
+	var buttom=document.getElementById("button-play-of-table");
 	if(restPlayersToAdd()){
 		if(!buttom.classList.contains("pending")){buttom.classList.add("pending");}
 		pendingPlayers=window.actualOpenTable.number_of_players - window.arrPlayersSelected.length;
 		buttom.innerHTML="FALTAN "+pendingPlayers+" JUGADORES";
 	}else{
 		if(buttom.classList.contains("pending")){buttom.classList.remove("pending");}
-		buttom.innerHTML="JUGAR";
+			switch(window.showTableInformatioType) {
+				case "training":
+					buttom.innerHTML="JUGAR AMISTOSO";
+					break;
+				case "league":
+					buttom.innerHTML="JUGAR OFICIAL <b style='font-size: 1.25em;'>"+window.actualOpenTable.entry_cost_value+' <img src="'+parseImgUrlChipsOrCoins(window.actualOpenTable.entry_cost_type)+'" style="width: 35px;"></b>';
+					break;
+				case "challenge":
+					buttom.innerHTML="JUGAR DESAFIO <b style='font-size: 1.25em;'>"+window.actualOpenTable.entry_cost_value+' <img src="'+parseImgUrlChipsOrCoins(window.actualOpenTable.entry_cost_type)+'" style="width: 35px;"></b>';
+					break;
+				default:
+					buttom.innerHTML="JUGAR";
+			}
 	}
 }
 function updateCapitans(){
@@ -235,13 +245,13 @@ function buttomPlayTable(){
 		}else{avisoEmergenteJugaPlay("Faltan Jugadores","<p>Debe seleccionar <b>"+window.actualOpenTable.number_of_players+"</b> jugadores para jugar este partido.</p>");}
 }
 function completePlayingTable(){
-	mesa=window.actualOpenTable;
-	if(mesa.entry_coins_cost>0 || mesa.has_password==true){// verificar que tiene las monedas cuando le pregunte
-		if(mesa.entry_coins_cost>0){
-			checkDataForCoinsGame(mesa.id,mesa.entry_coins_cost);// 
+	var mesa=window.actualOpenTable;
+	if(mesa.entry_cost_value>0){// verificar que tiene las monedas cuando le pregunte
+		if(mesa.entry_cost_type=="coins"){
+			checkDataForCoinsGame(mesa.id,mesa.entry_cost_value);// 
 		}
 		else{
-			preguntarCodigoSms(mesa.id);
+			checkDataForChipsGame(mesa.id,mesa.entry_cost_value);
 		}
 	}else{
 		sendPlayToJugaplay(mesa.id,"false");
@@ -256,16 +266,44 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p> <p>Invite amigos <a href=\"referal.html\">haciendo click aqui</a>para conseguir las monedas que le faltan</p>");
 				}
 }
+function checkDataForChipsGame(idTabla,costOfTable){ // Recordar actualizar los datos despues de la jugada
+				if(userCanSpentXChips(costOfTable)){
+					editXChipsFromUsersWallet(-costOfTable);
+                    sendPlayToJugaplay(idTabla,"true");
+				}else{
+						var chipsNeeded=parseInt(costOfTable)-parseInt(getUserJugaplayChips());
+						jpAnalyticsEvent("LACK_CHIPS_POPUP", "LEAGUE", chipsNeeded);
+							BootstrapDialog.show({
+								 cssClass: 'general-modal-msj x2',
+								 title: '<H1 class="x2">FICHAS <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> insuficientes </H1>',
+								message: '<p>Le faltan <b>'+chipsNeeded+'</b> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> para poder jugar el partido</p>',
+								buttons: [{
+									label: 'CONSEGUIR <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;">',
+									cssClass:'btn btn-lg btn-block btn-secundary btn-astp transition',
+									action: function(dialogItself2){
+										buyChips();
+										dialogItself2.close();
+									}
+								}]		 
+							 });
+				}
+}
 /* Realizo la jugada */
 function sendPlayToJugaplay(idTabla,bet){
+	if(checkConnection()){
 	startLoadingAnimation();
-	if(bet!="false"){
-		var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected,"bet":bet});
-	}
-	else{
-		var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected});
-	}
-	if(checkConnection()){var xmlhttp;
+		switch(window.showTableInformatioType) {
+				case "training":
+					var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected});
+					break;
+				case "league":
+				case "challenge":
+					var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected,"bet":"true"});
+					break;
+				default:
+					var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected,"bet":"true"});
+			}
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -279,7 +317,7 @@ function sendPlayToJugaplay(idTabla,bet){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
 			//alert("Respuesta finLogInUsuarioEnElSitioEnviandoDatosJugada"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -298,13 +336,14 @@ function sendPlayToJugaplay(idTabla,bet){
 		xmlhttp.open("POST",getJPApiURL()+"play",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}
+		xmlhttp.send(json);
+	}
 }
 function endOfPlayedTable(idTabla){
 	if(!window.actualOpenTable.private){
-		jpAnalyticsEvent("START_MATCH", idTabla+"-"+window.actualOpenTable.title, window.actualOpenTable.entry_coins_cost.toString());
+		jpAnalyticsEvent("START_MATCH", window.showTableInformatioType, window.actualOpenTable.entry_cost_value.toString());
 	}else{
-		jpAnalyticsEvent("ACCEPT_CHALLENGE", idTabla+"-"+window.actualOpenTable.title, window.actualOpenTable.entry_coins_cost.toString());
+		jpAnalyticsEvent("ACCEPT_CHALLENGE", window.actualOpenTable.group.name, window.actualOpenTable.entry_cost_value.toString());
 	}
 	closeAllOverLapseWindow();
 	setTimeout(function(){changeOptionToPlayed(idTabla);playedGameThanksMessage();}, 1000);
@@ -362,7 +401,8 @@ function noneRegisterPlayerRegister(dialogItself){
 		}
 	json=JSON.stringify({ "user": { "email": mail, "nickname":nickname, "password": password } });
 	if(startLoadingAnimation()==true){
-	if(checkConnection()){var xmlhttp;
+		if(checkConnection()){
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -409,7 +449,7 @@ function noneRegisterPlayerRegister(dialogItself){
 		xmlhttp.open("PATCH",getJPApiURL()+"users/"+getUserJugaplayId(),true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	}	
+		xmlhttp.send(json);		}
 	}
 }
 function alwaysShowInputValues(){

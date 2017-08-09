@@ -20,7 +20,7 @@ function createANewChallenge(windowToClose){
 	//alert("Create New");
 	closeFilterWindow(windowToClose);
 	startLoadingAnimation();
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -35,7 +35,6 @@ function createANewChallenge(windowToClose){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			closeLoadingAnimation();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
@@ -53,7 +52,7 @@ function createANewChallenge(windowToClose){
 		xmlhttp.open("GET",getJPApiURL()+"groups/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}
+		xmlhttp.send();	
 }
 function readCreateANewChallengeResponse(users){
 	var contentForWindow=createContentForANewChallengeWindow(users.groups);
@@ -109,6 +108,7 @@ function addUserToGroup(dialogItself){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==400))
 	    {
 			var jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			closeLoadingAnimation();
 			var json=JSON.parse(jsonStr);
 			if (typeof(json.error) !== 'undefined' || typeof(json.errors) !== 'undefined'){
@@ -128,5 +128,6 @@ function addUserToGroup(dialogItself){
 		xmlhttp.open("POST",getJPApiURL()+"groups/join?token="+tkn,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();	
+	}
 }

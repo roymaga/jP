@@ -53,7 +53,7 @@ function readOpenTableLive(openTable){
 	}
 // All players
 function initializeAddAllPlayers(openTable){
-	matchesInTable=openTable.matches;
+	var matchesInTable=openTable.matches;
 	for(a in matchesInTable){// Para cada partido de la mesa
 		for (player in matchesInTable[a].local_team.players){
 			window.liveMatchOpen.players.push(parsePlayers(matchesInTable[a].local_team.players[player],matchesInTable[a].local_team.id,"Home"));
@@ -65,7 +65,7 @@ function initializeAddAllPlayers(openTable){
 	initializeAddAllUsers(openTable);
 }
 function initializeAddAllUsers(openTable){
-	usersInTable=openTable.playing;
+	var usersInTable=openTable.playing;
 	for (user in usersInTable){
 		window.liveMatchOpen.users.push(parseUsers(usersInTable[user]));
 	}
@@ -101,7 +101,6 @@ function playerHasBeenSelectedByUser(player,selectedPlayersByUser){
 function incidenceHasBeenConsiderd(nro){
 	if(window.readInidences.indexOf(nro)>-1){ // ya esta
 		return true;
-
 	}else{
 		window.readInidences.push(nro);
 		return false;
@@ -366,6 +365,17 @@ function calculateUserPositions(){
 			samePosition=[];
 		}
 	}
+	// Agrego premio para la practica!! 
+	if(window.liveTableOpen.playing[0].type== "training"){
+		for (user in window.liveMatchOpen.users){
+			if(window.liveMatchOpen.users[user].userPositionToShow <= Math.round(window.liveMatchOpen.users.length/2)){
+				window.liveMatchOpen.users[user].userCoins=parseInt(window.liveTableOpen.entry_cost_value);
+			}else{
+				window.liveMatchOpen.users[user].userCoins=0;
+			}
+		}
+	}
+	// Fin Agrego premio para la practica!! 
 	window.liveMatchOpen.players.sort(sortPlayersByPoints);
 	for (player in window.liveMatchOpen.players){
 		window.liveMatchOpen.players[player].playerOrder=parseInt(player);

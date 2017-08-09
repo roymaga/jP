@@ -34,59 +34,70 @@
     <script src="js/specialAppFunctions.js"></script>
     <script src="js/session/userDataJugaPlayUpdate.js?8"></script> 
     <script src="js/session/checkUsers.js?8"></script>
-    <script src="js/analytics/analytics.js?8"></script>  
+    <script src="js/analytics/analytics.js?8"></script>
     <link href="plugins/owl-carousel/owl.carousel.css" rel="stylesheet">
-    <link href="plugins/owl-carousel/owl.theme.css" rel="stylesheet">
+    <link href="plugins/owl-carousel/owl.theme.css" rel="stylesheet"> 
 </head>
 <body>
 <!-- START > CONTENT -->
-		<script src="js/menu/menu.js?8"></script> 
-		<div class="spacer-top"></div>
-       <div class="bg-color10 text-color2 vertical-align" id="live-matches-playing" style="display:none;text-transform: uppercase;" onClick="showAvailableLiveMatches()"> <div class="col-xs-8"> <h3 class="title-style2"><i class="fa fa-circle" aria-hidden="true" style=" margin-right: 10px;font-size: 0.8em;"></i>EN VIVO</h3> </div><div class="col-xs-4 text-right">ABRIR</div></div>
-		<!-- START > CAROUSEL -->
-		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			<!-- Indicators -->
-			<ol class="carousel-indicators">
-				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-			</ol>
-			
-			<!-- Wrapper for slides -->
-			<div class="carousel-inner" role="listbox">
-				<div onClick="window.location='ranking.html'" class="item active">
-                    <img src="img/slider/slide-ganadores.jpg" alt="">
-                    <div class="carousel-caption"></div>
-                </div>
-                <div onClick="window.location='store.html'" class="item">
-                    <img src="img/slider/slide1.jpg" alt="">
-                    <div class="carousel-caption"></div>
-                </div>
-				<div onClick="window.location='referal.html'" class="item">
-					<img src="img/slider/slide2.jpg" alt="">
-					<div class="carousel-caption"></div>
-				</div>
-				<div onClick="window.location='how-to-play.html'" class="item">
-					<img src="img/slider/slide3.jpg" alt="">
-					<div class="carousel-caption"></div>
-				</div>
-				
-			</div>
-			
-			<!-- Controls -->
-			<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
+<script src="js/menu/menu.js?170808"></script>
+<div class="spacer-top"></div>
+<div class="bg-color10 text-color2 vertical-align" id="live-matches-playing" style="display:none;text-transform: uppercase;" onClick="showAvailableLiveMatches()"> <div class="col-xs-8"> <h3 class="title-style2"><i class="fa fa-circle" aria-hidden="true" style=" margin-right: 10px;font-size: 0.8em;"></i>EN VIVO</h3> </div><div class="col-xs-4 text-right">ABRIR</div></div>
+<!-- START > CAROUSEL -->
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+		<li data-target="#carousel-example-generic" data-slide-to="5"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+	</ol>
+
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+    	<div onClick="window.location='ranking.html'" class="item active">
+			<img src="img/slider/slide-ganadores-1.jpg?12" alt="">
+			<div class="carousel-caption"></div>
 		</div>
-		<!-- END > CAROUSEL -->
-		
-		<!-- SECTION TITLE -->
+        <div onClick="window.location='ranking.html'" class="item">
+			<img src="img/slider/slide-ganadores-2.jpg?12" alt="">
+			<div class="carousel-caption"></div>
+		</div>
+        <div onClick="window.location='ranking.html'" class="item">
+			<img src="img/slider/slide-ganadores.jpg?12" alt="">
+			<div class="carousel-caption"></div>
+		</div>
+		<div onClick="window.location='store.html'" class="item">
+			<img src="img/slider/slide1.jpg" alt="">
+			<div class="carousel-caption"></div>
+		</div>
+		<div onClick="window.location='referal.html'" class="item">
+			<img src="img/slider/slide2.jpg" alt="">
+			<div class="carousel-caption"></div>
+		</div>
+		<div onClick="window.location='how-to-play.html'" class="item">
+			<img src="img/slider/slide3.jpg" alt="">
+			<div class="carousel-caption"></div>
+		</div>
+
+	</div>
+
+	<!-- Controls -->
+	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+</div>
+<!-- END > CAROUSEL -->
+
+<!-- SECTION TITLE -->
 <div class="container title-box bg-color1 contact-list-title" id="jp-section-title">
 			<div class="row vertical-align">
 				<div class="col-xs-9">
@@ -143,7 +154,7 @@
     <!-- Fin de contactos Tab -->
 	<!-- PARTIDOS TAB -->
 	<div class="tab-pane active animated fadeIn minimum-tab-size" id="partidos-tab">
-		<div class="matches-list" id="tables-container-show">
+		<div class="container" id="tables-container-show">
 			<div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
 		</div><!-- END > .matches-list -->
 	</div>
@@ -151,7 +162,7 @@
 	<!-- Desafios TAB -->
 	<div class="tab-pane animated fadeIn minimum-tab-size" id="desafios-tab">
 		<!-- FRIEND GROUP -->
-        <div class="matches-list" id="challenges-container-show">   
+        <div class="container" id="challenges-container-show">   
         	<div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>         
         </div>
 	</div>
@@ -159,7 +170,8 @@
 	
 
 </div>
-	
+
+<!-- END > CONTENT -->
 </body>
 <!-- start Design Scripts -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -207,9 +219,10 @@
 <script src="js/contacts/contacts.js?63"></script>
 <script src="js/contacts/phoneparser.js?63"></script>
 <script src="plugins/owl-carousel/owl.carousel.js"></script>
+<script src="js/contacts/client.js?onload=checkAuth"></script>
 <!-- End Functions of Game -->
-<script>
+ <script>
 jpAnalyticsPageView("/GAME");
-</script>    
+</script>   
 
 </html>

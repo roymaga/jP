@@ -9,6 +9,8 @@ function parseTableForLive(groupTable){
 	if(groupTable.private){
 		groupTable.title=groupTable.group.name+" || "+parseTableChallengeMatchName(groupTable.title);
 	}
+	if(groupTable.played_by_user_type== "training"){groupTable.title=groupTable.title+" <small><b>Amistoso</b></small>"}
+	if(groupTable.played_by_user_type== "league"){groupTable.title=groupTable.title+" <small><b>Oficial</b></small>"}
 	return groupTable;
 }
 function liveTablesVisible(){
@@ -64,7 +66,7 @@ function crateHtmlLiveTable(table){
 	var liveDf ='<iframe src="http://jugaplay.com/ftpdatafactory/html/v3/model.html?channel=deportes.futbol.'+table.description.replace("-", ".")+'&lang=es_LA&model=gamecast_v6&hidePagesMenu=true" width="100%" height="'+h+'" scrolling="auto" style="width: 1px; min-width: 100%; width: 100%;" class=""></iframe>';
 	// Borro las actualizaciones automaticas
 	if(window.keepLiveTablesUpdateVar!=null){clearTimeout(window.keepLiveTablesUpdateVar);}
-	var htmlLiveContent='<div class="container container-full" id="complete-live-container"> <div class="bg-color10 text-color2 vertical-align"> <div class="col-xs-3"> <h3 class="title-style2">En vivo</h3> </div><div class="col-xs-1"> <i class="fa fa-refresh" aria-hidden="true"></i> </div><div class="col-xs-8 text-right" onClick="showAvailableLiveMatches();"> '+table.title+' <span class="caret"></span> </div></div><ul class="nav nav-tabs2 bg-color10 text-color2" role="tablist"> <li role="presentation" class="active"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab" aria-expanded="true">Posiciones</a></li><li role="presentation" class=""><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab" aria-expanded="false">Jugadores</a></li><li role="presentation"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab" aria-expanded="false">Partido</a></li></ul> <div class="tab-content"> <div role="tabpanel" class="tab-pane active in" id="InformationTab1"> <div class="container"> <div class="row text-color1 vertical-align information-box-style1"> <div class="col-xs-4"><p class="text-block-style3" id="usersShowLive-userPosition">...</p></div><div class="col-xs-4 match-info text-block-style2 text-color6 nopadding"><span class="text-block-style2" id="usersShowLive-userCoins">...</span><img id="usersShowLive-userCoinsImg" src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"> <br></div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style2" id="usersShowLive-userPts">...</span> <b>Pts</b></p></div></div><div id="usersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab2"> <div class="container"> <div id="playersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab3">'+liveDf+'</div></div></div>';
+	var htmlLiveContent='<div class="container container-full" id="complete-live-container"> <div class="bg-color10 text-color2 vertical-align"> <div class="col-xs-3"> <h3 class="title-style2">En vivo</h3> </div><div class="col-xs-1"> <i class="fa fa-refresh" aria-hidden="true"></i> </div><div class="col-xs-8 text-right" onClick="showAvailableLiveMatches();"> '+parseTitleForLiveTable(table)+'</div></div><ul class="nav nav-tabs2 bg-color10 text-color2" role="tablist"> <li role="presentation" class="active"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab" aria-expanded="true">Posiciones</a></li><li role="presentation" class=""><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab" aria-expanded="false">Jugadores</a></li><li role="presentation"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab" aria-expanded="false">Partido</a></li></ul> <div class="tab-content"> <div role="tabpanel" class="tab-pane active in" id="InformationTab1"> <div class="container"> <div class="row text-color1 vertical-align information-box-style1"> <div class="col-xs-4"><p class="text-block-style3" id="usersShowLive-userPosition">...</p></div><div class="col-xs-4 match-info text-block-style2 text-color6 nopadding"><span class="text-block-style2" id="usersShowLive-userCoins">...</span><img id="usersShowLive-userCoinsImg" src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"> <br></div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style2" id="usersShowLive-userPts">...</span> <b>Pts</b></p></div></div><div id="usersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab2"> <div class="container"> <div id="playersShowLive"> </div></div></div><div role="tabpanel" class="tab-pane" id="InformationTab3">'+liveDf+'</div></div></div>';
 	if(document.getElementById("complete-live-container")!=null){
 		document.getElementById("complete-live-container").innerHTML=htmlLiveContent;
 	}else{
@@ -72,9 +74,18 @@ function crateHtmlLiveTable(table){
 	}
 	setTimeout(function(){readOpenTableLive(table);}, 1000);
 }
+function parseTitleForLiveTable(table){
+	if(table.private){
+		var title = '<div class="col-xs-10 text-right nopadding">'+parseTableChallengeMatchName(table.title)+' <br><b>('+groupTable.group.name+')</b></div>';
+	}
+	if(table.playing[0].type== "training"){var title = '<div class="col-xs-10 text-right nopadding">'+table.title+' <br><b>(Amistoso)</b></div>';}
+	if(table.playing[0].type== "league"){var title = '<div class="col-xs-10 text-right nopadding">'+table.title+' <br><b>(Oficial)</b></div>';}
+	return title+'<div class="col-xs-2 text-center  nopadding" style="margin-top: 10px;"><span class="caret"></span> </div>';
+}
+
 function openTableToPlayLive(table){
 	startLoadingAnimation();
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -88,7 +99,6 @@ function openTableToPlayLive(table){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
 			//alert(jsonStr);
@@ -106,7 +116,6 @@ function openTableToPlayLive(table){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
-	}
 }
 function openLiveWindow(title,content){
 	useId='BS-FL-'+Math.floor((Math.random() * 1000000000) + 1);

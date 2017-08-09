@@ -4,7 +4,7 @@ function generateTabsWithData(openTable){
 }
 // Despues ir revisando con un bubble sort las posiciones constantemente (Posible animacion flechita para arriba o para abajo)
 function updateUsersPlayingLive(){
-	users=window.liveMatchOpen.users;
+	var users=window.liveMatchOpen.users;
 	var div;
 	var usersShowLive=document.getElementById("usersShowLive");
 	for (user in users){
@@ -31,13 +31,22 @@ function updateUsersPlayingLive(){
 				document.getElementById("usersShowLive-userCoins").innerHTML=users[user].userCoins;
 			}
 			document.getElementById("usersShowLive-userPts").innerHTML=users[user].playersPoints;
-			if(document.getElementById("usersShowLive-userCoinsImg").src!="img/icons/coins/x2.png" && users[user].bet_multiplier!=null){
-				document.getElementById("usersShowLive-userCoinsImg").src="img/icons/coins/x2.png";	
-				document.getElementById("usersShowLive-userCoinsImg").style.width="50px";
-			}			
+			parseUsersBigPrizeImg(users[user].bet_multiplier);
+				
 			}
 	}
 	updatePlayersPlayingLive();
+}
+function parseUsersBigPrizeImg(bet_multiplier){
+	if(window.liveTableOpen.playing[0].type=="training"){var prizeType=window.liveTableOpen.entry_cost_type;}
+	else{var prizeType=window.liveTableOpen.prizes[0].prize_type;}
+	if(prizeType=="coins"){var pr='coins.png';var x='x2.png';}else{var pr='chip.svg';var x='x2c.png';}
+	if(bet_multiplier!=null){var img= "img/icons/coins/"+x;}else{var img= "img/icons/coins/"+pr;}
+	if(document.getElementById("usersShowLive-userCoinsImg").src!=img){
+				document.getElementById("usersShowLive-userCoinsImg").src=img;
+				if(bet_multiplier!=null){
+				document.getElementById("usersShowLive-userCoinsImg").style.width="50px";}
+			}	
 }
 function updatePlayersPlayingLive(){
 	players=window.liveMatchOpen.players;
@@ -145,30 +154,24 @@ function parseCapitanSubLive(nro){
 	}
 }
 function parseShowCoinsLive(val,bet_multiplier){
+	if(window.liveTableOpen.playing[0].type=="training"){var prizeType=window.liveTableOpen.entry_cost_type;}
+	else{var prizeType=window.liveTableOpen.prizes[0].prize_type;}
+	if(prizeType=="coins"){var pr='coins.png';var x='x2.png';}else{var pr='chip.svg';var x='x2c.png';}
 	if(val>0){
 		if(bet_multiplier!=null){
-			return (parseInt(val)*bet_multiplier)+' <img src="img/icons/coins/x2.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 30px;">';
+			return (parseInt(val)*bet_multiplier)+' <img src="img/icons/coins/'+x+'" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 30px;">';
 		}else{
-			return val +' <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 20px;">';
+			return val +' <img src="img/icons/coins/'+pr+'" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 20px;">';
 		}
 	}else{
 		return'';
 	}
 }
-function coinForPositionTableLive(position){
-	// Se fijo en la tabla la cantidad de monedas que le corresponden
-	for(pos in window.liveTableOpen.coins_for_winners){
-		if(window.liveTableOpen.coins_for_winners[pos].position==position){
-			return window.liveTableOpen.coins_for_winners[pos].coins;
-		}
-	}
-	return 0;
-}
 function coinForPositionTableLiveMain(position){
 	// Se fijo en la tabla la cantidad de monedas que le corresponden
-	for(pos in window.liveTableOpen.coins_for_winners){
-		if(window.liveTableOpen.coins_for_winners[pos].position==position){
-			return window.liveTableOpen.coins_for_winners[pos].coins;
+	for(pos in window.liveTableOpen.prizes){
+		if(window.liveTableOpen.prizes[pos].position==position){
+			return window.liveTableOpen.prizes[pos].prize_value;
 		}
 	}
 	return 0;

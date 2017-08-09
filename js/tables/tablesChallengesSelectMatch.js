@@ -31,8 +31,9 @@ function loadMatchToShownMatches(shownTable){
 	document.getElementById("matches-challenges-container-show").appendChild(createTable);
 }
 function selectMatchToPlayAsChallenge(tableId){
+	if(checkConnection()){
 	startLoadingAnimation();
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -65,12 +66,13 @@ function selectMatchToPlayAsChallenge(tableId){
 		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();	
+	}
 }
 function createGroupToChallenge(matchDetails){
 	if(window.groupAllreadyCreated==false){
 		var json=JSON.stringify({ "group": {"name":window.nameForGroup, "user_ids": window.selectedUsersToFromGroup} });
-		if(checkConnection()){var xmlhttp;
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -84,7 +86,6 @@ function createGroupToChallenge(matchDetails){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
 				jpAnalyticsEvent("CREATE_GROUP", window.nameForGroup, window.selectedUsersToFromGroup.length.toString());
@@ -102,7 +103,7 @@ function createGroupToChallenge(matchDetails){
 		xmlhttp.open("POST",getJPApiURL()+"groups/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}
+		xmlhttp.send(json);
 	}else{
 		createMatchChallenge(window.groupAllreadyCreated, matchDetails);
 		// window.groupAllreadyCreated id del grupo
@@ -114,7 +115,7 @@ function createMatchChallenge(groupId,matchDetails){
 	var description= matchDetails.description;
 	var matchId= matchDetails.matches[0].id;
 	var json=JSON.stringify({"table": {"title":title, "description":description, "match_id":matchId, "group_id":groupId, "entry_coins_cost":parseInt(window.prizeForChallenge)}});
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -128,7 +129,6 @@ function createMatchChallenge(groupId,matchDetails){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				closeLoadingAnimation();
 				closeAllOverLapseWindow();
@@ -147,7 +147,7 @@ function createMatchChallenge(groupId,matchDetails){
 		xmlhttp.open("POST",getJPApiURL()+"tables",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}
+		xmlhttp.send(json);
 }
 function endOfFormMatch(){
 	window.lastTableCheck=new Date(1401507903635);// Esto va a hacer que se vuelvan a pedir todas las mesas

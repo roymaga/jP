@@ -81,11 +81,13 @@ function searchMoreOptionsForNoneFriendsUsers(element,searchQ, page){
 	
 }
 function searchOptionsForNoneFriendsUsers(searchQ, page){
+	
 	addLoaderToCertainContainer(document.getElementById("amigos-jugaplay-tab-createGroup"));
 	document.getElementById("searchNoFriendsContactsMagnGlass").className="fa fa-spinner fa-pulse fa-2x fa-fw";
 	// Poner el loader en la lupa tambien
 	var json = JSON.stringify({ "search": { "q": searchQ, "order_by_ranking": true }})
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -99,7 +101,7 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
 			//alert(jsonStr);
 			if(IsJsonString(jsonStr)){

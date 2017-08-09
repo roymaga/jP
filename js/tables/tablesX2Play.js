@@ -71,6 +71,7 @@ function buyX2WithChips(table_id, multiplier_chips_cost,dialogItself){
 		dialogItself.close();
 	}else{
 		var chipsNeeded=parseInt(multiplier_chips_cost)-parseInt(getUserJugaplayChips());
+		jpAnalyticsEvent("LACK_CHIPS_POPUP", "X2", chipsNeeded);
 		BootstrapDialog.show({
 			 cssClass: 'general-modal-msj x2',
 			 title: '<H1 class="x2">FICHAS <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> insuficientes </H1>',
@@ -88,18 +89,14 @@ function buyX2WithChips(table_id, multiplier_chips_cost,dialogItself){
 	//dialogItself.close();
 }
 function activateX2ForPlay(table_id,multiplier_chips_cost){
-	if(checkConnection2()){
-		if(startLoadingAnimation()==true){
-			callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
-			jpAnalyticsEvent("TRY_TO_USE_X2", multiplier_chips_cost, table_id);
-		}
-			}else{
-			setTimeout(function(){activateX2ForPlay(table_id,multiplier_chips_cost);}, 300);
-		}
+	if(startLoadingAnimation()==true){
+		callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
+		jpAnalyticsEvent("TRY_TO_USE_X2", multiplier_chips_cost, table_id);
+	}
 	//alert(getJPApiURL()+"tables/"+table_id+"/multiply_play/2");
 }
 function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
-		var xmlhttp;
+		if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -115,6 +112,7 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			//alert(jsonStr);
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			var doble=JSON.parse(jsonStr);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
@@ -133,7 +131,7 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		xmlhttp.send();	}
 }
 function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 	for(table in tablesInContainer){
@@ -150,7 +148,7 @@ function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 			}
 }
 function callX2ForPlay(table_id,multiplier_chips_cost){
-		var xmlhttp;
+		if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -166,6 +164,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 			var jsonStr=xmlhttp.responseText;
 			var json=JSON.parse(jsonStr);
 			closeLoadingAnimation();
+			stopTimeToWait();
 				if (typeof(json.errors) !== 'undefined'){
 						avisoEmergenteJugaPlay("Algo salió mal",'<p>Algo salió mal, por favor vuelva a intentar.</p>');
 				}else{// Salio todo bien
@@ -182,7 +181,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 		xmlhttp.open("POST",getJPApiURL()+"tables/"+table_id+"/multiply_play/2",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		xmlhttp.send();	}
 }
 
 // Cada vez que termine la jugada mostrar el X2 pero con un algoritmo, una vez por dia maximo

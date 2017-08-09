@@ -72,6 +72,8 @@ min-height:100vh;
 	-webkit-animation : spin 2s infinite linear;  
 	-moz-animation : spin 2s infinite linear; 
 	-ms-animation: spin 2s infinite linear; 
+	opacity: 0.5;
+    filter: alpha(opacity=50);
 }
 .loading-pop-up .modal-dialog .modal-content .modal-header, .loading-pop-up .modal-content .modal-footer, .loading-pop-up .btn-default {
 	display:none;

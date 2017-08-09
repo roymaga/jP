@@ -1,8 +1,3 @@
-// JavaScript Document
-// Interaction includes: Loading + Date view + simple pop ups
-// Dependency -- dialog-master
-
-// Load functions animation depends of dialog-master
 window.alertShown=false;
 function startLoadingAnimation(){
 		 BootstrapDialog.show({
@@ -130,7 +125,7 @@ function dateFormatViewTable(fechaHora){
 	d.setHours(hora);
 	d.setMinutes(minutos);
 	d.setMinutes ( d.getMinutes() + diffMinutos ); 
-    return '</br><span style="font-size: 0.85em;">'+parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <span style="font-size: 0.9em;"><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b></span></span>';
+    return '</br><small>'+parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <span style="font-size: 0.9em;"><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b></span></small>';
 }
 function parse0LessThan10(int){
 	int=parseInt(int);
@@ -298,15 +293,21 @@ function parseTableChallengeMatchName(title){
 function parseTableForGroupPlayingOption (groupTable){
 	if(groupTable.private){
 		if(mesaDisponibleParaJugarHorario(groupTable.start_time)){
-			var coinsForWinner=(groupTable.group.users.length*groupTable.entry_coins_cost);
+			var prizeForWinner=(groupTable.group.users.length*groupTable.entry_cost_value);
 		}else{
-			var coinsForWinner=(groupTable.amount_of_users_playing*groupTable.entry_coins_cost);
+			var prizeForWinner=(groupTable.amount_of_users_playing*groupTable.entry_cost_value);
 		}
-		groupTable.coins_for_winners=[{"position": 1,"coins":coinsForWinner }];
+		groupTable.prizes=[{"position": 1,"prize_value": prizeForWinner,"prize_type": groupTable.entry_cost_type}];
 		groupTable.title=parseTableChallengeMatchName(groupTable.title);
 	}
 	return groupTable;
 }
+if(IsJsonString(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()))){
+	window.usersSyncGoogleApi=JSON.parse(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()));
+}else{
+	window.usersSyncGoogleApi=false;// 2014
+}
+
 function mesaDisponibleParaJugarHorario(fechaHora){
 	//14/01/2016 - 22:10
 	//012345678901234567
@@ -358,4 +359,61 @@ function changeAndKeepLogIn(mail,pass){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		
+}
+/* */
+function addCoinsToWallet(amount){
+	for(var i=0;i<parseInt(amount);i++){
+		$("body").append('<img src="img/icons/coins/chip.svg" class="floating-coins chips" style="right:'+(50+(i/3))+'%;top:'+(50+(i/3))+'%;">');
+	}
+	animateAddCoins();
+}
+function addChipsToWallet(amount){
+	for(var i=0;i<parseInt(amount);i++){
+		$("body").append('<img src="img/icons/coins/chip.svg" class="floating-coins chips" style="right:'+(50+(i/3))+'%;top:'+(50+(i/3))+'%;">');
+	}
+	animateAddChips();
+}
+function animateAddCoins(){
+	if($(".floating-coins").length>0){
+		$(".floating-coins").last().animate({"right":"-50px","top":"-50px"}, 300, function() { $(this).remove();animateAddCoins();editXCoinsFromUsersWallet(1);})
+	}
+}
+function animateAddChips(){
+	if($(".floating-coins").length>0){
+		$(".floating-coins").last().animate({"right":"-50px","top":"-50px"}, 300, function() { $(this).remove();animateAddChips();editXChipsFromUsersWallet(1);})
+	}
+}
+/* */
+function getTournamentNameById(id){
+	switch(id){
+		case 8:
+			return "Torneo Argentino";
+			break;
+		case 9:
+			return "Champions League";
+			break;
+		case 10:
+			return "Torneo Chileno";
+			break;
+		case 11:
+			return "Copa Libertadores";
+			break;
+		case 12:
+			return "Liga Española";
+			break;
+		case 13:
+			return "Premier League";
+			break;
+		case 3:
+			return "Partidos Especiales";
+			break;
+		default:
+			return "Partidos";
+	}
+}
+function oddOrEven(number){
+	if(number%2==0){return "odd";}else{return "even";}
+}
+function parseImgUrlChipsOrCoins(which){
+	if(which=="coins"){return "img/icons/coins/coins.png";}else{return "img/icons/coins/chip.svg";}
 }

@@ -9,6 +9,13 @@ function getJPApiURL(){
 		return "http://test-api.jugaplay.com/api/v1/";
 	}
 }
+function getJPDataURL(){
+	if(isProductionMode()){
+		return "http://surveys.jugaplay.com/surveys/";
+	}else{
+		return "http://localhost/JugaPlay/surveys/";
+	}
+}
 function acceptsLocalStorage(){
 	if(typeof(Storage) !== "undefined") {
     return true;

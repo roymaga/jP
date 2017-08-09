@@ -511,6 +511,10 @@ a.social-icon .circle-icon {
     width: 100%;
 	border-top: 2px solid #000;
 }
+.btn-poll {
+    font-size: 18px;
+	padding: 12px;
+}
 .btn-play.pending {
 	background-color: #bcbec1;
     font-size: 1.5em;
@@ -675,7 +679,7 @@ a.social-icon .circle-icon {
 }
 
 #inicio-pantalla1 {
-    background: transparent url("../img/login/bg-init1.jpg") no-repeat center center fixed; 
+    background: transparent url("../img/login/bg-init1.jpg") no-repeat center center; 
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -684,7 +688,7 @@ a.social-icon .circle-icon {
 	min-height: 500px;
 }
 #inicio-pantalla2 {
-    background: transparent url("../img/login/bg-init2.jpg") no-repeat center center fixed; 
+    background: transparent url("../img/login/bg-init2.jpg") no-repeat center center; 
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -693,7 +697,7 @@ a.social-icon .circle-icon {
 	min-height: 500px;
 }
 #inicio-pantalla3 {
-    background: transparent url("../img/login/bg-init3.jpg") no-repeat center center fixed; 
+    background: transparent url("../img/login/bg-init3.jpg") no-repeat center center; 
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -702,7 +706,7 @@ a.social-icon .circle-icon {
 	min-height: 500px;
 }
 #inicio-pantalla4 {
-    background: transparent url("../img/login/bg-init4.jpg") no-repeat center center fixed; 
+    background: transparent url("../img/login/bg-init4.jpg") no-repeat center center; 
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -733,7 +737,6 @@ a.social-icon .circle-icon {
 .stats-section .head h1 {
     font-size: 1.5em;
     font-weight: 600;
-
     margin: 5px 0;
     text-transform: uppercase;
 }
@@ -1196,6 +1199,7 @@ a:active, a:focus { outline-style: none; -moz-outline-style:none; }
 .text-color6 {color: #d29c1c;} /* Yellow Coin */
 .text-color7 {color: #9E9E9E;} /* Darker Grey */
 .text-color8 {color: #ff9900;} /* Orange challange */
+.text-color9 {color: #676767;} /* Darker plus Grey */
 
 /* ==========================================================================
    MODAL WINDOWS
@@ -1728,7 +1732,6 @@ button.close {
     height: 50px;
     margin: 0;
     padding: 0;
-
     position: fixed;
     right: 0;
     width: 100%;
@@ -1946,6 +1949,14 @@ button.close {
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 }
+.alert-jugaplay{
+	border: #212B31 solid 15px;
+	background-color:#FFA834;
+	margin-bottom:0px;
+}
+.alert-jugaplay .close{
+	float:right;
+}
 /* Pagos encuestas */
 .btn-default.poll {
     background: transparent none repeat scroll 0 0 !important;
@@ -1960,3 +1971,177 @@ button.close {
     color: #7d7d7d;
     border-color: #7d7d7d;
 }
+.btn-next-poll{
+	background: #ffc581;
+    border: dotted #606060 2px;
+    color: #606060;
+    padding: 10px 10px;
+}
+/* para encuestas */
+.polls-container{
+	border-bottom: 2px solid;
+    padding-bottom: 15px;
+    border-top: 2px solid;
+    padding-top: 10px;
+}
+.polls-padding{
+    padding-bottom: 25px;
+}
+.polls-margin-space1{
+    margin-bottom: 1.5em;
+	margin-top:1.5em;
+}
+.polls-margin-space2{
+     margin-bottom: 1.2em;
+	margin-top:1.2em;
+}
+.polls-margin-space3{
+     margin-bottom: 1em;
+	margin-top:1em;
+}
+.polls-style{
+    padding-bottom: 10px;
+	padding-top: 10px;
+	font-size: 1.2em;
+}
+/* Encuestas personales */
+.nav-polls{
+	height:100%;
+	min-height:100vh;
+	width:100%;
+	background-color: rgba(29,28,28,0.64); 
+}
+.nav-polls .btn.sharp {
+  border-radius:0;
+}
+.nav-polls .btn.no-margin {
+	margin:0px;
+}
+.nav-polls .poll-container{
+	height: inherit;
+	min-height:100vh;
+	overflow:auto;
+	background-color: #f7f6f6;
+	padding-top: 30px;
+    padding-bottom: 30px;
+}
+.nav-polls .btn-lg {
+    padding: 25px 16px;
+	font-weight: bold;
+    color: #fff;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+	text-transform: uppercase;
+}
+.nav-polls .progress {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.nav-polls .answers .btn-poll{
+	text-align:left;
+	background-color: transparent;
+	font-size: 14px;
+	padding: 7%;
+	border: none;
+	white-space: pre-wrap;
+	border-bottom:2px solid #e1e8ea;
+}
+.nav-polls .answers .btn-poll.active{
+	color: #35b44a;
+	border-bottom:2px solid #35b44a;
+}
+.nav-polls .date-picker{
+	 padding: 5px 16px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+/* */
+.floating-coins{
+	width: 50px;
+	border-radius: 50%;
+	z-index: 100000;
+	position: absolute;
+	right: 50%;
+	top: 50%;
+}
+.floating-coins.chips{
+	/*box-shadow: -20px 35px 40px rgba(59, 185, 228, 0.76);*/
+}
+.floating-coins.coins{
+	/*box-shadow: -20px 35px 40px rgba(255, 233, 143, 0.76);*/
+}
+/* Nueva forma de ver los partidos */
+.tournament-row{
+    background: #4c7a34;
+    color: #fff;
+    font-size: 1.2em;
+    padding: 15px 0px;
+    text-transform: uppercase;
+}
+.tournament-row.even{
+	 background:#4c7a34;
+}
+.tournament-row.odd{
+	 background:#395829;
+}
+.tournament-row.even.group{
+	 background:#ff9900;
+}
+.tournament-row.odd.group{
+	 background:#e48900;
+}
+.league-match-row{
+	font-size: 1.2em;
+    line-height: 1;
+	padding: 10px 0px;
+	display: block;
+}
+.league-match-row small{
+	font-weight: lighter;
+    font-size: 80%;
+}
+.league-match-row .btn-success {
+	padding: 2px 8px;
+	float: right;
+}
+.league-match-row .btn-success.active {
+	background-color: #606060;
+	color:#D6D6D6;
+}
+.league-match-row.even{
+	background:#383838;
+}
+.league-match-row.odd{
+	background:#232323;
+}
+.league-match-row .match-detail{
+    background: #354052;
+    display: block;
+    margin: 8px 5%;
+    width: 90%;
+    float: left;
+	font-size: 18px;
+}
+.league-match-row .match-detail img{
+	 width: 22px; 
+	 margin-left: 5px;
+	 margin-top: -5px;
+}
+.league-match-row .match-detail .played-text{
+	 font-size: 0.8em;
+     margin-top: 8px;
+}
+.league-match-row .match-detail .btn{
+	font-size:16px;
+	MIN-HEIGHT: 40PX;
+    MIN-WIDTH: 40PX;
+	padding: 6px 12px;/* vuelve al clasico de boostrap */
+	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
+}
+.league-match-row .match-detail .btn b{
+	font-size:18px;
+	margin-left:5px;
+}
+/* color para los partidos */

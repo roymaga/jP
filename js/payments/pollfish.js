@@ -1,19 +1,8 @@
-// JavaScript Document
-window.posibleSurvey=false;
-window.posibleSurveyRevenue=0;
+window.posiblePollfishSurvey=false;
+window.posiblePollfishSurveyRevenue=0;
 window.surveyPollster='POLLFISH';
-window.surveyLoaded=false;
-/*
-if(!window.posibleSurvey){ if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
-window.lastTableCheck= new Date();
-	var jsonUpdt=JSON.stringify(window.lastTableCheck);
-	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
-	secondsFromNow(window.lastTableCheck)>300
+window.pollfishSurveyLoaded=false;
 
-setCookie("jpPollFishLastCloseAlertSurvey", JSON.stringify(new Date(2017, 05, 09, 11, 10, 10, 10)), 120);
-setCookie("jpPollFishLastSurvey", JSON.stringify(new Date(2017, 05, 13, 05, 10, 10, 10)), 120);
-setTimeout(function(){ checkIfSurveyAveilableAndMustBeShownAMessage(); }, 1500); // poner esto al terminar de cargar pollfish, etc
-// Tiene que tener una jugada eca (ver notifications)*/
 function checkIfSurveyAveilableAndMustBeShownAMessage(){
 	// Sale un mensaje si nunca hizo una o si hay una paga
 	// Tiene que marcar cuanto le aparece o algo asi
@@ -27,22 +16,26 @@ function checkIfSurveyAveilableAndMustBeShownAMessage(){
 	}
 }
 function algorithmAsIfToShowNormalAlert(){
-	if(getCookie("jpPollFishLastSurvey")=="" && hasBeenXdaysFromCloseAlert(10) && hasBeenXminuteSFromLastShownAlert(30)){ // Nunca hizo y 10 desde que elimino un cartel
-		return true;
-	}
-	// Pasaron mas de 10 dia y 15 desde que elimino un cartel y la ultima encuesta la contesto hace 3 dias
-	else if(secondsFromNow(JSON.parse(getCookie("jpPollFishLastSurvey")))>2592000 && hasBeenXdaysFromCloseAlert(15) && hasBeenXminuteSFromLastShownAlert(30)){
-					return true;
-	}
-	else{
+	try{ // Arrreglo desprolijo, mejorar
+		if(getCookie("jpPollFishLastSurvey")=="" && hasBeenXdaysFromCloseAlert(10) && hasBeenXminuteSFromLastShownAlert(30)){ // Nunca hizo y 10 desde que elimino un cartel
+			return true;
+		}
+		// Pasaron mas de 10 dia y 15 desde que elimino un cartel y la ultima encuesta la contesto hace 3 dias
+		else if(secondsFromNow(JSON.parse(getCookie("jpPollFishLastSurvey")))>2592000 && hasBeenXdaysFromCloseAlert(15) && hasBeenXminuteSFromLastShownAlert(30)){
+			return true;
+		}
+		else{
+			return false;
+		}}
+		catch(e){
 		return false;
 	}
 }
 function algorithmAsIfToShowPromoAlert(){ 
 	try{
-		if(secondsFromNow(JSON.parse(getCookie("jpPollFishLastSurvey")))<86400 && window.posibleSurveyRevenue>0 && window.posibleSurvey &&  hasBeenXdaysFromCloseAlert(5) && hasBeenXminuteSFromLastShownAlert(3)){// no paso un dia desde la ultima, va 24 Hs
+		if(secondsFromNow(JSON.parse(getCookie("jpPollFishLastSurvey")))<86400 && window.posiblePollfishSurveyRevenue>0 && window.posiblePollfishSurvey &&  hasBeenXdaysFromCloseAlert(5) && hasBeenXminuteSFromLastShownAlert(3)){// no paso un dia desde la ultima, va 24 Hs
 			return 2;
-		}else if(window.posibleSurveyRevenue>0 && window.posibleSurvey &&  hasBeenXdaysFromCloseAlert(5) && hasBeenXminuteSFromLastShownAlert(10)){
+		}else if(window.posiblePollfishSurveyRevenue>0 && window.posiblePollfishSurvey &&  hasBeenXdaysFromCloseAlert(5) && hasBeenXminuteSFromLastShownAlert(10)){
 			return 1;
 		}
 	}catch(e){
@@ -70,7 +63,7 @@ function hasBeenXminuteSFromLastShownAlert(minutes){
 function isSurveyMoreThan12OrPosible(){	
 		if(IsJsonString(getCookie("jpPollFishLastSurvey")) && getCookie("jpPollFishLastSurvey")!=""){
 			try{
-				if(secondsFromNow(JSON.parse(getCookie("jpPollFishLastSurvey")))>43200 || window.posibleSurvey){
+				if(secondsFromNow(JSON.parse(getCookie("jpPollFishLastSurvey")))>43200 || (window.posiblePollfishSurvey && window.posiblePollfishSurveyRevenue>0)  || getCookie("jpPollFishLastSurvey")==""){
 					return true;// Pasaron 12 Hs
 				}else{
 					return false;// No Pasaron 12 Hs
@@ -83,22 +76,13 @@ function isSurveyMoreThan12OrPosible(){
 		// Nunca tuvo una encuesta
 		return true;}// Se puede hacer la encuesta
 }
-function tryToDoSurvey(){
-	if(isSurveyMoreThan12OrPosible()){
-		if(window.posibleSurvey){
-			jpAnalyticsEvent("OPEN_POLL", window.surveyPollster, parseFloat(window.posibleSurveyRevenue/100));
-			Pollfish.showFullSurvey();
-		}else if(!window.surveyLoaded){
-			waitTillSurveysAreLoaded();
-		}
-		else{
-			avisoEmergenteJugaPlay("Encuestas limitadas","<p>En este este momento nos encontramos sin encuestas.</p><p>Estamos trabajando en este problema, nos pondremos en contacto con usted  a: "+getUserJugaplayEmail()+" y le sumaremos la ficha a su cuenta.</p><p><small>Si este “"+getUserJugaplayEmail()+"” no es su mail por favor escriba nos a info@jugaplay.com</small></p>");
-			notifyPolls("Sin encuesta!!, urgente agregar!! ");
-			// Dejar asentado en 
-			setCookie("jpPollFishLastSurvey", JSON.stringify(new Date()), 120);
-		}
-	}else{
-		avisoEmergenteJugaPlay("Una encuesta por día ","<p>A cada usuario se le permite hacer una encuesta por día por dispositivo.</p><p>Es posible que el usuario reciba un BONUS  y  pueda hacer de una.  Esto se reflejara en el botón de las encuestas en “Conseguir Fichas”.</p><p><small>Si dos usuarios usan el mismo dispositivo encontraran esta limitación ya que la limitación es por dispositivo.</small></p>");
+function tryToDoPollfishSurveyOrSendToSurveys(){
+	//
+	if(window.posiblePollfishSurvey && window.posiblePollfishSurveyRevenue>0){
+		jpAnalyticsEvent("OPEN_POLL", 'POLLFISH', parseFloat(window.posiblePollfishSurveyRevenue/100));
+		Pollfish.showFullSurvey();
+	}else if(!window.pollfishSurveyLoaded){
+		window.location='surveys.html';
 	}
 }
 
@@ -118,7 +102,7 @@ var pollfishConfig = {
 
 function customSurveyClosed(){
   console.log("user closed the survey");
-  jpAnalyticsEvent("CLOSE_POLL", window.surveyPollster, parseFloat(window.posibleSurveyRevenue/100));
+  jpAnalyticsEvent("CLOSE_POLL", 'POLLFISH', parseFloat(window.posiblePollfishSurveyRevenue/100));
   //notifyPolls("customSurveyClosed");
   // Guardar el usuario comenzo una encuesta per no la guardo, alerta de que cerro la encuesta y no se le acreditaran las fichas
 }
@@ -134,17 +118,17 @@ function customUserNotEligible(){
 function customSurveyFinished(){
   console.log("user finished the survey");
   Pollfish.hide();
-  editXChipsFromUsersWallet(1);
+  addChipsToWallet(20);
   setCookie("jpPollFishLastSurvey", JSON.stringify(new Date()), 120);
   avisoEmergenteJugaPlay('Ganaste 1<img src="img/icons/coins/chip.svg" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"> !!!','<p>Felicitaciones, ganaste una <img src="img/icons/coins/chip.svg" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 15px;">.</p><p>Utiliza la misma para jugar partidos especiales o para activar el <img src="img/icons/coins/x2.png" width="50px;"> para los partidos que quieras y duplicar tus monedas!! </p>');
-  jpAnalyticsEvent("COMPLETED_POLL", window.surveyPollster, parseFloat(window.posibleSurveyRevenue/100));
-  if(window.posibleSurveyRevenue>0){
-	  jpAnalyicsEventPurchase(window.surveyPollster, "COMPLETED_POLL",parseFloat(window.posibleSurveyRevenue/100), "USD");
+  jpAnalyticsEvent("COMPLETED_POLL", 'POLLFISH', parseFloat(window.posiblePollfishSurveyRevenue/100));
+  if(window.posiblePollfishSurveyRevenue>0){
+	  jpAnalyicsEventPurchase('POLLFISH', "COMPLETED_POLL",parseFloat(window.posiblePollfishSurveyRevenue/100), "USD");
 	  }
-  window.posibleSurvey=false;
-  window.posibleSurveyRevenue=0;
+  window.posiblePollfishSurvey=false;
+  window.posiblePollfishSurveyRevenue=0;
   // Guardar en data, termino la encuesta, le pagan lo que habia anotado antes!! 
-  // window.posibleSurveyRevenue=
+  // window.posiblePollfishSurveyRevenue=
   
 }
 
@@ -153,17 +137,20 @@ function customCloseAndNoShow(){
 }
 
 function customSurveyAvailable(data){
-	window.posibleSurvey=true;
-	window.posibleSurveyRevenue=data.revenue;
+	window.posiblePollfishSurvey=true;
+	window.posiblePollfishSurveyRevenue=data.revenue;
 	if(data.revenue>0){
-		jpAnalyticsEvent("SELECTED_FOR_POLL", window.surveyPollster, parseFloat(data.revenue/100));
+		jpAnalyticsEvent("SELECTED_FOR_POLL", 'POLLFISH', parseFloat(data.revenue/100));
+		if (typeof changeInternalSurveyButton === "function") { 
+			changeInternalSurveyButton('pollfish',20);
+		}
 	}
   //console.log("pollfish survey is available with revenue: " + data.revenue + " and survey format playful: " + data.playful);
   //console.log(JSON.stringify(data));
 }
 
 function customSurveyNotAvailable(){
-  window.posibleSurvey=false;
+  window.posiblePollfishSurvey=false;
   //notifyPolls("customSurveyNotAvailable");
   // Guardar los datos de que el usuario no es elegido para encuestas
   //console.log("survey not available");
@@ -172,7 +159,7 @@ function pollfishReady(){
   //Pollfish Webplugin is ready, so you can call it excplicitly using the Pollfish.showIndicator or Pollfish.showFullSurvey functions
   console.log("pollfishReady");
   checkIfSurveyAveilableAndMustBeShownAMessage();
-  window.surveyLoaded=true;
+  window.pollfishSurveyLoaded=true;
 }
 function waitTillSurveysAreLoaded (){
 	startLoadingAnimation(); 
@@ -180,9 +167,9 @@ function waitTillSurveysAreLoaded (){
 	closeLoadingAnimation();
 }
 function checkIfSurveysAreLoaded(){
-	if(window.surveyLoaded){
+	if(window.pollfishSurveyLoaded){
 		closeLoadingAnimation();
-		tryToDoSurvey();
+		tryToDoPollfishSurveyOrSendToSurveys();
 	}else{
 		setTimeout(function(){checkIfSurveysAreLoaded();},300);
 	}
@@ -216,7 +203,7 @@ function notifyPolls(method){
 }
 function tryToDoSurveyFromAlert(type){
 	// Registro que apreto el boton y desde donde	
-	tryToDoSurvey();
+	tryToDoPollfishSurveyOrSendToSurveys();
 	$(".alert-survey").fadeOut(900, function(){ $(this).remove();
 	jpAnalyticsEvent("SHOWN_POLL_ALERT", type.toUpperCase(), "OPEN");});
 }

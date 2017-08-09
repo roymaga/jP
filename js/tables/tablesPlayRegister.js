@@ -32,7 +32,8 @@ function buscoEnElHistorialJugadaRealizada(historialJugadas, tableId,time){
 // Borrar todo 
 // -- Busco en el servidor
 function openTablePlayedDetail(tableId){
-	if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -46,7 +47,7 @@ function openTablePlayedDetail(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -62,7 +63,8 @@ function openTablePlayedDetail(tableId){
 		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();	
+	}
 }
 function parseRequestAsToShowHistory(table){
 	window.actualOpenTable=table;
