@@ -1,7 +1,3 @@
-// JavaScript Document
- 
-// ----------- Comienzo INIT
-// Analytics for App
 if(isProductionMode()){
 setTimeout(function(){window.ga.startTrackerWithId('UA-43402607-2');}, 500);	
 // Init Facebook "pixel"
@@ -27,7 +23,7 @@ function v(e){function t(t){e[t]=function(){e._q.push([t].concat(Array.prototype
 if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]};e.amplitude=n;
 })(window,document);
 //Nro test 46200453d54c4adfe9d9522c73e355c1
-amplitude.getInstance().init('7e1fbf2d393e868f9ec97eea66bd3362', null, {includeReferrer: true, includeUtm: true, platform:'ANDROID'});// Nro de test
+amplitude.getInstance().init('7e1fbf2d393e868f9ec97eea66bd3362', null, {includeReferrer: true, includeUtm: true, platform:'IOS'});// Nro de test
 }
 // ----------- Fin de INIT
 /*
@@ -123,7 +119,6 @@ function jpAnalyticsPageView(name){
 	fbq('track', 'ViewContent', { content_name: name});
 	window.ga.trackView(name);}, 1000);// Da tiempo a inicializar
 	}
-}
-// Cada vez que abre una pagina se lanza
-//jpAnalyticsPageView((window.location.href.toUpperCase()).split("COM")[1].split(".HTML")[0]); // Para Web, Mobile es V2, App lo marco
-//jpAnalyticsPageView((window.location.href.toUpperCase()).split("TEST/WEB/")[1].split(".HTML")[0]); // Para Web, Mobile es V2, App lo marco
+}// JavaScript Document
+ 
+
