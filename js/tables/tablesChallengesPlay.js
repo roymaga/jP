@@ -1,6 +1,6 @@
 // JavaScript Document
 function openChallengeToPlayOverLapseWindow(tableId){
-	window.showTableInformatioType="challenge";
+	window.showTableInformatioType='challenge';
 	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;

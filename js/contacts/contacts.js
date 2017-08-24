@@ -81,7 +81,7 @@ function showAvailableContactsToPlay(json){
 			jsonStr=xmlhttp.responseText;
 			askAvailableContactsToPlay();
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -165,7 +165,7 @@ function loadUserToVisibleDom(user){
 	addUserToListoOfUsers(createUser);
 }
 function parseSyncIcons(user){
-	// SyncOptions  <i class="fa fa-mobile fa-2x " aria-hidden="true"></i>					<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>
+	// SyncOptions </i> <i class="fa fa-mobile fa-2x " aria-hidden="true"></i>					<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>
 		var text='';
 		if(user.synched_by_facebook == true){text+='<i class="fa fa-facebook-square fa-2x " aria-hidden="true"></i>';}
 		if(user.synched_by_email == true){text+='<i class="fa fa-envelope-o fa-2x " aria-hidden="true"></i>';}
