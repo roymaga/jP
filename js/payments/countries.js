@@ -76,43 +76,43 @@ function changeContentOfPayment(country){
 function setCoinsType(type){
 	switch(type) {
 		// .count-coin-paym -- 
-    case 'ARS': // Peso Argentino
+     case 'ARS': // Peso Argentino
 	$(".count-coin-paym").html('Moneda<br><b>AR$</b>');
 	window.typeOfSelectedCoin="ARS";
-	$("#chips-price-pack1").html("Pack 10 <strong>$50</strong>");
-	$("#chips-price-pack2").html("Pack 20 <strong>$100</strong>");
-	$("#chips-price-pack3").html("Pack 50 <strong>$200</strong>");
+	$("#chips-price-pack1").html("Pack 100 <strong>$50</strong>");
+	$("#chips-price-pack2").html("Pack 200 <strong>$100</strong>");
+	$("#chips-price-pack3").html("Pack 500 <strong>$200</strong>");
         break;
     case 'CLP': // Peso Chileno
 	$(".count-coin-paym").html('Moneda<br><b>$ CLP</b>');
 	window.typeOfSelectedCoin="CLP";
-	$("#chips-price-pack1").html("Pack 10 <strong>$2.000</strong>");
-	$("#chips-price-pack2").html("Pack 20 <strong>$4.000</strong>");
-	$("#chips-price-pack3").html("Pack 50 <strong>$8.000</strong>");
+	$("#chips-price-pack1").html("Pack 100 <strong>$2.000</strong>");
+	$("#chips-price-pack2").html("Pack 200 <strong>$4.000</strong>");
+	$("#chips-price-pack3").html("Pack 500 <strong>$8.000</strong>");
         
         break;
 	case 'MXN': // Peso mexicano 100
 	$(".count-coin-paym").html('Moneda<br><b>$ MXN</b>');
 	window.typeOfSelectedCoin="MXN";
-	$("#chips-price-pack1").html("Pack 10 <strong>$50</strong>");
-	$("#chips-price-pack2").html("Pack 20 <strong>$100</strong>");
-	$("#chips-price-pack3").html("Pack 50 <strong>$200</strong>");        
+	$("#chips-price-pack1").html("Pack 100 <strong>$50</strong>");
+	$("#chips-price-pack2").html("Pack 200 <strong>$100</strong>");
+	$("#chips-price-pack3").html("Pack 500 <strong>$200</strong>");        
         break;
 	case 'PEN': // Sol Peruano 20, 50
 	$(".count-coin-paym").html('Moneda<br><b>$ PEN</b>');
 	window.typeOfSelectedCoin="PEN";
-	$("#chips-price-pack1").html("Pack 10 <strong>$10</strong>");
-	$("#chips-price-pack2").html("Pack 20 <strong>$20</strong>");
-	$("#chips-price-pack3").html("Pack 50 <strong>$40</strong>");
+	$("#chips-price-pack1").html("Pack 100 <strong>$10</strong>");
+	$("#chips-price-pack2").html("Pack 200 <strong>$20</strong>");
+	$("#chips-price-pack3").html("Pack 500 <strong>$40</strong>");
         
         break;
 	case 'USD':
 	$(".count-coin-paym").html('Moneda<br><b>U$D</b>');
 	window.typeOfSelectedCoin="USD";
-	$("#chips-price-pack1").html("Pack 10 <strong>$3</strong>");
-	$("#chips-price-pack2").html("Pack 20 <strong>$6</strong>");
-	$("#chips-price-pack3").html("Pack 50 <strong>$12</strong>");
-     break;   
+	$("#chips-price-pack1").html("Pack 100 <strong>$3</strong>");
+	$("#chips-price-pack2").html("Pack 200 <strong>$6</strong>");
+	$("#chips-price-pack3").html("Pack 500 <strong>$12</strong>");
+     break;     
         
 	}
 }

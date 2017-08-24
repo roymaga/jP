@@ -246,7 +246,7 @@ function buttomPlayTable(){
 }
 function completePlayingTable(){
 	var mesa=window.actualOpenTable;
-	if(mesa.entry_cost_value>0){// verificar que tiene las monedas cuando le pregunte
+	if(mesa.entry_cost_value>0 && window.showTableInformatioType!="training"){// verificar que tiene las monedas cuando le pregunte
 		if(mesa.entry_cost_type=="coins"){
 			checkDataForCoinsGame(mesa.id,mesa.entry_cost_value);// 
 		}
@@ -263,7 +263,7 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 					editXCoinsFromUsersWallet(-costOfTable);
                     sendPlayToJugaplay(idTabla,"true");
 				}else{
-						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p> <p>Invite amigos <a href=\"referal.html\">haciendo click aqui</a>para conseguir las monedas que le faltan</p>");
+						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p>");
 				}
 }
 function checkDataForChipsGame(idTabla,costOfTable){ // Recordar actualizar los datos despues de la jugada

@@ -8,7 +8,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>JugaPlay</title>
     <script src="cordova.js" type="text/javascript"></script>
-    <script> window.menuTitleOfWindow="Reglas y Puntajes"</script>
+    <script> window.menuTitleOfWindow="Reglamento"</script>
 	<link rel="shortcut icon" type="image/png" href="img/icons/favicon.png">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css?190517" 		rel="stylesheet">
@@ -53,11 +53,11 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-							¿Contra quién compito?</a>
+							Qué es Jugaplay</a>
 						</h4>
 					</div>
 					<div id="collapse1" class="panel-collapse collapse in">
-						<div class="panel-body">Jugaplay ofrece Jugadas a diario donde los usuarios pueden participar. Al hacer tu Jugada, competís solamente contra los usuarios que eligieron participar en ese mismo partido.</div>
+						<div class="panel-body">Jugaplay es un juego que premia tus habilidades para seleccionar jugadores de fútbol. Elige los jugadores que crees serán los mejores de la cancha para un determinado partido. Sumas puntos de acuerdo al desempeño de tus jugadores en la vida real y ganas monedas si quedas entre los primeros puestos. ¡Estas monedas pueden cambiarse por premios en nuestra tienda!</div>
 					</div>
 				</div>
 				
@@ -65,11 +65,14 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-							¿Qué es el Ranking?</a>
+							Competición</a>
 						</h4>
 					</div>
 					<div id="collapse2" class="panel-collapse collapse">
-						<div class="panel-body">Los puntos que sumas por cada Jugada se contabilizan directamente al Ranking del Torneo o campeonato oficial al que pertenece ese partido. En cuanto mas Jugadas participas, mayores son tus chances de sumar mas puntos para el Ranking de cada Torneo. Al finalizar el torneo, los usuarios con mayor puntaje del Ranking recibirán premios especiales.</div>
+						<div class="panel-body">La competición sucede exclusivamente entre usuarios de Jugaplay. Se utilizan estadísticas del fútbol real con tablas de puntaje pre-establecidas para cada partido. De esta manera las posibilidades de victoria se mantienen iguales para todos los usuarios. </br>
+Queremos que la competencia sea leal, y que las chances de victoria sean para todos por igual. Somos partidarios de la competencia sana. Si crees que algún usuario está realizando trampa, no dudes en avisarnos. Es importante mantener la transparencia en todo momento. </br>
+Está prohibido el uso de multicuentas. Registramos la ubicación de los ingresos de cada usuario según su IP, y las contrastamos con la selección de jugadores y partidos en los que califica. De esta manera detectamos aquellos patrones que se relacionan con el fraude. Cualquier caso de trampa o fraude detectado será procesado por el Tribunal de Disciplina de Jugaplay, quien tiene la capacidad de aplicar la sanción correspondiente, pudiendo incluso suspender la cuenta del usuario para siempre.
+</div>
 					</div>
 				</div>	
 				
@@ -77,11 +80,12 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-							¿Qué pasa en caso de empate de puntos con otro usuario?</a>
+							Partidos elegibles</a>
 						</h4>
 					</div>
 					<div id="collapse3" class="panel-collapse collapse">
-						<div class="panel-body">Desempatan los usuarios de acuerdo con la cantidad de puntos de ranking del Torneo al que pertenece la Jugada.</div>
+						<div class="panel-body">Todos los partidos son elegibles para jugar. La división de torneos y competencias en listas solo es una cuestión visual para facilitar la navegación dada la cantidad de partidos semanales que se juegan.
+</div>
 					</div>
 				</div>
                 
@@ -89,11 +93,91 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-							¿Quienes ganan los premios?</a>
+							Selección de jugadores</a>
 						</h4>
 					</div>
 					<div id="collapse4" class="panel-collapse collapse">
-						<div class="panel-body">Los mejores usuarios de la Jugada. Es decir, los usuarios cuyos 3 jugadores combinados suman las puntuaciones más altas entre todos los usuarios participantes de esa Jugada, o partido en particular. Cada partido da premios a distinta cantidades de usuarios.</div>
+						<div class="panel-body">Para participar de un partido, primero debes seleccionar tres jugadores. La lista que figura para cada equipo contiene tanto titulares como suplentes. Es importante revisar la formación titular en el momento previo al partido, ya que los suplentes no suman puntaje. </br>
+<b>IMPORTANTE:</b> Una vez elegidos los jugadores no se podrán hacer cambios.</div>
+					</div>
+				</div>
+                
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+							Capitán y Subcapitán</a>
+						</h4>
+					</div>
+					<div id="collapse5" class="panel-collapse collapse">
+						<div class="panel-body">El primer jugador seleccionado quedará automáticamente designado como capitán. El segundo jugador, en tanto, como sub capitán. Estos dos roles se utilizarán únicamente en caso de empatar en puntaje con otro usuario.</div>
+					</div>
+				</div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+							Acción de un jugador</a>
+						</h4>
+					</div>
+					<div id="collapse6" class="panel-collapse collapse">
+						<div class="panel-body">Se considera una acción, a todo evento realizado por un jugador real dentro de un partido utilizando nuestro gestor de estadísticas establecido en los términos y condiciones.</br>
+-- Hay tres tipos de acciones: </br>
+<b>Positivas:</b> Aquellas que favorecen al equipo del jugador.</br>
+<b>Negativas:</b>  Aquellas que perjudican al equipo del jugador.</br>
+<b>Estados:</b>  Es una característica que debe mantener el jugador a lo largo de todo el partido.</br>
+-- Algunas acciones solo califican si son ejecutadas por el rol correcto.</br>
+- Arquero (ARQ)</br>
+- Defensor (DEF)</br>
+- Mediocampista (MED)</br>
+- Delantero (DEL)</br>
+</div>
+					</div>
+				</div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+							Ranking del partido</a>
+						</h4>
+					</div>
+					<div id="collapse7" class="panel-collapse collapse">
+						<div class="panel-body">Corresponde a la lista completa de usuarios que han seleccionado sus jugadores para el partido. Conforme el partido avanza, se registran las acciones de los jugadores en vivo. Los puntos que consigue cada jugador seleccionado se suman al puntaje final de cada usuario. Al finalizar el partido, se genera una tabla de posiciones ordenada de mayor a menor puntaje.</div>
+					</div>
+				</div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+							Partido en vivo</a>
+						</h4>
+					</div>
+					<div id="collapse8" class="panel-collapse collapse">
+						<div class="panel-body">Mientras el partido se está jugando, las acciones y el ranking se actualizan en tiempo real. Se pueden ver los cambios de posición, así como los puntajes acumulados de cada jugador. Solo durante el partido en vivo se pueden ver los jugadores seleccionados por otros usuarios.</br> 
+<b>CONSEJO:</b> Una estrategia importante a la hora de competir en futuros partidos, es conocer y aprender de tus rivales. Revisa las elecciones de los usuarios ganadores, aprende sobre los jugadores que suman mayor puntaje, observa qué acciones los colocan en los mejores puestos. Elabora tu propia estrategia en base a este conocimiento adquirido.</div>
+					</div>
+				</div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse9">
+							Desempate</a>
+						</h4>
+					</div>
+					<div id="collapse9" class="panel-collapse collapse">
+						<div class="panel-body">En caso de que dos usuarios posean la misma cantidad de puntos, se utilizan los roles de capitán y subcapitán de sus jugadores seleccionados para efectuar el desempate. El capitán que posea mayor puntaje otorga una mejor posición al usuario. El subcapitán se utiliza en caso de que los capitanes empaten en puntos. Y si se da la situación de que tanto el capitán como el subcapitán comparten los mismos puntos, se considera a ambos jugadores en el mismo puesto.</div>
+					</div>
+				</div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse10">
+							Ganador y Premios</a>
+						</h4>
+					</div>
+					<div id="collapse10" class="panel-collapse collapse">
+						<div class="panel-body">Cada partido posee un pozo acumulado de premios que se distribuye entre los primeros puestos. A mayor pozo, mayor cantidad de usuarios recibe premios. Es importante revisar la tabla de premiación al momento de anotarse en un partido, ya que varía según el partido. El tipo de premio 
+</div>
 					</div>
 				</div>
 			</div><!-- END > #accordion -->

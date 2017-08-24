@@ -7,7 +7,7 @@ function checkIfSurveyAveilableAndMustBeShownAMessage(){
 	// Sale un mensaje si nunca hizo una o si hay una paga
 	// Tiene que marcar cuanto le aparece o algo asi
 	// El mensaje tiene que corroborar que ya haya pasado por el mensaje del juego, el vivo, etc. 
-	if(hasBeenRead(4)){ // Ya le mostro el mensaje del vivio
+	if(window.readExplanations.indexOf(4)>-1){ // Ya le mostro el mensaje del vivio
 		if(algorithmAsIfToShowNormalAlert() || algorithmAsIfToShowPromoAlert()==1){
 			appendAlert("normal"); // promotion
 		}else if(algorithmAsIfToShowPromoAlert()==2){

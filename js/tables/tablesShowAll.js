@@ -23,7 +23,7 @@ if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
 	window.previusSeenChallenges=[];
 	window.newChallengeOptions=false;
 }
-window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
+setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
 function showRecordAvailableTablesToPlay(){
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){		
@@ -244,7 +244,7 @@ function attachChallengeMatchContent(shownTable,torunamentContainer){ // Despues
 	$(torunamentContainer).append('<div class="row players-list-item vertical-align league-match-row text-color2 '+oddOrEven($(".league-match-row").length)+'" data-table-id="'+shownTable.id+'" data-table-has_been_played_by_user="'+shownTable.has_been_played_by_user+'" data-table-multiplier="'+shownTable.multiplier+'">'+parseTableChallengeInnerContent(shownTable)+'</div>');
 }
 function parseTableChallengeInnerContent(shownTable){
-	return '<div class="col-xs-9">'+parseTableChallengeMatchName(shownTable.title)+dateFormatViewTable(shownTable.start_time)+'</div><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div id="show-openDetail-match'+shownTable.id+'"> <div class="match-detail"> <div class="col-xs-2 nopadding text-left"><button type="button" class="btn btn-warning" onClick="openTableDfInformation(\''+shownTable.id+'\',\'challengue\');"><i class="fa fa-info-circle" aria-hidden="true"></i></button></div><div class="col-xs-3 nopadding text-center"><h4 onclick="openTablePrizeInformation(\''+shownTable.id+'\',\'challengue\');">'+earnsOfTable(shownTable)+'</h4></div><div class="col-xs-3 amount_of_users_challenge"><h4>'+shownTable.amount_of_users_challenge+' <i class="fa fa fa-users" aria-hidden="true"></i></h4></div><div class="col-xs-4 nopadding text-center">'+buttonOfChallenge(shownTable)+'</div></div></div>'
+	return '<div class="col-xs-9">'+parseTableChallengeMatchName(shownTable.title)+dateFormatViewTable(shownTable.start_time)+'</div><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div id="show-openDetail-match'+shownTable.id+'"> <div class="match-detail"> <div class="col-xs-2 nopadding text-left"><button type="button" class="btn btn-warning" onClick="openTableDfInformation(\''+shownTable.id+'\',\'challengue\');"><i class="fa fa-info-circle" aria-hidden="true"></i></button></div><div class="col-xs-3 nopadding text-center"><h4 onclick="openTablePrizeInformation(\''+shownTable.id+'\',\'challenge\');">'+earnsOfTable(shownTable)+'</h4></div><div class="col-xs-3 amount_of_users_challenge"><h4>'+shownTable.amount_of_users_challenge+' <i class="fa fa fa-users" aria-hidden="true"></i></h4></div><div class="col-xs-4 nopadding text-center">'+buttonOfChallenge(shownTable)+'</div></div></div>'
 }
 function updateTableChallengeContent(shownTable,matchContainer){
 	// Aca lo que le actualizamos!! a los desafios

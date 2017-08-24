@@ -147,7 +147,7 @@ function processUserLocationDataFromServer(data,type){
 			notifyCountryIpError();
 		}
 	}else{
-		setCookie("jp-UserLocationData-"+getUserJugaplayId(), data, 120);
+		setCookie("jp-UserLocationData-"+getUserJugaplayId(), JSON.stringify(data), 120);
 		selectDataCountry(data.location.country_code);
 	}
 }
@@ -196,7 +196,7 @@ function payGlobalPaysfecard(){
 }
 function payGlobalPaypal(){
 	notifyPaymentStarted("Paypal");
-	if(window.buyAmountOfCoins==10){var uss=3;}if(window.buyAmountOfCoins==20){var uss=6;}if(window.buyAmountOfCoins==50){var uss=12;}
+	if(window.buyAmountOfCoins==100){var uss=3;}if(window.buyAmountOfCoins==200){var uss=6;}if(window.buyAmountOfCoins==500){var uss=12;}
 	var contentP='<form name="pg_frm" method="post" id="myPaymentForm" action="https://www.paypal.com/cgi-bin/webscr" > <input type="hidden" name="cmd" value="_xclick"> <input type="hidden" name="business" value="info@jugaplay.com"> <input type="hidden" name="item_name" value="JP-'+window.buyAmountOfCoins+'"> <input type="hidden" name="amount" value="'+uss+'"> <input type="hidden" name="custom" value="'+getUserJugaplayId()+'"> <input type="hidden" name="currency_code" value="USD"> <input type="hidden" name="notify_url" value="http://data.jugaplay.com/paypal/receive-ipn.php"> <input type="hidden" name="return" value="http://www.jugaplay.com/paymentOk.html"> <input type="hidden" name="cancel_return" value="http://www.jugaplay.com/paymentCancel.html"> <input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" alt="PayPal - The safer, easier way to pay online"> </form>';
 	openNewWindowWithCheckControl(contentP);
 }
@@ -289,7 +289,7 @@ function buyChipsforPolls(windowToClose){
 function buyChipsforMoney(windowToClose){
 	closeFilterWindow(windowToClose);
 	window.buyAmountOfCoins=20;
-	var content='<div class="vertical-align"> <div class="col-xs-6 text-left"> <div onclick="selectCountryPayment();"> <b>Pais:</b> <img class="count-flag-paym" src="img/icons/flags/chile.jpg" style="width: 40px;"> <i class="fa fa-caret-down" aria-hidden="true"></i> </div></div><div class="col-xs-6 text-right" style="padding-right:0;cursor:pointer;"> <div class="text-center count-coin-paym">Moneda <br><b>$ CLP</b></div></div></div><div class="container home-big-btns padding-tb-25"> <div class="row" style="margin-right: -15px; margin-left: -15px;"> <div class="col-xs-6 coins-pack" onClick="selectCoins(this,10)"> <div class="pic"><img src="img/icons/buy/pack10.jpg"></div><a id="chips-price-pack1">Pack 10 <strong>$30</strong></a> </div><div class="col-xs-6 coins-pack selected" onClick="selectCoins(this,20);"> <div class="pic"><img src="img/icons/buy/pack20.jpg"></div><a id="chips-price-pack2">Pack 20 <strong>$50</strong></a> </div><div class="col-xs-6 coins-pack" onClick="selectCoins(this,50);"> <div class="pic"><img src="img/icons/buy/pack50.jpg"></div><a id="chips-price-pack3">Pack 50 <strong>$100</strong></a> </div></div></div><a class="btn btn-lg btn-block btn-secundary btn-astp transition" onclick="payButtonApp();"> <span class="text-uppercase">Comprar <span class="amout-of-chips">20</span> Fichas</span> </a> <br><p class="small helpblock text-center"> <input type="checkbox" checked="" disabled=""> El pago confirma que está de acuerdo con nuestros <a target="_blank" href="terms-conditions.html">términos y condiciones</a>. </p>';
+	var content='<div class="vertical-align"> <div class="col-xs-6 text-left"> <div onclick="selectCountryPayment();"> <b>Pais:</b> <img class="count-flag-paym" src="img/icons/flags/chile.jpg" style="width: 40px;"> <i class="fa fa-caret-down" aria-hidden="true"></i> </div></div><div class="col-xs-6 text-right" style="padding-right:0;cursor:pointer;"> <div class="text-center count-coin-paym">Moneda <br><b>$ CLP</b></div></div></div><div class="container home-big-btns padding-tb-25"> <div class="row" style="margin-right: -15px; margin-left: -15px;"> <div class="col-xs-6 coins-pack" onClick="selectCoins(this,100)"> <div class="pic"><img src="img/icons/buy/pack10.jpg"></div><a id="chips-price-pack1">Pack 100 <strong>$30</strong></a> </div><div class="col-xs-6 coins-pack selected" onClick="selectCoins(this,200);"> <div class="pic"><img src="img/icons/buy/pack20.jpg"></div><a id="chips-price-pack2">Pack 200 <strong>$50</strong></a> </div><div class="col-xs-6 coins-pack" onClick="selectCoins(this,500);"> <div class="pic"><img src="img/icons/buy/pack50.jpg"></div><a id="chips-price-pack3">Pack 500 <strong>$100</strong></a> </div></div></div><a class="btn btn-lg btn-block btn-secundary btn-astp transition" onclick="payButtonApp();"> <span class="text-uppercase">Comprar <span class="amout-of-chips">200</span> Fichas</span> </a> <br><p class="small helpblock text-center"> <input type="checkbox" checked="" disabled=""> El pago confirma que está de acuerdo con nuestros <a target="_blank" href="terms-conditions.html">términos y condiciones</a>. </p>';
 	paymentShowBuyOptions(content);
 }
 function paymentShowBuyOptions(content){

@@ -58,6 +58,39 @@ function avisoEmergenteJugaPlayConnectionError(){
 		 });}
 		 return true;
 }
+// diffOfDaysBetweenDates(starts, ends)  daysFromDate(fechaHora)
+function diffOfDaysBetweenDates(starts, ends){
+	//14/01/2016 - 22:10
+	var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+	var dia= starts.substring(0, 2);// Dia del mes
+	var mes= starts.substring(3, 5);// que mes
+	var ano= starts.substring(6, 10);// que ano
+	var firstDate = new Date(ano,mes,dia);
+	var dia2= ends.substring(0, 2);// Dia del mes
+	var mes2= ends.substring(3, 5);// que mes
+	var ano2= ends.substring(6, 10);// que ano
+	var secondDate = new Date(ano2,mes2,dia2);
+	return Math.round(Math.abs((secondDate.getTime() - firstDate.getTime())/(oneDay)));
+}
+function daysFromDate(fechaHora){
+	var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+	//14/01/2016 - 22:10
+	var d = new Date();
+	var dia= fechaHora.substring(0, 2);// Dia del mes
+	var mes= fechaHora.substring(3, 5);// que mes
+	var ano= fechaHora.substring(6, 10);// que ano
+	var hora= fechaHora.substring(13, 15);// hora
+	var minutos=fechaHora.substring(16);// minutos
+	var diff=d.getTimezoneOffset();
+	var diffMinutos= diff-180;
+	d.setFullYear(ano, (mes-1), dia);
+	d.setHours(hora);
+	d.setMinutes(minutos);
+	d.setMinutes ( d.getMinutes() + diffMinutos );
+	var firstDate = new Date();
+	var diffDays = Math.round(Math.abs((d.getTime() - firstDate.getTime())/(oneDay)));
+	return diffDays;
+}
 // Show days in diferent ways 
 function dateFormatView(fechaHora){
 	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
@@ -110,6 +143,23 @@ function dateFormatViewNormal(fechaHora){
 	d.setMinutes ( d.getMinutes() + diffMinutos ); 
     return parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs</br><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b>';
 }
+function dateFormatViewLeague(fechaHora){
+	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
+	//14/01/2016 - 22:10
+	var d = new Date();
+	var dia= fechaHora.substring(0, 2);// Dia del mes
+	var mes= fechaHora.substring(3, 5);// que mes
+	var ano= fechaHora.substring(6, 10);// que ano
+	var hora= fechaHora.substring(13, 15);// hora
+	var minutos=fechaHora.substring(16);// minutos
+	var diff=d.getTimezoneOffset();
+	var diffMinutos= diff-180;
+	d.setFullYear(ano, (mes-1), dia);
+	d.setHours(hora);
+	d.setMinutes(minutos);
+	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+    return parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1);
+}
 function dateFormatViewTable(fechaHora){
 	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
 	//14/01/2016 - 22:10
@@ -127,8 +177,9 @@ function dateFormatViewTable(fechaHora){
 	d.setMinutes ( d.getMinutes() + diffMinutos ); 
     return '</br><small>'+parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <span style="font-size: 0.9em;"><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b></span></small>';
 }
+
 function parse0LessThan10(int){
-	int=parseInt(int);
+	var int=parseInt(int);
 	if(int<10){return"0"+int;}else{return int;}
 }
 function lettersOfMonth(month){
@@ -416,4 +467,15 @@ function oddOrEven(number){
 }
 function parseImgUrlChipsOrCoins(which){
 	if(which=="coins"){return "img/icons/coins/coins.png";}else{return "img/icons/coins/chip.svg";}
+}
+
+function parseTemplate(props, template)
+{
+	var result = template;
+	for (var key in props) {
+  	while(result.indexOf(key) >= 0) {
+    	result = result.replace(key,String(props[key]));
+    }
+  }
+  return result;
 }
