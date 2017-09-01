@@ -7,9 +7,21 @@ Autor: Ezequiel Wernicke
 /* ==========================================================================
    BASIC
    ========================================================================== */
+html {
+	height: 100%;
+}
+
 body {
 	font-family: 'Hind', sans-serif;
-	padding-bottom: 50px; /* Para que no lo tape las flechitas de iphone */
+	/*padding-bottom: 50px;*/ /* Para que no lo tape las flechitas de iphone */
+	background-color: #fff;
+	height: 100%;
+}
+
+body > .game-body {
+	background-color: #212b31;
+	height: 100%;
+
 }
 
 
@@ -213,6 +225,10 @@ body {
     padding-bottom: 15px;
     padding-top: 15px;
 }
+.match-data a {
+	color: #ffffff;
+	font-size: 22px;
+}
 .match-data .row > div {
     padding: 0;
 }
@@ -227,6 +243,9 @@ body {
 	margin: 6px 5px 0 0;
 }
 /*-- Match Time --*/
+.match-time {
+	color: white;
+}
 .match-time p {
     font-size: 0.9em;
     font-weight: 400;
@@ -244,6 +263,7 @@ body {
 .match-cup img {
 	width: 90%;
 	min-width:35px;
+	max-width: 65px;
 }
 
 /*-- Match Type --*/
@@ -281,6 +301,38 @@ body {
 
 /*-- Match Buton --*/
 .match-button {}
+
+.ball-loader{
+	background-color: transparent;
+	background:url(../img/pop-ups/loading.svg) no-repeat;
+	background-size: 100px 100px;
+	background-position:center center;
+	width::100px;
+	height:100px;
+	margin-left: auto;
+  margin-right: auto;
+	text-align: center;
+	margin-top: 50px;
+	border:none;
+	-webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0);
+	-moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0);
+	box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0);
+	opacity:1;
+    filter: alpha(opacity=80);
+	-webkit-animation : spin 2s infinite linear;
+	-moz-animation : spin 2s infinite linear;
+	-ms-animation: spin 2s infinite linear;
+	opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.ball-loader-small {
+	margin-top: 0;
+	background-size: 20px 20px;
+	width::20px;
+	height:20px;
+	opacity: 1;
+}
 
 /* ==========================================================================
    SECTION > MURO DE CAMPEONES
@@ -327,7 +379,7 @@ body {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-flow: row wrap;
-	justify-content: space-between;	
+	justify-content: space-between;
 }
 
 /* -- > Social Icon Circle --*/  /*------------------------------------------------------------------------------ REEMPLAZAR POR GRAFICOS SVG --*/
@@ -419,6 +471,8 @@ a.social-icon .circle-icon {
 /*-- Players List --*/
 .players-list {
 	margin-bottom: 100px;
+	background-color: #ffffff;
+	color:#333;
 	/*overflow: auto;
     max-height: 100vh;*/
 }
@@ -518,7 +572,7 @@ a.social-icon .circle-icon {
 .btn-play.pending {
 	background-color: #bcbec1;
     font-size: 1.5em;
-	
+
 }
 
 
@@ -633,7 +687,7 @@ a.social-icon .circle-icon {
 .btn-register-init:hover {
 	color: #fff;
 }
-	
+
 .btn-register-init h2 {
     border-bottom: 1px solid #fff;
     display: inline-block;
@@ -679,7 +733,7 @@ a.social-icon .circle-icon {
 }
 
 #inicio-pantalla1 {
-    background: transparent url("../img/login/bg-init1.jpg") no-repeat center center; 
+    background: transparent url("../img/login/bg-init1.jpg") no-repeat center center;
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -688,7 +742,7 @@ a.social-icon .circle-icon {
 	min-height: 500px;
 }
 #inicio-pantalla2 {
-    background: transparent url("../img/login/bg-init2.jpg") no-repeat center center; 
+    background: transparent url("../img/login/bg-init2.jpg") no-repeat center center;
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -697,7 +751,7 @@ a.social-icon .circle-icon {
 	min-height: 500px;
 }
 #inicio-pantalla3 {
-    background: transparent url("../img/login/bg-init3.jpg") no-repeat center center; 
+    background: transparent url("../img/login/bg-init3.jpg") no-repeat center center;
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -706,7 +760,7 @@ a.social-icon .circle-icon {
 	min-height: 500px;
 }
 #inicio-pantalla4 {
-    background: transparent url("../img/login/bg-init4.jpg") no-repeat center center; 
+    background: transparent url("../img/login/bg-init4.jpg") no-repeat center center;
  	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -794,7 +848,7 @@ a.social-icon .circle-icon {
 
 
 /* ==========================================================================
-   COMMON SECTIONS 
+   COMMON SECTIONS
    > Style 1 (Como funciona / Preguntas Frecuentes / Reglas y puntajes / etc)
    ========================================================================== */
 .section-header {
@@ -884,7 +938,7 @@ a.social-icon .circle-icon {
     padding-left: 0;
     padding-right: 0;
 }
-   
+
 .container-style1 {
 	position: relative;
 }
@@ -1184,7 +1238,7 @@ a:active, a:focus { outline-style: none; -moz-outline-style:none; }
 .bg-color4 {background-color: #202b2e;} /* Dark Blue */
 .bg-color5 {background-color: #ffffff;} /* White */
 .bg-color6 {background-color: #a5a7aa;} /* Light Grey */
-.bg-color7 {background-color: #eff0f0;} /* Lighter Grey */
+.bg-color7 {background-color: #5f5f5f;} /* Lighter Grey */
 .bg-color8 {background-color: #000000;} /* Black Metal \w/ */
 .bg-color9 {background-color: #90880C;} /* Yellow \w/ */
 .bg-color10 {background-color: #EE1D23;} /* Live Red \w/ */
@@ -1390,7 +1444,7 @@ button.close {
     padding-right: 32px;
     padding-top: 6px;
     width: 100%;
-}   
+}
 .accordion-toggle {
     background: transparent url("../img/accordion-arrow-active.png") no-repeat scroll right 2px / 24px auto;
     display: block;
@@ -1510,14 +1564,14 @@ button.close {
     padding: 5px;
     text-align: center;
     width: 100%;
-} 
+}
 
 
 /* ==========================================================================
    TABS
    ========================================================================== */
-   
-   
+
+
 .nav-tabs {
     display: table;
     table-layout: fixed;
@@ -1550,8 +1604,8 @@ button.close {
 /* ==========================================================================
    NEW TABS2
    ========================================================================== */
-   
-   
+
+
 .nav-tabs2 {
     display: table;
     table-layout: fixed;
@@ -1641,10 +1695,8 @@ button.close {
 	width: 100%;
     color: #000;
     font-size: 14px;
-    background-color: rgb(239, 239, 239);
     text-align: center;
     padding: 10px;
-    border: #9E9E9E solid 1px;
 }
 /* Tablets */
 @media (min-width: 600px) {
@@ -1696,22 +1748,20 @@ button.close {
 .contact-list-tab{background-color: #0A1A1A;  margin:0;}
 .contact-list-header{margin:10px 0;}
 .contact-list-header h3{color:white; font-size:1.2em;}
-.friend-nick{font-size: 1.1em; margin-bottom: 0; color: black; font-weight: bold;}
-.friend-name{color:grey;}
-.friend-item{border-bottom: 1px solid lightgray;}
+.friend-nick{font-size: 1.1em; margin-bottom: 0; color: white; font-weight: bold;}
+.friend-name{color:#cccccc;}
+.friend-item{border-bottom: 1px dotted black;}
 .friend-item.selected{ background-color:rgba(95, 195, 110, 0.21);}
-.friend-item .icons i {margin-left:10px;}
+.friend-item .icons i {margin-left:10px; color:#cccccc;}
 #contact-list-menu  .fa-facebook-square,
-#contact-list-friends  .fa-facebook-square {color:#3B5998;}
+#contact-list-friends  .fa-facebook-square {color:#cccccc;}
 
 .mb30 {margin-bottom: 30px;}
 .glyphicon-option-vertical {color: white;}
+.contact-list-menu-container {
+	background-color: white;
+}
 #contact-list-menu {
-    position: absolute;
-    left: 0;
-    background-color: white;
-    width: 100%;
-    z-index: 10;
 }
 #contact-list-menu .item {
     padding: 20px 0;
@@ -1723,11 +1773,11 @@ button.close {
 .nopadding{padding:0px !important;}
 
 /* CREAR DESAFIO*/
-#form-crear-desafio label{padding-top:20px; padding-bottom:10px; font-size:1.2em; font-weight:normal;}
+#form-crear-desafio label{padding-top:20px; padding-bottom:10px; font-size:1.2em; font-weight:normal; color: white;}
 #form-crear-desafio input,
 #form-crear-desafio select{ color:#333; border:none; border-bottom:1px solid #CCC; -webkit-box-shadow:none; box-shadow:none; border-radius:0px;}
 #priceOfChallenge,.monedasDesafio,#potSize {margin-top:12px;}
-.btn-play-footer{    
+.btn-play-footer{
 	bottom: 0;
     height: 50px;
     margin: 0;
@@ -1736,7 +1786,7 @@ button.close {
     right: 0;
     width: 100%;
 	}
-.btn-play-footer .btn-play{ font-variant:normal; font-size:1.2em;}	
+.btn-play-footer .btn-play{ font-variant:normal; font-size:1.2em;}
 
 /* Jugaplay Tabs Styling */
 
@@ -1797,11 +1847,11 @@ button.close {
 }
 
 #crear-grupo-buscar input{
-	color:#FFF; 
-	border:none; 
-	border-bottom:1px solid #FFF; 
-	-webkit-box-shadow:none; 
-	box-shadow:none; 
+	color:#FFF;
+	border:none;
+	border-bottom:1px solid #FFF;
+	-webkit-box-shadow:none;
+	box-shadow:none;
 	border-radius:0px;
 	background-color:transparent;
 	outline:none !important;
@@ -1823,6 +1873,7 @@ button.close {
 	font-size:0.8em;
 	line-height:0.8em;
 	text-align:center;
+	color: white;
 }
 .minimum-tab-size{
 	min-height:50vh;
@@ -1840,26 +1891,26 @@ button.close {
 	.payment-methods {
 		position: relative;
 	}
-	
+
 	.payment-methods .help-block {
 		margin-top: 15px;
 		margin-bottom: 0;
 	}
-	
+
 	.payment-methods .nav-tabs li a {
 		padding: 10px;
 		color: #1b471f;
 	}
-	
+
 	.payment-methods .nav-tabs li.active a {
 		color: #555;
 	}
-	
+
 	.payment-methods .nav-tabs li a:hover {
 		border-bottom: transparent;
 		background: #eee;
 	}
-	
+
 	.payment-methods .nav-tabs li.active a:hover {
 		border-bottom: 1px solid #FFF;
 		background: #FFF;
@@ -1874,15 +1925,15 @@ button.close {
 	.available-cards .radio img{
 		 width: 100%;
 	}
-	
+
 	.available-cards input[type="radio"] {
 		margin: 15px -20px;
 	}
-	
+
 	#pay-ccard .form-group {
 		margin-bottom: 4px;
 	}
-	
+
 	.ccard-container {
 		padding: 0;
 		max-width: 100%;
@@ -1901,7 +1952,7 @@ button.close {
 	.coins-pack{
 		cursor:pointer;
 	}
-	
+
 	.coins-pack a{
 		color:#333333;
 	}
@@ -1936,6 +1987,33 @@ button.close {
 #challenges-container-show p{
 	margin:0px;
 }
+
+.challenge-toolbox {
+	padding-top: 16px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid white;
+	background-color: black;
+}
+
+.noChallengesMessage .invitation {
+	color: #ffffff;
+	padding: 20px 10px;
+	text-align: center;
+}
+
+.challenge-toolbox .token-container input {
+	width: 75%;
+	display:inline;
+}
+
+.challenge-toolbox .token-container button {
+	width: 20%;
+	display:inline;
+	font-size: 20px;
+	padding: 5px 0 5px 0;
+	line-height: 0.9;
+}
+
 .chpadding{
 	padding:5px 0px 0px 0px;
 }
@@ -2009,7 +2087,7 @@ button.close {
 	height:100%;
 	min-height:100vh;
 	width:100%;
-	background-color: rgba(29,28,28,0.64); 
+	background-color: rgba(29,28,28,0.64);
 }
 .nav-polls .btn.sharp {
   border-radius:0;
@@ -2073,75 +2151,163 @@ button.close {
 }
 /* Nueva forma de ver los partidos */
 .tournament-row{
+		border-bottom: 1px solid #000000;
+		border-top-color: #000000
+		padding-bottom: 5px;
+		padding-top: 5px;
     background: #4c7a34;
     color: #fff;
     font-size: 1.2em;
     padding: 15px 0px;
     text-transform: uppercase;
 }
-.tournament-row.even{
-	 background:#4c7a34;
+.tournament-row-container {
+	position: relative;
+	padding-left: 0;
+	padding-right: 0;
 }
-.tournament-row.odd{
-	 background:#395829;
+.tournament-row:nth-child(4n+1){
+	background:#395829;
 }
-.tournament-row.even.group{
-	 background:#ff9900;
+.tournament-row:nth-child(4n-1){
+	background:#4c7a34;
 }
-.tournament-row.odd.group{
-	 background:#e48900;
+.tournament-row.group:nth-child(4n+1){
+	background:#4990cd;
+}
+.tournament-row.group:nth-child(4n-1){
+	background:#2774b5;
 }
 .league-match-row{
+	border-bottom: 1px dotted #000000;
 	font-size: 1.2em;
-    line-height: 1;
-	padding: 10px 0px;
+  line-height: 1;
+	padding: 15px 0 15px 0px;
 	display: block;
+}
+.league-match-row:nth-child(odd){
+	background:#333333;
+}
+.league-match-row:nth-child(even){
+	background:#232323;
 }
 .league-match-row small{
 	font-weight: lighter;
     font-size: 80%;
 }
 .league-match-row .btn-success {
-	padding: 2px 8px;
+	padding: 4px 6px 2px 6px;
 	float: right;
-}
-.league-match-row .btn-success.active {
-	background-color: #606060;
-	color:#D6D6D6;
-}
-.league-match-row.even{
-	background:#383838;
-}
-.league-match-row.odd{
-	background:#232323;
-}
-.league-match-row .match-detail{
-    background: #354052;
-    display: block;
-    margin: 8px 5%;
-    width: 90%;
-    float: left;
-	font-size: 18px;
-}
-.league-match-row .match-detail img{
-	 width: 22px; 
-	 margin-left: 5px;
-	 margin-top: -5px;
-}
-.league-match-row .match-detail .played-text{
-	 font-size: 0.8em;
-     margin-top: 8px;
-}
-.league-match-row .match-detail .btn{
-	font-size:16px;
-	MIN-HEIGHT: 40PX;
-    MIN-WIDTH: 40PX;
-	padding: 6px 12px;/* vuelve al clasico de boostrap */
+	border-radius: 5px;
+	background-color: #72bb53;
+	border: 0;
 	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
 	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
 }
-.league-match-row .match-detail .btn b{
+
+.league-match-row .btn-success .fa-2x {
+	font-size: 1.8em;
+}
+
+.league-match-row .btn-success.active {
+	background-color: #606060;
+	color:#D6D6D6;
+	text-shadow: 0;
+	box-shadow: 0;
+}
+
+.match-detail{
+	background: #354052;
+	display: block;
+	font-size: 18px;
+	border-radius: 7px;
+	padding: 5px 5px 5px 5px;
+	margin-top: 8px;
+}
+
+.match-detail .played-info {
+	font-size: 12px;
+	line-height: : 115%;
+	padding: 4px 0 0 0;
+}
+
+.match-detail img{
+	 width: 18px;
+	 margin-left: 5px;
+	 margin-top: -4px;
+}
+
+.match-detail h4 {
+	margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.match-detail .played-text{
+	 font-size: 0.8em;
+     margin-top: 8px;
+}
+
+.btn-action{
+	font-size:14px;
+	padding: 3px 12px;
+	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
+}
+
+.btn-fancy{
+	font-size:14px;
+	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
+}
+.btn-challenges{
+	height: 34px;
+    font-size: 3.5vw;
+    padding-left: 0.1vw;
+    padding-right: 0.1vw;
+}
+
+.match-detail .btn-matchinfo {
+	padding: 2px 5px 1px 5px;
+	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
+	font-size: 18px;
+	line-height: 1;
+}
+
+.match-detail .btn b{
 	font-size:18px;
 	margin-left:5px;
 }
+
+.match-detail .btn-training {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.match-detail .inline-stats {
+	display: inline;
+  margin:0 0 0 5px;
+}
+
+.match-detail .right-stats {
+	float: right;
+	font-size: 12px;
+  margin: 5px 5px 0 0;
+}
 /* color para los partidos */
+
+#InformationTab02, #InformationTab1, #InformationTab2, #InformationTab3 {
+	background-color: #ffffff;
+}
+.container.league{
+	margin-top:35px;
+}
+.container.league_round{
+	border-bottom: 2px solid;
+}
+.container.league_match{
+	border-bottom: 0.5px dotted;
+}
+#container-listed-players-table{
+	padding-bottom:90px;
+}

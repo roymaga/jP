@@ -57,7 +57,8 @@ function askToServerForTableInformation(tableId){
 		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();
+	}
 }
 // Show table information
 function showTableInformation(){
@@ -105,7 +106,12 @@ function generateSecondTabWithData(openTable){
 	}
 }
 function parseLeagueTablePrize(openTable){
-	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(2)+'" id="InformationTab2"><div class="container"><table class="table table-sm table-hover"><tbody>'+showArrayOfPrizeForWinners(openTable)+'</tbody></table></div></div>';
+	var props = {
+		'{SHOW_ACTIVE_PANE}' : showIfActivePane(2),
+		'{PRIZES}' : showArrayOfPrizeForWinners(openTable)
+	}
+
+	return parseTemplate(props,TEMPLATE_TABLE_PRIZE);
 }
 function parseTrainingTablePrize(openTable){
 	return'<div role="tabpanel" class="tab-pane '+showIfActivePane(2)+'" id="InformationTab2"><div class="container"><h1 style="text-align: center;font-size: 80px;">'+openTable.entry_cost_value+'<img src="'+parseImgUrlChipsOrCoins(openTable.entry_cost_type)+'" style="width: 65px;margin-top: -15px;margin-left: 20px;"> </h1><h2 style="text-align: center;">Para cada jugador que finalice mitad de tabla para arriba.</h2></div></div>';
@@ -126,7 +132,7 @@ function positionsOrPlayingText(openTable){
 }
 function showArrayOfPlayersOrWinners(openTable){
 	// showArrayOfPlayersOrWinners
-	showTable1='';
+	var showTable1='';
 	if(openTable.winners.length>0){
 		for(player in openTable.winners){
 			showTable1+='<tr><th scope="row">'+openTable.winners[player].position+'</th><td>'+openTable.winners[player].nickname+'</td></tr>'
@@ -169,3 +175,25 @@ function showIfActivePane(which){
 function hasDfInformation(data){
 	return((data.split("-")).length==2);
 }
+
+
+
+// -----------------------------------------------------------------------------
+// --------------------------=   TEMPLATES   =----------------------------------
+// -----------------------------------------------------------------------------
+
+/*
+FROM: parseLeagueTablePrize(openTable);
+var props = {
+	'{SHOW_ACTIVE_PANE}' : showIfActivePane(2),
+	'{PRIZES}' : showArrayOfPrizeForWinners(openTable)
+}
+*/
+var TEMPLATE_TABLE_PRIZE = ''
+	+'<div role="tabpanel" class="tab-pane {SHOW_ACTIVE_PANE}" id="InformationTab2">'
+	+'	<div class="container">'
+	+'		<table class="table table-sm table-hover">'
+	+'			<tbody>{PRIZES}</tbody>'
+	+'		</table>'
+	+'	</div>'
+	+'</div>';

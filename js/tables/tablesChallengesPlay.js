@@ -1,8 +1,8 @@
 // JavaScript Document
 function openChallengeToPlayOverLapseWindow(tableId){
 	window.showTableInformatioType='challenge';
-	if(checkConnection()){
 	startLoadingAnimation();
+	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -18,8 +18,8 @@ function openChallengeToPlayOverLapseWindow(tableId){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			closeLoadingAnimation();
+			stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -187,7 +187,6 @@ function exitActualGroup(groupId){
 		 return false;
 }
 function leaveGroupAndTable(groupId){
-	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -204,7 +203,6 @@ function leaveGroupAndTable(groupId){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			closeLoadingAnimation();
-			stopTimeToWait();
 			closeAllOverLapseWindow();
 			setCookie("tablesToPlay-Jp", '', 120);
 			deletAllGroupsFromVisibleDomWhenPosible();
@@ -219,7 +217,6 @@ function leaveGroupAndTable(groupId){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
-	}
 }
 function deletAllGroupsFromVisibleDomWhenPosible(){
 	if(document.getElementById("challenges-container-show")!=null){

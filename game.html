@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>JugaPlay</title>
     <script src="cordova.js" type="text/javascript"></script>
@@ -15,14 +15,14 @@
     <link href="css/jugaplay-styles.css?190517" 	rel="stylesheet">
     <link href="css/jugaplay-pop-up.css?190517" 	rel="stylesheet">
 	<link href="css/animate.css?190517" 	rel="stylesheet">
-    
+
     <!-- Google Fonts -->
 	<link href='fonts/fontsFjallaOne.css ' rel='stylesheet' type='text/css'>
 	<link href='fonts/fontsHinds.css ' rel='stylesheet' type='text/css'>
-	
+
 	<!-- Bootstrap CDN | Font Awesome -->
 	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css?190517">
-	
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -32,145 +32,144 @@
     <!-- For this one -->
     <script src="js/session/handleCookies.js?8"></script>
     <script src="js/specialAppFunctions.js"></script>
-    <script src="js/session/userDataJugaPlayUpdate.js?8"></script> 
+    <script src="js/session/userDataJugaPlayUpdate.js?8"></script>
     <script src="js/session/checkUsers.js?8"></script>
-    <script src="js/analytics/analytics.js?8"></script>  
+    <script src="js/analytics/analytics.js?8"></script>
     <link href="plugins/owl-carousel/owl.carousel.css" rel="stylesheet">
     <link href="plugins/owl-carousel/owl.theme.css" rel="stylesheet">
 </head>
-<body>
-<!-- START > CONTENT -->
-<script src="js/menu/menu.js?170808"></script>
-<div class="spacer-top"></div>
-<div class="bg-color10 text-color2 vertical-align" id="live-matches-playing" style="display:none;text-transform: uppercase;" onClick="showAvailableLiveMatches()"> <div class="col-xs-8"> <h3 class="title-style2"><i class="fa fa-circle" aria-hidden="true" style=" margin-right: 10px;font-size: 0.8em;"></i>EN VIVO</h3> </div><div class="col-xs-4 text-right">ABRIR</div></div>
-<!-- START > CAROUSEL -->
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-	<!-- Indicators -->
-	<ol class="carousel-indicators">
-		<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-		<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-		<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-		<li data-target="#carousel-example-generic" data-slide-to="5"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="6"></li>
-	</ol>
-
-	<!-- Wrapper for slides -->
-	<div class="carousel-inner" role="listbox">
-    	<div onClick="window.location='ranking.html'" class="item active">
-			<img src="img/slider/slide-ganadores-1.jpg?12" alt="">
-			<div class="carousel-caption"></div>
-		</div>
-        <div onClick="window.location='ranking.html'" class="item">
-			<img src="img/slider/slide-ganadores-2.jpg?12" alt="">
-			<div class="carousel-caption"></div>
-		</div>
-        <div onClick="window.location='ranking.html'" class="item">
-			<img src="img/slider/slide-ganadores.jpg?12" alt="">
-			<div class="carousel-caption"></div>
-		</div>
-		<div onClick="window.location='store.html'" class="item">
-			<img src="img/slider/slide1.jpg" alt="">
-			<div class="carousel-caption"></div>
-		</div>
-		<div onClick="window.location='referal.html'" class="item">
-			<img src="img/slider/slide2.jpg" alt="">
-			<div class="carousel-caption"></div>
-		</div>
-		<div onClick="window.location='how-to-play.html'" class="item">
-			<img src="img/slider/slide3.jpg" alt="">
-			<div class="carousel-caption"></div>
-		</div>
-
+<body class="bg-color4">
+	<!-- START > CONTENT -->
+	<script src="js/menu/menu.js?170901"></script>
+	<div class="spacer-top"></div>
+	<div class="bg-color10 text-color2 vertical-align" id="live-matches-playing" style="display:none;text-transform: uppercase;" onClick="showAvailableLiveMatches()"> <div class="col-xs-8"> <h3 class="title-style2"><i class="fa fa-circle" aria-hidden="true" style=" margin-right: 10px;font-size: 0.8em;"></i>EN VIVO</h3> </div><div class="col-xs-4 text-right">ABRIR</div></div>
+	<!-- START > CAROUSEL -->
+	<div class="container nopadding">		
+				<a href="league.html">
+					<img src="img/slider/liga_jugaplay.png" alt="Liga Jugaplay" class="img-responsive" width="100%" />
+				</a>
 	</div>
+	<!-- END > CAROUSEL -->
 
-	<!-- Controls -->
-	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		<span class="sr-only">Previous</span>
-	</a>
-	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		<span class="sr-only">Next</span>
-	</a>
-</div>
-<!-- END > CAROUSEL -->
 
-<!-- SECTION TITLE -->
-<div class="container title-box bg-color1 contact-list-title" id="jp-section-title">
-			<div class="row vertical-align">
-				<div class="col-xs-9">
-					<h1 id="title-section"></h1>
-				</div>
-				<div class="col-xs-3 text-right">
-					<i id="title-icon" class="fa fa-2x" aria-hidden="true" style="color: #fff;"></i>
-				</div>
-			</div>
-</div>
 
-<!-- Start TABS Menu -->
-<div class="clearfix"></div>
-<div class="container bg-color1">
-	<div class="row vertical-align">
-		<div class="col-xs-12 nopadding">
-			<ul class="nav nav-tabs jp-tabs">
-				<li><a href="#contactos-tab" data-title="CONTACTOS" data-section="contactos">Contactos</a></li>
-				<li class="active"><a href="#partidos-tab" data-title="PARTIDOS DISPONIBLES" data-section="partidos">Partidos</a></li>
-				<li><a href="#desafios-tab" data-title="DESAFIOS" data-section="desafios">Desafíos <span id="new-challenge-notf"></span></a></li>
-			</ul>
-		</div>
-	</div>
-</div>
-<!-- End TABS Menu -->
-<div class="tab-content" id="game-principal-tab">
-	<!-- CONTACTOS TAB -->
-	<div class="tab-pane animated fadeIn minimum-tab-size" id="contactos-tab">
-		<!-- CONTACTOS LIST -->
-		<div class="container container-title contact-list-tab" data-toggle="collapse" data-target="#contact-list-menu" aria-expanded="false">
-			<div class="row-fluid vertical-align contact-list-header">
-				<div class="col-xs-4 text-left" style="padding: 0;">
-					<h3>Sincronizar</h3>
-				</div>
-				<div class="col-xs-6" id="sync-elements">
-					
-                </div>
-				<div class="col-xs-2 text-right">
-					<i class="glyphicon glyphicon-option-vertical collapsed"></i>
-				</div>
+	<!-- Start TABS Menu -->
+	<div class="clearfix"></div>
+	<div class="container bg-color1">
+		<div class="row vertical-align">
+			<div class="col-xs-12 nopadding">
+				<ul class="nav nav-tabs jp-tabs">
+					<li class="active"><a href="#partidos-tab" data-title="PARTIDOS DISPONIBLES" data-section="partidos">Partidos</a></li>
+					<li><a href="#desafios-tab" data-title="DESAFIOS" data-section="desafios">Desafíos <span id="new-challenge-notf"></span></a></li>
+					<li><a href="#contactos-tab" data-title="CONTACTOS" data-section="contactos">Contactos</a></li>
+				</ul>
 			</div>
 		</div>
-        <!-- CONTACTOS MENU -->
-		<div class="collapse container-fluid" aria-expanded="true" id="contact-list-menu">
-        	
-		</div>
-		<div id="contact-list-friends">
-        	<div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
-		</div>
-        <div id="test-json-friends">
-		</div>
-
 	</div>
-    <!-- Fin de contactos Tab -->
-	<!-- PARTIDOS TAB -->
-	<div class="tab-pane active animated fadeIn minimum-tab-size" id="partidos-tab">
-		<div class="container" id="tables-container-show">
-			<div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
-		</div><!-- END > .matches-list -->
+	<!-- End TABS Menu -->
+
+	<div class="tab-content container" id="game-principal-tab">
+		<!-- CONTACTOS TAB -->
+		<div class="row tab-pane animated fadeIn minimum-tab-size" id="contactos-tab">
+
+					<!-- CONTACTOS LIST -->
+					<div class="col-xs-12 container-title contact-list-tab" data-toggle="collapse" data-target="#contact-list-menu" aria-expanded="false">
+						<div class="row-fluid vertical-align contact-list-header">
+							<div class="col-xs-4 text-left" style="padding: 0;">
+								<h3>Sincronizar</h3>
+							</div>
+							<div class="col-xs-6" id="sync-elements">
+
+			                </div>
+							<div class="col-xs-2 text-right">
+								<i class="glyphicon glyphicon-option-vertical collapsed"></i>
+							</div>
+						</div>
+					</div>
+
+	        <!-- CONTACTOS MENU -->
+					<div class="nopadding col-xs-12 contact-list-menu-container">
+						<div class="collapse container-fluid" aria-expanded="true" id="contact-list-menu">
+
+						</div>
+					</div>
+
+					<div class="col-xs-12 nopadding">
+						<div id="contact-list-friends" class="container nopadding">
+				        	<div class="loader"><div class="ball-loader"></div></div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+		        <div id="test-json-friends">
+						</div>
+					</div>
+
+		</div>
+	  <!-- Fin de contactos Tab -->
+
+		<!-- PARTIDOS TAB -->
+		<div class="row tab-pane active animated fadeIn minimum-tab-size" id="partidos-tab">
+			<div class="container" id="tables-container-show">
+				<div class="loader">
+					<div class="ball-loader"></div>
+				</div>
+			</div><!-- END > .matches-list -->
+		</div>
+		<!-- Fin PARTIDOS TAB -->
+		<!-- Desafios TAB -->
+		<div class="row tab-pane animated fadeIn minimum-tab-size" id="desafios-tab">
+
+			<div class="col-xs-12 challenge-toolbox">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-4">
+
+							<button class="btn btn-block btn-success btn-fancy btn-challenges" onClick="onClick=createANewChallenge()">
+								Crear desafío
+							</button>
+						</div>
+
+						<div class="col-xs-8 token-container">
+
+					      <input type="text" class="form-control" aria-label="Código de invitación" placeholder="Ingrese el código" id="groupCodeInput">
+
+								<button class="btn btn-primary" id="sendToken" onClick="addUserToGroup2();">
+									<i class="fa fa-thumbs-o-up"></i>
+								</button>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- FRIEND GROUP -->
+			<div class="col-xs-12 nopadding">
+	      <div class="container" id="challenges-container-show">
+	      	<div class="loader"><div class="ball-loader"></div></div>
+					<div class="row noChallengesMessage" id="noChallengesMessage">
+						<div class="col-xs-12">
+							<p class="invitation">
+								No perteneces a ningun grupo o no tienes desafíos creados.
+								<br />
+								<b>¡Invitá a tus amigos y demostrá quién es el mejor!</b>
+							</p>
+						</div>
+						<div class="col-xs-6">
+							<a class="btn btn-block btn-primary btn-fancy" href="referal.html">
+								Invitar un amigo
+							</a>
+						</div>
+						<div class="col-xs-6">
+							<button class="btn btn-block btn-success btn-fancy" onClick="onClick=createANewChallenge()">
+								Crear desafío
+							</button>
+						</div>
+
+					</div>
+	      </div>
+			</div>
+		</div>
 	</div>
-	<!-- Fin PARTIDOS TAB -->
-	<!-- Desafios TAB -->
-	<div class="tab-pane animated fadeIn minimum-tab-size" id="desafios-tab">
-		<!-- FRIEND GROUP -->
-        <div class="container" id="challenges-container-show">   
-        	<div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>         
-        </div>
-	</div>
-
-	
-
-</div>
-
 <!-- END > CONTENT -->
 </body>
 <!-- start Design Scripts -->
@@ -219,9 +218,10 @@
 <script src="js/contacts/contacts.js?63"></script>
 <script src="js/contacts/phoneparser.js?63"></script>
 <script src="plugins/owl-carousel/owl.carousel.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 <!-- End Functions of Game -->
-<script>
+ <script>
 jpAnalyticsPageView("/GAME");
-</script>    
+</script>
 
 </html>

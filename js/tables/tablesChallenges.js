@@ -1,6 +1,6 @@
 // JavaScript Document
 window.groupAllreadyCreated=null;
-function createOrEnterAChallenge(){
+/*function createOrEnterAChallenge(){
 	var useId='Btn-'+Math.floor((Math.random() * 1000000000) + 1);
 	BootstrapDialog.show({
 			 id: useId,
@@ -13,12 +13,13 @@ function createOrEnterAChallenge(){
                 action: function(dialogItself){
                     dialogItself.close();
                 }
-            }]	
-		 });  
-}
-function createANewChallenge(windowToClose){
+            }]
+		 });
+}*/
+
+function createANewChallenge(){
 	//alert("Create New");
-	closeFilterWindow(windowToClose);
+	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -36,6 +37,7 @@ function createANewChallenge(windowToClose){
 	    {
 			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
 				readCreateANewChallengeResponse(doble);
@@ -52,7 +54,8 @@ function createANewChallenge(windowToClose){
 		xmlhttp.open("GET",getJPApiURL()+"groups/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		xmlhttp.send();
+	}
 }
 function readCreateANewChallengeResponse(users){
 	var contentForWindow=createContentForANewChallengeWindow(users.groups);
@@ -82,15 +85,15 @@ function enterChallengeWithCode(windowToClose){
 			buttons: [{
                 label: ' Ingresar',
                 action: function(dialogItself){
-						addUserToGroup(dialogItself);
-					}
+									addUserToGroup(dialogItself);
+								}
 				}
-			]		 
+			]
 		 });
 		 return false;
 }
+/*
 function addUserToGroup(dialogItself){
-	if(checkConnection()){
 	startLoadingAnimation();
 	var tkn=document.getElementById("groupCodeInput").value;
 	var xmlhttp;
@@ -108,7 +111,6 @@ function addUserToGroup(dialogItself){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==400))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			closeLoadingAnimation();
 			var json=JSON.parse(jsonStr);
 			if (typeof(json.error) !== 'undefined' || typeof(json.errors) !== 'undefined'){
@@ -117,7 +119,7 @@ function addUserToGroup(dialogItself){
 				jpAnalyticsEvent("JOIN_GROUP", json.name, json.size);
 				avisoEmergenteJugaPlay('Bien venido a "'+json.name+'" ','<p>Ya sos parte del grupo <b>"'+json.name+'"</b> y podrás jugar sus desafíos.</p>');
 				dialogItself.close();
-				showAvailableTablesToPlay();				
+				showAvailableTablesToPlay();
 			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
@@ -128,6 +130,41 @@ function addUserToGroup(dialogItself){
 		xmlhttp.open("POST",getJPApiURL()+"groups/join?token="+tkn,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
-	}
+		xmlhttp.send();
+}
+*/
+
+function addUserToGroup2(){
+	$("#sendToken").html('<div class="ball-loader ball-loader-small"></div>');
+	$("#sendToken").prop('disabled', true);
+	var tkn = $("#groupCodeInput").val();
+	var url = getJPApiURL() + "groups/join?token=" + tkn;
+
+	$.ajaxSetup({
+    crossDomain: true,
+    xhrFields: {
+        withCredentials: true
+    }
+	});
+
+	$.post(url, {}, function(data) {
+	  var json = data;
+
+		if (typeof(json.error) !== 'undefined' || typeof(json.errors) !== 'undefined'){
+			avisoEmergenteJugaPlay("Código erróneo","<p>No se encontró ningún grupo o desafío con ese código, por favor verifique que el mismo se ingresara correctamente.</p>");
+		}else{
+			avisoEmergenteJugaPlay('Bien venido a "'+json.name+'" ','<p>Ya sos parte del grupo <b>"'+json.name+'"</b> y podrás jugar sus desafíos.</p>');
+			$("#groupCodeInput").val("");
+			showAvailableTablesToPlay();
+		}
+
+	},"json")
+  .fail(function() {
+     avisoEmergenteJugaPlayConnectionError();
+  })
+  .always(function() {
+    //$("#sendToken").removeClass("disabled");
+		$("#sendToken").html('<i class="fa fa-thumbs-o-up"></i>');
+		$("#sendToken").prop('disabled', false);
+  });
 }

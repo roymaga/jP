@@ -76,7 +76,7 @@ function crateHtmlLiveTable(table){
 }
 function parseTitleForLiveTable(table){
 	if(table.private){
-		var title = '<div class="col-xs-10 text-right nopadding">'+parseTableChallengeMatchName(table.title)+' <br><b>('+groupTable.group.name+')</b></div>';
+		var title = '<div class="col-xs-10 text-right nopadding">'+parseTableChallengeMatchName(table.title)+' <br><b>('+table.group.name+')</b></div>';
 	}
 	if(table.playing[0].type== "training"){var title = '<div class="col-xs-10 text-right nopadding">'+table.title+' <br><b>(Amistoso)</b></div>';}
 	if(table.playing[0].type== "league"){var title = '<div class="col-xs-10 text-right nopadding">'+table.title+' <br><b>(Oficial)</b></div>';}

@@ -34,7 +34,10 @@ function openTableToPlayOverLapseWindow(tableId, type){
 		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();	
+	}else{
+		openTableToPlayOverLapseWindow(tableId, type);
+	}
 }
 function readOpenTable(openTable){
 		openTable=parseTableForGroupPlayingOption (openTable);
@@ -263,7 +266,7 @@ function checkDataForCoinsGame(idTabla,costOfTable){ // Recordar actualizar los 
 					editXCoinsFromUsersWallet(-costOfTable);
                     sendPlayToJugaplay(idTabla,"true");
 				}else{
-						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p>");
+						avisoEmergenteJugaPlay("Monedas Insuficientes","<p>Tienes "+menuGetAmountOfCoins()+" Monedas y el partido requiere "+costOfTable+" para anotarse.</p> ");
 				}
 }
 function checkDataForChipsGame(idTabla,costOfTable){ // Recordar actualizar los datos despues de la jugada
@@ -290,7 +293,6 @@ function checkDataForChipsGame(idTabla,costOfTable){ // Recordar actualizar los 
 }
 /* Realizo la jugada */
 function sendPlayToJugaplay(idTabla,bet){
-	if(checkConnection()){
 	startLoadingAnimation();
 		switch(window.showTableInformatioType) {
 				case "training":
@@ -303,6 +305,7 @@ function sendPlayToJugaplay(idTabla,bet){
 				default:
 					var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected,"bet":"true"});
 			}
+	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -337,6 +340,8 @@ function sendPlayToJugaplay(idTabla,bet){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
+	}else{
+		sendPlayToJugaplay(idTabla,bet);
 	}
 }
 function endOfPlayedTable(idTabla){
@@ -400,8 +405,8 @@ function noneRegisterPlayerRegister(dialogItself){
 			return true;
 		}
 	json=JSON.stringify({ "user": { "email": mail, "nickname":nickname, "password": password } });
+	
 	if(startLoadingAnimation()==true){
-		if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -416,7 +421,6 @@ function noneRegisterPlayerRegister(dialogItself){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -449,7 +453,7 @@ function noneRegisterPlayerRegister(dialogItself){
 		xmlhttp.open("PATCH",getJPApiURL()+"users/"+getUserJugaplayId(),true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		}
+		xmlhttp.send(json);		
 	}
 }
 function alwaysShowInputValues(){

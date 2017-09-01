@@ -9,6 +9,7 @@ function readInidecesOfOpenTable(tableDescription){
 	var splitArray=tableDescription.split('-'); // Ejemplo "libertadores-257742"
 	var json=JSON.stringify({"table_tournament":splitArray[0],"table_match":splitArray[1]});
 	//startLoadingAnimation();
+	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -23,7 +24,7 @@ function readInidecesOfOpenTable(tableDescription){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			var doble=JSON.parse(jsonStr);
 			readIncidencesForLiveTable(doble);
@@ -39,6 +40,9 @@ function readInidecesOfOpenTable(tableDescription){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);	
+	}else{
+		readInidecesOfOpenTable(tableDescription);
+	}
 }
 // Initialize functions
 function readOpenTableLive(openTable){

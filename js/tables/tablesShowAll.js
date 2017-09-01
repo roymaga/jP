@@ -23,10 +23,10 @@ if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
 	window.previusSeenChallenges=[];
 	window.newChallengeOptions=false;
 }
-setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
+setTimeout(function(){showRecordAvailableTablesToPlay();initializeGameVars();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
 function showRecordAvailableTablesToPlay(){
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4){		
+	if(previousTablesLoad.length>4){
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -35,7 +35,7 @@ function showRecordAvailableTablesToPlay(){
 			}else{
 				analizeShowAvailableTablesToPlay(doble);
 			}
-	
+
 		}else{
 			 showAvailableTablesToPlay();
 		}
@@ -54,10 +54,11 @@ function resetTimeOfLastTableAskToServer(){
 	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableTablesToPlay(){
+	if(checkConnection2()){
 	if(document.getElementById("tables-container-show")!=null){
 		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
 	}
-	if(checkConnection2()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -92,9 +93,10 @@ function showAvailableTablesToPlay(){
 		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();}else{
-			setTimeout(function(){showAvailableTablesToPlay();}, 1000);
-		}	
+		xmlhttp.send();
+	}else{
+		showAvailableTablesToPlay();
+	}
 }
 function analizeShowAvailableTablesToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
@@ -149,71 +151,136 @@ function cargarTablaDeMatchesConContenidoInicial(shownTable){ // me fijo si exis
 	}else{
 		createTournamentContent(shownTable);
 	}
-	
+
 }
 // getTournamentNameById
 function createTournamentContent(shownTable){
 	// Tiene que ser even or odd?
 	//alert("createTournamentContent");
-	$("#tables-container-show").append('<div class="row players-list-item vertical-align color-player-list tournament-row '+oddOrEven($(".tournament-row").length)+'" data-tournament-id="'+shownTable.tournament_id+'"> <div class="col-xs-2 text-right"> <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#torunament-container-'+shownTable.tournament_id+'" aria-expanded="true"><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div><div class="col-xs-6 player-name"> <p>'+getTournamentNameById(shownTable.tournament_id)+'</p></div><div class="col-xs-4"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div></div><div id="torunament-container-'+shownTable.tournament_id+'" class="collapse" aria-expanded="false" style="height: 0px;"></div>').after(function() {attachTableMatchContent(shownTable,$("#torunament-container-"+shownTable.tournament_id));});
+	var props = {
+		'{ODDS_EVEN}': oddOrEven($("#tables-container-show>.tournament-row").length),
+		'{TOURNAMENT_ID}': shownTable.tournament_id,
+		'{TOURNAMENT_NAME}': getTournamentNameById(shownTable.tournament_id)
+	}
+
+	$("#tables-container-show").append(parseTemplate(props,TEMPLATE_TOURNAMENT_CONTENT)).show('slow')
+			.after(function() {attachTableMatchContent(shownTable,$("#torunament-container-"+shownTable.tournament_id));});
 }
+
 function attachTableMatchContent(shownTable,torunamentContainer){ // Despues ver de editar dependiendo del estado
-	// tiene que ser even or odd? 
-	$(torunamentContainer).append('<div class="row players-list-item vertical-align league-match-row text-color2 '+oddOrEven($(".league-match-row").length)+'" data-table-id="'+shownTable.id+'" data-table-has_been_played_by_user="'+shownTable.has_been_played_by_user+'" data-table-multiplier="'+shownTable.multiplier+'">'+parseTableMatchInnerConten(shownTable)+'</div>');
+
+	var itemIndex = $(torunamentContainer).find(".league-match-row").length;
+	var props = {
+		'{ODDS_EVEN}': oddOrEven(itemIndex),
+		'{TABLE_ID}': shownTable.id,
+		'{PLAYED_BY_USER}': shownTable.has_been_played_by_user,
+		'{MULTIPLIER}': shownTable.multiplier,
+		'{CONTENT}': parseTableMatchInnerContent(shownTable)
+	}
+	$(torunamentContainer).append(parseTemplate(props,TEMPLATE_TABLE_MATCH_CONTENT));
 }
+
 function updateTableMatchContent(shownTable,matchContainer){ // Despues ver de editar dependiendo del estado del partido
 	if(String($(matchContainer).attr("data-table-has_been_played_by_user"))==String(shownTable.has_been_played_by_user) && String($(matchContainer).attr("data-table-multiplier"))==String(shownTable.multiplier)){
 		// El JQUERY directamente valida si exsiste el div
 		$(matchContainer).find('.amount_of_users_training').html('<h4>'+shownTable.amount_of_users_training+' <i class="fa fa fa-users" aria-hidden="true"></i></h4>');
 		$(matchContainer).find('.amount_of_users_league').html('<h4>'+shownTable.amount_of_users_league+' <i class="fa fa fa-users" aria-hidden="true"></i></h4>');
-	}else{	
-		$(matchContainer).html(parseTableMatchInnerConten(shownTable));
+	}else{
+		$(matchContainer).html('<div class="container">'+parseTableMatchInnerContent(shownTable)+'</div>');
 		$(matchContainer).attr("data-table-has_been_played_by_user",shownTable.has_been_played_by_user);
 		$(matchContainer).attr("data-table-multiplier",shownTable.multiplier);
-					
+
 	}
 	//$(matchContainer).html(' <div class="col-xs-9">'+shownTable.title+dateFormatViewTable(shownTable.start_time)+'</div><div class="col-xs-3"> <button type="button" class="btn btn-success"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></button> </div>');
 }
-function parseTableMatchInnerConten(shownTable){ // preguntar si fue jugada o no
+
+function parseTableMatchInnerContent(shownTable){ // preguntar si fue jugada o no
 	if(shownTable.has_been_played_by_user){
-		return parseTableMatchInnerContentPlayed(shownTable);// Played
+
+		if(shownTable.played_by_user_type=="training") {
+			// TRAINGING
+			return parseTableMatchInnerContentPlayedTraining(shownTable);
+		}else{
+			// LEAGUE
+			return parseTableMatchInnerContentPlayedLeague(shownTable);
+		}
 	}else{
+		// NOT PLAYED
 		return parseTableMatchInnerContentNotPlayed(shownTable);
 	}
 }
-function parseTableMatchInnerContentPlayed(shownTable){
-	if(shownTable.played_by_user_type=="training"){
-		var contentType=parseTableMatchInnerContentTraining(shownTable);
-		var x2Button='<div class="col-xs-3"> </div>';
-	}else{
-		var contentType=parseTableMatchInnerContentLeague(shownTable);
-		var x2Button='<div class="col-xs-3 text-center match-cup" onClick="playTurboOption(\''+shownTable.id+'\','+shownTable.bet_multiplier+',\''+shownTable.multiplier_chips_cost+'\','+shownTable.has_been_played_by_user+');">'+showTurboOption(shownTable.bet_multiplier)+'</div>';
-		}
-	return '<div class="col-xs-9">'+shownTable.title+dateFormatViewTable(shownTable.start_time)+'</div>'+x2Button+'<div id="show-openDetail-match'+shownTable.id+'"> '+contentType+'</div>';
-}
-function parseTableMatchInnerContentNotPlayed(shownTable){ 
-	return '<div class="col-xs-9">'+shownTable.title+dateFormatViewTable(shownTable.start_time)+'</div><div class="col-xs-3"> <button type="button" class="btn btn-success " data-toggle="collapse" data-target="#show-openDetail-match'+shownTable.id+'" aria-expanded="false" onclick="changeEyeButton(this)"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></button></div><div class="collapse" id="show-openDetail-match'+shownTable.id+'"> '+parseTableMatchInnerContentLeague(shownTable)+parseTableMatchInnerContentTraining(shownTable)+'</div>';
-}
-function parseTableMatchInnerContentLeague(shownTable){
-	return '<div class="match-detail"> <div class="col-xs-2 nopadding text-left"><button type="button" class="btn btn-warning" onClick="openTableDfInformation(\''+shownTable.id+'\',\'league\');"><i class="fa fa-info-circle" aria-hidden="true"></i></button></div><div class="col-xs-3 nopadding text-center"><h4 onclick="openTablePrizeInformation(\''+shownTable.id+'\',\'league\');">'+earnsOfTable(shownTable)+'</h4></div><div class="col-xs-3 amount_of_users_league"><h4>'+shownTable.amount_of_users_league+' <i class="fa fa fa-users" aria-hidden="true"></i></h4></div><div class="col-xs-4 nopadding text-center">'+parseTableMatchInnerContentLeagueButton(shownTable)+'</div></div>';
-}
-function parseTableMatchInnerContentLeagueButton(shownTable){
-	if(shownTable.has_been_played_by_user){
-		return '<span style="text-align: center;font-size: 16px;"><b>Partido Oficial</b><br><small>Anotado</small></span>';
-	}else{
-		return '<button type="button" onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'league\');" class="btn btn-success">Oficial '+costOfTable(shownTable)+'</button>';
+
+function parseTableMatchInnerContentPlayedTraining(shownTable) {
+
+	var contentType=parseTableMatchInnerContentTraining(shownTable);
+	var props = {
+		'{DATE}': shownTable.title+dateFormatViewTable(shownTable.start_time),
+		'{TABLE_ID}': shownTable.id,
+		'{EARNS}': earnsOfTableTraining(shownTable),
+		'{USERS}' : shownTable.amount_of_users_training,
+		'{BUTTON}' : parseTableMatchInnerContentTrainingButton(shownTable)
 	}
+
+	return parseTemplate(props,TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED_TRAINING);
 }
-function parseTableMatchInnerContentTraining(shownTable){
-	return '<div class="match-detail"> <div class="col-xs-2 nopadding text-left"><button onClick="openTableDfInformation(\''+shownTable.id+'\',\'training\');" type="button" class="btn btn-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></button></div><div class="col-xs-3 nopadding text-center"><h4 onclick="openTablePrizeInformation(\''+shownTable.id+'\',\'training\');">'+earnsOfTableTraining(shownTable)+'</h4></div><div class="col-xs-3 amount_of_users_training"><h4>'+shownTable.amount_of_users_training+' <i class="fa fa fa-users" aria-hidden="true"></i></h4></div><div class="col-xs-4 nopadding text-center">'+ parseTableMatchInnerContentTrainingButton(shownTable)+'</div></div>';
-}
+
 function  parseTableMatchInnerContentTrainingButton(shownTable){
 	if(shownTable.has_been_played_by_user){
-		return '<span style="font-size: 16px;"><b>Partido Amistoso</b><br><small>Anotado</small></span>';
+		return '<span><b>Partido Amistoso</b><br><small>Anotado</small></span>';
 	}else{
-		return '<button onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'training\');" type="button" class="btn btn-success">Amistoso</button>';
+		return '<button onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'training\');" type="button" class="btn btn-success btn-block btn-action btn-training">Amistoso</button>';
 	}
 }
+
+function parseTableMatchInnerContentPlayedLeague(shownTable) {
+
+	var props = {
+		'{DATE}': shownTable.title+dateFormatViewTable(shownTable.start_time),
+		'{TABLE_ID}': shownTable.id,
+		'{BET_MULTIPLIER}': shownTable.bet_multiplier,
+		'{CHIPS_COST}': shownTable.multiplier_chips_cost,
+		'{PLAYED_BY_USER}': shownTable.has_been_played_by_user,
+		'{TURBO}': showTurboOption(shownTable.bet_multiplier),
+		'{TABLE_EARNS}': earnsOfTable(shownTable),
+		'{LEAGUE_USERS}': shownTable.amount_of_users_league,
+		'{ACTION_BUTTON}': parseTableMatchInnerContentLeagueButton(shownTable)
+	}
+
+	return parseTemplate(props,TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED_LEAGUE);
+}
+
+function parseTableMatchInnerContentLeagueButton(shownTable){
+	if(shownTable.has_been_played_by_user){
+		return '<span><b>Partido Oficial</b><br><small>Anotado</small></span>';
+	}else{
+		return '<button type="button" onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'league\');" class="btn btn-success btn-block btn-action">Oficial '+costOfTable(shownTable)+'</button>';
+	}
+}
+
+function parseTableMatchInnerContentNotPlayed(shownTable){
+
+	var props = {
+		'{DATE}': shownTable.title+dateFormatViewTable(shownTable.start_time),
+		'{TABLE_ID}': shownTable.id,
+		'{CONTENT}': parseTableMatchInnerContentLeague(shownTable)+parseTableMatchInnerContentTraining(shownTable),
+	}
+	return parseTemplate(props, TEMPLATE_TABLE_MATCH_INNER_CONTENT_NOT_PLAYED);
+}
+
+function parseTableMatchInnerContentLeague(shownTable){
+	var props = {
+		'{TABLE_ID}': shownTable.id,
+		'{TABLE_EARNS}': earnsOfTable(shownTable),
+		'{LEAGUE_USERS}': shownTable.amount_of_users_league,
+		'{ACTION_BUTTON}': parseTableMatchInnerContentLeagueButton(shownTable)
+	}
+	return parseTemplate(props,TEMPLATE_TABLE_MATCH_INNER_CONTENT_LEAGUE);
+}
+
+function parseTableMatchInnerContentTraining(shownTable){
+	return '<div class="match-detail row"> <div class="col-xs-2 nopadding text-left"><button onClick="openTableDfInformation(\''+shownTable.id+'\',\'training\');" type="button" class="btn btn-warning btn-matchinfo"><i class="fa fa-info-circle" aria-hidden="true"></i></button></div><div class="col-xs-3 nopadding text-center"><h4 onclick="openTablePrizeInformation(\''+shownTable.id+'\',\'training\');">'+earnsOfTableTraining(shownTable)+'</h4></div><div class="col-xs-3 amount_of_users_training"><h4>'+shownTable.amount_of_users_training+' <i class="fa fa fa-users" aria-hidden="true"></i></h4></div><div class="col-xs-4 nopadding text-center">'+ parseTableMatchInnerContentTrainingButton(shownTable)+'</div></div>';
+}
+
 function changeEyeButton(button){
 	if($(button).hasClass("active")){
 		$(button).removeClass("active");
@@ -233,26 +300,57 @@ function cargarTablaDeChallengesConContenidoInicial(shownTable){ // me fijo si e
 	}else{
 		createGroupContent(shownTable);
 	}
-	
+
 }
 // getTournamentNameById
 function createGroupContent(shownTable){
-	$("#challenges-container-show").append('<div class="row players-list-item vertical-align color-player-list tournament-row '+oddOrEven($(".tournament-row").length)+' group" data-tournament-id="'+shownTable.group.name.replace(/ /g, "-")+'"> <div class="col-xs-2 text-right"> <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#torunament-container-'+shownTable.group.name.replace(/ /g, "-")+'" aria-expanded="true"><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div><div class="col-xs-6 player-name"> <p>'+shownTable.group.name+'</p></div><div class="col-xs-4 text-right"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div></div><div id="torunament-container-'+shownTable.group.name.replace(/ /g, "-")+'" class="collapse" aria-expanded="false" style="height: 0px;"></div>').after(function() {attachChallengeMatchContent(shownTable,$("#torunament-container-"+shownTable.group.name.replace(/ /g, "-")));});
+
+	$("#noChallengesMessage").remove();
+	var tournamentId = shownTable.group.name.replace(/ /g, "-");
+	var props = {
+		'{ODDS_EVEN}': oddOrEven($("#challenges-container-show>.tournament-row").length),
+		'{TOURNAMENT_ID}': tournamentId,
+		'{TOURNAMENT_NAME}': shownTable.group.name
+	}
+
+	$("#challenges-container-show").append(parseTemplate(props,TEMPLATE_CHALLENGE_CONTENT))
+		.after(function() {attachChallengeMatchContent(shownTable,$("#torunament-container-"+tournamentId));});
 }
+
 function attachChallengeMatchContent(shownTable,torunamentContainer){ // Despues ver de editar dependiendo del estado
-	// tiene que ser even or odd? 
-	$(torunamentContainer).append('<div class="row players-list-item vertical-align league-match-row text-color2 '+oddOrEven($(".league-match-row").length)+'" data-table-id="'+shownTable.id+'" data-table-has_been_played_by_user="'+shownTable.has_been_played_by_user+'" data-table-multiplier="'+shownTable.multiplier+'">'+parseTableChallengeInnerContent(shownTable)+'</div>');
+
+	var props = {
+		'{ODD_EVEN}': oddOrEven($(".league-match-row").length),
+		'{TABLE_ID}': shownTable.id,
+		'{PLAYED_BY_USER}':shownTable.has_been_played_by_user,
+		'{MULTIPLIER}':shownTable.has_been_played_by_user,
+		'{CONTENT}':parseTableChallengeInnerContent(shownTable)
+	}
+	parseTemplate(props,TEMPLATE_CHALLENGE_MATCH_CONTENT);
+
+	$(torunamentContainer).append(parseTemplate(props,TEMPLATE_CHALLENGE_MATCH_CONTENT));
 }
+
 function parseTableChallengeInnerContent(shownTable){
-	return '<div class="col-xs-9">'+parseTableChallengeMatchName(shownTable.title)+dateFormatViewTable(shownTable.start_time)+'</div><div class="col-xs-3 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div id="show-openDetail-match'+shownTable.id+'"> <div class="match-detail"> <div class="col-xs-2 nopadding text-left"><button type="button" class="btn btn-warning" onClick="openTableDfInformation(\''+shownTable.id+'\',\'challengue\');"><i class="fa fa-info-circle" aria-hidden="true"></i></button></div><div class="col-xs-3 nopadding text-center"><h4 onclick="openTablePrizeInformation(\''+shownTable.id+'\',\'challenge\');">'+earnsOfTable(shownTable)+'</h4></div><div class="col-xs-3 amount_of_users_challenge"><h4>'+shownTable.amount_of_users_challenge+' <i class="fa fa fa-users" aria-hidden="true"></i></h4></div><div class="col-xs-4 nopadding text-center">'+buttonOfChallenge(shownTable)+'</div></div></div>'
+
+	var props = {
+		'{MATCH_NAME}': parseTableChallengeMatchName(shownTable.title)+dateFormatViewTable(shownTable.start_time),
+		'{TOURNAMENT_ID}': shownTable.tournament_id,
+		'{TABLE_ID}': shownTable.id,
+		'{EARNS}': earnsOfTable(shownTable),
+		'{USERS_AMOUNT}': shownTable.amount_of_users_challenge,
+		'{ACTION_BUTTON}': buttonOfChallenge(shownTable)
+	}
+	return parseTemplate(props, TEMPLATE_CHALLENGE_INNER_CONTENT);
 }
+
 function updateTableChallengeContent(shownTable,matchContainer){
 	// Aca lo que le actualizamos!! a los desafios
 	if(String($(matchContainer).attr("data-table-has_been_played_by_user"))==String(shownTable.has_been_played_by_user)){
 		// El JQUERY directamente valida si exsiste el div
 		$(matchContainer).find('.amount_of_users_challenge').html('<h4>'+shownTable.amount_of_users_challenge+' <i class="fa fa fa-users" aria-hidden="true"></i></h4>');
-	}else{	
-		$(matchContainer).html(parseTableChallengeInnerContent(shownTable));					
+	}else{
+		$(matchContainer).html(parseTableChallengeInnerContent(shownTable));
 	}
 }
 function addTableToShownChallenges(tableToCreate){ // Add Table to container if already exists it actualize it
@@ -270,7 +368,7 @@ function addTableToShownChallenges(tableToCreate){ // Add Table to container if 
 	}
 	if(flag==0){document.getElementById("challenges-container-show").appendChild(tableToCreate);}
 }
-function deletTableFromVisibleHmtl(shownTable){	  
+function deletTableFromVisibleHmtl(shownTable){
 		$(".league-match-row[data-table-id='" + shownTable.id + "']").each(function( index ) {
 			$(this).remove(); // elimina la mesa
 			});
@@ -283,11 +381,18 @@ function showTurboOption (bet_multiplier){
 	}else{
 		return '<img src="img/icons/coins/x2.png" >';
 	}
-}function costOfTable(shownTable){
-	if(shownTable.entry_cost_type=="coins"){
-		return '<b>'+shownTable.entry_cost_value+'</b><img src="img/icons/coins/coin.png">';
-	}else		{
-		return '<b>'+shownTable.entry_cost_value+'</b><img src="img/icons/coins/chip.svg">';
+}
+
+function costOfTable(shownTable){
+
+	if(shownTable.entry_cost_value > 0) {
+		if(shownTable.entry_cost_type=="coins"){
+			return '<b>'+shownTable.entry_cost_value+'</b><img src="img/icons/coins/coin.png">';
+		}else		{
+			return '<b>'+shownTable.entry_cost_value+'</b><img src="img/icons/coins/chip.svg">';
+		}
+	}else{
+		return "gratis";
 	}
 }
 function earnsOfTable(shownTable){
@@ -315,14 +420,15 @@ function earnsOfTableTraining(shownTable){
 }
 function buttonOfChallenge(shownTable){
 	if(shownTable.has_been_played_by_user==true){
-		return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Anotado</button>';
+		return'<button type="button" class="btn btn-default btn-style2 btn-block btn-training btn-action selected" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Anotado</button>';
 	}else{
-		return'<button type="button" class="btn btn-default btn-style2" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Jugar '+costOfTable(shownTable)+'</button>';}
+		var noCoinIconClass = (shownTable.entry_cost_value > 0) ? "" : "btn-training";
+		return'<button type="button" class="btn btn-default btn-success btn-block btn-action ' +noCoinIconClass+'" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Jugar '+costOfTable(shownTable)+'</button>';}
 }
 // Functions with tables
 function changeOptionToPlayed(idTabla){ // window.showTableInformatioType
 	var previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4){		
+	if(previousTablesLoad.length>4){
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var tablesInContainer=JSON.parse(servidor);
@@ -342,60 +448,20 @@ function changeOptionToPlayed(idTabla){ // window.showTableInformatioType
 				}
 
 			}
-			var jsonStr=JSON.stringify(tablesInContainer);	
+			var jsonStr=JSON.stringify(tablesInContainer);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 	}
 }
-//
-//
+
 //function when starts
-$(document).ready(function() {initializeGameVars();firstTimeGameVars();});
-function firstTimeGameVars(){
-	$("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
-	$("#jp-section-title #title-icon").addClass("");
-	if($( "#jp-section-title #title-icon" ).parent().is("a")){  $("#jp-section-title #title-icon").unwrap(); }
-	$( "#jp-section-title #title-icon" ).wrap( "<a class='btn-filter' onClick=''>" );
-}
-function initializeGameVars(){					  
+
+function initializeGameVars(){
 					$('.jp-tabs li a').click(function (e) {
 					  e.preventDefault();
 					  $(this).tab('show');
 					  var section = $(this).attr("data-section");
 					  var title = $(this).attr("data-title");
-					  var icono = $("#jp-section-title #title-icon");
-					  if(icono.parent().is("a")){
-							  $("#jp-section-title #title-icon").unwrap();
-						  }
-						$("#desafiosPlus").remove();
-					  switch (section){
-						  
-						  case "contactos":
-						  $("#jp-section-title #title-section").text(title);
-						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x fa-user-plus");
-						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='searchToAddContactsToList();'></a>" );
-						  break;
-						  
-						  case "partidos":
-						  $("#jp-section-title #title-section").text(title);
-						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x");
-						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick=''></a>" );					  
-						  break;
-						  
-						  case "desafios":
-						  $plus = '<i id="title-icon" class="fa fa-2x fa-plus-square" aria-hidden="true"></i>';
- 						  $("#jp-section-title #title-section").text(title);
- 						  $("#jp-section-title #title-icon").removeClass().addClass("fa fa-2x fa-trophy");
- 						  $("#jp-section-title #title-icon").parent("div").append("<i id='desafiosPlus' class='fa fa-1x fa-plus' style='color:#FFF;'/>");
- 						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick='createOrEnterAChallenge();'></a>" );
-						  seenAllChallenges();
-						  setTimeout(function(){hasBeenRead(3);}, 1000);
-						  break;
-						  
-						  default:
-						  $("#jp-section-title #title-section").text("PARTIDOS DISPONIBLES");
-						  $("#jp-section-title #title-icon").removeClass("").addClass("fa fa-2x ");
-						  $("#jp-section-title #title-icon").wrap( "<a class='btn-filter' onClick=''></a>" );					  
-					  }
+
 					});
 					// Swipe for principal Game features
 					$("#game-principal-tab .tab-pane").swipe( {
@@ -417,7 +483,7 @@ function initializeGameVars(){
 }
 function changeOptionTox2(idTabla){
 	var previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4){		
+	if(previousTablesLoad.length>4){
 			var json=JSON.stringify(previousTablesLoad);
 			var servidor=JSON.parse(json);
 			var tablesInContainer=JSON.parse(servidor);
@@ -428,14 +494,14 @@ function changeOptionTox2(idTabla){
 				}
 
 			}
-			var jsonStr=JSON.stringify(tablesInContainer);	
+			var jsonStr=JSON.stringify(tablesInContainer);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 	}
 }
 function avisoProximamente(){
 	avisoEmergenteJugaPlay("PROXIMAMENTE","<p>Esto es una beta y esta función no está disponible.</p><p>Segura mente la semana que viene la tengamos habilitada.</p>");
 }
-// 
+//
 function addTableToArrayOfChallengesSeen(tableId, startTime, played){
 	if(mesaDisponibleParaJugarHorario(startTime)==true && !played){
 		for(table in window.previusSeenChallenges){
@@ -469,8 +535,279 @@ function seenAllChallenges(){
 function buttonOfChallengeTable(idMesa,playing){
 	for(user in playing){
 		if(getUserJugaplayId()==playing[user].user_id){
-			return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openTablePlayedDetail(\''+idMesa+'\');">Anotado</button>';
+			return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openTablePlayedDetail(\''+idMesa+'\', \'challenge\');">Anotado</button>';
 		}
 	}
 	return'<button type="button" class="btn btn-default btn-style2" onClick="openTableOfMatch();">¡Jugar!</button>';
 }
+
+// ------------------------------------------------------------------------------------
+// --- TEMPLATES ----------------------------------------------------------------------
+/*
+FROM: function createGroupContent(shownTable){
+
+PROPS: {
+	'{ODDS_EVEN}': '',
+	'{TOURNAMENT_ID}': '',
+	'{TOURNAMENT_NAME}': '',
+
+}
+*/
+var TEMPLATE_CHALLENGE_CONTENT = ''
+	+'<div class="row players-list-item vertical-align color-player-list tournament-row {ODDS_EVEN} group" data-tournament-id="{TOURNAMENT_ID}">'
+	+'	<div class="col-xs-2 text-right">'
+	+'		<button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#torunament-container-{TOURNAMENT_ID}" aria-expanded="true">'
+	+'			<i class="fa fa-chevron-down" aria-hidden="true"></i>'
+	+'		</button>'
+	+'	</div>'
+	+'	<div class="col-xs-6 player-name"> <p>{TOURNAMENT_NAME}</p></div>'
+	+'	<div class="col-xs-4 text-right"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div>'
+	+'</div>'
+	+'<div id="torunament-container-{TOURNAMENT_ID}" class="collapse row" style="height: 0px;"></div>';
+
+/*
+FROM: function attachChallengeMatchContent(shownTable){
+
+var props = {
+	'{ODD_EVEN}': oddOrEven($(".league-match-row").length),
+	'{TABLE_ID}': shownTable.id,
+	'{PLAYED_BY_USER}':shownTable.has_been_played_by_user,
+	'{MULTIPLIER}':shownTable.has_been_played_by_user,
+	'{CONTENT}':parseTableChallengeInnerContent(shownTable)
+}
+*/
+var TEMPLATE_CHALLENGE_MATCH_CONTENT = ''
+	+'<div class="col-xs-12 players-list-item vertical-align league-match-row text-color2 {ODD_EVEN}" '
+	+'		data-table-id="{TABLE_ID}" data-table-has_been_played_by_user="{PLAYED_BY_USER}" data-table-multiplier="{MULTIPLIER}">'
+	+'	{CONTENT}'
+	+'</div>';
+
+
+/*
+FROM: function parseTableChallengeInnerContent(shownTable){
+
+PROPS: {
+	'{MATCH_NAME}': parseTableChallengeMatchName(shownTable.title)+dateFormatViewTable(shownTable.start_time),
+	'{TOURNAMENT_ID}': shownTable.tournament_id,
+	'{TABLE_ID}': shownTable.id,
+	'{EARNS}': earnsOfTable(shownTable),
+	'{USERS_AMOUNT}': shownTable.amount_of_users_challenge,
+	'{ACTION_BUTTON}': buttonOfChallenge(shownTable),
+
+}
+*/
+var TEMPLATE_CHALLENGE_INNER_CONTENT = ''
+		+'<div class="container">'
+		+'	<div class="row">'
+		+'		<div class="col-xs-9">{MATCH_NAME}</div>'
+		+'		<div class="col-xs-3 text-center match-cup">'
+		+'			<img src="img/tournament/flags/flag-{TOURNAMENT_ID}.jpg">'
+		+'		</div>'
+		+'	</div>'
+
+		+'	<div class="row">'
+		+'		<div class="col-xs-12">'
+		+'			<div class="container">'
+
+		+'				<div class="row match-detail" id="show-openDetail-match{TABLE_ID}">'
+		+'					<div class="col-xs-2 nopadding text-left">'
+		+'						<button type="button" class="btn btn-warning btn-matchinfo" onClick="openTableDfInformation(\'{TABLE_ID}\',\'challenge\');">'
+		+'							<i class="fa fa-info-circle" aria-hidden="true"></i>'
+		+'						</button>'
+		+'					</div>'
+		+'					<div class="col-xs-3 nopadding text-center">'
+		+'						<h4 onclick="openTablePrizeInformation(\'{TABLE_ID}\',\'challenge\');">{EARNS}</h4>'
+		+'					</div>'
+		+'					<div class="col-xs-3 amount_of_users_challenge">'
+		+'						<h4>{USERS_AMOUNT}<i class="fa fa fa-users" aria-hidden="true"></i></h4>'
+		+'					</div>'
+		+'					<div class="col-xs-4 nopadding text-center">{ACTION_BUTTON}</div>'
+
+		+'				</div>';
+		+'			</div>';
+		+'		</div>';
+
+		+'	</div>';
+		+'</div>';
+
+
+	/*
+	FROM: function createTournamentContent(shownTable){
+
+	PROPS: {
+		'{ODDS_EVEN}': '',
+		'{TOURNAMENT_ID}': '',
+		'{TOURNAMENT_NAME}': '',
+
+	}
+	*/
+var TEMPLATE_TOURNAMENT_CONTENT = ''
+		+'<div class="row players-list-item vertical-align color-player-list tournament-row {ODDS_EVEN}" data-tournament-id="{TOURNAMENT_ID}">'
+		+'	<div class="col-xs-2 text-right">'
+		+'		<button type="button" onclick="changeArrow(this);" class="btn btn-live" '
+		+'				data-toggle="collapse" data-target="#torunament-container-{TOURNAMENT_ID}" aria-controls="torunament-container-{TOURNAMENT_ID}">'
+		+'			<i class="fa fa-chevron-down" aria-hidden="true"></i>'
+		+'		</button>'
+		+'	</div>'
+		+'	<div class="col-xs-6 player-name"><p>{TOURNAMENT_NAME}</p></div>'
+		+'	<div class="col-xs-4 text-right"><img src="img/tournament/flags/flag-{TOURNAMENT_ID}.jpg"></div>'
+		+'</div>'
+		+'<div id="torunament-container-{TOURNAMENT_ID}" class="collapse tournament-row-container row" aria-expanded="false" style="height: 0px;"></div>';
+
+/*
+FROM: function attachTableMatchContent(shownTable,torunamentContainer)
+
+PROPS: {
+	'{ODDS_EVEN}': '',
+	'{TABLE_ID}': '',
+	'{PLAYED_BY_USER}': '',
+	'{MULTIPLIER}': '',
+	'{CONTENT}': ''
+}
+*/
+var TEMPLATE_TABLE_MATCH_CONTENT = ''
+		+'<div class="col-xs-12 players-list-item vertical-align league-match-row text-color2 {ODDS_EVEN}" '
+		+'		data-table-id="{TABLE_ID}" data-table-has_been_played_by_user="{PLAYED_BY_USER}" '
+		+'		data-table-multiplier="{MULTIPLIER}">'
+		+'	<div class="container">'
+		+'		{CONTENT}'
+		+'	</div>'
+		+'</div>';
+
+
+/*
+FROM: function parseTableMatchInnerContentLeague(shownTable)
+
+PROPS: {
+	'{TABLE_ID}': 0,
+	'{TABLE_EARNS}': 0,
+	'{LEAGUE_USERS}': 0,
+	'{ACTION_BUTTON}': ''
+}
+*/
+var TEMPLATE_TABLE_MATCH_INNER_CONTENT_LEAGUE = ''
+		+'<div class="match-detail row">'
+		+'	<div class="col-xs-2 nopadding text-left">'
+		+'		<button type="button" class="btn btn-warning btn-matchinfo" onClick="openTableDfInformation(\'{TABLE_ID}\',\'league\');">'
+		+'			<i class="fa fa-info-circle" aria-hidden="true"></i>'
+		+'		</button>'
+		+'	</div>'
+		+'	<div class="col-xs-3 nopadding text-center">'
+		+'		<h4 onclick="openTablePrizeInformation(\'{TABLE_ID}\',\'league\');">{TABLE_EARNS}</h4>'
+		+'	</div>'
+		+'	<div class="col-xs-3 amount_of_users_league">'
+		+'		<h4>{LEAGUE_USERS}<i class="fa fa fa-users" aria-hidden="true"></i></h4>'
+		+'	</div>'
+		+'	<div class="col-xs-4 nopadding text-center">{ACTION_BUTTON}</div>'
+		+'</div>';
+
+/*
+FROM: function parseTableMatchInnerContentPlayed(shownTable)
+
+PROPS: {
+	'{DATE}': 0,
+	'{BTN_2X}': 0,
+	'{TABLE_ID}': 0,
+	'{CONTENT}': ''
+}
+*/
+/*var TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED = ''
+		+'<div class="col-xs-9">{DATE}</div>'
+		+'{BTN_2X}'
+		+'<div id="show-openDetail-match{TABLE_ID}">{CONTENT}</div>';
+*/
+// ***************************************************************************************************************************************
+// TRAINING PLAYED
+/*
+PROPS: {
+	'{DATE}': 0,
+	'{TABLE_ID}': 0,
+	'{EARNS}': 0,
+	'{USERS}' : 0,
+	'{BUTTON}': ''
+}
+*/
+var TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED_TRAINING = ''
+		+'	<div class="row">'
+		+'		<div class="col-xs-9">{DATE}</div>'
+		+'		<div class="col-xs-3"></div>'
+		+'	</div>'
+		+'	<div class="row">'
+		+'		<div class="col-xs-12">'
+		+'			<div class="container" id="show-openDetail-match{TABLE_ID}">'
+		+'				<div class="row match-detail">'
+		+'					<div class="col-xs-12 nopadding text-left">'
+		+'						<button type="button" class="btn btn-primary btn-matchinfo" onClick="openTablePlayedDetail(\'{TABLE_ID}\',\'training\');">'
+		+'							<i class="fa fa-street-view" aria-hidden="true"></i>'
+		+'						</button>'
+		+'						<button onClick="openTableDfInformation(\'{TABLE_ID}\',\'training\');" type="button" class="btn btn-warning btn-matchinfo">'
+		+'							<i class="fa fa-info-circle" aria-hidden="true"></i>'
+		+'						</button>'
+		+'						<h4 class="inline-stats">{EARNS}</h4>'
+		+'						<h4 class="inline-stats">{USERS}&nbsp;<i class="fa fa fa-users" aria-hidden="true"></i></h4>'
+		+'						<b class="right-stats">Amistoso&nbsp;<i class="fa fa-check"></i></b>'
+		+'					</div>';
+		+'			</div>';
+		+'		</div>';
+		+'	</div>';
+
+// ***************************************************************************************************************************************
+// LEAGUE PLAYED
+/*
+PROPS: {
+	'{DATE}': 0,
+	'{TABLE_ID}': 0,
+	'{BET_MULTIPLIER}':0,
+	'{CHIPS_COST}':0,
+	'{PLAYED_BY_USER}':0,
+	'{TURBO}':0
+}
+*/
+var TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED_LEAGUE = ''
+		+'	<div class="row">'
+		+'		<div class="col-xs-9">{DATE}</div>'
+		+'		<div class="col-xs-3 text-center match-cup" onClick="playTurboOption(\'{TABLE_ID}\',{BET_MULTIPLIER},\'{CHIPS_COST}\',{PLAYED_BY_USER});">{TURBO}</div>'
+		+'	</div>'
+		+'	<div class="row">'
+		+'		<div class="col-xs-12">'
+		+'			<div class="container" id="show-openDetail-match{TABLE_ID}">'
+		+'				<div class="row match-detail">'
+		+'					<div class="col-xs-12 nopadding text-left">'
+		+'						<button type="button" class="btn btn-primary btn-matchinfo" onClick="openTablePlayedDetail(\'{TABLE_ID}\',\'league\');">'
+		+'							<i class="fa fa-street-view" aria-hidden="true"></i>'
+		+'						</button>'
+		+'						<button type="button" class="btn btn-warning btn-matchinfo" onClick="openTableDfInformation(\'{TABLE_ID}\',\'league\');">'
+		+'							<i class="fa fa-info-circle" aria-hidden="true"></i>'
+		+'						</button>'
+		+'						<h4 class="inline-stats">{TABLE_EARNS}</h4>'
+		+'						<h4 class="inline-stats">{LEAGUE_USERS}&nbsp;<i class="fa fa fa-users" aria-hidden="true"></i></h4>'
+		+'						<b class="right-stats">Oficial&nbsp;<i class="fa fa-check"></i></b>'
+		+'				</div>';
+		+'			</div>';
+		+'		</div>';
+		+'	</div>';
+
+// ***************************************************************************************************************************************
+// NOT PLAYED
+/*
+PROPS: {
+	'{DATE}': shownTable.title+dateFormatViewTable(shownTable.start_time),
+	'{TABLE_ID}': shownTable.id,
+	'{CONTENT}': parseTableMatchInnerContentLeague(shownTable)+parseTableMatchInnerContentTraining(shownTable),
+}
+*/
+var TEMPLATE_TABLE_MATCH_INNER_CONTENT_NOT_PLAYED = ''
+
+		+'<div class="row">'
+		+'	<div class="col-xs-9">{DATE}</div>'
+		+'	<div class="col-xs-3">'
+		+'		<button type="button" class="btn btn-success btn-xs" data-toggle="collapse" data-target="#show-openDetail-match{TABLE_ID}" aria-expanded="false" onclick="changeEyeButton(this)"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></button>'
+		+'	</div>'
+		+'</div>'
+		+'<div class="row">'
+		+'	<div class="col-xs-12">'
+		+'		<div class="collapse container" id="show-openDetail-match{TABLE_ID}">'
+		+'			{CONTENT}'
+		+'		</div>';
+		+'	</div>';
+		+'</div>';

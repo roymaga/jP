@@ -2,8 +2,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.JugaPlay"
-        version   = "2.8.2">
-
+		versionCode="25405"
+        version   = "2.8.3">
     <name>JugaPlay</name>
 
     <description>
@@ -28,13 +28,16 @@
     <preference name="exit-on-suspend"            value="false" />          <!-- ios: if set to true, app will terminate when home button is pressed -->
     <preference name="show-splash-screen-spinner" value="true" />           <!-- ios: if set to false, the spinner won't appear on the splash screen during app loading -->
     <preference name="auto-hide-splash-screen"    value="true" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
-    
-    
+    <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
+    <preference name="android-minSdkVersion"      value="14" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
+    <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
 	
 	<!-- Record Audio -->
-	<!-- Core plugins -->
+	<!-- Fin Record Audio -->
+ <!-- Core plugins -->
     <gap:plugin name="cordova-plugin-device"  source="npm" />
 	<plugin name="cordova-plugin-device-motion"   source="npm" />
+	<plugin name="cordova-plugin-inappbrowser"   source="npm" spec="1.0.1" />
 
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
     <!--
@@ -47,37 +50,22 @@
 	<!-- GeoLocation platform. -->
 	
 	<!-- Define app icon for each platform. -->	
-  	<icon src="imgapp/icon-small.png"            gap:platform="ios"        width="29" height="29" />
-	<icon src="imgapp/icon-40.png" platform="ios" width="40" height="40" />
-	<icon src="imgapp/icon-50.png"            gap:platform="ios"        width="50" height="50" />
-    <icon src="imgapp/icon.png"            gap:platform="ios"        width="57" height="57" />
-	<icon src="imgapp/icon-small@2x.png"            gap:platform="ios"        width="58" height="58" />
-	<icon src="imgapp/icon-60.png"            gap:platform="ios"        width="60" height="60" />
-    <icon src="imgapp/icon-72.png"            gap:platform="ios"        width="72" height="72" />
-	<icon src="imgapp/icon-76.png"            gap:platform="ios"        width="76" height="76" />
-	<icon src="imgapp/icon-40@2x.png" platform="ios" width="80" height="80" />
-	<icon src="imgapp/icon-small@3x.png"            gap:platform="ios"        width="87" height="87" />
-	<icon src="imgapp/icon-50@2x.png"         gap:platform="ios"        width="100" height="100" />
-    <icon src="imgapp/icon@2x.png"         gap:platform="ios"        width="114" height="114" />
-	<icon src="imgapp/icon-40@3x.png" platform="ios" width="120" height="120" />
-    <icon src="imgapp/icon-60@2x.png"         gap:platform="ios"        width="120" height="120" />
-	<icon src="imgapp/icon-72@2x.png"         gap:platform="ios"        width="144" height="144" />
-    <icon src="imgapp/icon-76@2x.png"         gap:platform="ios"        width="152" height="152" />
-	<icon src="imgapp/icon-83.5@2x.png"         gap:platform="ios"        width="167" height="167" />
-	<icon src="imgapp/icon-60@3x.png"         gap:platform="ios"        width="180" height="180" />
-	
+	<icon src="imgapp/logo144.png" />
+    <icon src="imgapp/logo36.png"   gap:platform="android"    gap:density="ldpi" />
+    <icon src="imgapp/logo48.png"   gap:platform="android"    gap:density="mdpi" />
+    <icon src="imgapp/logo72.png"   gap:platform="android"    gap:density="hdpi" />
+    <icon src="imgapp/logo96.png"  gap:platform="android"    gap:density="xhdpi" />
+	<icon src="imgapp/logo144.png" platform="android" qualifier="xxhdpi" />
+	<icon src="imgapp/logo192" platform="android" qualifier="fr-xxhdpi" />
     <!-- Define app splash screen for each platform. -->
-    
-    <gap:splash src="imgapp/Default.png"    gap:platform="ios"     width="320" height="480" />
-    <gap:splash src="imgapp/Default@2x.png" gap:platform="ios"     width="640" height="960" />
-	<gap:splash src="imgapp/Default-568h@2x.png" gap:platform="ios" width="640" height="1136" />
-	<splash src="imgapp/Default-667h@2x.png" platform="ios" width="750" height="1334" />
-	<splash src="imgapp/Default-Portrait-736h@3x.png" platform="ios" width="1242" height="2208" />
-	<splash src="imgapp/Default-Landscape-736h@3x.png" platform="ios" width="2208" height="1242" />
-    <gap:splash src="imgapp/Default-Portrait.png"      gap:platform="ios"     width="768" height="1024" />
-	<gap:splash src="imgapp/Default-Portrait@2x.png"      gap:platform="ios"     width="1536" height="2048" />
-    <gap:splash src="imgapp/Default-Landscape.png"     gap:platform="ios"     width="1024" height="768" />
-	<gap:splash src="imgapp/Default-LandscapeLeft@2x.png"     gap:platform="ios"     width="2048" height="1536" />
+	<gap:splash src="imgapp/Default.png" gap:platform="android" gap:qualifier="ldpi" />
+	<gap:splash src="imgapp/Default@2x.png" gap:platform="android" gap:qualifier="mdpi" />
+	<gap:splash src="imgapp/Default@2x.png" gap:platform="android" gap:qualifier="hdpi" />
+	<gap:splash src="imgapp/Default-568h@2x.png" gap:platform="android" gap:qualifier="xhdpi" />
+	<gap:splash src="imgapp/Default-Portrait.png" gap:platform="android" gap:qualifier="fr-xhdpi" />
+	<gap:splash src="imgapp/Default-Portrait@2x.png" gap:platform="android" gap:qualifier="port-xxhdpi" />
+	<gap:splash src="imgapp/Default-LandscapeLeft@2x.png" gap:platform="android" gap:qualifier="land-xxhdpi" />
+       
 
     <access origin="*"/>
 	

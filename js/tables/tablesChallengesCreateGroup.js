@@ -12,7 +12,7 @@ function createNewGroupOfFriends(){
 	for (friend in previousContactsLoad) {
 		userFriends+=parseUserFriendAddToGroup(previousContactsLoad[friend]);
 	}
-	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3" id="action-bar"><div class="row vertical-align"><div class="col-xs-10"><div id="crear-grupo-title"> <h1>CREAR NUEVO GRUPO</h1> <p style="font-size:0.8em; color:#EEE;">Añadir Participantes</p></div><div id="crear-grupo-buscar" style="display:none;"> <input type="text" placeholder="Buscar..." id="searchNewGroup-input" class="form-control"/> </div></div><div class="col-xs-2 text-right"><i class="fa fa-search fa-2x" aria-hidden="true" id="searchNoFriendsContactsMagnGlass" style="color: #fff;"></i></div></div></div><div class="container" id="crear-grupo-added"><div class="row vertical-align"> <div class="col-xs-12 owl-carousel" id="owl-contacts"> </div></div></div><div class="container bg-color3"><div class="row vertical-align"><div class="col-xs-12 nopadding"><ul class="nav nav-tabs jp-tabs"><li class="active"><a data-toggle="tab" href="#amigos-tab-createGroup">Amigos</a></li><li><a data-toggle="tab" href="#amigos-jugaplay-tab-createGroup">Usuarios JugaPlay</a></li></ul></div></div></div><div class="tab-content players-list"><div class="tab-pane fade in active" id="amigos-tab-createGroup">'+userFriends+'</div><div class="tab-pane fade in" id="amigos-jugaplay-tab-createGroup"></div></div><div class="container bg-color2 btn-play-container"><button type="button" class="btn btn-play pending" onclick="finishSelectingUsersForGroup();">Agregue usuarios al grupo</button></div>';
+	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3" id="action-bar"><div class="row vertical-align"><div class="col-xs-10"><div id="crear-grupo-title"> <h1>CREAR NUEVO GRUPO</h1> <p style="font-size:0.8em; color:#EEE;">Añadir Participantes</p></div><div id="crear-grupo-buscar" style="display:none;"> <input type="text" placeholder="Buscar..." id="searchNewGroup-input" class="form-control"/> </div></div><div class="col-xs-2 text-right"><i class="fa fa-search fa-2x" aria-hidden="true" id="searchNoFriendsContactsMagnGlass" style="color: #fff;"></i></div></div></div><div class="container" id="crear-grupo-added"><div class="row vertical-align"> <div class="col-xs-12 owl-carousel" id="owl-contacts"> </div></div></div><div class="container bg-color3"><div class="row vertical-align"><div class="col-xs-12 nopadding"><ul class="nav nav-tabs jp-tabs"><li class="active"><a data-toggle="tab" href="#amigos-tab-createGroup">Amigos</a></li><li><a data-toggle="tab" href="#amigos-jugaplay-tab-createGroup">Usuarios JugaPlay</a></li></ul></div></div></div><div class="tab-content"><div class="tab-pane fade in active" id="amigos-tab-createGroup">'+userFriends+'</div><div class="tab-pane fade in" id="amigos-jugaplay-tab-createGroup"></div></div><div class="container bg-color2 btn-play-container"><button type="button" class="btn btn-play pending" onclick="finishSelectingUsersForGroup();">Agregue usuarios al grupo</button></div>';
 	// add players to amigos-jugaplay-tab-createGroup
 	startAllCreateNewGroupOfFriendsFunctions();
 	searchOptionsForNoneFriendsUsers('',1);
@@ -81,12 +81,11 @@ function searchMoreOptionsForNoneFriendsUsers(element,searchQ, page){
 	
 }
 function searchOptionsForNoneFriendsUsers(searchQ, page){
-	
 	addLoaderToCertainContainer(document.getElementById("amigos-jugaplay-tab-createGroup"));
 	document.getElementById("searchNoFriendsContactsMagnGlass").className="fa fa-spinner fa-pulse fa-2x fa-fw";
 	// Poner el loader en la lupa tambien
-	var json = JSON.stringify({ "search": { "q": searchQ, "order_by_ranking": true }})
 	if(checkConnection()){
+	var json = JSON.stringify({ "search": { "q": searchQ, "order_by_ranking": true }})
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -101,9 +100,8 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			var jsonStr=xmlhttp.responseText;
+			jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
-			//alert(jsonStr);
 			if(IsJsonString(jsonStr)){
 				if(document.getElementById("amigos-jugaplay-tab-createGroup")!=null){
 					removeLoaderFromCertainContainer(document.getElementById("amigos-jugaplay-tab-createGroup"));
@@ -123,7 +121,8 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 		xmlhttp.open("POST",getJPApiURL()+"users/search/?page="+page,true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);}
+		xmlhttp.send(json);
+	}
 }
 // '<a class="btn btn-style3 full-width bg-color3" onclick="showMoreHistory(this,\''+next+'\');">VER +</a>'
 function readSearchOptionsForNoneFriendsUsers(server,page,searchQ){

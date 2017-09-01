@@ -1,9 +1,10 @@
 // JavaScript Document
-setTimeout(function(){showActualLeague();}, 1000);
+window.onload=setTimeout(function(){showActualLeague();}, 1000);
 function showActualLeague(){
 	askServerActualLeague();
 }
 function askServerActualLeague(){
+	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -19,6 +20,7 @@ function askServerActualLeague(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				$("#topLeague").html(parseLeagueTop(JSON.parse(jsonStr)));
 				appendLeagueMatches(JSON.parse(jsonStr));
@@ -38,6 +40,9 @@ function askServerActualLeague(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
+	}else{
+		askServerActualLeague();
+	}
 }
 
 
@@ -69,10 +74,10 @@ function parseAmountAndActualRound(league){
 	return 'Fecha '+actual_round+' de '+amount_rounds; 
 } 
 function parseUserPosition(league_data){
-	if(league_data.points_acumulative===undefined){
+	if(league_data.user_league.points_acumulative===undefined || league_data.user_league.points_acumulative=="N/A"){
 		return '';
 	}else{
-		return league_data.user_position+'° | '+league_data.points_acumulative+' Pts'; 
+		return league_data.user_league.user_position+'° | '+league_data.user_league.points_acumulative+' Pts'; 
 	}
 	
 }
@@ -117,27 +122,27 @@ function appendLeagueMatches(league){
 // oddOrEven(number)
 function parseUserLeagueComplete(ranking){
 	innerDetail='';
-	return '<div class="row players-list-item vertical-align league-match-row text-color2 '+oddOrEven(ranking.position)+'"><div class="col-xs-9"><div class="row" style="display: list-item;"><div class="col-xs-4"><b>'+ranking.position+'° </b> <small>'+parseRankingMovement(ranking.movement)+'</small></div><div class="col-xs-5 nopadding" style="overflow: hidden;white-space: nowrap; text-overflow: ellipsis;"> '+ranking.nickname+'</div><div class="col-xs-3 nopadding text-right"> <b>'+ranking.points_acumulative+' Pts</b></div></div></div><div class="col-xs-3"><button type="button" class="btn btn-success " data-toggle="collapse" data-target="#show-openDetail-League'+ranking.user_id+'" aria-expanded="false" onclick="changeEyeButton(this)"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></button></div><div class="collapse" id="show-openDetail-League'+ranking.user_id+'"><div class="match-detail" style="padding: 10px;">'+innerDetailLeagueMatches(ranking.rounds)+'</div></div></div></div>';
+	return '<div class="row players-list-item vertical-align league-match-row text-color2 '+oddOrEven(ranking.position)+'"><div class="col-xs-9"><div class="row" style="display: list-item;"><div class="col-xs-4"><b>'+ranking.position+'° </b> <small>'+parseRankingMovement(ranking.movement)+'</small></div><div class="col-xs-5 nopadding" style="overflow: hidden;white-space: nowrap; text-overflow: ellipsis;"> '+ranking.nickname+'</div><div class="col-xs-3 nopadding text-right"> <b>'+ranking.points_acumulative+' Pts</b></div></div></div><div class="col-xs-3"><button type="button" class="btn btn-success " data-toggle="collapse" data-target="#show-openDetail-League'+ranking.user_id+'" aria-expanded="false" onclick="changeEyeButton(this)"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></button></div><div class="col-xs-12 collapse" id="show-openDetail-League'+ranking.user_id+'"><div class="match-detail" style="padding: 10px;">'+innerDetailLeagueMatches(ranking.rounds)+'</div></div></div></div>';
 }
 function parseRankingMovement(movement){
 	if(movement==0){
 		return '';
 	}
-	if(movement>0){
-		return '<span style=" color: #8cec90;"><i class="fa fa-caret-up" aria-hidden="true" style=" margin-right: 3px;"></i>'+movement+'</span>';
-	}
 	if(movement<0){
-		return '<span style=" color: #ec8c8c;"><i class="fa fa-caret-down" aria-hidden="true" style=" margin-right: 3px;"></i>'+movement+'</span>';
+		return '<span style=" color: #8cec90;"><i class="fa fa-caret-up" aria-hidden="true" style=" margin-right: 3px;"></i>'+parseInt(movement*-1)+'</span>';
+	}
+	if(movement>0){
+		return '<span style=" color: #ec8c8c;"><i class="fa fa-caret-down" aria-hidden="true" style=" margin-right: 3px;"></i>'+parseInt(movement)+'</span>';
 	}
 }
 function innerDetailLeagueMatches(rounds){
 	var txt='';
 	for (round in rounds){
 		if(rounds[round].user_position!=undefined){
-			txt+='<div class="row" style="margin-bottom: 5px;margin-top: 15px;"><div class="col-xs-9"> <b>Fecha '+rounds[round].round+'</b> <small>'+parseRankingMovement(rounds[round].movement)+'</div><div class="col-xs-3 text-right"> '+rounds[round].points_of_round+' Pts</div></div>';
+			txt+='<div class="container league_round" style="margin-bottom: 5px;margin-top: 15px;"><div class="col-xs-8"> <b>Fecha '+rounds[round].round+'</b>'+parseRankingMovement(rounds[round].movement)+'</div><div class="col-xs-4 text-right"> '+rounds[round].points_of_round+' Pts</div></div>';
 			for(table in rounds[round].tables){
 				if(rounds[round].tables[table].points!=undefined){
-					txt+='<div class="row"><div class="col-xs-9"> <small>'+rounds[round].tables[table].table_name+'</small></div><div class="col-xs-3 text-right"> <small>'+rounds[round].tables[table].points+' Pts</small></div></div>';
+					txt+='<div class="container league_match"><div class="col-xs-8"> <small>'+rounds[round].tables[table].table_name+'</small></div><div class="col-xs-4 text-right"> <small>'+rounds[round].tables[table].points+' Pts</small></div></div>';
 				}
 			}
 		}
@@ -146,7 +151,7 @@ function innerDetailLeagueMatches(rounds){
 }
 function checkIfVisible(){
 	$(window).scroll(function() {
-	   if(($(window).scrollTop() + $(window).height() > $(document).height()-50)&& !window.reachLast) {
+	   if(($(window).scrollTop() + $(window).height() > $(document).height()-200)&& !window.reachLast) {
 		   window.reachLast=true;
 		   checkNextPageOfLeague();
 	   }
@@ -154,6 +159,7 @@ function checkIfVisible(){
 }
 function checkNextPageOfLeague(){
 	addLoaderToCertainContainer(document.getElementById("resultsLeague"));
+	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -187,4 +193,7 @@ function checkNextPageOfLeague(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
+	}else{
+		checkNextPageOfLeague();
+	}
 }

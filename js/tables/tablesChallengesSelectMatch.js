@@ -1,7 +1,7 @@
 // JavaScript Document
 // window.selectedUsersToFromGroup
 function selectMatchForChallenge(){
-	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3"><div class="row vertical-align"><div class="col-xs-12"><h1>ELEGIR PARTIDO</h1></div></div></div><div class="container title-box bg-color1"><div class="row vertical-align"><div class="col-xs-9"><h1>Partidos Disponibles</h1></div><div class="col-xs-3 text-right"><a onClick="openMatchesFilterWindow();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a></div></div></div><div class="matches-list" id="matches-challenges-container-show"><div class="loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div></div>';
+	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3"><div class="row vertical-align"><div class="col-xs-12"><h1>ELEGIR PARTIDO</h1></div></div></div><div class="container title-box bg-color1"><div class="row vertical-align"><div class="col-xs-9"><h1>Partidos Disponibles</h1></div><div class="col-xs-3 text-right"><a onClick="openMatchesFilterWindow();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a></div></div></div><div class="matches-list" id="matches-challenges-container-show"><div class="loader"><div class="ball-loader"></div></div></div>';
 	// challengeGroupName
 	window.matchesFilterArray=[];
 	showAveliableMatchesToSelect();
@@ -47,8 +47,8 @@ function selectMatchToPlayAsChallenge(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
 				createGroupToChallenge(doble);
@@ -66,7 +66,7 @@ function selectMatchToPlayAsChallenge(tableId){
 		xmlhttp.open("GET",getJPApiURL()+"tables/"+tableId+"/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
+		xmlhttp.send();
 	}
 }
 function createGroupToChallenge(matchDetails){
@@ -115,6 +115,7 @@ function createMatchChallenge(groupId,matchDetails){
 	var description= matchDetails.description;
 	var matchId= matchDetails.matches[0].id;
 	var json=JSON.stringify({"table": {"title":title, "description":description, "match_id":matchId, "group_id":groupId, "entry_coins_cost":parseInt(window.prizeForChallenge)}});
+	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -129,6 +130,7 @@ function createMatchChallenge(groupId,matchDetails){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				closeLoadingAnimation();
 				closeAllOverLapseWindow();
@@ -148,6 +150,7 @@ function createMatchChallenge(groupId,matchDetails){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
+	}
 }
 function endOfFormMatch(){
 	window.lastTableCheck=new Date(1401507903635);// Esto va a hacer que se vuelvan a pedir todas las mesas
@@ -195,7 +198,7 @@ function applyMatchFilter(){
 				{tablesInContainer[table].style.display="block";}
 			else
 				{tablesInContainer[table].style.display="none";}
-			
+
 		}
 	}
 }

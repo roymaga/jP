@@ -9,7 +9,7 @@ if(IsJsonString(getCookie("x2Alert-lastShown-Jp"+getUserJugaplayId())) && IsJson
 }
 function hasToShowX2orNot(table_id){// Veo si lo traigo de memoria o no
 	var previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4 && IsJsonString(previousTablesLoad)){		
+	if(previousTablesLoad.length>4 && IsJsonString(previousTablesLoad)){
 			var tablesInContainer=JSON.parse(previousTablesLoad);
 			for(table in tablesInContainer){
 				if(tablesInContainer[table]['id'] == table_id){
@@ -19,7 +19,7 @@ function hasToShowX2orNot(table_id){// Veo si lo traigo de memoria o no
 
 			}
 	}
-	//  multiplier_chips_cost > 0 
+	//  multiplier_chips_cost > 0
 	if(multiplier_chips_cost>0 && !private){window.lastx2countDayShown++;}
 	if((secondsFromNow(window.lastx2AlertlastShown)>43200 ||  window.lastx2countDayShown>5) && multiplier_chips_cost>0 && !private){// Si tiene mas de 12 Hs 43200 segundos
 			resetValuesOfHasToShowX2orNot();
@@ -59,7 +59,7 @@ function messageForBuyX2(table_id, multiplier_chips_cost){
                 action: function(dialogItself){
 					buyX2WithChips(table_id, multiplier_chips_cost,dialogItself);
                 }
-            }]		 
+            }]
 		 });
 		 return false;
 }
@@ -83,7 +83,7 @@ function buyX2WithChips(table_id, multiplier_chips_cost,dialogItself){
 					buyChips();
 					dialogItself2.close();
                 }
-            }]		 
+            }]
 		 });
 	}
 	//dialogItself.close();
@@ -96,7 +96,8 @@ function activateX2ForPlay(table_id,multiplier_chips_cost){
 	//alert(getJPApiURL()+"tables/"+table_id+"/multiply_play/2");
 }
 function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
-		if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -111,7 +112,6 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			//alert(jsonStr);
 			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			var doble=JSON.parse(jsonStr);
@@ -131,7 +131,10 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();
+	}else{
+		 callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
+	}
 }
 function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 	for(table in tablesInContainer){
@@ -148,7 +151,8 @@ function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 			}
 }
 function callX2ForPlay(table_id,multiplier_chips_cost){
-		if(checkConnection()){var xmlhttp;
+	if(checkConnection()){
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -163,8 +167,8 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			var json=JSON.parse(jsonStr);
-			closeLoadingAnimation();
 			stopTimeToWait();
+			closeLoadingAnimation();
 				if (typeof(json.errors) !== 'undefined'){
 						avisoEmergenteJugaPlay("Algo salió mal",'<p>Algo salió mal, por favor vuelva a intentar.</p>');
 				}else{// Salio todo bien
@@ -181,7 +185,8 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 		xmlhttp.open("POST",getJPApiURL()+"tables/"+table_id+"/multiply_play/2",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}
+		xmlhttp.send();
+	}
 }
 
 // Cada vez que termine la jugada mostrar el X2 pero con un algoritmo, una vez por dia maximo
