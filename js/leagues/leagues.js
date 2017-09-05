@@ -69,7 +69,7 @@ function parseLeagueTop(league){
 // "ends": "23/08/2017 - 15:07",
 function parseAmountAndActualRound(league){
 	var amount_rounds=Math.ceil(diffOfDaysBetweenDates(league.league_data.starts, league.league_data.ends)/league.league_data.frequency);
-	var actual_round=Math.ceil(daysFromDate(league.league_data.starts)/league.league_data.frequency);
+	var actual_round=Math.floor(daysFromDate(league.league_data.starts)/league.league_data.frequency);
 	if(actual_round>amount_rounds){actual_round=amount_rounds;}
 	return 'Fecha '+actual_round+' de '+amount_rounds; 
 } 
