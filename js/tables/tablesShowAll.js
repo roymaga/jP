@@ -23,7 +23,7 @@ if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
 	window.previusSeenChallenges=[];
 	window.newChallengeOptions=false;
 }
-setTimeout(function(){showRecordAvailableTablesToPlay();initializeGameVars();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
+window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
 function showRecordAvailableTablesToPlay(){
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){
@@ -54,7 +54,6 @@ function resetTimeOfLastTableAskToServer(){
 	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableTablesToPlay(){
-	if(checkConnection2()){
 	if(document.getElementById("tables-container-show")!=null){
 		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
 	}
@@ -94,9 +93,6 @@ function showAvailableTablesToPlay(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}else{
-		showAvailableTablesToPlay();
-	}
 }
 function analizeShowAvailableTablesToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
@@ -454,6 +450,7 @@ function changeOptionToPlayed(idTabla){ // window.showTableInformatioType
 }
 
 //function when starts
+$(document).ready(function() {initializeGameVars();});
 
 function initializeGameVars(){
 					$('.jp-tabs li a').click(function (e) {

@@ -1,7 +1,7 @@
 // JavaScript Document
 // Deberia ponerle un loader cuando arranca y cada vez que carga y borrarlo cada vez
 window.historyOfPlays=[];
-window.onload=setTimeout(function(){showCompleteHistory(0);}, 1000);
+window.onload=setTimeout(function(){ showCompleteHistory(0); }, 1000);
 function showCompleteHistory(from){
 	/*previousHistory=getCookie("history-Jp");
 	if(previousHistory.length>4){		

@@ -4,7 +4,6 @@ function showActualLeague(){
 	askServerActualLeague();
 }
 function askServerActualLeague(){
-	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -20,7 +19,6 @@ function askServerActualLeague(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				$("#topLeague").html(parseLeagueTop(JSON.parse(jsonStr)));
 				appendLeagueMatches(JSON.parse(jsonStr));
@@ -40,9 +38,6 @@ function askServerActualLeague(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
-	}else{
-		askServerActualLeague();
-	}
 }
 
 
@@ -159,7 +154,6 @@ function checkIfVisible(){
 }
 function checkNextPageOfLeague(){
 	addLoaderToCertainContainer(document.getElementById("resultsLeague"));
-	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -193,7 +187,4 @@ function checkNextPageOfLeague(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}else{
-		checkNextPageOfLeague();
-	}
 }

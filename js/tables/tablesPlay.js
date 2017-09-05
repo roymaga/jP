@@ -3,7 +3,6 @@
 function openTableToPlayOverLapseWindow(tableId, type){
 	window.showTableInformatioType=type;
 	startLoadingAnimation();
-	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -18,8 +17,7 @@ function openTableToPlayOverLapseWindow(tableId, type){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
+			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -35,9 +33,6 @@ function openTableToPlayOverLapseWindow(tableId, type){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
-	}else{
-		openTableToPlayOverLapseWindow(tableId, type);
-	}
 }
 function readOpenTable(openTable){
 		openTable=parseTableForGroupPlayingOption (openTable);
@@ -305,7 +300,6 @@ function sendPlayToJugaplay(idTabla,bet){
 				default:
 					var json=JSON.stringify({"table_id":idTabla, "player_ids":window.arrPlayersSelected,"bet":"true"});
 			}
-	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -321,7 +315,6 @@ function sendPlayToJugaplay(idTabla,bet){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			//alert("Respuesta finLogInUsuarioEnElSitioEnviandoDatosJugada"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -340,9 +333,6 @@ function sendPlayToJugaplay(idTabla,bet){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
-	}else{
-		sendPlayToJugaplay(idTabla,bet);
-	}
 }
 function endOfPlayedTable(idTabla){
 	if(!window.actualOpenTable.private){
@@ -405,7 +395,6 @@ function noneRegisterPlayerRegister(dialogItself){
 			return true;
 		}
 	json=JSON.stringify({ "user": { "email": mail, "nickname":nickname, "password": password } });
-	
 	if(startLoadingAnimation()==true){
 	var xmlhttp;
 		if (window.XMLHttpRequest)

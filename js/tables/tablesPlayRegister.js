@@ -1,7 +1,6 @@
 // JavaScript Document
 // -- Busco en el servidor
 function openTablePlayedDetail(tableId,type){
-	if(checkConnection()){
 	window.showTableInformatioType=type;
 	startLoadingAnimation();
 	var xmlhttp;
@@ -19,7 +18,6 @@ function openTablePlayedDetail(tableId,type){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -35,7 +33,6 @@ function openTablePlayedDetail(tableId,type){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}
 }
 function parseRequestAsToShowHistory(table){
 	window.actualOpenTable=table;

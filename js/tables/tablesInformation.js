@@ -19,7 +19,6 @@ function openTablePrizeInformation(idTable, type){
 }
 // Load table information if needed
 function askToServerForTableInformation(tableId){
-	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -36,7 +35,6 @@ function askToServerForTableInformation(tableId){
 	 	  if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401)||  (xmlhttp.readyState==4 && xmlhttp.status==400))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			closeLoadingAnimation();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -58,7 +56,6 @@ function askToServerForTableInformation(tableId){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}
 }
 // Show table information
 function showTableInformation(){
