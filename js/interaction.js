@@ -479,3 +479,6 @@ function parseTemplate(props, template)
   }
   return result;
 }
+function clickOnLine(element){
+	element.parentNode.getElementsByClassName("btn").item(0).click();
+}

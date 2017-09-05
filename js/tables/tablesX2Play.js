@@ -185,7 +185,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 		xmlhttp.open("POST",getJPApiURL()+"tables/"+table_id+"/multiply_play/2",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();
+		xmlhttp.send("[{}]");
 	}
 }
 

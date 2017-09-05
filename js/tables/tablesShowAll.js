@@ -560,8 +560,8 @@ var TEMPLATE_CHALLENGE_CONTENT = ''
 	+'			<i class="fa fa-chevron-down" aria-hidden="true"></i>'
 	+'		</button>'
 	+'	</div>'
-	+'	<div class="col-xs-6 player-name"> <p>{TOURNAMENT_NAME}</p></div>'
-	+'	<div class="col-xs-4 text-right"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div>'
+	+'	<div class="col-xs-6 player-name" onclick="clickOnLine(this);"> <p>{TOURNAMENT_NAME}</p></div>'
+	+'	<div class="col-xs-4 text-right" onclick="clickOnLine(this);"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div>'
 	+'</div>'
 	+'<div id="torunament-container-{TOURNAMENT_ID}" class="collapse row" style="height: 0px;"></div>';
 
@@ -642,15 +642,15 @@ var TEMPLATE_CHALLENGE_INNER_CONTENT = ''
 	}
 	*/
 var TEMPLATE_TOURNAMENT_CONTENT = ''
-		+'<div class="row players-list-item vertical-align color-player-list tournament-row {ODDS_EVEN}" data-tournament-id="{TOURNAMENT_ID}">'
+		+'<div class="row players-list-item vertical-align color-player-list tournament-row {ODDS_EVEN}" data-tournament-id="{TOURNAMENT_ID}" >'
 		+'	<div class="col-xs-2 text-right">'
 		+'		<button type="button" onclick="changeArrow(this);" class="btn btn-live" '
 		+'				data-toggle="collapse" data-target="#torunament-container-{TOURNAMENT_ID}" aria-controls="torunament-container-{TOURNAMENT_ID}">'
 		+'			<i class="fa fa-chevron-down" aria-hidden="true"></i>'
 		+'		</button>'
 		+'	</div>'
-		+'	<div class="col-xs-6 player-name"><p>{TOURNAMENT_NAME}</p></div>'
-		+'	<div class="col-xs-4 text-right"><img src="img/tournament/flags/flag-{TOURNAMENT_ID}.jpg"></div>'
+		+'	<div class="col-xs-6 player-name" onclick="clickOnLine(this);"><p>{TOURNAMENT_NAME}</p></div>'
+		+'	<div class="col-xs-4 text-right" onclick="clickOnLine(this);"><img src="img/tournament/flags/flag-{TOURNAMENT_ID}.jpg"></div>'
 		+'</div>'
 		+'<div id="torunament-container-{TOURNAMENT_ID}" class="collapse tournament-row-container row" aria-expanded="false" style="height: 0px;"></div>';
 
@@ -799,7 +799,7 @@ PROPS: {
 var TEMPLATE_TABLE_MATCH_INNER_CONTENT_NOT_PLAYED = ''
 
 		+'<div class="row">'
-		+'	<div class="col-xs-9">{DATE}</div>'
+		+'	<div class="col-xs-9" onclick="clickOnLine(this);">{DATE}</div>'
 		+'	<div class="col-xs-3">'
 		+'		<button type="button" class="btn btn-success btn-xs" data-toggle="collapse" data-target="#show-openDetail-match{TABLE_ID}" aria-expanded="false" onclick="changeEyeButton(this)"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></button>'
 		+'	</div>'
