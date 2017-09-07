@@ -19,6 +19,7 @@ window.groupAllreadyCreated=null;
 
 function createANewChallenge(){
 	//alert("Create New");
+	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -36,6 +37,7 @@ function createANewChallenge(){
 	    {
 			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
 				readCreateANewChallengeResponse(doble);
@@ -53,6 +55,7 @@ function createANewChallenge(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
+	}
 }
 function readCreateANewChallengeResponse(users){
 	var contentForWindow=createContentForANewChallengeWindow(users.groups);

@@ -3,7 +3,7 @@ window.readExplanations=[];
 // La idea es, de ser necesario pregunta, si no esta hace la consulta, si en la consulta no esta muestra la explicacion.
 // Cargo lo leido a una variable global
 // La funcion hasBeenRead() es la que se pone para ir mostrando
-window.onload=setTimeout(function(){ initializeExplanations(); }, 1000);
+window.onload=setTimeout(function(){initializeExplanations();}, 1000);
 function initializeExplanations(){
 previousReadExplanations=getCookie("readExplanations-Jp-"+getUserJugaplayId());
 	if(previousReadExplanations.length>4){		
@@ -80,7 +80,7 @@ function markInServerAsRead(explanationId){
 				markInServerAsRead(explanationId);
 			}
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -147,7 +147,7 @@ function returnContentExplanations(images){
 			hmtlDivImg+='<div onClick="" class="item"><img src="img/explicaciones/'+images[img]+'" alt=""><div class="carousel-caption"></div></div>';
 		}
 	}
-	return'<div id="carousel-explanation-information" class="carousel slide" data-ride="carousel"><ol class="carousel-indicators">'+hmtlLi+'</li></ol><div class="carousel-inner" role="listbox">'+hmtlDivImg+'</div><a class="left carousel-control" href="#carousel-explanation-information" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="right carousel-control" href="#carousel-explanation-information" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>'
+	return'<div id="carousel-explanation-information" class="carousel slide" data-ride="carousel"><ol class="carousel-indicators">'+hmtlLi+'</ol><div class="carousel-inner" role="listbox">'+hmtlDivImg+'</div><a class="left carousel-control" href="#carousel-explanation-information" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="right carousel-control" href="#carousel-explanation-information" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>'
 }
 function openExplantationWindow(title,content){
 	useId='BS-FL-'+Math.floor((Math.random() * 1000000000) + 1);

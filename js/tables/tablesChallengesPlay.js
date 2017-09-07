@@ -2,6 +2,7 @@
 function openChallengeToPlayOverLapseWindow(tableId){
 	window.showTableInformatioType='challenge';
 	startLoadingAnimation();
+	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -18,6 +19,7 @@ function openChallengeToPlayOverLapseWindow(tableId){
 	    {
 			jsonStr=xmlhttp.responseText;
 			closeLoadingAnimation();
+			stopTimeToWait();
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -32,6 +34,7 @@ function openChallengeToPlayOverLapseWindow(tableId){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
+	}
 }
 function readOpenChallenge(openTable){
 		

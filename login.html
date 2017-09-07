@@ -31,8 +31,8 @@
     <link href="css/jugaplay-pop-up.css?190517" 	rel="stylesheet">
     <script src="js/session/handleCookies.js?8"></script>
     <script src="js/specialAppFunctions.js"></script>
-    <script src="js/session/checkLogInUsers.js?8"></script>  
-    <script src="js/analytics/analytics.js?8"></script>
+    <script src="js/session/checkLogInUsers.js?8"></script>
+    <script src="js/analytics/analytics.js?8"></script>  
 </head>
 <!-- start Design Scripts -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -66,15 +66,22 @@
 		</div>
 		
 		<div class="container pantalla-inicio text-center text-color2" id="inicio-pantalla1">
-			<div style="width:100%; height:180px;"></div>
-            <div class="img-container" style="background-color: rgba(0, 0, 0, 0.70);padding-top: 10px; padding-bottom: 10px; ">  
-                     <h1>¿Sabés de fútbol?</h1>
-				    <h2>DEMOSTRÁLO</h2>
-                      <a onclick="processFacebook('register');" class="btn-register-init text-color2 bg-color2" style="background: #3C5A96;">
-						<h3><i class="fa fa-facebook-official" aria-hidden="true" style="margin-right: 10px;"></i> Registrate con Facebook</h3>
-             		 </a>
-                     <p style="margin-top: 25px;text-decoration: underline;" onclick="abrirRegistro();">o usa tu mail</p>
-			</div>	
+			<div style="width:100%; height:50px;"></div>
+            <div class="img-container">
+				<img src="img/icons/logo-jp.png" style="width:70%;max-width: 250px;">
+                <h4 class="text-uppercase text-color2">La casa latinoamericana del fútbol fantasía</h4>
+			</div>		
+			<h4 class="text-uppercase"></br></h4>
+			<a onClick="abrirRegistro();" class="btn-register-init text-color2 bg-color2">
+				<h2>Registrate</h2>
+				<h3>- Totalmente gratis -</h3>
+			</a>
+			
+			<h4 class="text-uppercase"></br></h4>
+            <a onclick="probarSinRegistro();" class="btn-register-init text-color2 bg-color9">
+				<h5>PROBAR SIN REGISTRO</h5>
+				
+			</a>
             <h4 class="text-uppercase"></br></h4>
 		</div>
 		

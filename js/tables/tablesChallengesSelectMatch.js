@@ -31,6 +31,7 @@ function loadMatchToShownMatches(shownTable){
 	document.getElementById("matches-challenges-container-show").appendChild(createTable);
 }
 function selectMatchToPlayAsChallenge(tableId){
+	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -46,6 +47,7 @@ function selectMatchToPlayAsChallenge(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
+			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
@@ -65,6 +67,7 @@ function selectMatchToPlayAsChallenge(tableId){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
+	}
 }
 function createGroupToChallenge(matchDetails){
 	if(window.groupAllreadyCreated==false){
@@ -112,6 +115,7 @@ function createMatchChallenge(groupId,matchDetails){
 	var description= matchDetails.description;
 	var matchId= matchDetails.matches[0].id;
 	var json=JSON.stringify({"table": {"title":title, "description":description, "match_id":matchId, "group_id":groupId, "entry_coins_cost":parseInt(window.prizeForChallenge)}});
+	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -126,6 +130,7 @@ function createMatchChallenge(groupId,matchDetails){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				closeLoadingAnimation();
 				closeAllOverLapseWindow();
@@ -145,6 +150,7 @@ function createMatchChallenge(groupId,matchDetails){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
+	}
 }
 function endOfFormMatch(){
 	window.lastTableCheck=new Date(1401507903635);// Esto va a hacer que se vuelvan a pedir todas las mesas

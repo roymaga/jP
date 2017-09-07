@@ -23,7 +23,7 @@ if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
 	window.previusSeenChallenges=[];
 	window.newChallengeOptions=false;
 }
-window.onload=setTimeout(function(){showRecordAvailableTablesToPlay();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
+setTimeout(function(){showRecordAvailableTablesToPlay();initializeGameVars();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
 function showRecordAvailableTablesToPlay(){
 	previousTablesLoad=getCookie("tablesToPlay-Jp");
 	if(previousTablesLoad.length>4){
@@ -54,6 +54,7 @@ function resetTimeOfLastTableAskToServer(){
 	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableTablesToPlay(){
+	if(checkConnection2()){
 	if(document.getElementById("tables-container-show")!=null){
 		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
 	}
@@ -93,6 +94,9 @@ function showAvailableTablesToPlay(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
+	}else{
+		showAvailableTablesToPlay();
+	}
 }
 function analizeShowAvailableTablesToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
@@ -286,12 +290,12 @@ function changeEyeButton(button){
 }
 function cargarTablaDeChallengesConContenidoInicial(shownTable){ // me fijo si existe o si hay que modificar
 	//alert("cargarTablaDeMatchesConContenidoInicial");
-	if($("#torunament-container-"+shownTable.group.name.replace(/ /g, "-")).length){
-		  if( $("#torunament-container-"+shownTable.group.name.replace(/ /g, "-")+" .league-match-row[data-table-id='" + shownTable.id + "']").length>0){
-			  	$("#torunament-container-"+shownTable.group.name.replace(/ /g, "-")+" .league-match-row[data-table-id='" + shownTable.id + "']").each(function( index ) {
+	if($("#torunament-container-"+shownTable.group.name.replace(/[^a-zA-Z0-9]/g, "-")).length){
+		  if( $("#torunament-container-"+shownTable.group.name.replace(/[^a-zA-Z0-9]/g, "-")+" .league-match-row[data-table-id='" + shownTable.id + "']").length>0){
+			  	$("#torunament-container-"+shownTable.group.name.replace(/[^a-zA-Z0-9]/g, "-")+" .league-match-row[data-table-id='" + shownTable.id + "']").each(function( index ) {
 			 	 updateTableChallengeContent(shownTable,$(this));}); // le paso los datos y el partido
 		  }else{
-			  attachChallengeMatchContent(shownTable,$("#torunament-container-"+shownTable.group.name.replace(/ /g, "-"))); // le paso los datos y el contenedor del torneo
+			  attachChallengeMatchContent(shownTable,$("#torunament-container-"+shownTable.group.name.replace(/[^a-zA-Z0-9]/g, "-"))); // le paso los datos y el contenedor del torneo
 		  }
 	}else{
 		createGroupContent(shownTable);
@@ -302,7 +306,7 @@ function cargarTablaDeChallengesConContenidoInicial(shownTable){ // me fijo si e
 function createGroupContent(shownTable){
 
 	$("#noChallengesMessage").remove();
-	var tournamentId = shownTable.group.name.replace(/ /g, "-");
+	var tournamentId = shownTable.group.name.replace(/[^a-zA-Z0-9]/g, "-");
 	var props = {
 		'{ODDS_EVEN}': oddOrEven($("#challenges-container-show>.tournament-row").length),
 		'{TOURNAMENT_ID}': tournamentId,
@@ -450,7 +454,6 @@ function changeOptionToPlayed(idTabla){ // window.showTableInformatioType
 }
 
 //function when starts
-$(document).ready(function() {initializeGameVars();});
 
 function initializeGameVars(){
 					$('.jp-tabs li a').click(function (e) {

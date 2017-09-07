@@ -96,6 +96,7 @@ function activateX2ForPlay(table_id,multiplier_chips_cost){
 	//alert(getJPApiURL()+"tables/"+table_id+"/multiply_play/2");
 }
 function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
+	if(checkConnection()){
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -111,7 +112,7 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			//alert(jsonStr);
+			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			var doble=JSON.parse(jsonStr);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
@@ -131,6 +132,9 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
+	}else{
+		 callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
+	}
 }
 function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 	for(table in tablesInContainer){
@@ -147,6 +151,7 @@ function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 			}
 }
 function callX2ForPlay(table_id,multiplier_chips_cost){
+	if(checkConnection()){
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -162,6 +167,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			var json=JSON.parse(jsonStr);
+			stopTimeToWait();
 			closeLoadingAnimation();
 				if (typeof(json.errors) !== 'undefined'){
 						avisoEmergenteJugaPlay("Algo salió mal",'<p>Algo salió mal, por favor vuelva a intentar.</p>');
@@ -180,6 +186,7 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send("[{}]");
+	}
 }
 
 // Cada vez que termine la jugada mostrar el X2 pero con un algoritmo, una vez por dia maximo
