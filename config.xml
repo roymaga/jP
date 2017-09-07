@@ -82,6 +82,8 @@
     <gap:splash src="imgapp/Default-Landscape.png"     gap:platform="ios"     width="1024" height="768" />
 	<gap:splash src="imgapp/Default-LandscapeLeft@2x.png"     gap:platform="ios"     width="2048" height="1536" />
 
+   <allow-navigation href="*" />
+	<allow-intent href="*" />
     <access origin="*"/>
 	
 </widget>
