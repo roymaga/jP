@@ -118,7 +118,15 @@ function processFacebook(type){
 		//var windowB=window.open(getJPApiURL()+'users/auth/facebook');
 		var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook', '_blank', 'location=yes');
 	}
-	windowB.addEventListener('exit', function() { alert("Exit 1"); checkIfLogInWithFacebook(type); });
+	windowB.addEventListener('loadstop', function(event) {        
+		if (event.url.indexOf("facebookok") !== -1) {
+			windowB.close();
+			checkIfLogInWithFacebook(type);
+		}
+		if (event.url.indexOf("facebookcancel") !== -1) {
+			windowB.close();
+		}
+	});
 	if(type=="register"){
 			if(window.invitationTknId.length>2){
 				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "FRIEND");
