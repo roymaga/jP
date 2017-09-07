@@ -38,7 +38,7 @@ function logInUsuarioEnElSitio(){
 		}	// Termina el tipo de mensaje
 	return false ;
 	}else if( pass.length < 8){
-		avisoEmergenteJugaPlay("Contraseña muy corta","<p>La <b>contraseña</b> tiene que tener al menos <p>8</b> caracteres</p>");
+		avisoEmergenteJugaPlay("Contraseña muy corta","<p>La <b>contraseña</b> tiene que tener al menos <p>8 caracteres</p>");
 		return false ;
 	};// Si paso es que los campos estan bien
 	json=JSON.stringify({ "user": { "email": mail, "password":pass } });
@@ -46,7 +46,7 @@ function logInUsuarioEnElSitio(){
 	mensajeAlServidorConContenidoLogIn(json);}
 }
 function mensajeAlServidorConContenidoLogIn(json){
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -60,8 +60,8 @@ function mensajeAlServidorConContenidoLogIn(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			closeLoadingAnimation();
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
+			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -76,15 +76,14 @@ function mensajeAlServidorConContenidoLogIn(json){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);		
-	}
 }
 function analizarRespuestaLogIn(servidor){
-	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
 			avisoEmergenteJugaPlay("Datos Incorrectos","<p>El <b> mail o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
 			return false;
 	}else{// Salio todo bien
 		if(window.registerInSite!=true){// No vengo del registro
-			jpAnalyticsEvent("LOGIN", servidor.id.toString(), "IOS");
+			jpAnalyticsEvent("LOGIN", servidor.id.toString(), "MOBILE");
 		}
 		jpAnalyticsUserId(servidor.id);
 		if(document.getElementById("checkKeepLogIn")!=null){
@@ -113,7 +112,7 @@ function processFacebook(type){
 		}}
 	//fbq('track', 'CompleteRegistration');// Esto nos va a traer inconsistencias por que no diferencia quien se registra de quien no
 	if(window.invitationTknId>0 && type=="register"){
-		var windowB=window.open(getJPApiURL()+'users/auth/facebook?invitation_token='+window.invitationTknId);
+		var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook?invitation_token='+window.invitationTknId, '_blank', 'location=yes');
 	}else{
 		//var windowB=window.open(getJPApiURL()+'users/auth/facebook');
 		var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook', '_blank', 'location=yes');
@@ -132,14 +131,6 @@ function processFacebook(type){
 			checkIfLogInWithFacebook(type);
 	});
 	windowB.addEventListener('exit', function() {checkIfLogInWithFacebook(type); });
-	if(type=="register"){
-			if(window.invitationTknId.length>2){
-				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "FRIEND");
-			}else{
-				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "NORMAL");
-			}
-	}
-	//setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
 }
 function checkIfWindowFacebookClose(windowB,type){
 	if (windowB.closed) {
@@ -149,6 +140,7 @@ function checkIfWindowFacebookClose(windowB,type){
 	}
 }
 function checkIfLogInWithFacebook(type){
+	startLoadingAnimation();
 	if(checkConnection()){var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -162,14 +154,14 @@ function checkIfLogInWithFacebook(type){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
 			if(type=="register"){
-				analizarRespuestaLogInPostRegistro(doble);
+				analizarRespuestaLogInPostRegistroFacebook(doble,type);
 			}else{
 				analizarRespuestaDatosUsuarioLogIn(doble);
 			}
@@ -181,7 +173,34 @@ function checkIfLogInWithFacebook(type){
 		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();}
+		xmlhttp.send();	}	
+}
+function analizarRespuestaLogInPostRegistroFacebook(servidor,type){
+	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
+			closeLoadingAnimation();
+			avisoEmergenteJugaPlay("Error en el registro","<p>Por favor vuelva a intentar</p>");
+			return false;
+	}else{// Salio todo bien
+		servidor.last_check=new Date();
+		servidor.last_update=new Date();
+		var cookieSave=JSON.stringify(servidor);
+		setCookie("juga-Play-Data", cookieSave, 120);
+		if(type=="register" && checkIfRegisteredToday(servidor.member_since)){
+			if(window.invitationTknId.length>2){
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "FRIEND");
+			}else{
+				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "NORMAL");
+			}
+		}	
+		setTimeout(function (){window.location="game.html";}, 500);// Le doy tiempo a registrar el registro de la cookie
+	}
+}
+function checkIfRegisteredToday(member_since){
+	if(daysFromDate(member_since+" - 23:50")<1){
+		return true;
+	}else{
+		return false;
+	}
 }
 // Fin Log in registro Fb
 // Comienzo password Recovery
@@ -201,6 +220,7 @@ function passwordRecovery(){
 		 return false;
 }
 function recoverProcess(dialogItself){
+	if(checkConnection()){
 	emailIngresado=document.getElementById('email-recuperarPassword').value;
 	if(emailIngresado.length<2){
 		avisoEmergenteJugaPlay("Campo Vacio","<p>Complete el campo mail</p>");
@@ -208,7 +228,7 @@ function recoverProcess(dialogItself){
 		startLoadingAnimation();
 		json=JSON.stringify({ "user": { "email": emailIngresado} });
 		//alert(json);
-		if(checkConnection()){var xmlhttp;
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -222,8 +242,8 @@ function recoverProcess(dialogItself){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==406))
 	    {
 			closeLoadingAnimation();
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
+			stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -237,8 +257,7 @@ function recoverProcess(dialogItself){
 		xmlhttp.open("POST",getJPApiURL()+"users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send(json);	
-		}
+		xmlhttp.send(json);	}
 	}
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje, dialogItself){
