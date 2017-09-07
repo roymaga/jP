@@ -115,7 +115,8 @@ function processFacebook(type){
 	if(window.invitationTknId>0 && type=="register"){
 		var windowB=window.open(getJPApiURL()+'users/auth/facebook?invitation_token='+window.invitationTknId);
 	}else{
-		var windowB=window.open(getJPApiURL()+'users/auth/facebook');
+		//var windowB=window.open(getJPApiURL()+'users/auth/facebook');
+		var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook', '_blank', 'location=yes');
 	}
 	windowB.addEventListener('exit', function() { alert("Exit 1"); checkIfLogInWithFacebook(type); });
 	if(type=="register"){
@@ -125,7 +126,7 @@ function processFacebook(type){
 				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "NORMAL");
 			}
 	}
-	setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
+	//setTimeout(function (){checkIfWindowFacebookClose(windowB,type);}, 500);
 }
 function checkIfWindowFacebookClose(windowB,type){
 	if (windowB.closed) {
