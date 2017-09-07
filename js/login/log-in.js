@@ -46,9 +46,7 @@ function logInUsuarioEnElSitio(){
 	mensajeAlServidorConContenidoLogIn(json);}
 }
 function mensajeAlServidorConContenidoLogIn(json){
-	alert("Test - calls mensajeAlServidorConContenidoLogIn");
 	if(checkConnection()){var xmlhttp;
-		alert("Test - goes check conecction");
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -59,13 +57,11 @@ function mensajeAlServidorConContenidoLogIn(json){
 	 	 }
 		xmlhttp.onreadystatechange=function()
 	  	{
-			alert("Test - xmlhttp.readyState "+xmlhttp.readyState +" xmlhttp.status "+xmlhttp.status );
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			closeLoadingAnimation();
 			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
-			alert("Test - Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
@@ -90,7 +86,6 @@ function analizarRespuestaLogIn(servidor){
 		if(window.registerInSite!=true){// No vengo del registro
 			jpAnalyticsEvent("LOGIN", servidor.id.toString(), "IOS");
 		}
-		alert("Test - register in site ");
 		jpAnalyticsUserId(servidor.id);
 		if(document.getElementById("checkKeepLogIn")!=null){
 		if(document.getElementById("checkKeepLogIn").checked){
@@ -122,6 +117,7 @@ function processFacebook(type){
 	}else{
 		var windowB=window.open(getJPApiURL()+'users/auth/facebook');
 	}
+	windowB.addEventListener('exit', function() { alert("Exit 1"); checkIfLogInWithFacebook(type); });
 	if(type=="register"){
 			if(window.invitationTknId.length>2){
 				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "FRIEND");
