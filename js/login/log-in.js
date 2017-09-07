@@ -123,10 +123,15 @@ function processFacebook(type){
 			windowB.close();
 			checkIfLogInWithFacebook(type);
 		}
-		if (event.url.indexOf("facebookcancel") !== -1) {
+		if (event.url.indexOf("facebookfacebookcancel") !== -1) {
 			windowB.close();
 		}
 	});
+	windowB.addEventListener('loaderror', function() {        
+			windowB.close();
+			checkIfLogInWithFacebook(type);
+	});
+	windowB.addEventListener('exit', function() {checkIfLogInWithFacebook(type); });
 	if(type=="register"){
 			if(window.invitationTknId.length>2){
 				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "FRIEND");
