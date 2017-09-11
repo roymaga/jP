@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='utf-8' ?>
+﻿<?xml version='1.0' encoding='utf-8' ?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.JugaPlay"
-        version   = "2.8.4">
+        version   = "2.8.8">
 
     <name>JugaPlay</name>
 
