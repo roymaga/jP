@@ -458,6 +458,9 @@ function getTournamentNameById(id){
 		case 3:
 			return "Partidos Especiales";
 			break;
+		case 15:
+			return "Copa Sudamericana";
+			break;
 		default:
 			return "Partidos";
 	}

@@ -2,7 +2,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.JugaPlay"
-		android-versionCode="28310"
+		android-versionCode="28400"
         version   = "2.8.4">
     <name>JugaPlay</name>
 
@@ -51,21 +51,20 @@
 	<!-- GeoLocation platform. -->
 	
 	<!-- Define app icon for each platform. -->	
-	<icon src="imgapp/logo144.png" />
-    <icon src="imgapp/logo36.png"   gap:platform="android"    gap:density="ldpi" />
-    <icon src="imgapp/logo48.png"   gap:platform="android"    gap:density="mdpi" />
-    <icon src="imgapp/logo72.png"   gap:platform="android"    gap:density="hdpi" />
-    <icon src="imgapp/logo96.png"  gap:platform="android"    gap:density="xhdpi" />
-	<icon src="imgapp/logo144.png" platform="android" qualifier="xxhdpi" />
-	<icon src="imgapp/logo192" platform="android" qualifier="fr-xxhdpi" />
-    <!-- Define app splash screen for each platform. -->
-	<gap:splash src="imgapp/Default.png" gap:platform="android" gap:qualifier="ldpi" />
-	<gap:splash src="imgapp/Default@2x.png" gap:platform="android" gap:qualifier="mdpi" />
-	<gap:splash src="imgapp/Default@2x.png" gap:platform="android" gap:qualifier="hdpi" />
-	<gap:splash src="imgapp/Default-568h@2x.png" gap:platform="android" gap:qualifier="xhdpi" />
-	<gap:splash src="imgapp/Default-Portrait.png" gap:platform="android" gap:qualifier="fr-xhdpi" />
-	<gap:splash src="imgapp/Default-Portrait@2x.png" gap:platform="android" gap:qualifier="port-xxhdpi" />
-	<gap:splash src="imgapp/Default-LandscapeLeft@2x.png" gap:platform="android" gap:qualifier="land-xxhdpi" />
+	<icon src="imgapp/ldpi.png" platform="android" qualifier="ldpi" />
+	<icon src="imgapp/mdpi.png" platform="android" qualifier="mdpi" />
+	<icon src="imgapp/hdpi.png" platform="android" qualifier="hdpi" />
+	<icon src="imgapp/xhdpi.png" platform="android" qualifier="xhdpi" />
+	<icon src="imgapp/xxhdpi.png" platform="android" qualifier="xxhdpi" />
+	<icon src="imgapp/fr-xxhdpi.png" platform="android" qualifier="fr-xxhdpi" />
+	<!-- Define app splash screen for each platform. -->
+	<splash src="imgapp/splash/ldpi.png" platform="android" qualifier="ldpi" />
+	<splash src="imgapp/splash/mdpi.png" platform="android" qualifier="mdpi" />
+	<splash src="imgapp/splash/hdpi.png" platform="android" qualifier="hdpi" />
+	<splash src="imgapp/splash/xhdpi.png" platform="android" qualifier="xhdpi" />
+	<splash src="imgapp/splash/fr-xhdpi.png" platform="android" qualifier="fr-xhdpi" />
+	<splash src="imgapp/splash/portrait-xxhdpi.png" platform="android" qualifier="port-xxhdpi" />
+	<splash src="imgapp/splash/landscape-xxhdpi.png" platform="android" qualifier="land-xxhdpi" />
        
 	<allow-navigation href="*" />
 	<allow-intent href="*" />
