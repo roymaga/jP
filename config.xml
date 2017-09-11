@@ -52,21 +52,21 @@
 	
 	<!-- Define app icon for each platform. -->	
 	<gap:icon src="imgapp/favicon.png" />
-	<gap:icon src="imgapp/ldpi.png" platform="android" qualifier="ldpi" />
-	<gap:icon src="imgapp/mdpi.png" platform="android" qualifier="mdpi" />
-	<gap:icon src="imgapp/hdpi.png" platform="android" qualifier="hdpi" />
-	<gap:icon src="imgapp/xhdpi.png" platform="android" qualifier="xhdpi" />
-	<gap:icon src="imgapp/xxhdpi.png" platform="android" qualifier="xxhdpi" />
-	<gap:icon src="imgapp/fr-xxhdpi.png" platform="android" qualifier="fr-xxhdpi" />
+	<gap:icon src="imgapp/ldpi.png" platform="android" density="ldpi" />
+	<gap:icon src="imgapp/mdpi.png" platform="android" density="mdpi" />
+	<gap:icon src="imgapp/hdpi.png" platform="android" density="hdpi" />
+	<gap:icon src="imgapp/xhdpi.png" platform="android" density="xhdpi" />
+	<gap:icon src="imgapp/xxhdpi.png" platform="android" density="xxhdpi" />
+	<gap:icon src="imgapp/fr-xxhdpi.png" platform="android" density="fr-xxhdpi" />
 	<!-- Define app splash screen for each platform. -->
 	<gap:splash src="imgapp/splash/mdpi.png" />
-	<gap:splash src="imgapp/splash/ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
-	<gap:splash src="imgapp/splash/mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
-	<gap:splash src="imgapp/splash/hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
-	<gap:splash src="imgapp/splash/xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
-	<gap:splash src="imgapp/splash/fr-xhdpi.png" gap:platform="android" gap:qualifier="fr-xhdpi" />
-	<gap:splash src="imgapp/splash/portrait-xxhdpi.png" gap:platform="android" gap:qualifier="port-xxhdpi" />
-	<gap:splash src="imgapp/splash/landscape-xxhdpi.png" gap:platform="android" gap:qualifier="land-xxhdpi" />
+	<gap:splash src="imgapp/splash/ldpi.png" gap:platform="android" gap:density="ldpi" />
+	<gap:splash src="imgapp/splash/mdpi.png" gap:platform="android" gap:density="mdpi" />
+	<gap:splash src="imgapp/splash/hdpi.png" gap:platform="android" gap:density="hdpi" />
+	<gap:splash src="imgapp/splash/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+	<gap:splash src="imgapp/splash/fr-xhdpi.png" gap:platform="android" gap:density="fr-xhdpi" />
+	<gap:splash src="imgapp/splash/portrait-xxhdpi.png" gap:platform="android" gap:density="port-xxhdpi" />
+	<gap:splash src="imgapp/splash/landscape-xxhdpi.png" gap:platform="android" gap:density="land-xxhdpi" />
        
 	<allow-navigation href="*" />
 	<allow-intent href="*" />
