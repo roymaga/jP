@@ -51,13 +51,13 @@
 	<!-- GeoLocation platform. -->
 	
 	<!-- Define app icon for each platform. -->	
-	<icon src="imgapp/favicon.png" />
-	<icon src="imgapp/ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
-	<icon src="imgapp/mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
-	<icon src="imgapp/hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
-	<icon src="imgapp/xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
-	<icon src="imgapp/xxhdpi.png" gap:platform="android" gap:qualifier="xxhdpi" />
-	<icon src="imgapp/fr-xxhdpi.png" gap:platform="android" gap:qualifier="fr-xxhdpi" />
+	<gap:icon src="imgapp/favicon.png" />
+	<gap:icon src="imgapp/ldpi.png" platform="android" qualifier="ldpi" />
+	<gap:icon src="imgapp/mdpi.png" platform="android" qualifier="mdpi" />
+	<gap:icon src="imgapp/hdpi.png" platform="android" qualifier="hdpi" />
+	<gap:icon src="imgapp/xhdpi.png" platform="android" qualifier="xhdpi" />
+	<gap:icon src="imgapp/xxhdpi.png" platform="android" qualifier="xxhdpi" />
+	<gap:icon src="imgapp/fr-xxhdpi.png" platform="android" qualifier="fr-xxhdpi" />
 	<!-- Define app splash screen for each platform. -->
 	<gap:splash src="imgapp/splash/mdpi.png" />
 	<gap:splash src="imgapp/splash/ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
