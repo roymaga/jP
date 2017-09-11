@@ -52,22 +52,23 @@
 	
 	<!-- Define app icon for each platform. -->	
 	<icon src="imgapp/favicon.png" />
-	<icon src="imgapp/ldpi.png" platform="android" density="ldpi" />
-	<icon src="imgapp/mdpi.png" platform="android" density="mdpi" />
-	<icon src="imgapp/hdpi.png" platform="android" density="hdpi" />
-	<icon src="imgapp/xhdpi.png" platform="android" density="xhdpi" />
-	<icon src="imgapp/xxhdpi.png" platform="android" density="xxhdpi" />
-	<icon src="imgapp/fr-xxhdpi.png" platform="android" density="fr-xxhdpi" />
-	<!-- Define app splash screen for each platform. -->
 	<splash src="imgapp/splash/mdpi.png" />
-	<splash src="imgapp/splash/ldpi.png" platform="android" density="ldpi" />
-	<splash src="imgapp/splash/mdpi.png" platform="android" density="mdpi" />
-	<splash src="imgapp/splash/hdpi.png" platform="android" density="hdpi" />
-	<splash src="imgapp/splash/xhdpi.png" platform="android" density="xhdpi" />
-	<splash src="imgapp/splash/fr-xhdpi.png" platform="android" density="fr-xhdpi" />
-	<splash src="imgapp/splash/portrait-xxhdpi.png" platform="android" density="port-xxhdpi" />
-	<splash src="imgapp/splash/landscape-xxhdpi.png" platform="android" density="land-xxhdpi" />
-       
+    <platform name="android">
+		<icon density="ldpi" src="imgapp/ldpi.png"/>
+		<icon density="mdpi" src="imgapp/mdpi.png"/>
+		<icon density="hdpi" src="imgapp/hdpi.png"/>
+		<icon density="xhdpi" src="imgapp/xhdpi.png"/>
+		<icon density="xxhdpi" src="imgapp/xxhdpi.png"/>
+		<icon density="xxxhdpi" src="imgapp/xxxhdpi.png"/>
+		<!--  Portrait  -->
+		<splash density="port-ldpi" src="imgapp/splash/ldpi.png"/>
+		<splash density="port-mdpi" src="imgapp/splash/mdpi.png"/>
+		<splash density="port-hdpi" src="imgapp/splash/hdpi.png"/>
+		<splash density="port-xhdpi" src="imgapp/splash/xhdpi.png"/>
+		<splash density="port-xxhdpi" src="imgapp/splash/fr-xhdpi.png"/>
+		<splash density="port-xxxhdpi" src="imgapp/splash/landscape-xxhdpi.png"/>
+		<!--  Landscape  -->
+	</platform>   
 	<allow-navigation href="*" />
 	<allow-intent href="*" />
     <access origin="*"/>
