@@ -51,6 +51,7 @@
 	<!-- GeoLocation platform. -->
 	
 	<!-- Define app icon for each platform. -->	
+	<icon src="imgapp/favicon.png" />
 	<icon src="imgapp/ldpi.png" platform="android" qualifier="ldpi" />
 	<icon src="imgapp/mdpi.png" platform="android" qualifier="mdpi" />
 	<icon src="imgapp/hdpi.png" platform="android" qualifier="hdpi" />
@@ -58,6 +59,7 @@
 	<icon src="imgapp/xxhdpi.png" platform="android" qualifier="xxhdpi" />
 	<icon src="imgapp/fr-xxhdpi.png" platform="android" qualifier="fr-xxhdpi" />
 	<!-- Define app splash screen for each platform. -->
+	<splash src="imgapp/splash/mdpi.png" />
 	<splash src="imgapp/splash/ldpi.png" platform="android" qualifier="ldpi" />
 	<splash src="imgapp/splash/mdpi.png" platform="android" qualifier="mdpi" />
 	<splash src="imgapp/splash/hdpi.png" platform="android" qualifier="hdpi" />
