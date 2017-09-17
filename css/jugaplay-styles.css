@@ -2259,6 +2259,16 @@ button.close {
 	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
 	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
 }
+
+.btn-fancy-small {
+  padding: 2px 5px 1px 5px;
+	font-size:18px;
+	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
+	line-height: 1;
+	margin-top: 2px;
+}
+
 .btn-challenges{
 	height: 34px;
     font-size: 3.5vw;
@@ -2299,6 +2309,214 @@ button.close {
 #InformationTab02, #InformationTab1, #InformationTab2, #InformationTab3 {
 	background-color: #ffffff;
 }
+
+/* --- LEAGUES --- */
+.league-header {
+	padding: 20px 20px 15px 20px;
+	background-color: #4c7a34;
+	font-size: 16px;
+	color: #ffffff;
+}
+.league-details {
+	color: #ffffff;
+	border-top:1px solid black;
+	border-bottom: 4px solid #444444;
+	background-color: #333333;
+}
+.league-details i {
+	color: #72bb53;
+	margin-right: 6px;
+}
+
+.league-stats {
+	padding-top: 15px;
+	padding-bottom: 5px;
+	padding-right: 0;
+	font-size: 12px;
+}
+
+.league-name {
+	display:inline;
+	float:left;
+	margin:0;
+}
+
+.league-prizes {
+
+	height: 100%;
+	padding: 5px 5px 5px 0;
+	display: block;
+}
+
+.league-prizes-row {
+	padding: 8px;
+	margin:0 2px 2px 2px;
+	background-color: rgba(0,0,0,0.4);
+	border-radius: 4px;
+	border: 1px solid #4a4a4a;
+	display: block;
+}
+
+.league-prizes-row:first-child {
+	margin-top: 2px;
+}
+
+.league-prizes-row-position {
+	display: inline;
+	font-size: 10px;
+	padding-top: 3px;
+}
+
+.league-prizes-row-amount {
+	display: inline;
+	float: right;
+	font-size: 16px;
+	margin:0;
+}
+.league-prizes-row-amount img {
+	width: 18px;
+  margin-top: -4px;
+}
+
+.player-position {
+	display:inline;
+	float:right;
+	margin:0;
+}
+
+.league-ranking-player-container {
+	padding: 15px;
+	color: #ffffff;
+}
+.league-ranking-player-container:nth-child(even) {background: #232323}
+.league-ranking-player-container:nth-child(odd) {background: #000000}
+
+.league-ranking-player p {
+	display:inline;
+}
+.league-ranking-player-container button {
+	float: right;
+}
+.league-ranking-player-container .btn-success.active,.league-ranking-player-container .btn-success.active:hover {
+	background-color: #606060;
+	color:#D6D6D6;
+	border: 1px solid #444444;
+}
+
+.ranking-user-position {
+
+}
+
+.league-ranking-player .ranking-position {
+	font-size: 20px;
+}
+.league-ranking-player .ranking-variation {
+	font-size: 12px;
+	width: 35px;
+	display:inline-block;
+	margin-bottom: 0;
+}
+.league-ranking-player .ranking-username {
+	font-size: 16px;
+}
+.league-ranking-player .ranking-score {
+	font-size: 16px;
+	float:right;
+	margin-right: 10px;
+	margin-top: 5px;
+  margin-bottom: 0;
+}
+.ranking-details-container {
+	border-radius: 2px;
+	border: 1px solid #999999;
+	margin-top: 10px;
+	background: rgba(0,0,0,0);
+}
+.ranking-round-title {
+	margin-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.ranking-round {
+	padding-top: 0;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-top: 1px dotted #666;
+}
+
+.ranking-round:first-child {
+	padding-top: 5px;
+	border-top: none;
+}
+
+.ranking-match {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.ranking-round:nth-child(odd) {background: #232323}
+.ranking-round:nth-child(even) {background: #000000}
+
+.inline {
+	display:inline;
+}
+.right {
+	float: right;
+}
+
+.nomarginbot {
+	margin-bottom: 0;
+}
+
+.league-archive-item {
+	color: #ffffff;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.league-archive-item:nth-child(even) {background: #232323}
+.league-archive-item:nth-child(odd) {background: #000000}
+
+.league-archive-item .btn-success.active,.league-ranking-player-container .btn-success.active:hover {
+	background-color: #606060;
+	color:#D6D6D6;
+	border: 1px solid #444444;
+}
+
+.league-archive-item .item-header {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.league-archive-item .name {
+	font-size: 16px;
+	margin-bottom: 0;
+}
+.league-archive-item .score {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+.league-archive-item .buttons {
+	text-align: right;
+	padding-top: 5px;
+}
+.league-ranking-modal .modal-scrolled-body {
+	border: 2px solid #666666;
+}
+.league-ranking-modal .modal-title {
+	font-size: 16px;
+}
+.league-ranking-modal .modal-body {
+	padding-top: 0;
+}
+.modal-scrolled-body {
+	display:block;
+	height: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
 .container.league{
 	margin-top:35px;
 }

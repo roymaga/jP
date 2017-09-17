@@ -1,7 +1,12 @@
 // JavaScript Document
 // User data Control
 function userDataJugaPlayInitial(data){
-	window.userDataJugaPlay=data;
+	window.userDataJugaPlay=parseUserData(data);
+}
+function parseUserData(data){
+	data.coins=parseInt(data.coins);
+	data.chips=parseInt(data.chips);
+	return data;	
 }
 function userDataJugaPlayUpdate(data){
 	//window.userDataJugaPlay was update
@@ -10,7 +15,7 @@ function userDataJugaPlayUpdate(data){
 	data.last_update=new Date();
 	cookieSave=JSON.stringify(data);
 	setCookie("juga-Play-Data", cookieSave, 120);
-	window.userDataJugaPlay=data;
+	window.userDataJugaPlay=parseUserData(data);
 	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}// Update menu / menus with data
 }
 // Hacer el Log out de la cuenta

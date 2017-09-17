@@ -316,7 +316,7 @@ function addLoaderToCertainContainer(container){
 	if(container.getElementsByClassName("loader").length==0){
 		var loader = document.createElement('div');
 		loader.className="loader";
-		loader.innerHTML='<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
+		loader.innerHTML='<div class="ball-loader ball-loader-small"></div>';
 		container.appendChild(loader);
 	}
 }
