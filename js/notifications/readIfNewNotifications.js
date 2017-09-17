@@ -2,7 +2,8 @@
 // User data Control
 window.notificationsLimtToShow=5;
 window.JpNotHtmlNotificatios=null;
-window.onload=setTimeout(function(){controlJpNotifications();}, 1000);
+
+window.onload=setTimeout(function(){ controlJpNotifications(); }, 1000);
 //setTimeout(function(){checkIfUpdateIsNeeded();}, 30000);// Check every 30 seconds
 function controlJpNotifications(){
 	if(getUserJugaplayId()!=null){
@@ -111,6 +112,7 @@ function parseNotification(notification, oddEven){
 	if(notification.type_name=="friend-invitation"){return '<div class="row players-list-item vertical-align color-player-list '+oddOrEven+'"> <div class="col-xs-2"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></div><div class="col-xs-6 player-name"> <p>'+notification.title+'</p></div><div class="col-xs-4"> <p class="text-right nomarging"> <span class="text-block-style2">'+notification.text+'</span> <img src="img/icons/coins/coins.png" style="margin-right: 0px;margin-top: -5px;margin-bottom: -3px; width: 20px;"></p></div></div>';}
 	if(notification.type_name=="new" || notification.type_name=="personal"){return '<div class="row players-list-item vertical-align bg-color2 text-color2"> <div class="col-xs-2"><i class="fa fa-bell-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-8 player-name"> <p>'+notification.title+'</p></div><div class="col-xs-2 text-right"> <button type="button" onclick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#'+id+'"><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div></div><div id="'+id+'" class="collapse"> <div class="row players-list-item vertical-align color-player-list2 even"> <div class="container"> <p>'+notification.text+'</p></div></div></div>';}
 	}catch(e){
+		
 	}
 }function parseNotfTypeOfMatch(type){
 	switch(type) {
@@ -170,7 +172,7 @@ function updateNotificationAsRead(notfId){
 				 updateNotifications(notfId);
 			 }
 			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
