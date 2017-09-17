@@ -76,7 +76,7 @@ function changeContentOfPayment(country){
 function setCoinsType(type){
 	switch(type) {
 		// .count-coin-paym -- 
-    case 'ARS': // Peso Argentino
+     case 'ARS': // Peso Argentino
 	$(".count-coin-paym").html('Moneda<br><b>AR$</b>');
 	window.typeOfSelectedCoin="ARS";
 	$("#chips-price-pack1").html("Pack 100 <strong>$50</strong>");
@@ -112,7 +112,7 @@ function setCoinsType(type){
 	$("#chips-price-pack1").html("Pack 100 <strong>$3</strong>");
 	$("#chips-price-pack2").html("Pack 200 <strong>$6</strong>");
 	$("#chips-price-pack3").html("Pack 500 <strong>$12</strong>");
-     break;   
+     break;     
         
 	}
 }

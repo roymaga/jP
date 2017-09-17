@@ -12,23 +12,7 @@ $(document).ready(function(){
 		//var title = $(this).attr("data-title");
 	});
 
-	// Swipe for principal Game features
-	$("#league-main-tabs .tab-pane").swipe( {
-		swipeLeft:function(event, direction, distance, duration, fingerCount) {
-			event.preventDefault();
-			var $tab = $('.jp-tabs .active').next();
-						if ($tab.length > 0)
-				$tab.find('a').click();
-		},
-		swipeRight: function(event, direction, distance, duration, fingerCount) {
-			event.preventDefault();
-			var $tab = $('.jp-tabs .active').prev();
-						if ($tab.length > 0)
-								$tab.find('a').click();
-		},
-		//Default is 75px -- sensiblidad con la que se mueve
-		threshold:75
-	});
+
 
 	getLeaguesArchive();
 
@@ -48,6 +32,24 @@ $(document).ready(function(){
 					parseInt($("#leagueRankingModal").attr("league-page"))+1
 			 );
 	   }
+	});
+
+	// Swipe for principal Game features
+	$("#league-main-tabs .tab-pane").swipe( {
+		swipeLeft:function(event, direction, distance, duration, fingerCount) {
+			event.preventDefault();
+			var $tab = $('.jp-tabs .active').next();
+						if ($tab.length > 0)
+				$tab.find('a').click();
+		},
+		swipeRight: function(event, direction, distance, duration, fingerCount) {
+			event.preventDefault();
+			var $tab = $('.jp-tabs .active').prev();
+						if ($tab.length > 0)
+								$tab.find('a').click();
+		},
+		//Default is 75px -- sensiblidad con la que se mueve
+		threshold:75
 	});
 });
 // JavaScript Document
