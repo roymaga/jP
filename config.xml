@@ -36,10 +36,9 @@
 	<!-- Record Audio -->
 	<!-- Fin Record Audio  <gap:plugin name="cordova-plugin-multidex"  source="npm" /> -->
  <!-- Core plugins -->
-
+   <gap:plugin name="cordova-plugin-multidex"  source="npm" />
     <!--gap:plugin name="cordova-plugin-device"  source="npm" />
 	<plugin name="cordova-plugin-device-motion"   source="npm" /-->
-  <gap:plugin name="cordova-plugin-multidex"  source="npm" />
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
   <gap:plugin name="com.appodeal.plugin" source="npm" />
   <gap:plugin name="cc.fovea.cordova.purchase" source="npm">
