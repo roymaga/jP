@@ -39,6 +39,7 @@
     <gap:plugin name="cordova-plugin-device"  source="npm" />
 	<plugin name="cordova-plugin-device-motion"   source="npm" />
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
+  <gap:plugin name="com.appodeal.plugin" source="npm"/>
   
 
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
