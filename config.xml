@@ -2,12 +2,12 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.JugaPlay"
-		android-versionCode="28420"
-        version   = "2.8.7">
+		android-versionCode="29000"
+        version   = "2.9.0">
     <name>JugaPlay</name>
 
     <description>
-       Juga Play, la casa latinoamericana del fútbol fantasía. 
+       Juga Play, la casa latinoamericana del fútbol fantasía.
     </description>
 
     <author href="http://www.jugaplay.com" email="info@jugaplay.com">
@@ -32,13 +32,17 @@
     <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
     <preference name="android-minSdkVersion"      value="14" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
-	
+
 	<!-- Record Audio -->
 	<!-- Fin Record Audio -->
  <!-- Core plugins -->
     <gap:plugin name="cordova-plugin-device"  source="npm" />
 	<plugin name="cordova-plugin-device-motion"   source="npm" />
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
+  <gap:plugin name="com.appodeal.plugin" source="npm"/>
+  <gap:plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0">
+     <param name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA05ZCllKmqgCSHbSn5zSmaftp4sGdMq29KN/2TQjV2TGIiAvXbClK3dJeS26S03kcFDcU7MzambeIR1Bf7yFdt+zBziHoXDlHOZAWGLRORBmEG4evTq0yX1R/5SD96dKOXdYPhtF28/R/4wjWBLWDUOMilOPC7fhbup7Zn4MZa55aSH4RXBy+jXGsPKBXq/PoLnrQBrBI/Qfrj2/Ne/oJmUbdaDrKyxdy45OzmrML3Nv6rvKeUWT/xVi+jvFX54lzVAGzbr47hoNCF3Sy8txR08lX8A8pYEaKf1nkE7vqvVBhJjesja2RFydppVLEjMChm4uVxAmLcyTpXLvHDz/tTwIDAQAB"/>
+  </gap:plugin>
 
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
     <!--
@@ -49,8 +53,8 @@
 	<plugin name="cordova-plugin-google-analytics" source="npm" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
 	<!-- GeoLocation platform. -->
-	
-	<!-- Define app icon for each platform. -->	
+
+	<!-- Define app icon for each platform. -->
     <platform name="android">
 		<icon src="imgapp/favicon.png" />
 		<splash src="imgapp/splash/mdpi.png" />
@@ -68,9 +72,9 @@
 		<splash density="port-xxhdpi" src="imgapp/splash/fr-xhdpi.png"/>
 		<splash density="port-xxxhdpi" src="imgapp/splash/landscape-xxhdpi.png"/>
 		<!--  Landscape  -->
-	</platform>   
+	</platform>
 	<allow-navigation href="*" />
 	<allow-intent href="*" />
     <access origin="*"/>
-	
+
 </widget>

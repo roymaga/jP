@@ -1,9 +1,15 @@
 // JavaScript Document
 // -- Busco en el servidor
 function openTablePlayedDetail(tableId,type){
-	if(checkConnection()){
-	window.showTableInformatioType=type;
 	startLoadingAnimation();
+	if(window.IsLoggedInVar && checkConnection()){
+		openTablePlayedDetail2(tableId,type);
+	}else{
+		setTimeout(function(){openTablePlayedDetail(tableId,type)},100);
+	}
+}
+function openTablePlayedDetail2(tableId,type){
+	window.showTableInformatioType=type;
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -18,13 +24,14 @@ function openTablePlayedDetail(tableId,type){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
-			var json=JSON.stringify(jsonStr);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
-			// Paro aca
-			parseRequestAsToShowHistory(doble);
+			var jsonStr=xmlhttp.responseText;
+			if(IsJsonString(jsonStr) && checkConnectionLoggedIn(xmlhttp)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
+				var doble=JSON.parse(jsonStr);
+				closeLoadingAnimation();
+				parseRequestAsToShowHistory(doble);
+			}else{
+				setTimeout(function(){openTablePlayedDetail(tableId,type);}, 500);
+			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
@@ -35,10 +42,9 @@ function openTablePlayedDetail(tableId,type){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}
 }
 function parseRequestAsToShowHistory(table){
-	window.actualOpenTable=table;
+	window.actualOpenTable=parseTableForGroupPlayingOption (table);
 	var playersSel=[];
 	var playersSelId=[];
 	for(player in table.playing){
@@ -64,34 +70,16 @@ function parseRequestAsToShowHistory(table){
 			}
 		}
 	}
-	detailBody=bodyOfDetailHistory(table,playersSel);
-	detailTitle=table.title
+	var detailBody=bodyOfDetailHistory(table,playersSel);
+	var detailTitle=table.title
 	openOverLapseWindow(detailTitle, detailBody);
 }
-/*
-// All players
-function initializeAddAllPlayers(openTable){
-	matchesInTable=openTable.matches;
-	for(a in matchesInTable){// Para cada partido de la mesa
-		window.matchesInLiveTable.push({"teams":[matchesInTable[a].local_team.id,matchesInTable[a].visitor_team.id],"goals":[]});
-		for (player in matchesInTable[a].local_team.players){
-			window.liveMatchOpen.players.push(parsePlayers(matchesInTable[a].local_team.players[player],matchesInTable[a].local_team.id));
-		}
-		for (player in matchesInTable[a].visitor_team.players){
-			window.liveMatchOpen.players.push(parsePlayers(matchesInTable[a].visitor_team.players[player],matchesInTable[a].visitor_team.id));
-		}
-	}
-	initializeAddAllUsers(openTable);
-}
-*/
 
-// window.actualOpenTable --> Tengo que guardar la tabla aca y para buscar el I openTableInformation();
-// -------------
 function openDetailHistoryOfPlay(objetHistoryToOpen){
 
 }
 function bodyOfDetailHistory(historyMatch,playersSel){
-	return '<div class="container container-full historial-detalle"><div class="container container-title bg-color2"><h3>'+historyMatch.title+'</h3></div><div class="container head-detalle text-center text-color2 text-uppercase"><div class="row text-center"><div class="col-xs-6"><h1>...</h1><h5>Mi posición en este partido</h5></div><div class="col-xs-6"><h1>...</h1><h5>Puntos sumados por Jugadores</h5></div></div></div><div class="container bg-color5 row" style="margin: 0px;padding: 0px;"><a class="btn btn-primary btn-style3 full-width" onClick="openTableInformation(0);"><i class="fa fa-info-circle" aria-hidden="true"></i> Detalle del partido</a></div><div class="container list-style2 text-color2">'+jugadoresElejidosParaElPartido(playersSel)+'</div></div>';
+	return '<div class="container container-full historial-detalle"><div class="container container-title bg-color2"><h3>'+historyMatch.title+'</h3></div><div class="container head-detalle text-center text-color2 text-uppercase"><div class="row text-center"><div class="col-xs-6"><h1>...</h1><h5 class="trn">Mi posición en esta mesa</h5></div><div class="col-xs-6"><h1>...</h1><h5 class="trn">Puntos sumados por Jugadores</h5></div></div></div><div class="container bg-color5 row" style="margin: 0px;padding: 0px;"><a class="btn btn-primary btn-style3 full-width" onClick="openTableInformation(0);"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div><div class="container list-style2 text-color2">'+jugadoresElejidosParaElPartido(playersSel)+'</div></div>';
 }
 function jugadoresElejidosParaElPartido(playersSel){
 	contentAgregarPlayer='';
@@ -125,6 +113,6 @@ var TEMPLATE_PLAYER_CHOSEN_FOR_MATCH = ''
 	+'	</div>'
 	+'	<div class="col-xs-6 text-right">'
 	+'		<img class="team-logo small" src="{CLUB_SHIELD}" style="width: 25px;"/>'
-	+'		&nbsp;Esperando'
+	+'		<a class="btn-check"><img src="img/icon-select-green.png" class="player-profile-pic small"></a>'
 	+'	</div>'
 	+'</div>'

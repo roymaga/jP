@@ -31,7 +31,7 @@ function showCompleteRanking(){
 		}
 }
 function mensajeAlServidorPidiendoRankingPrimeraA(){
-	if(checkConnection2()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -61,9 +61,7 @@ function mensajeAlServidorPidiendoRankingPrimeraA(){
 		xmlhttp.open("GET",getJPApiURL()+"tournaments/8/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	}else{
-		setTimeout(function(){ mensajeAlServidorPidiendoRankingPrimeraA(); }, 500);
-		}
+		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioPrimeraA(servidor){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
@@ -82,7 +80,7 @@ function editarDatosRankingPrimeraAJugaPlay(ranking){
 		}, 500);
 }
 function mensajeAlServidorPidiendoRankingChileno(){
-	if(checkConnection2()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -112,9 +110,7 @@ function mensajeAlServidorPidiendoRankingChileno(){
 		xmlhttp.open("GET",getJPApiURL()+"tournaments/10/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	}else{
-		setTimeout(function(){ mensajeAlServidorPidiendoRankingChileno(); }, 500);
-		}	
+		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioChileno(servidor){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
@@ -134,7 +130,7 @@ function editarDatosRankingChilenoJugaPlay(ranking){
 }
 /* */
 function mensajeAlServidorPidiendoRankingChampions(){
-	if(checkConnection2()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -164,9 +160,7 @@ function mensajeAlServidorPidiendoRankingChampions(){
 		xmlhttp.open("GET",getJPApiURL()+"tournaments/9/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	}else{
-		setTimeout(function(){ mensajeAlServidorPidiendoRankingChampions(); }, 500);
-		}	
+		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioChampions(servidor){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
@@ -185,7 +179,7 @@ function editarDatosRankingChampionsJugaPlay(ranking){
 		}, 500);
 }
 function mensajeAlServidorPidiendoRankingLibertadores(){
-	if(checkConnection2()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -214,9 +208,7 @@ function mensajeAlServidorPidiendoRankingLibertadores(){
 		xmlhttp.open("GET",getJPApiURL()+"tournaments/11/rankings",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	}else{
-		setTimeout(function(){ mensajeAlServidorPidiendoRankingLibertadores(); }, 500);
-		}
+		xmlhttp.send();		
 }
 function analizarRespuestaRankingUsuarioLibertadores(servidor){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){

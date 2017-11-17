@@ -12,10 +12,11 @@ function createNewGroupOfFriends(){
 	for (friend in previousContactsLoad) {
 		userFriends+=parseUserFriendAddToGroup(previousContactsLoad[friend]);
 	}
-	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3" id="action-bar"><div class="row vertical-align"><div class="col-xs-10"><div id="crear-grupo-title"> <h1>CREAR NUEVO GRUPO</h1> <p style="font-size:0.8em; color:#EEE;">Añadir Participantes</p></div><div id="crear-grupo-buscar" style="display:none;"> <input type="text" placeholder="Buscar..." id="searchNewGroup-input" class="form-control"/> </div></div><div class="col-xs-2 text-right"><i class="fa fa-search fa-2x" aria-hidden="true" id="searchNoFriendsContactsMagnGlass" style="color: #fff;"></i></div></div></div><div class="container" id="crear-grupo-added"><div class="row vertical-align"> <div class="col-xs-12 owl-carousel" id="owl-contacts"> </div></div></div><div class="container bg-color3"><div class="row vertical-align"><div class="col-xs-12 nopadding"><ul class="nav nav-tabs jp-tabs"><li class="active"><a data-toggle="tab" href="#amigos-tab-createGroup">Amigos</a></li><li><a data-toggle="tab" href="#amigos-jugaplay-tab-createGroup">Usuarios JugaPlay</a></li></ul></div></div></div><div class="tab-content"><div class="tab-pane fade in active" id="amigos-tab-createGroup">'+userFriends+'</div><div class="tab-pane fade in" id="amigos-jugaplay-tab-createGroup"></div></div><div class="container bg-color2 btn-play-container"><button type="button" class="btn btn-play pending" onclick="finishSelectingUsersForGroup();">Agregue usuarios al grupo</button></div>';
+	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3" id="action-bar"><div class="row vertical-align"><div class="col-xs-10"><div id="crear-grupo-title"> <h1 class="trn">CREAR UN NUEVO GRUPO</h1> <p style="font-size:0.8em; color:#EEE;" class="trn">Agregue usuarios al grupo</p></div><div id="crear-grupo-buscar" style="display:none;"> <input type="text" placeholder="Buscar..." id="searchNewGroup-input" class="form-control"/> </div></div><div class="col-xs-2 text-right"><i class="fa fa-search fa-2x" aria-hidden="true" id="searchNoFriendsContactsMagnGlass" style="color: #fff;"></i></div></div></div><div class="container" id="crear-grupo-added"><div class="row vertical-align"> <div class="col-xs-12 owl-carousel" id="owl-contacts"> </div></div></div><div class="container bg-color3"><div class="row vertical-align"><div class="col-xs-12 nopadding"><ul class="nav nav-tabs jp-tabs"><li class="active"><a data-toggle="tab" href="#amigos-tab-createGroup"><span class="trn">Amigos</span></a></li><li><a data-toggle="tab" href="#amigos-jugaplay-tab-createGroup"><span class="trn">Usuarios JugaPlay</span></a></li></ul></div></div></div><div class="tab-content"><div class="tab-pane fade in active" id="amigos-tab-createGroup">'+userFriends+'</div><div class="tab-pane fade in" id="amigos-jugaplay-tab-createGroup"></div></div><div class="container bg-color2 btn-play-container"><button type="button" class="btn btn-play pending" onclick="finishSelectingUsersForGroup();"><span class="trn">Agregue usuarios al grupo</span></button></div>';
 	// add players to amigos-jugaplay-tab-createGroup
 	startAllCreateNewGroupOfFriendsFunctions();
 	searchOptionsForNoneFriendsUsers('',1);
+	checkLanguageElement($("#challenge-visible-dom"));
 }
 function parseUserFriendAddToGroup(friend){
 	return '<div class="row-fluid vertical-align friend-item" data-user-id="'+friend.user.id+'" data-user-name="'+friend.nickname.toUpperCase()+'" data-user-nick="'+friend.user.nickname.toUpperCase()+'" onclick="selectUserForAddingToGroup(\''+friend.user.id+'\',\''+friend.user.nickname+'\');"><div class="col-xs-3"><span class="fa-stack fa-2x friend-picture"><i class="fa fa-circle fa-stack-2x" style="color: lightgray;"></i></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></div><div class="col-xs-6"><h3 class="friend-nick">'+friend.nickname+'</h3><p class="friend-name">'+friend.user.nickname+'</p></div><div class="col-xs-3 icons"></div></div>';
@@ -31,7 +32,7 @@ function startAllCreateNewGroupOfFriendsFunctions(){
       		itemsMobile : [600,4], // itemsMobile disabled - inherit from itemsTablet option
 			pagination:false
 		});
-		
+
 		//Mostrar Input de "Buscar"
 		$('#searchNoFriendsContactsMagnGlass').on({
 			click: function(){
@@ -50,7 +51,7 @@ function startAllCreateNewGroupOfFriendsFunctions(){
 				}
 				searchOptionsForNoneFriendsUsers(document.getElementById("searchNewGroup-input").value.trim(), 1);
 			}
-		});	
+		});
 		$( "#searchNewGroup-input" ).keyup(function() {
 		  		filterUsersForCreatingGroup(document.getElementById("searchNewGroup-input").value.trim().toUpperCase());
 		});
@@ -73,18 +74,17 @@ function filterUsersForCreatingGroup (filter){
 // -- Search None friends
 // Add options to friends
 // 1- Option search more Friends from/without no filter (Liga Argenitna)
-// 2- Change with search Q !! 
-// Wait a certain time before to do a search 5 seg -- 
+// 2- Change with search Q !!
+// Wait a certain time before to do a search 5 seg --
 function searchMoreOptionsForNoneFriendsUsers(element,searchQ, page){
 	element.parentNode.removeChild(element);
 	searchOptionsForNoneFriendsUsers(searchQ, page);
-	
+
 }
 function searchOptionsForNoneFriendsUsers(searchQ, page){
 	addLoaderToCertainContainer(document.getElementById("amigos-jugaplay-tab-createGroup"));
 	document.getElementById("searchNoFriendsContactsMagnGlass").className="fa fa-spinner fa-pulse fa-2x fa-fw";
 	// Poner el loader en la lupa tambien
-	if(checkConnection()){
 	var json = JSON.stringify({ "search": { "q": searchQ, "order_by_ranking": true }})
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -101,7 +101,7 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
+			//alert(jsonStr);
 			if(IsJsonString(jsonStr)){
 				if(document.getElementById("amigos-jugaplay-tab-createGroup")!=null){
 					removeLoaderFromCertainContainer(document.getElementById("amigos-jugaplay-tab-createGroup"));
@@ -122,7 +122,6 @@ function searchOptionsForNoneFriendsUsers(searchQ, page){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
-	}
 }
 // '<a class="btn btn-style3 full-width bg-color3" onclick="showMoreHistory(this,\''+next+'\');">VER +</a>'
 function readSearchOptionsForNoneFriendsUsers(server,page,searchQ){
@@ -168,27 +167,15 @@ function showMoreOptionsForNoneFriendsUsers(searchQ, next, container){
 			loadersInContainer[element].parentNode.removeChild(loadersInContainer[element]);
 		}
 	}
-	container.innerHTML+='<a class="btn btn-style3 full-width bg-color3 loader-search-more" onclick="searchMoreOptionsForNoneFriendsUsers(this,\''+searchQ+'\',\''+next+'\');">VER +</a>';
+	container.innerHTML+='<a class="btn btn-style3 full-width bg-color3 loader-search-more trn" onclick="searchMoreOptionsForNoneFriendsUsers(this,\''+searchQ+'\',\''+next+'\');">VER +</a>';
+	checkLanguageElement(container);
 	return;
 }
 function parseUserAddToContainer(user){
 	//alert("Add");
 	return '<div class="row-fluid vertical-align friend-item" data-user-id="'+user.id+'" data-user-nick="'+user.nickname.toUpperCase()+'" data-user-name="" onclick="selectUserForAddingToGroup(\''+user.id+'\',\''+user.nickname+'\');"><div class="col-xs-3"><span class="fa-stack fa-2x friend-picture"><i class="fa fa-circle fa-stack-2x" style="color: lightgray;"></i></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></div><div class="col-xs-6"><h3 class="friend-nick mb30">'+user.nickname+'</h3></div><div class="col-xs-3 icons"></div></div>';
 }
-// window.selectedUsersToFromGroup=[];
-// Add element to carruserl
-// $("#owl-contacts").data('owlCarousel').addItem(copy.clone(true));
-// added.push(current_element);
 
-//$("#owl-contacts").data('owlCarousel').removeItem(current);
-//added.splice(added.indexOf(who), 1);
-/*
-$(document).on("click",'.remove-contact',function(e){
-			e.preventDefault();
-			borrar($(this));
-		});
-*/
-//owl.trigger('owl.next');
 function deleatUserFromCarrousel(element){
 	var current = $(element).closest(".owl-item").index();
 	$("#owl-contacts").data('owlCarousel').removeItem(current);
@@ -218,8 +205,9 @@ function addSelectedFeaturesToSelectedUsers(id){
 	var button= document.getElementById("challenge-visible-dom").getElementsByClassName("btn-play").item(0);
 	if(button.classList.contains("pending")){
 		button.classList.remove("pending");
-		button.innerHTML="Crear Grupo y Continuar";
+		button.innerHTML="<span class='trn'>Crear grupo y continuar</span>";
 	}
+	checkLanguageElement(button);
 }
 function removeSelectedFeaturesToSelectedUsers(id){
 	var usersInContainer=document.getElementById('challenge-visible-dom').getElementsByClassName("friend-item");
@@ -236,9 +224,9 @@ function removeSelectedFeaturesToSelectedUsers(id){
 	var button= document.getElementById("challenge-visible-dom").getElementsByClassName("btn-play").item(0);
 	if(!button.classList.contains("pending") && window.selectedUsersToFromGroup.length==0){
 		button.classList.add("pending");
-		button.innerHTML="Agregue usuarios al grupo";
+		button.innerHTML="<span class='trn'>Agregue usuarios al grupo</span>";
 	}
-
+	checkLanguageElement(button);
 }
 function createNewCarrouseUser(id,nick){
 	if(nick.length>11){nick=nick.substr(0, 9)+"...";}
@@ -254,7 +242,7 @@ function createNewCarrouseUser(id,nick){
 }
 function finishSelectingUsersForGroup(){
 	if(window.selectedUsersToFromGroup.length==0){
-		avisoEmergenteJugaPlay("Seleccione usuarios","<p>No tiene usuarios seleccionados para armar el grupo.</p><p> Necesita seleccionar al menos 1.</p>");
+		avisoEmergenteJugaPlay("<span class='trn'>Seleccione usuarios</span>","<p class='trn'>No tiene usuarios seleccionados para armar el grupo.</p><p class='trn'>Necesita seleccionar al menos 1.</p>");
 	}else{
 		//alert("Continue");
 		createChallengeWithNoGroupClose();

@@ -12,9 +12,13 @@ if(getCookie("jugaPlayUserRemember")=="true"){// Si el usuario esta logeado
 	}else{
 		analizarSiyaEstaLogueado();
 	}
-// Logue con los datos guardados 
+
+
+
+// Logue con los datos guardados
 function mensajeAlServidorConContenidoLogInSaved(json){
-	if(checkConnection()){var xmlhttp;
+	try{
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -27,7 +31,6 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -43,7 +46,9 @@ function mensajeAlServidorConContenidoLogInSaved(json){
 		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		xmlhttp.send(json);
+	}catch(e){
+		setTimeout(function(){processErrorLikeERRNAME();}, 500);
 	}
 }
 function analizarRespuestaLogInSaved(servidor){
@@ -54,7 +59,7 @@ function analizarRespuestaLogInSaved(servidor){
 			 delete_cookie("juga-Play-Data");
 			 delete_cookie("jugaPlayUserRemember");
 			 delete_cookie("jugaPlayUserFacebook");
-			
+
 	}else{// Salio todo bien
 		servidor.last_check=new Date();
 		servidor.last_update=new Date();
@@ -68,7 +73,8 @@ function analizarRespuestaLogInSaved(servidor){
 // Fin de analizo log in con Facebook
 // Analiza si le quedo una sesion abierta
 function analizarSiyaEstaLogueado(){
-	if(checkConnection()){var xmlhttp;
+	try{
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -81,8 +87,7 @@ function analizarSiyaEstaLogueado(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -95,8 +100,40 @@ function analizarSiyaEstaLogueado(){
 	 	 }
 		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send();
+	}catch(e){
+		setTimeout(function(){processErrorLikeERRNAME();}, 500);
+	}
+}
+function processErrorLikeERRNAME(){
+	try{ // Un error tipo ERR_NAME_RESOLUTION_FAILED
+	var xmlhttp;
+		if (window.XMLHttpRequest)
+	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  		xmlhttp=new XMLHttpRequest();
+	  		}
+		else
+	  	{// code for IE6, IE5
+	 	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	 	 }
+		xmlhttp.onreadystatechange=function()
+	  	{
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
+	    {
+			var jsonStr=xmlhttp.responseText;
+			window.location.reload(false); 
+			return true;
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
+			 return;
+			}
+	 	 }
+		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send();
+	}catch(e){
+		setTimeout(function(){processErrorLikeERRNAME();}, 500);
 	}
 }
 function analizarRespuestaDatosUsuarioLogIn(servidor){
@@ -108,7 +145,7 @@ function analizarRespuestaDatosUsuarioLogIn(servidor){
 		setCookie("juga-Play-Data", cookieSave, 120);
 		window.location="game.html";
 	}
-} 
+}
 // Fin de analizo si tiene una session abierta
 function checkLogInFacebook(){
 	if(document.body!=null){

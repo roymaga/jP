@@ -1,6 +1,6 @@
 // JavaScript Document
 function generateTabsWithData(openTable){
-	return '<ul class="nav nav-tabs" role="tablist"><li role="presentation" class="'+showIfActive(1)+'"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab">Datos</a></li><li role="presentation" class="'+showIfActive(2)+'"><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab">Premios</a></li><li role="presentation" class="'+showIfActive(3)+'"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab">'+positionsOrPlayingText(openTable)+'</a></li></ul>';
+	return '<ul class="nav nav-tabs" role="tablist"><li role="presentation" class="'+showIfActive(1)+'"><a href="#InformationTab1" aria-controls="tab1" role="tab" data-toggle="tab" calss="trn">DATOS</a></li><li role="presentation" class="'+showIfActive(2)+'"><a href="#InformationTab2" aria-controls="tab2" role="tab" data-toggle="tab" calss="trn">Premios</a></li><li role="presentation" class="'+showIfActive(3)+'"><a href="#InformationTab3" aria-controls="tab3" role="tab" data-toggle="tab">'+positionsOrPlayingText(openTable)+'</a></li></ul>';
 }
 // Despues ir revisando con un bubble sort las posiciones constantemente (Posible animacion flechita para arriba o para abajo)
 function updateUsersPlayingLive(){
@@ -8,7 +8,7 @@ function updateUsersPlayingLive(){
 	var div;
 	var usersShowLive=document.getElementById("usersShowLive");
 	for (user in users){
-		// Reviso si es el usuario activo para poner en el cuadro principal 
+		// Reviso si es el usuario activo para poner en el cuadro principal
 		if(document.getElementById("live-user-nro"+users[user].id) != null){ // Si ya esta lo actualizo sino lo creo
 			parseUpdateUsersComplete(users[user]);
 			document.getElementById("live-user-nro"+users[user].id).setAttribute("data-ubication-position", users[user].userPosition);
@@ -19,7 +19,7 @@ function updateUsersPlayingLive(){
 			divUser.innerHTML=parseShowUsersComplete(users[user]);
 			usersShowLive.appendChild(divUser);
 			}
-		// es el principal 
+		// es el principal
 		if(getUserJugaplayId()==users[user].id){// Si es el usuario actual
 			var oldPosition=parseInt(document.getElementById("usersShowLive-userPosition").innerHTML.replace('°',''));
 			document.getElementById("usersShowLive-userPosition").innerHTML=users[user].userPositionToShow+'°';
@@ -32,9 +32,10 @@ function updateUsersPlayingLive(){
 			}
 			document.getElementById("usersShowLive-userPts").innerHTML=users[user].playersPoints;
 			parseUsersBigPrizeImg(users[user].bet_multiplier);
-				
+
 			}
 	}
+	checkLanguageElement(document.getElementById("usersShowLive"));
 	updatePlayersPlayingLive();
 }
 function parseUsersBigPrizeImg(bet_multiplier){
@@ -46,10 +47,10 @@ function parseUsersBigPrizeImg(bet_multiplier){
 				document.getElementById("usersShowLive-userCoinsImg").src=img;
 				if(bet_multiplier!=null){
 				document.getElementById("usersShowLive-userCoinsImg").style.width="50px";}
-			}	
+			}
 }
 function updatePlayersPlayingLive(){
-	players=window.liveMatchOpen.players;
+	var players=window.liveMatchOpen.players;
 	var div;
 	var playersShowLive=document.getElementById("playersShowLive");
 	for (player in players){
@@ -64,7 +65,8 @@ function updatePlayersPlayingLive(){
 			playersShowLive.appendChild(divPlayer);
 			}
 	}
-	keepLiveTableUpdate();	
+	checkLanguageElement(document.getElementById("playersShowLive"));
+	keepLiveTableUpdate();
 }
 function parseShowUsersComplete(user){
 	if(user.userPosition%2==0){oddEven="odd";}else{oddEven="even";}
@@ -95,7 +97,7 @@ function parseUpdateUsersComplete(user){
 }
 function parseShowPlayersComplete(player,number){
 	if(number%2==0){oddEven="odd";}else{oddEven="even";}
-	return '<div class="row players-list-item vertical-align color-player-list '+oddEven+'"> <div class="col-xs-2"><img class="team-logo" src="img/icons/team-logo/'+player.playerTeamId+'.gif"></div><div class="col-xs-6 player-name"> <p><strong>'+player.playerName+'</strong></p><p>'+player.playerPosition+'</p></div><div class="col-xs-2 nopadding" id="live-playerTablePointsShow-'+player.id+'"> '+player.playerPoints+' Pts </div><div class="col-xs-2 text-right"> <button type="button" onClick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#live-playerAllStatsContainer-'+player.id+'" ><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div></div><div id="live-playerAllStatsContainer-'+player.id+'" class="collapse">'+parseShowIncidences(player.playerStats)+'</div>';
+	return '<div class="row players-list-item vertical-align color-player-list '+oddEven+'"> <div class="col-xs-2"><img class="team-logo" src="img/icons/team-logo/'+player.playerTeamId+'.gif"></div><div class="col-xs-6 player-name"> <p><strong>'+player.playerName+'</strong></p><p>'+traducirPosicionJugadorMesa(player.playerPosition)+'</p></div><div class="col-xs-2 nopadding" id="live-playerTablePointsShow-'+player.id+'"> '+player.playerPoints+' Pts </div><div class="col-xs-2 text-right"> <button type="button" onClick="changeArrow(this);" class="btn btn-live" data-toggle="collapse" data-target="#live-playerAllStatsContainer-'+player.id+'" ><i class="fa fa-chevron-down" aria-hidden="true"></i></button> </div></div><div id="live-playerAllStatsContainer-'+player.id+'" class="collapse">'+parseShowIncidences(player.playerStats)+'</div>';
 }
 function parseUpdatePlayersComplete(player){
 	document.getElementById("live-playerTablePointsShow-"+player.id).innerHTML=player.playerPoints+' Pts ';
@@ -135,11 +137,77 @@ function parseShowIncidences(insidences){
 function parseStatsPointsToShow(points){
 	if(points>0){return"+ "+points;}else{return"- "+points*-1;}
 }
-function parseStatsNameToShow(name){
-	return name.replace("_", " ");
+function parseStatsNameToShow(name){ // Poner la insidencia y traducir
+	switch (name) { // Que paso con el gol de tiro libre!
+		case 'shots_on_goal':
+			return'<span class="trn">Disparo al arco</span>';
+			break;
+		case 'shots_to_the_post':
+			return'<span class="trn">Disparo al palo</span>';
+			break;
+		case 'shots_outside':
+			return'<span class="trn">Disparo afuera</span>';
+			break;
+		case 'scored_goals':
+			return'<span class="trn">Goles</span>';
+			break;
+		case 'defender_scored_goals':
+			return'<span class="trn">Goles (DEF)</span>';
+			break;
+		case 'goalkeeper_scored_goals':
+			return'<span class="trn">Goles (ARQ)</span>';
+			break;
+		case 'yellow_cards':
+			return'<span class="trn">Tarjeta amarilla</span>';
+			break;
+		case 'red_cards':
+			return'<span class="trn">Tarjeta roja</span>';
+			break;
+		case 'right_passes':
+			return'<span class="trn">Pases correctos</span>';
+			break;
+		case 'wrong_passes':
+			return'<span class="trn">Pases incorrectos</span>';
+			break;
+		case 'faults':
+			return'<span class="trn">Faltas</span>';
+			break;
+		case 'recoveries':
+			return'<span class="trn">Recuperaciones</span>';
+			break;
+		case 'assists':
+			return'<span class="trn">Asistencias</span>';
+			break;
+		case 'offside':
+			return'<span class="trn">Fuera de juego</span>';
+			break;
+		case 'saves':
+			return'<span class="trn">Atajadas</span>';
+			break;
+		case 'missed_penalties':
+			return'<span class="trn">Penal errado</span>';
+			break;
+		case 'saved_penalties':
+			return'<span class="trn">Penal atajado (ARQ)</span>';
+			break;
+		case 'missed_saves':
+			return'<span class="trn">Gol al arquero(ARQ)</span>';
+			break;
+		case 'undefeated_goal':
+			return'<span class="trn">Valla invicta (ARQ)</span>';
+			break;
+		case 'undefeated_defense':
+			return'<span class="trn">Valla invicta (DEF)</span>';
+			break;
+		case 'winner_team':
+			return'<span class="trn">Equipo ganador</span>';
+			break;
+		default:
+		return name.replace("_", " ");
+	}
 }
 function parseShowPlayersBase(player, number){
-	return '<div class="row players-list-item vertical-align color-player-list2 '+parseNumberToTextOddOrEven(number)+'"> <div class="col-xs-2"><img class="team-logo" src="img/icons/team-logo/'+player.playerTeamId+'.gif"></div><div class="col-xs-6 player-name"> <p><strong>'+player.playerName+'</strong></p><p>'+player.playerPosition+'</p></div><div class="col-xs-1">'+parseCapitanSubLive(number)+'</div><div class="col-xs-3"> <p class="text-right nomarging"> <span class="text-block-style2">'+player.playerPoints+'</span> <b>Pts</b></p></div></div>';
+	return '<div class="row players-list-item vertical-align color-player-list2 '+parseNumberToTextOddOrEven(number)+'"> <div class="col-xs-2"><img class="team-logo" src="img/icons/team-logo/'+player.playerTeamId+'.gif"></div><div class="col-xs-6 player-name"> <p><strong>'+player.playerName+'</strong></p><p>'+traducirPosicionJugadorMesa(player.playerPosition)+'</p></div><div class="col-xs-1">'+parseCapitanSubLive(number)+'</div><div class="col-xs-3"> <p class="text-right nomarging"> <span class="text-block-style2">'+player.playerPoints+'</span> <b>Pts</b></p></div></div>';
 }
 function parseCapitanSubLive(nro){
 	switch(parseInt(nro)){
@@ -232,5 +300,5 @@ function changeOddEvenFromDiv(element){
 		elemento.classList.remove("even");
 		elemento.classList.add("odd");
 	}
-	
+
 }

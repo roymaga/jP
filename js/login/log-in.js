@@ -3,21 +3,24 @@
 // Llama a http://app.jugaplay.com/api/v1/tables/ que le devuelve las mesas disponibles para jugar
 // Comienzo log-In Comun
 function abrirLogIn(){
-  		if (checkCookie()!=true) { 
+  		if (checkCookie()!=true) {
     		avisoEmergenteJugaPlay("Habilitar las cookies","<p>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
 	  }else{
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up',
-			 title: "Log in",
-            message: "<div class='row'><div onclick='processFacebook(\"login\");' class='botton-general-size facebook'>Log-In con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row'><a style=' margin-right: 20px; cursor: pointer;' onclick='passwordRecovery();'>¿Olvido su contraseña?</a><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
+			 title: "<span class='trn'>Iniciar sesión</span>",
+            message: "<div class='row'><div onclick='processFacebook(\"login\");' class='botton-general-size facebook'><span class='trn'>Ingresa con Facebook</span></div></div><div class='row'>-O-</div><div class='row'><input placeholder='Correo electrónico' data-trn-holder='email' id='email-pop' class='botton-general-size trn' type='text' value=''></div><div class='row'><input placeholder='Contraseña' data-trn-holder='pass' id='password-pop' class='botton-general-size trn' type='password' value=''></div><div class='row'><a style=' margin-right: 20px; cursor: pointer;' onclick='passwordRecovery();' class='trn'>¿Olvido su contraseña?</a><input type='checkbox' id='checkKeepLogIn' checked>  <span class='trn'>Recordar</span></div>",
 			buttons: [{
-                label: 'Log In',
+                label: "<span class='trn'>Iniciar sesión</span>",
 				id:'boton-panel-login',
                 action: function(dialog) {
                     logInUsuarioEnElSitio();
                 }
-            }]
-		 
+            }],
+                  onshown: function(dialogItself) {
+                              checkLanguageItem(dialogItself);
+                            }
+
 		 });
 		 setTimeout(function(){alwaysShowInputValues();}, 1500);
 		 }
@@ -27,25 +30,32 @@ function logInUsuarioEnElSitio(){
 	var pass=document.getElementById("password-pop").value;
 	if(mail.length < 1 || pass.length < 1 ){
 		if(mail.length < 1 && pass.length < 1 ){
-			avisoEmergenteJugaPlay("Campos vacios","<p>Los Campos <b>Email y Contraseña</b> tienen que estar completos</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Campos vacíos</span>","<p class='trn'>Los campos <b>Correo electrónico, Contraseña y Apodo</b> son obligatorios</p>");
 			}
 		else{
 			if(mail.length < 1){
-				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>email</b> tiene que estar completo</p>");
+        avisoEmergenteJugaPlay("<span class='trn'>Campo vacío</span>","<p class='trn'>El Campo <b>Correo electrónico</b> es obligatorio</p>");
 			}else{
-				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>contraseña</b> tiene que estar completo</p>");
+				avisoEmergenteJugaPlay("<span class='trn'>Campo vacío</span>","<p class='trn'>El Campo <b>Contraseña</b> es obligatorio</p>");
 			}
 		}	// Termina el tipo de mensaje
 	return false ;
 	}else if( pass.length < 8){
-		avisoEmergenteJugaPlay("Contraseña muy corta","<p>La <b>contraseña</b> tiene que tener al menos <p>8 caracteres</p>");
+		avisoEmergenteJugaPlay("<span class='trn'>Contraseña muy corta</span>","<p class='trn'>La <b>contraseña</b> debe tener al menos <b>8</b> caracteres</p>");
 		return false ;
 	};// Si paso es que los campos estan bien
-	json=JSON.stringify({ "user": { "email": mail, "password":pass } });
+	var json=JSON.stringify({ "user": { "email": mail, "password":pass } });
 	if(startLoadingAnimation()==true){
 	mensajeAlServidorConContenidoLogIn(json);}
 }
 function mensajeAlServidorConContenidoLogIn(json){
+	if(checkConnection()){
+		mensajeAlServidorConContenidoLogIn2(json);
+	}else{
+		setTimeout(function(){mensajeAlServidorConContenidoLogIn(json)},100);
+	}
+}
+function mensajeAlServidorConContenidoLogIn2(json){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -60,7 +70,7 @@ function mensajeAlServidorConContenidoLogIn(json){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4))
 	    {
 			closeLoadingAnimation();
-			jsonStr=xmlhttp.responseText;
+			var jsonStr=xmlhttp.responseText;
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -75,11 +85,11 @@ function mensajeAlServidorConContenidoLogIn(json){
 		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		xmlhttp.send(json);
 }
 function analizarRespuestaLogIn(servidor){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
-			avisoEmergenteJugaPlay("Datos Incorrectos","<p>El <b> mail o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Datos Incorrectos</span>","<p class='trn'>El <b> correo electrónico o contraseña </b> no se han ingresado correctamente, por favor revise ambos</p>");
 			return false;
 	}else{// Salio todo bien
 		if(window.registerInSite!=true){// No vengo del registro
@@ -114,10 +124,9 @@ function processFacebook(type){
 	if(window.invitationTknId>0 && type=="register"){
 		var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook?invitation_token='+window.invitationTknId, '_blank', 'location=yes');
 	}else{
-		//var windowB=window.open(getJPApiURL()+'users/auth/facebook');
-		var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook', '_blank', 'location=yes');
+    var windowB=cordova.InAppBrowser.open(getJPApiURL()+'users/auth/facebook', '_blank', 'location=yes');
 	}
-	windowB.addEventListener('loadstop', function(event) {        
+  windowB.addEventListener('loadstop', function(event) {
 		if (event.url.indexOf("facebookok") !== -1) {
 			windowB.close();
 			checkIfLogInWithFacebook(type);
@@ -126,7 +135,7 @@ function processFacebook(type){
 			windowB.close();
 		}
 	});
-	windowB.addEventListener('loaderror', function() {        
+	windowB.addEventListener('loaderror', function() {
 			windowB.close();
 			checkIfLogInWithFacebook(type);
 	});
@@ -141,7 +150,7 @@ function checkIfWindowFacebookClose(windowB,type){
 }
 function checkIfLogInWithFacebook(type){
 	startLoadingAnimation();
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -155,7 +164,7 @@ function checkIfLogInWithFacebook(type){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
+      stopTimeToWait();
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -172,13 +181,13 @@ function checkIfLogInWithFacebook(type){
 	 	 }
 		xmlhttp.open("GET",getJPApiURL()+"users/33",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send();	}	
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send();
 }
 function analizarRespuestaLogInPostRegistroFacebook(servidor,type){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
 			closeLoadingAnimation();
-			avisoEmergenteJugaPlay("Error en el registro","<p>Por favor vuelva a intentar</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Error inesperado</span>","<p class='trn'>Algo salio mal, vuelva a intentar</p>");
 			return false;
 	}else{// Salio todo bien
 		servidor.last_check=new Date();
@@ -191,7 +200,7 @@ function analizarRespuestaLogInPostRegistroFacebook(servidor,type){
 			}else{
 				jpAnalyticsEvent("COMPLETED_REGISTRATION", "FACEBOOK", "NORMAL");
 			}
-		}	
+		}
 		setTimeout(function (){window.location="game.html";}, 500);// Le doy tiempo a registrar el registro de la cookie
 	}
 }
@@ -207,23 +216,33 @@ function checkIfRegisteredToday(member_since){
 function passwordRecovery(){
 	BootstrapDialog.show({
 			 cssClass: 'general-modal-msj',
-			 title: "<H1>Recuperar Contraseña</H1>",
-            message: "<div class='row'><p>Ingresa tu mail y te enviaremos un link para recuperar tu contraseña</p></div><div class='row'><input placeholder='E-Mail' id='email-recuperarPassword'  style=' width: 80%;text-align:center; margin-left: 9%;' type='text' value=''></div>",
+			 title: "<H1 class='trn'>Recuperar Contraseña</H1>",
+            message: "<div class='row'><p class='trn'>Ingresa tu correo electrónico y te enviaremos un enlace para recuperar tu contraseña</p></div><div class='row'><input placeholder='Correo electrónico' data-trn-holder='email' id='email-recuperarPassword' class='trn' style=' width: 80%;text-align:center; margin-left: 9%;' type='text' value=''></div>",
 			buttons: [{
-                label: 'Recuperar',
+                label: "<span class='trn'>Recuperar</span>",
 				id:'boton-panel-registro-aviso-error-pop-up',
                 action: function(dialogItself){
-					recoverProcess(dialogItself);   
+					recoverProcess(dialogItself);
                 }
-            }]		 
+            }],
+            onshown: function(dialogItself) {
+                        checkLanguageItem(dialogItself);
+                      }
 		 });
 		 return false;
 }
 function recoverProcess(dialogItself){
 	if(checkConnection()){
-	emailIngresado=document.getElementById('email-recuperarPassword').value;
+		recoverProcess2(dialogItself);
+	}else{
+		setTimeout(function(){recoverProcess(dialogItself)},100);
+	}
+}
+function recoverProcess2(dialogItself){
+	var emailIngresado=document.getElementById('email-recuperarPassword').value;
 	if(emailIngresado.length<2){
-		avisoEmergenteJugaPlay("Campo Vacio","<p>Complete el campo mail</p>");
+		avisoEmergenteJugaPlay("<span class='trn'>Campo vacío</span>","<p class='trn'>El Campo <b>Correo electrónico</b> es obligatorio</p>");
+    stopTimeToWait()
 	}else{
 		startLoadingAnimation();
 		json=JSON.stringify({ "user": { "email": emailIngresado} });
@@ -242,8 +261,8 @@ function recoverProcess(dialogItself){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==406))
 	    {
 			closeLoadingAnimation();
-			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
+      stopTimeToWait()
+			var jsonStr=xmlhttp.responseText;
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -256,15 +275,15 @@ function recoverProcess(dialogItself){
 	 	 }
 		xmlhttp.open("POST",getJPApiURL()+"users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send(json);	}
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send(json);
 	}
 }
 function analizarRespuestaDatosPasswordRecovery(mensaje, dialogItself){
 	if (mensaje.success != true){
-		avisoEmergenteJugaPlay("Mail no registrado","<p>El mail que se ingresó no se encuentra registrado en el sitio, revise si lo escribió correctamente. </p>");
+    avisoEmergenteJugaPlay("<span class='trn'>Correo electrónico no registrado</span>","<p class='trn'>El correo electrónico que se ingresó no se encuentra registrado en el sitio, revise si lo escribió correctamente.</p>");
 	}else{// Ya estaba adentro del sitio
-		avisoEmergenteJugaPlay("Mail enviado","<p>Se le envió un mail con un link para recuperar su contraseña. Si no encuentra el mail verifique su casilla de spam.</p>");
+		avisoEmergenteJugaPlay("<span class='trn'>Correo electrónico enviado</span>","<p class='trn'>Se le envió un correo electrónico con un enlace para recuperar su contraseña. Si no encuentra el correo electrónico verifique su casilla de correo no deseado.</p>");
 		dialogItself.close();
 	}
 }

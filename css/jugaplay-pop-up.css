@@ -12,7 +12,7 @@ overflow-y: auto;
 }
 .over-lapse-pop-up-gen .modal-dialog{
 	display: table-cell;
-    vertical-align: middle;	
+    vertical-align: middle;
 }
 .over-lapse-pop-up-gen .modal-content{
 	background-color:#FFF;
@@ -51,7 +51,7 @@ min-height:100vh;
 .loading-pop-up .modal-dialog{
 	display: table-cell;
     vertical-align: middle;
-	border:none;	
+	border:none;
 }
 .loading-pop-up .modal-content{
 	background-color: transparent;
@@ -69,9 +69,9 @@ min-height:100vh;
 	box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0);
 	opacity: 0.8;
     filter: alpha(opacity=80);
-	-webkit-animation : spin 2s infinite linear;  
-	-moz-animation : spin 2s infinite linear; 
-	-ms-animation: spin 2s infinite linear; 
+	-webkit-animation : spin 2s infinite linear;
+	-moz-animation : spin 2s infinite linear;
+	-ms-animation: spin 2s infinite linear;
 	opacity: 0.5;
     filter: alpha(opacity=50);
 }
@@ -134,6 +134,11 @@ min-height:100vh;
     text-align: center;
     text-transform: uppercase;
 }
+.filter-pop-up .bootstrap-dialog-title img{
+max-width: 25px;
+margin: 5px;
+margin-top: -5px;
+}
 .filter-pop-up .bootstrap-dialog-body {
   position: relative;
   padding: 0px;
@@ -171,9 +176,9 @@ min-height:100vh;
 	    background-color: initial;
 		font-size: 1.8em;
 }
-/* Para animaciones, agregar asi: 
--webkit-animation : spin 2s infinite linear;  
-	-moz-animation : spin 2s infinite linear; 
+/* Para animaciones, agregar asi:
+-webkit-animation : spin 2s infinite linear;
+	-moz-animation : spin 2s infinite linear;
 	-ms-animation: spin 2s infinite linear;
 */
 @-moz-keyframes spin {

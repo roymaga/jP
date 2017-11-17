@@ -1,3 +1,4 @@
+// JavaScript Document
 window.posiblePollfishSurvey=false;
 window.posiblePollfishSurveyRevenue=0;
 window.surveyPollster='POLLFISH';
@@ -6,7 +7,8 @@ window.pollfishSurveyLoaded=false;
 function checkIfSurveyAveilableAndMustBeShownAMessage(){
 	// Sale un mensaje si nunca hizo una o si hay una paga
 	// Tiene que marcar cuanto le aparece o algo asi
-	// El mensaje tiene que corroborar que ya haya pasado por el mensaje del juego, el vivo, etc. 
+	// El mensaje tiene que corroborar que ya haya pasado por el mensaje del juego, el vivo, etc.
+	// hasBeenRead(explanationId){
 	if(window.readExplanations.indexOf(4)>-1){ // Ya le mostro el mensaje del vivio
 		if(algorithmAsIfToShowNormalAlert() || algorithmAsIfToShowPromoAlert()==1){
 			appendAlert("normal"); // promotion
@@ -81,7 +83,7 @@ function tryToDoPollfishSurveyOrSendToSurveys(){
 	if(window.posiblePollfishSurvey && window.posiblePollfishSurveyRevenue>0){
 		jpAnalyticsEvent("OPEN_POLL", 'POLLFISH', parseFloat(window.posiblePollfishSurveyRevenue/100));
 		Pollfish.showFullSurvey();
-	}else if(!window.pollfishSurveyLoaded){
+	}else{
 		window.location='surveys.html';
 	}
 }

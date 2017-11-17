@@ -1,4 +1,4 @@
-/*
+payment/*
 JugaPlay Styles: 2017
 Autor: Ezequiel Wernicke
 */
@@ -40,6 +40,7 @@ body > .game-body {
     border-width: 0 0 1px;
     top: 0;
 	position: fixed;
+	    margin-bottom: 0px;
 }
 .nopadding {
    padding: 0 !important;
@@ -48,7 +49,13 @@ body > .game-body {
    margin: 0 !important;
 }
 .main-nav {
-    min-height: 50px;
+	min-height: 45px;
+}
+
+.main-nav .navbar-btn {
+	font-size:22px;
+	padding-bottom: 0;
+	margin-bottom: 6px;
 }
 
 .main-nav-container {
@@ -59,18 +66,23 @@ body > .game-body {
     font-size: 1.1em;
     font-weight: 600;
     text-transform: uppercase;
-	margin-left:80px;/* Con estos margenes no interfieren los iconos */
-	margin-right:80px;
-	margin-top:0px;
+		float:left;
+		margin-left: 15px;
+		margin-top: 17px;
 }
+
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: transparent;
 }
+
+.navbar-toggle {
+	padding: 3px 0;
+	margin-right: 3px;
+}
+
 .main-nav .navbar-header {
 	background-color:#212b31;
-	padding-top:18px;
-	height: 60px;/* Para que no se caiga */
 }
 .main-nav .navbar-collapse {
     border: medium none;
@@ -78,19 +90,26 @@ body > .game-body {
     /*margin-top: 10px;*/
 }
 
-.btn-sanwich-menu {
-    border: medium none;
-    margin: 0;
-    padding: 0;
-}
+
 .main-nav .btn-sanwich-menu {
 	margin-right: 15px;
+	border: 0 solid black;
+	color: #f0ad4e;
+}
+
+.main-nav .currency {
+	margin-right: 0px;
+	margin-top: -10px;
+	margin-bottom: -3px;
+	margin-left: 5px;
+	width: 30px;
+}
+
+.main-nav .collapsed {
+	color: #ffffff;
 }
 .main-nav .btn-alerts-menu{
-	margin-right: 15px;
 	border: none;
-	width:30px;
-	height:20px;
 }
 .main-nav .btn-alerts-menu i{
 	    color: #9E9E9E;
@@ -113,20 +132,18 @@ body > .game-body {
     	background-color: #35b44a;
 }
 
-.btn-navbar-back {
-    border: medium none;
-    margin: 0;
-    padding: 0;
-}
+
 .main-nav .btn-navbar-back {
-    float: left;
-    margin-left: 15px;
-	margin-top: 9px;
+  float: left;
+  margin-left: 10px;
+	margin-top: 12px;
+	font-size:14px;
+	padding-bottom: 2px;
 }
 
 /*-- > IMPORTANT --*/
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
-    max-height: calc(100vh - 60px);
+    max-height: calc(100vh - 49px);
     width: calc(85vw);
 	overflow-x: hidden;
     padding-left: 0;
@@ -884,7 +901,7 @@ a.social-icon .circle-icon {
    UTILITY
    ========================================================================== */
 .spacer-top {
-    height: 60px;
+    height: 45px;
     width: 100%;
 }
 
@@ -1238,7 +1255,7 @@ a:active, a:focus { outline-style: none; -moz-outline-style:none; }
 .bg-color4 {background-color: #202b2e;} /* Dark Blue */
 .bg-color5 {background-color: #ffffff;} /* White */
 .bg-color6 {background-color: #a5a7aa;} /* Light Grey */
-.bg-color7 {background-color: #5f5f5f;} /* Lighter Grey */
+.bg-color7 {background-color: #5f5f5f;} /* Darker Grey */
 .bg-color8 {background-color: #000000;} /* Black Metal \w/ */
 .bg-color9 {background-color: #90880C;} /* Yellow \w/ */
 .bg-color10 {background-color: #EE1D23;} /* Live Red \w/ */
@@ -1392,12 +1409,179 @@ button.close {
   text-align:center;
   background-color:#35B44A;
 }
-.general-modal-msj.payment .modal-dialog .modal-content .modal-header {
-  background-color:#113c50;
-}
+
 .general-modal-msj .modal-header h1 {font-size:1.3em;}
 .general-modal-msj .modal-header h2 {font-size:1.2em;}
 .general-modal-msj .modal-header h3 {font-size:1em;}
+
+/* ==========================================================================
+   PAYMENTS MODAL
+   ========================================================================== */
+.general-modal-msj.payment-modal .modal-dialog .modal-content {
+	background-color:rgba(0,0,0,0);
+}
+.general-modal-msj.payment-modal .modal-header {
+	background-color:#000000;
+	padding-bottom: 0;
+}
+
+.general-modal-msj.payment-modal .modal-dialog .modal-content .modal-body {
+	background-color:#000000;
+}
+
+.payment-modal .content {
+	background-color:#333333;
+}
+
+.payment-modal .step {
+	font-size: 16px;
+	padding: 8px 8px 5px 8px;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
+}
+
+.payment-modal .step-content {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	color: #ffffff;
+}
+
+.payment-modal .step-content .first-content-col {
+	padding-left: 6px;
+	padding-right: 6px;
+}
+.payment-modal .step-content .first-content-col p {
+	font-size: 26px;
+}
+
+.payment-modal .step-content .first-content-col .chips-icon {
+	width: 26px;
+	height: 26px;
+	display: inline;
+	margin-top: -3px;
+}
+.payment-modal .step-content .img {
+	margin-top: 5px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+}
+
+.payment-modal .step i {
+	color: #72bb53;
+	float: right;
+	font-size: 22px;
+	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
+}
+
+.payment-modal .step-complete {
+	background-color: #606060;
+	color: #ffffff;
+}
+.payment-modal .step-complete .chip {
+	width: 18px;
+  margin-left: 5px;
+  margin-top: -4px;
+}
+
+
+.payment-modal .step-active {
+	background-color: #1464f6;
+	color: #ffffff;
+}
+
+.payment-modal .step-blocked {
+	background-color: #606060;
+	color: #7a7a7a;
+}
+
+.payment-modal .step-complete .position {
+	display: none;
+}
+
+.payment-modal .step-complete i {
+	opacity: 1;
+}
+
+.payment-modal .step-blocked i {
+	opacity: 0;
+}
+
+.payment-modal .step-active i {
+	opacity: 0;
+}
+
+.payment-modal .step-content .step-flag-selected {
+	font-weight: bold;
+	font-size: 10px;
+	text-align: center;
+	opacity: 1;
+}
+
+.payment-modal .step-content .step-flag {
+	font-size: 10px;
+	font-weight: normal;
+	color: #ffffff;
+	text-align: center;
+	opacity: 0.5;
+}
+
+#paymentModalCountryConfirmation {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.payment-modal .payment-item {
+	background-color:#ffffff;
+	border-radius: 10px;
+	border: 4px solid #cccccc;
+	margin-bottom: 10px;
+	padding: 8px;
+	opacity: 0.5;
+}
+
+.payment-modal .payment-item-selected {
+	background-color:#ffffff;
+	border-radius: 10px;
+	border: 4px solid #72bb53;
+	margin-bottom: 10px;
+	padding: 8px;
+	opacity: 1;
+}
+
+.payment-modal .payment-terms input {
+	margin-top: 3px;
+}
+.payment-modal .payment-terms a {
+	color: #ffffff;
+	text-decoration: underline;
+}
+.payment-modal .payment-terms {
+	font-weight: normal;
+}
+
+#paymentModalCongratulations {
+	background-color:#000000;
+}
+
+.payment-modal .congrats-message {
+	font-size:24px;
+	margin-top: 10px;
+}
+.payment-modal .congrats-prize {
+	font-size:72px;
+	margin-bottom: 10px;
+}
+
+.payment-modal .congrats-prize img {
+	width: 72px;
+	margin-top: -6px;
+}
+
+#paymentModalErrorMessage {
+	margin-top: 15px;
+	border-top: 1px dotted white;
+	padding-top: 15px;
+}
+
 
 /* ==========================================================================
    ACCORDIONS
@@ -1407,6 +1591,8 @@ button.close {
 .panel-group .panel {
     border-radius: 0;
     margin-bottom: 0;
+		padding-bottom: 0;
+		background-color: rgba(0,0,0,0);
 }
 .panel {
     background-color: #fff;
@@ -1431,10 +1617,6 @@ button.close {
 
 .panel-heading:hover {
     cursor: pointer;
-}
-
-.panel-heading:hover h4 {
-    text-decoration: underline;
 }
 
 .accordion-toggle.collapsed {
@@ -1576,6 +1758,7 @@ button.close {
     display: table;
     table-layout: fixed;
     width: 100%;
+		background: #000;
 }
 .nav-tabs > li {
     display: table-cell;
@@ -2178,6 +2361,7 @@ button.close {
 .tournament-row.group:nth-child(4n-1){
 	background:#2774b5;
 }
+
 .league-match-row{
 	border-bottom: 1px dotted #000000;
 	font-size: 1.2em;
@@ -2223,6 +2407,24 @@ button.close {
 	border-radius: 7px;
 	padding: 5px 5px 5px 5px;
 	margin-top: 8px;
+}
+
+.league-top-title-container {
+	padding: 8px;
+	background-color: rgba(0,0,0,0.7);
+	border-radius: 5px;
+	text-align: center;
+}
+.league-top-title-container h1 {
+	font-size:24px;
+}
+.league-top-title-container h4 {
+	font-size:16px;
+}
+
+.league-top-title-container .cup{
+	color: #f5c940;
+	margin-right: 8px;
 }
 
 .match-detail .played-info {
@@ -2271,12 +2473,12 @@ button.close {
 
 .btn-challenges{
 	height: 34px;
-    font-size: 3.5vw;
+    font-size: 3vw;
     padding-left: 0.1vw;
     padding-right: 0.1vw;
 }
 
-.match-detail .btn-matchinfo {
+.btn-matchinfo {
 	padding: 2px 5px 1px 5px;
 	text-shadow: 1px 1px rgba(51, 51, 51, 0.6);
 	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.38);
@@ -2517,6 +2719,7 @@ button.close {
 	overflow-y: auto;
 }
 
+
 .container.league{
 	margin-top:35px;
 }
@@ -2526,6 +2729,145 @@ button.close {
 .container.league_match{
 	border-bottom: 0.5px dotted;
 }
+
+.topLeague {
+	background-image: url('../img/backgrounds/league_bg.png');
+	background-size: 100% 100%;
+}
+
 #container-listed-players-table{
 	padding-bottom:90px;
 }
+#amigos-tab-createGroup, #amigos-jugaplay-tab-createGroup{
+	padding-bottom: 150px;
+}
+
+.rules-title {
+	font-size: 20px;
+	color:#fec63d;
+	padding-left: 20px;
+	font-weight:bold;
+}
+
+.rules-list {
+	list-style-type: none;
+  margin: 10px;
+  padding: 0;
+}
+.rules-accordion {
+	margin-bottom: 0;
+}
+
+.rules-accordion .accordion-toggle {
+    background: none;
+		display: inline-block;
+		font-size: 16px;
+		font-weight: normal;
+		text-decoration: none;
+}
+
+.rules-accordion .accordion-toggle.collapsed {
+    background: none;
+		display: inline-block;
+		font-size: 16px;
+		font-weight: normal;
+		text-decoration: none;
+}
+.panel-group .panel+.panel {
+	margin-top: 0;
+	border-top: 1px solid #606060;
+}
+
+
+
+.rules-accordion .accordion-toggle.collapsed .fa-chevron-right {
+	display:inline-block;
+	margin-right: 9px;
+}
+.rules-accordion .accordion-toggle.collapsed .fa-chevron-down {
+	display:none;
+}
+.rules-accordion .accordion-toggle .fa-chevron-right {
+	display:none;
+}
+.rules-accordion .accordion-toggle .fa-chevron-down {
+	display:inline-block;
+}
+.rules-accordion .panel-heading i {
+	font-size: 14px;
+	margin-right: 5px;
+	color: #c0c0c0;
+}
+
+.rules-accordion .panel-heading {
+	background-color: #444444;
+	color: #ffffff;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.panel-default > .panel-heading, .panel-collapse > .panel-body {
+	border-top: none;
+}
+.rules-accordion .panel-body {
+	border:none;
+	background-color: #232323;
+	color: #ffffff;
+}
+.rules-accordion .highlight {
+	color: #fec63d;
+}
+
+.rules-accordion .panel-body a {
+	text-decoration: underline;
+	color: white;
+}
+
+.rules-accordion.header-small .accordion-toggle.collapsed {
+	padding-right: 0;
+	font-size: 13px;
+}
+.rules-accordion.header-small .accordion-toggle {
+	padding-right: 0;
+	font-size: 13px;
+
+.modal-chip-icon {
+	margin-right: 0px;
+	margin-top: -10px;
+	margin-bottom: -3px;
+	margin-left: 5px;
+	width: 20px;
+}
+
+.modal-lack-chips.filter-pop-up .modal-dialog .modal-content .modal-header  {
+	background-color: #000000;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.modal-lack-chips .modal-body {
+	padding-top: 0;
+	background: #000000;
+}
+.modal-lack-chips .bootstrap-dialog-body {
+	background: #232323;
+}
+
+.modal-lack-chips-content {
+	padding: 10px 5px 15px 5px;
+	border-bottom: 1px dotted #3e3e3e;
+	text-align: center;
+	margin-bottom: 0;
+}
+
+.modal-lack-chips-padding-2 {
+	padding: 0 5px 10px 25px;
+}
+.modal-lack-chips-padding-3 {
+	padding: 0 25px 10px 5px;
+}
+.modal-lack-chips-padding {
+	padding: 10px 25px 10px 25px;
+}
+
+/* Agregados al grupo */

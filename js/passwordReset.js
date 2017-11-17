@@ -1,5 +1,5 @@
 // JavaScript Document
-window.onload=setTimeout(function(){passwordResetMainFunction();}, 1500);
+setTimeout(function(){passwordResetMainFunction();}, 1500);
 function passwordResetMainFunction(){
 hacerLogOutDeLaCuentaPreventivoPassReset();
 var webDir=window.location.href;
@@ -11,7 +11,7 @@ var webDir=window.location.href;
   		}
 }
 function abrirRecovery(passToken){
-  		if (checkCookie()!=true) { 
+  		if (checkCookie()!=true) {
     		avisoEmergenteJugaPlay("Habilitar las cookies","<p>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
 	  }else{
 	BootstrapDialog.show({
@@ -41,7 +41,7 @@ function passwordRecoveryTransaction(dialogItself, passToken){
 		startLoadingAnimation();
 		json=JSON.stringify({ "user": { "password": passIngresado , "password_confirmation": passConfirmIngresado, "reset_password_token": passToken } });
 		//alert(json);
-		if(checkConnection()){var xmlhttp;
+		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -55,7 +55,6 @@ function passwordRecoveryTransaction(dialogItself, passToken){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401) ||  (xmlhttp.readyState==4 && xmlhttp.status==406))
 	    {
 			closeLoadingAnimation();
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			//alert("Lo que lee el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
@@ -69,15 +68,14 @@ function passwordRecoveryTransaction(dialogItself, passToken){
 	 	 }
 		xmlhttp.open("PUT",getJPApiURL()+"users/password",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		xmlhttp.withCredentials = "true"; 
-		xmlhttp.send(json);	
-		}
+		xmlhttp.withCredentials = "true";
+		xmlhttp.send(json);
 	}
 }
 function analizarRespuestaDatosPasswordRecoveryReset(servidor, dialogItself){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 		avisoEmergenteJugaPlay("Token incorrecto","<p>El Token ingresado no es válido, es posible que este mal ingresado, que ya haya recuperado la contraseña utilizando el mismo o que no sea el último que se le ah enviado. Verifique de copiar el link tal cual le aparece en su mail. De continuar el error solicite recuperar la contraseña nuevamente. </p>");
-		
+
 	}else{// Ya estaba adentro del sitio
 		avisoEmergenteJugaPlay("Contraseña Actualizada","<p>Su contraseña fue actualizada.</p>");
 	}
@@ -86,8 +84,8 @@ function analizarRespuestaDatosPasswordRecoveryReset(servidor, dialogItself){
 function hacerLogOutDeLaCuentaPreventivoPassReset(){
 	delete_cookie( "jugaPlayUserRemember" );
 	delete_cookie( "juga-Play-User" );
-	delete_cookie( "juga-Play-Pass" );	
-	if(checkConnection()){var xmlhttp;
+	delete_cookie( "juga-Play-Pass" );
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -100,13 +98,11 @@ function hacerLogOutDeLaCuentaPreventivoPassReset(){
 	  	{
 	 	 if ((xmlhttp.readyState==4))
 	    {
-			stopTimeToWait();
 			return true;
 	    }
 	 	 }
 		xmlhttp.open("DELETE",getJPApiURL()+"logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
-	}
+		xmlhttp.send();
 }

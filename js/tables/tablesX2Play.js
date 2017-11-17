@@ -42,24 +42,27 @@ function playTurboOption(table_id, bet_multiplier , multiplier_chips_cost, has_b
 		 messageForBuyX2(table_id, multiplier_chips_cost);
 	}else if(has_been_played_by_user==false){
 		// Tenes que haber jugado el partido
-		avisoEmergenteJugaPlay("Jugar el partido",'<p>Antes de usar el <img src="img/icons/coins/x2.png" width="50px;"> es necesario jugar el partido.</p>');
+		avisoEmergenteJugaPlay("<span class='trn'>Jugar el partido</span>",'<p><span class="trn">Antes de usar el</span> <img src="img/icons/coins/x2.png" width="50px;"> <span class="trn">es necesario jugar el partido.</span></p>');
 	}else{
 		// Ya usaste el X2
-		avisoEmergenteJugaPlay("X2 Activado",'<p>El <img src="img/icons/coins/x2.png" width="50px;"> ya está activado para este partido.</p>');
+		avisoEmergenteJugaPlay("<span class='trn'>X2 Activado</span>",'<p><span class="trn">El</span> <img src="img/icons/coins/x2.png" width="50px;"> <span class="trn">ya está activado para este partido.</span></p>');
 	}
 }
 function messageForBuyX2(table_id, multiplier_chips_cost){
 		 BootstrapDialog.show({
 			 cssClass: 'general-modal-msj x2',
-			 title: '<H1 class="x2">DUPLICA con <img src="img/icons/coins/x2.png" width="50px;"></H1>',
-            message: '<img src="img/icons/coins/x2_pop.svg">',
+			 title: '<H1 class="x2"><span class="trn">DUPLICA con</span> <img src="img/icons/coins/x2.png"></H1>',
+            message: '<span class="trn"><img src="img/icons/coins/x2_pop.jpg" style="width: 70%;"></span>',
 			buttons: [{
-                label: 'CANJEA <img src="img/icons/coins/x2.png" width="50px;"> por <b style="font-size: 1.7em; margin-left: 5px;">'+multiplier_chips_cost+'</b> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;">',
+                label: '<span class="trn">CANJEA</span> <img src="img/icons/coins/x2.png" width="50px;"> <span class="trn">por</span> <b style="font-size: 1.7em; margin-left: 5px;">'+multiplier_chips_cost+'</b> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;">',
 				cssClass:'btn btn-lg btn-block btn-secundary btn-astp transition',
                 action: function(dialogItself){
 					buyX2WithChips(table_id, multiplier_chips_cost,dialogItself);
                 }
-            }]
+            }],
+						onshown: function(dialogItself) {
+												checkLanguageItem(dialogItself);
+											}
 		 });
 		 return false;
 }
@@ -71,19 +74,21 @@ function buyX2WithChips(table_id, multiplier_chips_cost,dialogItself){
 		dialogItself.close();
 	}else{
 		var chipsNeeded=parseInt(multiplier_chips_cost)-parseInt(getUserJugaplayChips());
-		jpAnalyticsEvent("LACK_CHIPS_POPUP", "X2", chipsNeeded);
 		BootstrapDialog.show({
 			 cssClass: 'general-modal-msj x2',
-			 title: '<H1 class="x2">FICHAS <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> insuficientes </H1>',
-            message: '<p>Le faltan <b>'+chipsNeeded+'</b> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> para poder activar el <img src="img/icons/coins/x2.png" width="50px;"></p>',
+			 title: '<H1 class="x2"><span class="trn">FICHAS</span> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> <span class="trn">insuficientes</span> </H1>',
+            message: '<p><span class="trn">Le faltan</span> <b>'+chipsNeeded+'</b> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;"> <span class="trn">para poder activar el</span> <img src="img/icons/coins/x2.png" width="50px;"></p>',
 			buttons: [{
-                label: 'CONSEGUIR <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;">',
+                label: '<span class="trn">CONSEGUIR</span> <img src="img/icons/coins/chip.svg" style="width: 30px; margin-top: -10px;margin-left: 5px;">',
 				cssClass:'btn btn-lg btn-block btn-secundary btn-astp transition',
                 action: function(dialogItself2){
 					buyChips();
 					dialogItself2.close();
                 }
-            }]
+            }],
+						onshown: function(dialogItself) {
+												checkLanguageItem(dialogItself);
+											}
 		 });
 	}
 	//dialogItself.close();
@@ -93,10 +98,15 @@ function activateX2ForPlay(table_id,multiplier_chips_cost){
 		callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
 		jpAnalyticsEvent("TRY_TO_USE_X2", multiplier_chips_cost, table_id);
 	}
-	//alert(getJPApiURL()+"tables/"+table_id+"/multiply_play/2");
 }
 function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
-	if(checkConnection()){
+	if(window.IsLoggedInVar && checkConnection()){
+		callToCheckIfisNotPlayed2(table_id,multiplier_chips_cost);
+	}else{
+		setTimeout(function(){callToCheckIfisNotPlayed(table_id,multiplier_chips_cost)},100);
+	}
+}
+function callToCheckIfisNotPlayed2(table_id,multiplier_chips_cost){
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -112,15 +122,14 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
-			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
+			//alert(jsonStr);
+			if(IsJsonString(jsonStr) && checkConnectionLoggedIn(xmlhttp)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			var doble=JSON.parse(jsonStr);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 			resetTimeOfLastTableAskToServer();
-			analizeShowAvailableTablesToPlay(doble);
 			checkIfisNotPlayed (table_id,multiplier_chips_cost,doble);
 			}else{
-				showAvailableTablesToPlay();
+				setTimeout(function(){callToCheckIfisNotPlayed(table_id,multiplier_chips_cost)}, 500);
 			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
@@ -132,9 +141,6 @@ function callToCheckIfisNotPlayed(table_id,multiplier_chips_cost){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}else{
-		 callToCheckIfisNotPlayed(table_id,multiplier_chips_cost);
-	}
 }
 function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 	for(table in tablesInContainer){
@@ -151,7 +157,6 @@ function checkIfisNotPlayed (table_id,multiplier_chips_cost,tablesInContainer){
 			}
 }
 function callX2ForPlay(table_id,multiplier_chips_cost){
-	if(checkConnection()){
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -167,10 +172,9 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 	    {
 			var jsonStr=xmlhttp.responseText;
 			var json=JSON.parse(jsonStr);
-			stopTimeToWait();
 			closeLoadingAnimation();
 				if (typeof(json.errors) !== 'undefined'){
-						avisoEmergenteJugaPlay("Algo salió mal",'<p>Algo salió mal, por favor vuelva a intentar.</p>');
+						avisoEmergenteJugaPlay("<span class='trn'>Algo salió mal</span>",'<p class="trn">Algo salió mal, vuelva a intentar.</p>');
 				}else{// Salio todo bien
 					jpAnalyticsEvent("USE_X2", multiplier_chips_cost, table_id);
 					 editXChipsFromUsersWallet(-multiplier_chips_cost);
@@ -186,7 +190,6 @@ function callX2ForPlay(table_id,multiplier_chips_cost){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send("[{}]");
-	}
 }
 
 // Cada vez que termine la jugada mostrar el X2 pero con un algoritmo, una vez por dia maximo

@@ -1,48 +1,57 @@
 // JavaScript Document
 // Tarda si o si 10 minutos en preguntar
-if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
-	window.lastTableCheck=JSON.parse(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()));
-}else{
-	window.lastTableCheck=new Date(1401507903635);// 2014
-}
-if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
-	try{
-	window.previusSeenChallenges=JSON.parse(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()));
-	for(table in window.previusSeenChallenges){
-		if(!mesaDisponibleParaJugarHorario(window.previusSeenChallenges[table].startTime)){
-			window.previusSeenChallenges[table].pop();
-			table--;
-		}
+setTimeout(function(){startTablesShowJs();}, 500);
+function startTablesShowJs(){
+	if(window.IsLoggedInVar && checkConnection2() && $("#tables-container-show").length>0){
+		starTablesToShow();
+	}else{
+		setTimeout(function(){startTablesShowJs()},100);
 	}
-	window.newChallengeOptions=false;
-	}catch(e){
+}
+function starTablesToShow(){
+	if(IsJsonString(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()))){
+		window.lastTableCheck=JSON.parse(getCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId()));
+	}else{
+		window.lastTableCheck=new Date(1401507903635);// 2014
+	}
+	if(IsJsonString(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()))){
+		try{
+		window.previusSeenChallenges=JSON.parse(getCookie("challengesSeenToPlay-Jp"+getUserJugaplayId()));
+		for(table in window.previusSeenChallenges){
+			if(!mesaDisponibleParaJugarHorario(window.previusSeenChallenges[table].startTime)){
+				window.previusSeenChallenges[table].pop();
+				table--;
+			}
+		}
+		window.newChallengeOptions=false;
+		}catch(e){
+			window.previusSeenChallenges=[];
+			window.newChallengeOptions=false;
+		}
+	}else{
 		window.previusSeenChallenges=[];
 		window.newChallengeOptions=false;
 	}
-}else{
-	window.previusSeenChallenges=[];
-	window.newChallengeOptions=false;
+	initializeGameVars();
+	showRecordAvailableTablesToPlay();
+	hasBeenRead(1);
 }
-setTimeout(function(){showRecordAvailableTablesToPlay();initializeGameVars();setTimeout(function(){hasBeenRead(1);}, 5000);}, 1000);
+
 function showRecordAvailableTablesToPlay(){
-	previousTablesLoad=getCookie("tablesToPlay-Jp");
-	if(previousTablesLoad.length>4){
-			var json=JSON.stringify(previousTablesLoad);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
+	var previousTablesLoad=getCookie("tablesToPlay-Jp");
+	if(previousTablesLoad.length>4 && IsJsonString(previousTablesLoad) ){
+			var doble=JSON.parse(previousTablesLoad);
 			if(updateTablesFromServer()){
 				showAvailableTablesToPlay();
 			}else{
 				analizeShowAvailableTablesToPlay(doble);
 			}
-
 		}else{
 			 showAvailableTablesToPlay();
 		}
 }
 function updateTablesFromServer(){// Veo si lo traigo de memoria o no
 	if(secondsFromNow(window.lastTableCheck)>300){// Si tiene mas de 5 minutos 300 segundos
-			resetTimeOfLastTableAskToServer();
 		return true;
 	}else{
 		return false;
@@ -54,7 +63,14 @@ function resetTimeOfLastTableAskToServer(){
 	setCookie("tablesToPlay-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableTablesToPlay(){
-	if(checkConnection2()){
+	if(window.IsLoggedInVar && checkConnection() && $("#tables-container-show").length>0){
+		showAvailableTablesToPlay2();
+	}else{
+		setTimeout(function(){showAvailableTablesToPlay()},100);
+	}
+}
+
+function showAvailableTablesToPlay2(){
 	if(document.getElementById("tables-container-show")!=null){
 		addLoaderToCertainContainer(document.getElementById("tables-container-show"));
 	}
@@ -70,33 +86,27 @@ function showAvailableTablesToPlay(){
 		xmlhttp.onreadystatechange=function()
 	  	{
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
-	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
+	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) || (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
-			var doble=JSON.parse(jsonStr);
-			setCookie("tablesToPlay-Jp", jsonStr, 120);
-			resetTimeOfLastTableAskToServer();
-			analizeShowAvailableTablesToPlay(doble);
+			if(IsJsonString(jsonStr) && checkConnectionLoggedIn(xmlhttp)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
+				var doble=JSON.parse(jsonStr);
+				setCookie("tablesToPlay-Jp", jsonStr, 120);
+				resetTimeOfLastTableAskToServer();// Ni siquiera es aca, sino que es donde lee que estan bien!
+				analizeShowAvailableTablesToPlay(doble);
 			}else{
-				showAvailableTablesToPlay();
+				setTimeout(function(){showAvailableTablesToPlay();}, 500);
 			}
 			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
-			}else if((xmlhttp.readyState==4 && xmlhttp.status==401)){
-				ifLogInIsNeed();
-				//setTimeout(function(){showAvailableTablesToPlay();}, 1000);
 			}
 	 	 }
 		xmlhttp.open("GET",getJPApiURL()+"tables/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}else{
-		showAvailableTablesToPlay();
-	}
 }
 function analizeShowAvailableTablesToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
@@ -121,6 +131,8 @@ function analizeShowAvailableTablesToPlay(obj){
 						}
 					}
 				}// Fin si hay un elemento visible
+		checkLanguageElement(document.getElementById("tables-container-show"));
+		checkLanguageElement(document.getElementById("challenges-container-show"));
 		setTimeout(showRecordAvailableTablesToPlay, 3000); // Vuelve a hacer el recorrido cada 3 segundos
 		}
 	}catch(e){
@@ -226,14 +238,13 @@ function parseTableMatchInnerContentPlayedTraining(shownTable) {
 
 function  parseTableMatchInnerContentTrainingButton(shownTable){
 	if(shownTable.has_been_played_by_user){
-		return '<span><b>Partido Amistoso</b><br><small>Anotado</small></span>';
+		return '<span class="trn"><b>Partido Amistoso</b><br><small>Anotado</small></span>';
 	}else{
-		return '<button onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'training\');" type="button" class="btn btn-success btn-block btn-action btn-training">Amistoso</button>';
+		return '<button onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'training\');" type="button" class="btn btn-success btn-block btn-action btn-training trn">Amistoso</button>';
 	}
 }
 
 function parseTableMatchInnerContentPlayedLeague(shownTable) {
-
 	var props = {
 		'{DATE}': shownTable.title+dateFormatViewTable(shownTable.start_time),
 		'{TABLE_ID}': shownTable.id,
@@ -251,9 +262,9 @@ function parseTableMatchInnerContentPlayedLeague(shownTable) {
 
 function parseTableMatchInnerContentLeagueButton(shownTable){
 	if(shownTable.has_been_played_by_user){
-		return '<span><b>Partido Oficial</b><br><small>Anotado</small></span>';
+		return '<span class="trn"><b>Partido Oficial</b><br><small>Anotado</small></span>';
 	}else{
-		return '<button type="button" onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'league\');" class="btn btn-success btn-block btn-action">Oficial '+costOfTable(shownTable)+'</button>';
+		return '<button type="button" onClick="openTableToPlayOverLapseWindow(\''+shownTable.id+'\',\'league\');" class="btn btn-success btn-block btn-action"><span class="trn">Oficial</span> '+costOfTable(shownTable)+'</button>';
 	}
 }
 
@@ -420,10 +431,10 @@ function earnsOfTableTraining(shownTable){
 }
 function buttonOfChallenge(shownTable){
 	if(shownTable.has_been_played_by_user==true){
-		return'<button type="button" class="btn btn-default btn-style2 btn-block btn-training btn-action selected" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Anotado</button>';
+		return'<button type="button" class="btn btn-default btn-style2 btn-block btn-training btn-action selected trn" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Anotado</button>';
 	}else{
 		var noCoinIconClass = (shownTable.entry_cost_value > 0) ? "" : "btn-training";
-		return'<button type="button" class="btn btn-default btn-success btn-block btn-action ' +noCoinIconClass+'" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');">Jugar '+costOfTable(shownTable)+'</button>';}
+		return'<button type="button" class="btn btn-default btn-success btn-block btn-action ' +noCoinIconClass+'" onClick="openChallengeToPlayOverLapseWindow(\''+shownTable.id+'\');"><span class="trn">Jugar</span> '+costOfTable(shownTable)+'</button>';}
 }
 // Functions with tables
 function changeOptionToPlayed(idTabla){ // window.showTableInformatioType
@@ -451,10 +462,11 @@ function changeOptionToPlayed(idTabla){ // window.showTableInformatioType
 			var jsonStr=JSON.stringify(tablesInContainer);
 			setCookie("tablesToPlay-Jp", jsonStr, 120);
 	}
+	checkLanguageElement(document.getElementById("tables-container-show"));
+	checkLanguageElement(document.getElementById("challenges-container-show"));
 }
 
 //function when starts
-
 function initializeGameVars(){
 					$('.jp-tabs li a').click(function (e) {
 					  e.preventDefault();
@@ -489,6 +501,7 @@ function changeOptionTox2(idTabla){
 			var tablesInContainer=JSON.parse(servidor);
 			for(table in tablesInContainer){
 				if(tablesInContainer[table]['id'] == idTabla){
+					console.log("Cambio tabla");
 					tablesInContainer[table]['bet_multiplier']=2;
 					cargarTablaDeMatchesConContenidoInicial(tablesInContainer[table]);
 				}
@@ -535,10 +548,10 @@ function seenAllChallenges(){
 function buttonOfChallengeTable(idMesa,playing){
 	for(user in playing){
 		if(getUserJugaplayId()==playing[user].user_id){
-			return'<button type="button" class="btn btn-default btn-style2 selected" onClick="openTablePlayedDetail(\''+idMesa+'\', \'challenge\');">Anotado</button>';
+			return'<button type="button" class="btn btn-default btn-style2 trn selected" onClick="openTablePlayedDetail(\''+idMesa+'\',\'challenge\');">Anotado</button>';
 		}
 	}
-	return'<button type="button" class="btn btn-default btn-style2" onClick="openTableOfMatch();">¡Jugar!</button>';
+	return'<button type="button" class="btn btn-default btn-style2 trn" onClick="openTableOfMatch();">Jugar</button>';
 }
 
 // ------------------------------------------------------------------------------------
@@ -560,7 +573,7 @@ var TEMPLATE_CHALLENGE_CONTENT = ''
 	+'			<i class="fa fa-chevron-down" aria-hidden="true"></i>'
 	+'		</button>'
 	+'	</div>'
-	+'	<div class="col-xs-6 player-name" onclick="clickOnLine(this);"> <p>{TOURNAMENT_NAME}</p></div>'
+	+'	<div class="col-xs-6 player-name" onclick="clickOnLine(this);"> <p class="trn">{TOURNAMENT_NAME}</p></div>'
 	+'	<div class="col-xs-4 text-right" onclick="clickOnLine(this);"><i class="fa fa-users fa-2x" aria-hidden="true"></i></div>'
 	+'</div>'
 	+'<div id="torunament-container-{TOURNAMENT_ID}" class="collapse row" style="height: 0px;"></div>';
@@ -649,7 +662,7 @@ var TEMPLATE_TOURNAMENT_CONTENT = ''
 		+'			<i class="fa fa-chevron-down" aria-hidden="true"></i>'
 		+'		</button>'
 		+'	</div>'
-		+'	<div class="col-xs-6 player-name" onclick="clickOnLine(this);"><p>{TOURNAMENT_NAME}</p></div>'
+		+'	<div class="col-xs-6 player-name" onclick="clickOnLine(this);"><p class="trn">{TOURNAMENT_NAME}</p></div>'
 		+'	<div class="col-xs-4 text-right" onclick="clickOnLine(this);"><img src="img/tournament/flags/flag-{TOURNAMENT_ID}.jpg"></div>'
 		+'</div>'
 		+'<div id="torunament-container-{TOURNAMENT_ID}" class="collapse tournament-row-container row" aria-expanded="false" style="height: 0px;"></div>';
@@ -745,7 +758,7 @@ var TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED_TRAINING = ''
 		+'						</button>'
 		+'						<h4 class="inline-stats">{EARNS}</h4>'
 		+'						<h4 class="inline-stats">{USERS}&nbsp;<i class="fa fa fa-users" aria-hidden="true"></i></h4>'
-		+'						<b class="right-stats">Amistoso&nbsp;<i class="fa fa-check"></i></b>'
+		+'						<b class="right-stats"><span class="trn">Amistoso</span>&nbsp;<i class="fa fa-check"></i></b>'
 		+'					</div>';
 		+'			</div>';
 		+'		</div>';
@@ -781,7 +794,7 @@ var TEMPLATE_TABLE_MATCH_INNER_CONTENT_PLAYED_LEAGUE = ''
 		+'						</button>'
 		+'						<h4 class="inline-stats">{TABLE_EARNS}</h4>'
 		+'						<h4 class="inline-stats">{LEAGUE_USERS}&nbsp;<i class="fa fa fa-users" aria-hidden="true"></i></h4>'
-		+'						<b class="right-stats">Oficial&nbsp;<i class="fa fa-check"></i></b>'
+		+'						<b class="right-stats"><span class="trn">Oficial</span>&nbsp;<i class="fa fa-check"></i></b>'
 		+'				</div>';
 		+'			</div>';
 		+'		</div>';

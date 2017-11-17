@@ -4,215 +4,253 @@
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>JugaPlay</title>
     <script src="cordova.js" type="text/javascript"></script>
-    <script> window.menuTitleOfWindow="Preguntas Frecuentes"</script>
+    <script> window.menuTitleOfWindow="Preguntas frecuentes"</script>
 	<link rel="shortcut icon" type="image/png" href="img/icons/favicon.png">
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css?190517" 		rel="stylesheet">
-    <link href="css/jugaplay-styles.css?190517" 	rel="stylesheet">
-    <link href="css/jugaplay-pop-up.css?190517" 	rel="stylesheet">
-	
+    <link href="css/bootstrap.min.css?171113" 		rel="stylesheet">
+    <link href="css/jugaplay-styles.css?171113" 	rel="stylesheet">
+    <link href="css/jugaplay-pop-up.css?171113" 	rel="stylesheet">
+
     <!-- Google Fonts -->
 	<link href='fonts/fontsFjallaOne.css ' rel='stylesheet' type='text/css'>
 	<link href='fonts/fontsHinds.css ' rel='stylesheet' type='text/css'>
-	
+
 	<!-- Bootstrap CDN | Font Awesome -->
-	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css?190517">
-	
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css?171113">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js?8"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js?8"></script>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js?171113"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js?171113"></script>
 	<![endif]-->
     <!-- For this one -->
-    <script src="js/session/handleCookies.js?8"></script>
-    <script src="js/specialAppFunctions.js"></script>
-    <script src="js/session/userDataJugaPlayUpdate.js?8"></script> 
-    <script src="js/session/checkUsers.js?8"></script>
-    <script src="js/analytics/analytics.js?8"></script>  
+    <script src="js/session/handleCookies.js?171113"></script>
+	<script src="js/session/userDataJugaPlayUpdate.js?171113"></script>
+	<script src="js/session/checkUsers.js?171113"></script>
+    <script src="js/analytics/analytics.js?171113"></script>
 </head>
-<body>
+<body style="background-color:#000000;">
 <!-- START > CONTENT -->
-		<script src="js/menu/menu.js?8"></script> 
+
 		<div class="spacer-top"></div>
 		<!-- START > CAROUSEL -->
-		<div class="container section-header text-center" id="section-how">
-			<div class="header-img text-center">
-				<img src="img/section-img-how.png">
-			</div>
-			<div class="bg-section-header-cover"></div>
-		</div>
-		
+		<img src="img/backgrounds/help_title.png" class="img img-responsive"; />
+
 		<div class="container container-full">
-			<div class="panel-group accordion-style1" id="accordion"><!-- START > #accordion -->
+			<div class="rules-accordion header-small panel-group accordion-style1" id="accordion"><!-- START > #accordion -->
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-							¿COMO SE JUEGA?</a>
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="font-size: 14px;">
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿COMO SE JUEGA?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse1" class="panel-collapse collapse in">
-						<div class="panel-body">Es muy fácil. Jugaplay es un juego que premia tus habilidades para seleccionar jugadores de fútbol. Elige los jugadores que crees serán los mejores de la cancha para un determinado partido. Sumas puntos de acuerdo al desempeño de tus jugadores en vida real y ganas monedas si quedas entre los primeros puestos. ¡Estas monedas pueden cambiarse por premios!</br>Te recomendamos leer el <a href="tables-scores.html">Reglamento </a> para conocer los detalles del juego.</div>
+						<div class="panel-body trn">Es muy fácil. Jugaplay es un juego que premia tus habilidades para seleccionar jugadores de fútbol. Elige los jugadores que crees serán los mejores de la cancha para un determinado partido. Sumas puntos de acuerdo al desempeño de tus jugadores en vida real y ganas monedas si quedas entre los primeros puestos. ¡Estas monedas pueden cambiarse por premios!</br>Te recomendamos leer el <a href="tables-scores.html">Reglamento </a> para conocer los detalles del juego.</div>
 					</div>
 				</div>
-				
+
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-							¿QUIENES PUEDEN JUGAR?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿QUIENES PUEDEN JUGAR?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse2" class="panel-collapse collapse">
-						<div class="panel-body">Jugaplay es un juego de fútbol fantasía gratuito en el que pueden participar usuarios mayores de 6 (seis) años</div>
+						<div class="panel-body trn">Jugaplay es un juego de fútbol fantasía gratuito en el que pueden participar usuarios mayores de 6 (seis) años</div>
 					</div>
-				</div>	
-				
+				</div>
+
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-							¿DONDE VEO LAS ESTADÍSTICAS EVALUADAS?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿DONDE VEO LAS ESTADÍSTICAS EVALUADAS?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse3" class="panel-collapse collapse">
-						<div class="panel-body">Para conocer la forma de puntuar chequea la tabla de puntuación detallada en la información <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i> de cada partido. Al finalizar una jugada, se anunciará en el megáfono el resultado. Puedes ver el detalle ingresando al historial de partidos.</div>
+						<div class="panel-body trn">Para conocer la forma de puntuar chequea la tabla de puntuación detallada en la información <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i> de cada partido. Al finalizar una jugada, se anunciará en el megáfono el resultado. Puedes ver el detalle ingresando al historial de partidos.</div>
 					</div>
 				</div>
-                
+
                 <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-							¿LAS ESTADÍSTICAS SON REALES?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿LAS ESTADÍSTICAS SON REALES?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse4" class="panel-collapse collapse">
-						<div class="panel-body">Un equipo de profesionales especializados en estadística deportiva nos brinda datos específicos sobre el desempeño de cada jugador titular durante los 90 minutos de juego. Una vez procesada esta información, nuestro sistema asigna los puntos mencionados previamente a cada acción de juego ejecutada por el jugador durante el partido. Ejemplos: Goles, pases correctos, pases incorrectos, infracciones, tarjetas.</div>
+						<div class="panel-body trn">Un equipo de profesionales especializados en estadística deportiva nos brinda datos específicos sobre el desempeño de cada jugador titular durante los 90 minutos de juego. Una vez procesada esta información, nuestro sistema asigna los puntos mencionados previamente a cada acción de juego ejecutada por el jugador durante el partido. Ejemplos: Goles, pases correctos, pases incorrectos, infracciones, tarjetas.</div>
 					</div>
 				</div>
-                
-                <div class="panel panel-default">
+
+        <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-							¿DÓNDE PUEDO VER LOS PUNTAJES DE MIS JUGADORES?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿DÓNDE PUEDO VER LOS PUNTAJES DE MIS JUGADORES?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse5" class="panel-collapse collapse">
-						<div class="panel-body">Durante los partidos, puedes seguir tu puntaje minuto a minuto en el sector PARTIDOS EN VIVO. Una vez finalizado el partido, puedes encontrar tu puntaje final dentro del sector HISTORIAL.</div>
+						<div class="panel-body trn">Durante los partidos, puedes seguir tu puntaje minuto a minuto en el sector PARTIDOS EN VIVO. Una vez finalizado el partido, puedes encontrar tu puntaje final dentro del sector HISTORIAL.</div>
 					</div>
 				</div>
-                
-                <div class="panel panel-default">
+
+        <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
-							¿CÓMO RECIBO MI PREMIO?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿CÓMO RECIBO MI PREMIO?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse6" class="panel-collapse collapse">
-						<div class="panel-body">Si finalizas entre los mejores de un PARTIDO OFICIAL,  te acreditamos monedas a tu cuenta automáticamente. Estas monedas son canjeables por el premio que más te guste en nuestra tienda. Una vez iniciado el canje, el Staff de Jugaplay se pondrá en contacto directo contigo para efectuar la entrega.</div>
+						<div class="panel-body trn">Si finalizas entre los mejores de un PARTIDO OFICIAL,  te acreditamos monedas a tu cuenta automáticamente. Estas monedas son canjeables por el premio que más te guste en nuestra tienda. Una vez iniciado el canje, el Staff de Jugaplay se pondrá en contacto directo contigo para efectuar la entrega.</div>
 					</div>
 				</div>
-                
-                <div class="panel panel-default">
+
+        <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
-							¿QUIENES GANAN MONEDAS EN EL PARTIDO OFICIAL?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+							  <span class="trn">¿QUIENES GANAN MONEDAS EN EL PARTIDO OFICIAL?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse7" class="panel-collapse collapse">
-						<div class="panel-body">Los usuarios cuyos tres jugadores combinados suman las puntuaciones más altas. Cada partido reparte un pozo acumulado de monedas. Al  finalizar los 90 minutos de juego cierra la tabla de posiciones de los usuarios, indicando quienes fueron los ganadores. ¡Chequea la tabla de pago antes de inscribirte para conocer tus posibilidades! </div>
-					</div>
-				</div>
-                
-                <div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse8">
-							¿PARA QUE ME SIRVEN LAS FICHAS?</a>
-						</h4>
-					</div>
-					<div id="collapse8" class="panel-collapse collapse">
-						<div class="panel-body">Las fichas se utilizan para pagar el acceso a un Partido Oficial, o para comprar el multiplicador de monedas en Partidos Oficiales. </div>
-					</div>
-				</div>
-                
-                <div class="panel panel-default">
+						<div class="panel-body trn">Los usuarios cuyos tres jugadores combinados suman las puntuaciones más altas. Cada partido reparte un pozo acumulado de monedas. Al  finalizar los 90 minutos de juego cierra la tabla de posiciones de los usuarios, indicando quienes fueron los ganadores. ¡Chequea la tabla de pago antes de inscribirte para conocer tus posibilidades!</div>
+  					</div>
+  				</div>
+
+          <div class="panel panel-default">
+  					<div class="panel-heading">
+  						<h4 class="panel-title">
+  							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                  <i class="fa fa-chevron-right"></i>
+                  <i class="fa fa-chevron-down"></i>
+  							  <span class="trn">¿PARA QUE ME SIRVEN LAS FICHAS?</span>
+                </a>
+  						</h4>
+  					</div>
+  					<div id="collapse8" class="panel-collapse collapse">
+  						<div class="panel-body trn">Las fichas se utilizan para pagar el acceso a un Partido Oficial, o para comprar el multiplicador de monedas en Partidos Oficiales.</div>
+  					</div>
+  				</div>
+
+        <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse9">
-							¿PUEDO JUGAR UN PARTIDO EN MODO AMISTOSO Y OFICIAL A LA VEZ?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+                <span class="trn">¿PUEDO JUGAR UN PARTIDO EN MODO AMISTOSO Y OFICIAL A LA VEZ?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse9" class="panel-collapse collapse">
-						<div class="panel-body">No. Solo podrás elegir una modalidad por partido. Una vez elegida no puedes cambiar de parecer.</div>
+						<div class="panel-body trn">No. Solo podrás elegir una modalidad por partido. Una vez elegida no puedes cambiar de parecer.</div>
 					</div>
 				</div>
-                
-                <div class="panel panel-default">
+
+        <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse10">
-							¿CUANDO COMIENZA Y TERMINA UNA FECHA EN LA LIGA JUGAPLAY?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+                <span class="trn">¿CUANDO COMIENZA Y TERMINA UNA FECHA EN LA LIGA JUGAPLAY?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse10" class="panel-collapse collapse">
-						<div class="panel-body">Las fechas comienzan y terminan los días Lunes. Es posible que algunas ligas posean 4 fechas, y otras 5 fechas, dependiendo del calendario anual. Siempre revisa el período en la sección de la Liga Jugaplay. </div>
+						<div class="panel-body trn">Las fechas comienzan y terminan los días Lunes. Es posible que algunas ligas posean 4 fechas, y otras 5 fechas, dependiendo del calendario anual. Siempre revisa el período en la sección de la Liga Jugaplay.</div>
 					</div>
 				</div>
-                
-                <div class="panel panel-default">
+
+        <div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse11">
-							¿COMO ME REGISTRO EN LA LIGA JUGAPLAY?</a>
+                <i class="fa fa-chevron-right"></i>
+                <i class="fa fa-chevron-down"></i>
+                <span class="trn">¿COMO ME REGISTRO EN LA LIGA JUGAPLAY?</span>
+              </a>
 						</h4>
 					</div>
 					<div id="collapse11" class="panel-collapse collapse">
-						<div class="panel-body">No es necesario realizar un registro. Solo debes jugar tus partidos en modo Oficial y automáticamente participas de la Liga vigente. </div>
+						<div class="panel-body trn">No es necesario realizar un registro. Solo debes jugar tus partidos en modo Oficial y automáticamente participas de la Liga vigente.</div>
 					</div>
 				</div>
-                
+
 			</div><!-- END > #accordion -->
 		</div><!-- END > .container -->
-		
-		<!-- END > CONTENT -->		
+
+		<!-- END > CONTENT -->
 </body>
 <!-- start Design Scripts -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.min.js?8"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js?8"></script>
-    <script src="js/jugaplay-scripts.js?8"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js?171113"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js?171113"></script>
+<script src="js/jugaplay-scripts.js?171113"></script>
 <!-- end Design Scripts -->
 <!-- Basic Functions -->
-	<!-- Start Monkey-Dialog JavaScript -->
-        <link href="plugins/dialog-master/css/bootstrap-dialog.css?190517" rel="stylesheet" type="text/css" />
-        <script src="plugins/dialog-master/js/bootstrap-dialog.js?8"></script>
-    <!-- End Monkey-Dialog JavaScript -->
-    <script src="js/interaction.js?8"></script>
-    <script src="js/include/handleErrors.js?8"></script>
-    <script src="js/menu/createMenu.js?8"></script>
-    <script src="js/openOverLapseWindow.js?8"></script>
-    <script src="js/openFilterWindow.js?8"></script>
-    <script src="js/notifications/readIfNewNotifications.js?8"></script>
-    <script src="js/explanations/generalExplanations.js"></script>
-	<script src="js/payments/payments.js"></script>
-	<script src="js/payments/countries.js"></script>
-	<script src="js/payments/pollfish.js"></script>
-	<script src="js/payments/pollfish.min.js"></script>
+
+<!-- Start Monkey-Dialog JavaScript -->
+<link href="plugins/dialog-master/css/bootstrap-dialog.css?171113" rel="stylesheet" type="text/css" />
+<script src="plugins/dialog-master/js/bootstrap-dialog.js?171113"></script>
+<!-- End Monkey-Dialog JavaScript -->
+<script src="js/languages/jquery.translate.js?171108"></script>
+<script src="js/languages/languages.js?171108"></script>
+<script src="js/interaction.js?171113"></script>
+<script src="js/include/handleErrors.js?171113"></script>
+<script src="js/openOverLapseWindow.js?171113"></script>
+<script src="js/openFilterWindow.js?171113"></script>
+<script src="js/notifications/readIfNewNotifications.js?171113"></script>
+<script src="js/explanations/generalExplanations.js?171113"></script>
+
+<script type="text/javascript" src="//d3aq14vri881or.cloudfront.net/kiip.js"></script>
+<script src="js/payments/payments.js?171113"></script>
+<script src="js/payments/PaymentsPlugin.js?171113"></script>
+<script src="js/payments/countries.js?171113"></script>
+<script src="js/payments/pollfish.js?171113"></script>
+<script src="js/payments/pollfish.min.js"></script>
+<script src="js/menu/menu.js?171113"></script>
 <!-- End Basic Functions -->
 <!-- start Google Analytics -->
 <script>
 jpAnalyticsPageView("/FRECUENT-QUESTIONS");
 </script>
-<!-- end Google Analytics -->
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
 </html>

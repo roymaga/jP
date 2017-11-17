@@ -1,26 +1,33 @@
 // JavaScript Document
 // previousTablesLoad=getCookie("tablesToPlay-Jp");
-
-if(IsJsonString(getCookie("usersToSync-lastCheck-Jp"+getUserJugaplayId()))){
-	window.lastContactCheck=JSON.parse(getCookie("usersToSync-lastCheck-Jp"+getUserJugaplayId()));
-}else{
-	window.lastContactCheck=new Date(1401507903635);// 2014
-}
-window.onload=setTimeout(function(){showAllContactsInGameWindow();}, 1000);
-function showAllContactsInGameWindow(){
-	previousContactsLoad=getCookie("contactsToSync-Jp");
-	if(previousContactsLoad.length>4){		
-			var json=JSON.stringify(previousContactsLoad);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
-			if(updateContactsFromServer()){
-				showAvailableContactsToPlay();
-			}else{
-				analizeShowContactsToPlay(doble);
-			}
-	
+setTimeout(function(){startContactsJs()}, 500);
+function startContactsJs(){
+	if(window.IsLoggedInVar){
+		if(IsJsonString(getCookie("usersToSync-lastCheck-Jp"+getUserJugaplayId()))){
+			window.lastContactCheck=JSON.parse(getCookie("usersToSync-lastCheck-Jp"+getUserJugaplayId()));
 		}else{
-			 showAvailableContactsToPlay();
+			window.lastContactCheck=new Date(1401507903635);// 2014
+		}
+		if(IsJsonString(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()))){
+			window.usersSyncGoogleApi=JSON.parse(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()));
+		}else{
+			window.usersSyncGoogleApi=false;// 2014
+		}
+		showAllContactsInGameWindow();
+	}else{
+		setTimeout(function(){startContactsJs()},100);
+	}
+}
+function showAllContactsInGameWindow(){
+	var previousContactsLoad=getCookie("contactsToSync-Jp");
+	if(previousContactsLoad.length>4 &&  IsJsonString(previousContactsLoad)){
+			if(updateContactsFromServer()){
+				askAvailableContactsToPlay();
+			}else{
+				analizeShowContactsToPlay(JSON.parse(previousContactsLoad));
+			}
+		}else{
+			 askAvailableContactsToPlay();
 		}
 	showSynElemts();
 }
@@ -41,16 +48,24 @@ function isSyncWithGoogle(){
 }
 function showOptionsToSync(){
 	var optionsToSync='';
-	if(!getUserSyncFacebook()){optionsToSync+='<div class="row vertical-align item" onClick="lookFriendsInFacebook();"><div class="col-xs-2"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Buscar a mis amigos de facebook</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
-	if(!getUserSyncEmail()){optionsToSync+='<div class="row vertical-align item" onClick="noneRegisterPlayerPlayed();"><div class="col-xs-2"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Agregar mail para ser encontrado</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
-	if(!getUserSyncTelephone()){optionsToSync+='<div class="row vertical-align item" onClick="avisoProximamente();"><div class="col-xs-2"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Buscar a mis amigos del celular</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
-	if(optionsToSync==''){optionsToSync='<div class="row vertical-align item"><div class="col-xs-12"><p style="margin-bottom:0px;">Todas las opciones sincronizadas.</p></div></div>';}
-	else{optionsToSync='<div class="row vertical-align item"><div class="col-xs-12"><p style="margin-bottom:0px;">Sincroniza las distintas opciones faltantes, encuentra que amigos tuyos tienen una cuenta de Jugaplay y desafialos.</p></div></div>'+optionsToSync;}
-	document.getElementById("contact-list-menu").innerHTML=optionsToSync;
+	if(!getUserSyncFacebook()){optionsToSync+='<div class="row vertical-align item" onClick="lookFriendsInFacebook();" style="cursor: pointer;"><div class="col-xs-2"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;" class="trn">Buscar a mis amigos de facebook</p></div><div class="col-xs-2"><i class="fa fa-chevron-up" aria-hidden="true"></i></div></div>';}
+	if(!getUserSyncEmail()){optionsToSync+='<div class="row vertical-align item" onClick="noneRegisterPlayerPlayed();" style="cursor: pointer;"><div class="col-xs-2"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;" class="trn">Agregar mail para ser encontrado</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
+	//if(!isSyncWithGoogle()){
+		optionsToSync+='<div class="row vertical-align item" onClick="handleAuthClick(event);" style="cursor: pointer;"><div class="col-xs-2"><i class="fa fa fa-google-plus-official fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;" class="trn">Buscar amigos en gmail/ android / google</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';
+		//}
+	//if(!getUserSyncTelephone()){optionsToSync+='<div class="row vertical-align item" onClick="avisoProximamente();" style="cursor: pointer;"><div class="col-xs-2"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></div><div class="col-xs-8"><p style="margin-bottom:0px;">Buscar a mis amigos del celular</p></div><div class="col-xs-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></div></div>';}
+	if(optionsToSync==''){optionsToSync='<div class="row vertical-align item"><div class="col-xs-12"><p style="margin-bottom:0px;" class="trn">Todas las opciones sincronizadas.</p></div></div>';}
+	else{optionsToSync='<div class="row vertical-align item"><div class="col-xs-12"><p style="margin-bottom:0px;" class="trn">Sincroniza las distintas opciones faltantes, encuentra que amigos tuyos tienen una cuenta de Jugaplay y desafialos.</p></div></div>'+optionsToSync;}
+	if ($('#contact-list-menu').length > 0) {
+			$('#contact-list-menu').html(optionsToSync);
+			checkLanguageElement($('#contact-list-menu'));
+	}else{
+		setTimeout(function(){showOptionsToSync()},100);
+	}
 }
 /* Armo las funciones para los usuarios */
 function updateContactsFromServer(){// Veo si lo traigo de memoria o no
-	if(secondsFromNow(window.lastContactCheck)>100){// Si tiene mas de 1 dia 86 400 segundos
+	if(secondsFromNow(window.lastContactCheck)>86400){// Si tiene mas de 1 dia 86 400 segundos
 			resetTimeOfLastContactAskToServer();
 		return true;
 	}else{
@@ -63,7 +78,13 @@ function resetTimeOfLastContactAskToServer(){
 	setCookie("usersToSync-lastCheck-Jp"+getUserJugaplayId(), jsonUpdt, 120);
 }
 function showAvailableContactsToPlay(json){
-	if(checkConnection2()){
+	if(window.IsLoggedInVar && checkConnection2()){
+		showAvailableContactsToPlay2(json);
+	}else{
+		setTimeout(function(){showAvailableContactsToPlay(json)},100);
+	}
+}
+function showAvailableContactsToPlay2(json){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -78,10 +99,14 @@ function showAvailableContactsToPlay(json){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
-			askAvailableContactsToPlay();
-			return true;
-	    }else if(xmlhttp.status==503 || xmlhttp.status==404){// Esto es si el servidor no le llega a poder responder o esta caido
+				if(checkConnectionLoggedIn(xmlhttp)){
+					var jsonStr=xmlhttp.responseText;
+					askAvailableContactsToPlay();
+					return true;
+				}else{
+					setTimeout(function(){showAvailableContactsToPlay(json)},100);
+				}
+	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
 			}
@@ -89,15 +114,19 @@ function showAvailableContactsToPlay(json){
 		xmlhttp.open("POST",getJPApiURL()+"address_books/synch/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	}else{
-			setTimeout(function(){showAvailableContactsToPlay(json);}, 1000); 
-		}
+		xmlhttp.send(json);
 }
 function askAvailableContactsToPlay(){
-	if(document.getElementById("contact-list-friends")!=null){
-		addLoaderToCertainContainer(document.getElementById("contact-list-friends"));
+	if(window.IsLoggedInVar && checkConnection2() && $('#contact-list-friends').length > 0){
+		askAvailableContactsToPlay2();
+	}else{
+		setTimeout(function(){askAvailableContactsToPlay()},100);
 	}
-	if(checkConnection2()){
+}
+function askAvailableContactsToPlay(){
+	if($('#contact-list-friends').length > 0){
+		addLoaderToCertainContainer(document.getElementById('contact-list-friends'));
+	}
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -112,18 +141,16 @@ function askAvailableContactsToPlay(){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			jsonStr=xmlhttp.responseText;
-			if(document.getElementById("contact-list-friends")!=null){
-				removeLoaderFromCertainContainer(document.getElementById("contact-list-friends"));
+			var jsonStr=xmlhttp.responseText;
+			if(checkConnectionLoggedIn(xmlhttp)){
+				if($('#contact-list-friends').length > 0){removeLoaderFromCertainContainer(document.getElementById('contact-list-friends'));}
+				resetTimeOfLastContactAskToServer();
+				setCookie("contactsToSync-Jp", jsonStr, 120);
+				analizeShowContactsToPlay(JSON.parse(jsonStr));
+				return true;
+			}else{
+				setTimeout(function(){askAvailableContactsToPlay()},100);
 			}
-			//alert(jsonStr);
-			resetTimeOfLastContactAskToServer();
-			setCookie("contactsToSync-Jp", jsonStr, 120);
-			var json=JSON.stringify(jsonStr);
-			var servidor=JSON.parse(json);
-			var doble=JSON.parse(servidor);
-			analizeShowContactsToPlay(doble);
-			return true;
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
@@ -132,9 +159,7 @@ function askAvailableContactsToPlay(){
 		xmlhttp.open("GET",getJPApiURL()+"address_books/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	}else{
-			setTimeout(askAvailableContactsToPlay, 1000); 
-		}
+		xmlhttp.send();
 }
 function analizeShowContactsToPlay(obj){
 	// Me aseguro que no quede ningun loader, por las dudas
@@ -147,7 +172,7 @@ function analizeShowContactsToPlay(obj){
 				//arregloDeMesasConComentarios=new Array();
 				removeLoaderFromCertainContainer(document.getElementById("contact-list-friends"));
 				for (var i = 0; i < obj.contacts.length; i++) {
-					loadUserToVisibleDom(obj.contacts[i]);					
+					loadUserToVisibleDom(obj.contacts[i]);
 				}
 			}// Fin si hay un elemento visible
 	setTimeout(showRecordAvailableTablesToPlay, 3000); // Vuelve a hacer el recorrido cada 3 segundos
@@ -165,7 +190,7 @@ function loadUserToVisibleDom(user){
 	addUserToListoOfUsers(createUser);
 }
 function parseSyncIcons(user){
-	// SyncOptions  <i class="fa fa-mobile fa-2x " aria-hidden="true"></i>					<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>
+	// SyncOptions </i> <i class="fa fa-mobile fa-2x " aria-hidden="true"></i>					<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>
 		var text='';
 		if(user.synched_by_facebook == true){text+='<i class="fa fa-facebook-square fa-2x " aria-hidden="true"></i>';}
 		if(user.synched_by_email == true){text+='<i class="fa fa-envelope-o fa-2x " aria-hidden="true"></i>';}

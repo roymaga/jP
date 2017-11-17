@@ -59,6 +59,16 @@ function delete_cookie( cname ) {
  		 document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 }
-function checkCookie(){ // In App always return true
-		return true;
+function checkCookie(){ // Check if cookies are enable
+	if(navigator.cookieEnabled==true){
+		document.cookie="testcookie";
+		if(document.cookie.indexOf("testcookie")!=-1){
+			return true;
+		}else{
+			return false;
+		}
+
+	}else{
+		return false;
+	}
 }

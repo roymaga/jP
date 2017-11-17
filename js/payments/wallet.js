@@ -1,5 +1,6 @@
 
 window.onload=setTimeout(function(){loadWalletBalance();}, 1000);
+
 function updateWalletBalance(objWallet){
 	var d = new Date();
 	var monthName = returnFullMonthName(d.getMonth()+1);
@@ -8,6 +9,7 @@ function updateWalletBalance(objWallet){
 	document.getElementById('wallet-entry_fees-container').innerHTML=parseFullWalletType("idWallEfC",objWallet.last_month_entry_fees,monthName,objWallet.total_entry_fees,objWallet.detail_entry_fees);
 	document.getElementById('wallet-detail_prizes-container').innerHTML=parseFullWalletType("idWallPc",objWallet.last_month_prizes,monthName,objWallet.total_prizes,objWallet.detail_prizes);
 	document.getElementById('wallet-invited_friends-container').innerHTML=parseFullWalletType("idWallFc",objWallet.last_month_promotions,monthName,objWallet.total_promotions,objWallet.detail_promotions);
+	//document.getElementById('idWallBcHC').innerHTML=parseDetailMovement('idWallBcHC',objWallet.detail_deposits);
 	//setTimeout(hasBeenRead(5), 3000);// A los 3 segundos de mostrar la explicachion de como es el monedero!!  
 }
 function parseFullWalletType(idToCollapse,monthTotal, monthName, historyTotal,htmlDetailGenerator){
@@ -27,7 +29,7 @@ function parseDetailMovement(idToCollapse,htmlDetailGenerator){
 }
 function loadWalletBalance(){
 	var paginate="?from=0&to=5";
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -42,7 +44,6 @@ function loadWalletBalance(){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
 				updateWalletBalance(doble);
@@ -60,7 +61,6 @@ function loadWalletBalance(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
-	}
 }
 function parseAppendDetailMovement(idToCollapse,htmlDetailGenerator,from){
 		var html='';var oddOrEven;
@@ -83,8 +83,8 @@ function showMoreWalletDetail(element,idToCollapse,from){
 	if(idToCollapse=="idWallEfC"){var dir="t_entry_fees"+paginate;}
 	if(idToCollapse=="idWallPc"){var dir="table_rankings?page="+(parseInt(from/5+1));}// Prizes queda distinto resuelvo simple algo que va a andar
 	if(idToCollapse=="idWallFc"){var dir="t_promotions"+paginate;}
-	if(idToCollapse=="idWallBcHC"){var dir="t_deposits"+paginate;;}
-	if(checkConnection()){var xmlhttp;
+	//if(idToCollapse=="idWallBcHC"){var dir="t_deposits"+paginate;;}
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -98,7 +98,6 @@ function showMoreWalletDetail(element,idToCollapse,from){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
@@ -117,5 +116,4 @@ function showMoreWalletDetail(element,idToCollapse,from){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();	
-	}
 }

@@ -7,7 +7,7 @@ function selectCountryPayment(){
 }
 // .count-flag-paym src
 // .count-coin-paym -- Moneda<br><b>USS <i class="fa fa-caret-down" aria-hidden="true"></i></b>
-// 
+//
 function returnPosibleCountries(listadoPaises){
 	var aContent='';
 	for (country in listadoPaises){
@@ -39,80 +39,104 @@ function selectCountry(element,country){
 	}
 }
 function changeContentOfPayment(country){
+	$(".payment-methods .arg").hide();
+	$(".payment-methods .mx").hide();
+	$(".payment-methods .ch").hide();
+	$(".payment-methods .pr").hide();
 	window.countrySelected=country;
 	setCookie("jp-user-country", country, 180);
 	switch(country) {
     case 'argentina':
 	$(".count-flag-paym").attr("src","img/icons/flags/argentina.jpg");
 	setCoinsType('ARS');
-	$(".payment-methods .arg").show(); 
-	
+	$(".payment-methods .arg").show();
+	$("#select-pay-cash").show();
+	$("#select-pay-transfer").hide();
+	$("#select-pay-card ").show();
+	$("#select-pay-chash a").click();
         break;
     case 'chile':
 	$(".count-flag-paym").attr("src","img/icons/flags/chile.jpg");
 	setCoinsType('CLP');
-	
-        
+	$(".payment-methods .ch").show();
+	$("#select-pay-cash").show();
+	$("#select-pay-transfer").show();
+	$("#select-pay-card ").show();
+	$("#select-pay-chash a").click();
+
         break;
 	case 'mexico':
 	$(".count-flag-paym").attr("src","img/icons/flags/mexico.jpg");
 	setCoinsType('MXN');
-	
-        
+	$(".payment-methods .mx").show();
+	$("#select-pay-cash").show();
+	$("#select-pay-transfer").show();
+	$("#select-pay-card ").show();
+	$("#select-pay-chash a").click();
+
         break;
 	case 'peru':
 	$(".count-flag-paym").attr("src","img/icons/flags/peru.jpg");
 	setCoinsType('PEN');
-	
-        
+	$(".payment-methods .pr").show();
+	$(".payment-methods .mx").show();
+	$("#select-pay-cash").show();
+	$("#select-pay-transfer").hide();
+	$("#select-pay-card ").show();
+	$("#select-pay-chash a").click();
+
         break;
     default:
 	$(".count-flag-paym").attr("src","img/icons/flags/all.jpg");
 	setCoinsType('USD');
-	
-        
+	$("#select-pay-cash").hide();
+	$("#select-pay-transfer").hide();
+	$("#select-pay-card ").show();
+	$(".payment-methods .mx").show();
+	$("#select-pay-card a").click();
+
 	}
 }
 function setCoinsType(type){
 	switch(type) {
-		// .count-coin-paym -- 
+		// .count-coin-paym --
      case 'ARS': // Peso Argentino
-	$(".count-coin-paym").html('Moneda<br><b>AR$</b>');
+	$(".count-coin-paym").html('<span class="trn">Moneda</span><br><b>AR$</b>');
 	window.typeOfSelectedCoin="ARS";
 	$("#chips-price-pack1").html("Pack 100 <strong>$50</strong>");
 	$("#chips-price-pack2").html("Pack 200 <strong>$100</strong>");
 	$("#chips-price-pack3").html("Pack 500 <strong>$200</strong>");
         break;
     case 'CLP': // Peso Chileno
-	$(".count-coin-paym").html('Moneda<br><b>$ CLP</b>');
+	$(".count-coin-paym").html('<span class="trn">Moneda</span><br><b>$ CLP</b>');
 	window.typeOfSelectedCoin="CLP";
 	$("#chips-price-pack1").html("Pack 100 <strong>$2.000</strong>");
 	$("#chips-price-pack2").html("Pack 200 <strong>$4.000</strong>");
 	$("#chips-price-pack3").html("Pack 500 <strong>$8.000</strong>");
-        
+
         break;
 	case 'MXN': // Peso mexicano 100
-	$(".count-coin-paym").html('Moneda<br><b>$ MXN</b>');
+	$(".count-coin-paym").html('<span class="trn">Moneda</span><br><b>$ MXN</b>');
 	window.typeOfSelectedCoin="MXN";
 	$("#chips-price-pack1").html("Pack 100 <strong>$50</strong>");
 	$("#chips-price-pack2").html("Pack 200 <strong>$100</strong>");
-	$("#chips-price-pack3").html("Pack 500 <strong>$200</strong>");        
+	$("#chips-price-pack3").html("Pack 500 <strong>$200</strong>");
         break;
 	case 'PEN': // Sol Peruano 20, 50
-	$(".count-coin-paym").html('Moneda<br><b>$ PEN</b>');
+	$(".count-coin-paym").html('<span class="trn">Moneda</span><br><b>$ PEN</b>');
 	window.typeOfSelectedCoin="PEN";
 	$("#chips-price-pack1").html("Pack 100 <strong>$10</strong>");
 	$("#chips-price-pack2").html("Pack 200 <strong>$20</strong>");
 	$("#chips-price-pack3").html("Pack 500 <strong>$40</strong>");
-        
+
         break;
 	case 'USD':
-	$(".count-coin-paym").html('Moneda<br><b>U$D</b>');
+	$(".count-coin-paym").html('<span class="trn">Moneda</span><br><b>U$D</b>');
 	window.typeOfSelectedCoin="USD";
 	$("#chips-price-pack1").html("Pack 100 <strong>$3</strong>");
 	$("#chips-price-pack2").html("Pack 200 <strong>$6</strong>");
 	$("#chips-price-pack3").html("Pack 500 <strong>$12</strong>");
-     break;     
-        
+     break;
+
 	}
 }

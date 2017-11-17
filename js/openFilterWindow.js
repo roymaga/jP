@@ -8,12 +8,15 @@ function openFilterWindow(title,content){
 			 title: title,
             message: content,
 			buttons: [{
-                label: 'Aceptar',
+                label: '<span class="trn">Aceptar</span>',
                 action: function(dialogItself){
                     dialogItself.close();
                 }
-            }]	
-		 });  
+            }],
+						onshown: function(dialogItself) {
+												checkLanguageItem(dialogItself);
+											}
+		 });
 }
 function closeFilterWindow(windowToClose){
 	$.each(BootstrapDialog.dialogs, function(id, dialog){

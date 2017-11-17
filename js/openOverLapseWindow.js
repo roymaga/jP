@@ -2,54 +2,54 @@
 window.derreferArray=[];
 window.lastScreenArray=[];
 function openOverLapseWindow(titleForOpenWindow, contentForOpenWindow){
-	useId='BS-'+Math.floor((Math.random() * 1000000000) + 1);
+	var useId='BS-'+Math.floor((Math.random() * 1000000000) + 1);
 	var element =  document.getElementById('boton-close-loading'); // Prueb que se cierre el Loading
 	if (typeof(element) != 'undefined' && element != null)
-	{ 
+	{
 		document.getElementById('boton-close-loading').click();
 		setTimeout(function(){
-			lastScreen={bodyShown:document.body.innerHTML, bodyYPosition:document.body.scrollTop}
+			var lastScreen={bodyShown:document.body.innerHTML, bodyYPosition:document.body.scrollTop}
 			window.lastScreenArray.push(lastScreen);
 			document.body.innerHTML=contentOfOverLapseWindow(useId, titleForOpenWindow, contentForOpenWindow);
 			document.body.scrollTop="0px";
 			setTimeout(function(){ updateMenusValues() }, 500); // Actualizo los valores del Menu
+			checkLanguageElement($("body"));
 			}, 500);
 	}else{
-			lastScreen={bodyShown:document.body.innerHTML, bodyYPosition:document.body.scrollTop}
+			var lastScreen={bodyShown:document.body.innerHTML, bodyYPosition:document.body.scrollTop}
 			window.lastScreenArray.push(lastScreen);
 			document.body.innerHTML=contentOfOverLapseWindow(useId, titleForOpenWindow, contentForOpenWindow);
 			document.body.scrollTop="0px";
 			setTimeout(function(){ updateMenusValues() }, 500); // Actualizo los valores del Menu
+			checkLanguageElement($("body"));
 	}
 }
 function closeOverLapseWindow(windowToClose){
-	lastScreen=window.lastScreenArray.pop();
+	var lastScreen=window.lastScreenArray.pop();
 	document.body.innerHTML=lastScreen.bodyShown;
 	document.body.scrollTop=lastScreen.bodyYPosition;
-	if (typeof initializeGameVars == 'function') { 
+	// initializeGameVars()
+	if (typeof initializeGameVars == 'function') {
  		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
-	setTimeout(function(){ updateMenusValues() }, 500);
-	
+	setTimeout(function(){ updateMenusValues(); }, 500);
+	checkLanguageElement($("body"));
+
 }
 function closeAllOverLapseWindow(){
 	while(window.lastScreenArray.length>0){
-		lastScreen=window.lastScreenArray.pop();
+		var lastScreen=window.lastScreenArray.pop();
 		document.body.innerHTML=lastScreen.bodyShown;
-		document.body.scrollTop=lastScreen.bodyYPosition;		
+		document.body.scrollTop=lastScreen.bodyYPosition;
 	}
-	if (typeof initializeGameVars == 'function') { 
+	if (typeof initializeGameVars == 'function') {
  		 setTimeout(function(){ initializeGameVars(); }, 500);
 	}
 	setTimeout(function(){ updateMenusValues() }, 500);
+	checkLanguageElement($("body"));
 }
 function contentOfOverLapseWindow(windowToClose, titleForOpenWindow, contentForOpenWindow){
-	idOpen=windowToClose;
-	windowMenu=createMenu(titleForOpenWindow, windowToClose);
+	var idOpen=windowToClose;
+	var windowMenu=createMenu(titleForOpenWindow, windowToClose);
 	return windowMenu+'<div class="spacer-top"></div>'+contentForOpenWindow;
 }
-/*$.each(BootstrapDialog.dialogs, function(id, dialog){
-							window.derreferArray[id].resolve("true");
-                            dialog.close();}
-document.body.scrollTop;
-                        );*/

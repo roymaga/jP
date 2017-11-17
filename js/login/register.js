@@ -1,22 +1,33 @@
 // JavaScript Document
 // Este javascript esta encargado de manejar el registro del sitio
+setTimeout(function(){startRegisterJs();}, 500);
+function startRegisterJs(){
+	if(checkConnection2()){
+		checkIfUsersLinkHasInvitationCode();
+	}else{
+		setTimeout(function(){startRegisterJs()},100);
+	}
+}
 window.invitationTknId='';
 function abrirRegistro(){
-  		if (checkCookie()!=true) { 
-    		avisoEmergenteJugaPlay("Habilitar las cookies","<p>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
+  		if (checkCookie()!=true) {
+    		avisoEmergenteJugaPlay("<span class='trn'>Habilitar las cookies</span>","<p class='trn'>Para poder disfrutar la experiencia Jugaplay es necesario que tenga las cookies de su navegador habilitadas</p>");
 	  }else{
 	BootstrapDialog.show({
 			 cssClass: 'log-in-pop-up register',
-			 title: "Registrate Gratis",
-            message: "<div class='row'><div onclick='processFacebook(\"register\");' class='botton-general-size facebook'>Registro con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='Nickname' id='nickname-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='E-Mail' id='email-pop' class='botton-general-size' type='text' value=''></div><div class='row'><input placeholder='Password' id='password-pop' class='botton-general-size' type='password' value=''></div><div class='row' style='padding-left: 15px;    padding-right: 15px;'>Creando una cuenta está aceptando los <a style=' margin-right: 20px; cursor: pointer;' onclick='openTermsAndConditions();'>términos y condiciones</a></br><input type='checkbox' id='checkKeepLogIn' checked>  Recordar</div>",
+			 title: "<span class='trn'>Registrate</span>",
+            message: "<div class='row'><div onclick='processFacebook(\"register\");' class='botton-general-size facebook trn'>Ingresa con Facebook</div></div><div class='row'>-O-</div><div class='row'><input placeholder='Apodo' data-trn-holder='nick' id='nickname-pop' class='botton-general-size trn' type='text' value=''></div><div class='row'><input placeholder='Correo electrónico' data-trn-holder='email' id='email-pop' class='botton-general-size trn' type='text' value=''></div><div class='row'><input placeholder='Contraseña' data-trn-holder='pass' id='password-pop' class='botton-general-size trn' type='password' value=''></div><div class='row' style='padding-left: 15px;    padding-right: 15px;'><span class='trn'>Creando una cuenta está aceptando los</span> <a style=' margin-right: 20px; cursor: pointer;' onclick='openTermsAndConditions();' class='trn'>términos y condiciones</a></br><input type='checkbox' id='checkKeepLogIn' checked>  <span class='trn'>Recordar</span></div>",
 			buttons: [{
-                label: 'Registrarse',
+                label: "<span class='trn'>Registrate</span>",
 				id:'boton-panel-registro',
                 action: function(dialog) {
                     registrarUsuarioEnElSitio();
                 }
-            }]
-		 
+            }],
+            onshown: function(dialogItself) {
+                        checkLanguageItem(dialogItself);
+                      }
+
 		 });
 		 setTimeout(function(){alwaysShowInputValues();}, 1500);
 		 }
@@ -27,20 +38,20 @@ function registrarUsuarioEnElSitio(){
 	var nickname=document.getElementById("nickname-pop").value;
 	if(mail.length < 1 || pass.length < 1 || nickname.length < 1 ){
 		if(mail.length < 1 && pass.length < 1 ){
-			avisoEmergenteJugaPlay("Campos vacios","<p>Los Campos <b>Email, Contraseña y Nickname</b> son obligatorios</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Campos vacíos</span>","<p class='trn'>Los campos <b>Correo electrónico, Contraseña y Apodo</b> son obligatorios</p>");
 			}
 		else{
-			if(mail.length < 1){
-				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>email</b> es obligatorio</p>");
+      if(mail.length < 1){
+				avisoEmergenteJugaPlay("<span class='trn'>Campo vacío</span>","<p class='trn'>El Campo <b>Correo electrónico</b> es obligatorio</p>");
 			}else if (pass.length < 1){
-				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>contraseña</b> es obligatorio</p>");
+				avisoEmergenteJugaPlay("<span class='trn'>Campo vacío</span>","<p class='trn'>El Campo <b>Contraseña</b> es obligatorio</p>");
 			}else{
-				avisoEmergenteJugaPlay("Campo vacio","<p>El Campo <b>nickname</b> es obligatorio</p>");
+				avisoEmergenteJugaPlay("<span class='trn'>Campo vacío</span>","<p class='trn'>El Campo <b>Apodo</b> es obligatorio</p>");
 			}
 		}	// Termina el tipo de mensaje
 	return false ;
 	}else if( pass.length < 8){
-		avisoEmergenteJugaPlay("Contraseña muy corta","<p>La <b>contraseña</b> debe tener al menos <p>8 caracteres</p>");
+		avisoEmergenteJugaPlay("<span class='trn'>Contraseña muy corta</span>","<p class='trn'>La <b>contraseña</b> debe tener al menos <b>8</b> caracteres</p>");
 		return false ;
 	};// Si paso es que los campos estan bien
 	//https://www.jugaplay.com/?invitedby=RiverCampeon2&cnl=fy
@@ -54,6 +65,12 @@ function registrarUsuarioEnElSitio(){
 }
 function mensajeAlServidorConContenidoRegistro(json, mail, pass){
 	if(checkConnection()){
+		mensajeAlServidorConContenidoRegistro2(json, mail, pass);
+	}else{
+		setTimeout(function(){mensajeAlServidorConContenidoRegistro(json, mail, pass)},100);
+	}
+}
+function mensajeAlServidorConContenidoRegistro2(json, mail, pass){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -67,8 +84,8 @@ function mensajeAlServidorConContenidoRegistro(json, mail, pass){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
+			var jsonStr=xmlhttp.responseText;
+      stopTimeToWait();
 			//alert(jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -83,17 +100,19 @@ function mensajeAlServidorConContenidoRegistro(json, mail, pass){
 		xmlhttp.open("POST",getJPApiURL()+"users",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
-	}
+		xmlhttp.send(json);
 }
 function analizarRespuestaRegistro(servidor, mail, pass){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined'  ){
 		closeLoadingAnimation();
 		if (typeof(servidor.errors.email) !== 'undefined'){
-			avisoEmergenteJugaPlay("Mail en uso","<p>El mail <b>"+document.getElementById("email-pop").value+"</b> ya esta registrado en JugaPlay</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Correo electrónico en uso</span>","<p><span class='trn'>El correo electrónico</span> <b>"+document.getElementById("email-pop").value+"</b> <span class='trn'>ya esta registrado en JugaPlay</span></p>");
 			return false;
+		}else if (typeof(servidor.errors.nickname) !== 'undefined'){
+			avisoEmergenteJugaPlay("<span class='trn'>Apodo en uso</span>","<p><span class='trn'>El Apodo</span> <b>"+document.getElementById("nickname-pop").value+"</b> <span class='trn'>ya esta registrado en JugaPlay</span></p>");
+			return false;// nickname
 		}else{
-			avisoEmergenteJugaPlay("Error inesperado","<p>Algo salio mal, vuelva a intentar</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Error inesperado</span>","<p class='trn'>Algo salio mal, vuelva a intentar</p>");
 			return false;
 		}
 	}else{// Salio todo bien
@@ -136,7 +155,7 @@ function hacerLogOutPreventivo(){
 		xmlhttp.open("DELETE",getJPApiURL()+"logout",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();		
+		xmlhttp.send();
 }
 function probarSinRegistro(){
 	var rand = Math.floor((Math.random() * 100000000000000) + 1);
@@ -161,9 +180,9 @@ function probarSinRegistro(){
 	var json=JSON.stringify({ "user": { "first_name": "Invitado","last_name": "Invitado", "email": mail, "password":pass,"nickname":nickname } });
 	if(startLoadingAnimation()==true){
 	mensajeAlServidorConContenidoRegistro(json, mail, pass);}
-	
+
 }
-window.onload=setTimeout(function(){checkIfUsersLinkHasInvitationCode();},500);
+
 function checkIfUsersLinkHasInvitationCode(){
 	// cnl user Id
 	// cri request Id
@@ -180,7 +199,7 @@ function getQueryVariableTranslated(variable) {
     if (pair[0] == variable) {
       return pair[1];
     }
-  } 
+  }
   return -1;
 }
 function askForInvitationIdFromRequest(requestTkn){
@@ -213,10 +232,9 @@ function askForInvitationIdFromRequest(requestTkn){
 		xmlhttp.open("POST",getJPApiURL()+"invitation_requests/visit",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		xmlhttp.send(json);
 }
 function logInUsuarioEnElSitioPostRegistro(mail, pass){
-	if(checkConnection()){
 	var json=JSON.stringify({ "user": { "email": mail, "password":pass } });
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -233,7 +251,6 @@ function logInUsuarioEnElSitioPostRegistro(mail, pass){
 	    {
 			// closeLoadingAnimation();
 			jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			//alert("Lo que devuelve el log in el servidor"+jsonStr);
 			var json=JSON.stringify(jsonStr);
 			var servidor=JSON.parse(json);
@@ -248,13 +265,12 @@ function logInUsuarioEnElSitioPostRegistro(mail, pass){
 		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
-	}
+		xmlhttp.send(json);
 }
 function analizarRespuestaLogInPostRegistro(servidor){
 	if (typeof(servidor.errors) !== 'undefined' || typeof(servidor.error) !== 'undefined' ){
 			closeLoadingAnimation();
-			avisoEmergenteJugaPlay("Error en el registro","<p>Por favor vuelva a intentar</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Error inesperado</span>","<p class='trn'>Algo salio mal, vuelva a intentar</p>");
 			return false;
 	}else{// Salio todo bien
 		servidor.last_check=new Date();

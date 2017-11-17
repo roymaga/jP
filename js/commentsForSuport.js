@@ -10,15 +10,15 @@ function enviarMensajeDeContacto(){
 		mensajeAlServidorComentarioContacto(json);
 	}else{
 		if(contenidoContacto.length>2000){
-			avisoEmergenteJugaPlay("Contenido Maximo exedido","<p>El contenido del mensaje no puede ser mayor a 2000 caracteres, sino escriba a info@jugaplay.com</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Contenido Maximo exedido</span>","<p class='trn'>El contenido del mensaje no puede ser mayor a 2000 caracteres, sino escriba a info@jugaplay.com</p>");
 		}else{
-			avisoEmergenteJugaPlay("Sin Contenido","<p>El campo comentario es obligatorio</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Sin Contenido</span>","<p class='trn'>El campo comentario es obligatorio</p>");
 		}
 	}
 	//dialog.close;
 }
 function mensajeAlServidorComentarioContacto(json){
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -31,12 +31,11 @@ function mensajeAlServidorComentarioContacto(json){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			stopTimeToWait();
-			avisoEmergenteJugaPlay("Muchas Gracias","<p>Muchas gracias por su comentario</p><p>Su feedback es muy importante para nosotros</p>");
+			avisoEmergenteJugaPlay("<span class='trn'>Muchas Gracias</span>","<p class='trn'>Muchas gracias por su comentario</p><p class='trn'>Su feedback es muy importante para nosotros</p>");
 			document.getElementById("nombreContacto").value=null;
 			document.getElementById("mailContacto").value=null;
 			document.getElementById("contenidoContactoTxt").value=null;
-			
+
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
@@ -45,6 +44,5 @@ function mensajeAlServidorComentarioContacto(json){
 		xmlhttp.open("POST",getJPApiURL()+"comments",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
-	}
+		xmlhttp.send(json);
 }

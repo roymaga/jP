@@ -1,7 +1,14 @@
 // JavaScript Document
-window.onload=setTimeout(function(){loadAllUsersInvitatios();}, 1000);
+setTimeout(function(){startReadFriendsJs();}, 500);
+function startReadFriendsJs(){
+	if(window.IsLoggedInVar && checkConnection()){
+		loadAllUsersInvitatios();
+	}else{
+		setTimeout(function(){startReadFriendsJs()},100);
+	}
+}
 function loadAllUsersInvitatios(){
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -14,14 +21,13 @@ function loadAllUsersInvitatios(){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			stopTimeToWait();
 			var jsonStr=xmlhttp.responseText;
-			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
+			if(IsJsonString(jsonStr) && checkConnectionLoggedIn(xmlhttp)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				loadAllUsersInvited(JSON.parse(jsonStr));
 			}else{
-				loadAllUsersInvitatios();
+				startReadFriendsJs();
 			}
-			
+
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
@@ -30,8 +36,7 @@ function loadAllUsersInvitatios(){
 		xmlhttp.open("GET",getJPApiURL()+"invitation_requests",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send();	
-	}
+		xmlhttp.send();
 }
 function loadAllUsersInvited(response){
 	var InvitedUsers=[];
@@ -51,13 +56,18 @@ function showAllUserInvited(InvitedUsers){
 		if(isThisMonth(InvitedUsers[user].date)){totalThisMonth++;}
 		html+=parseInvitedUser(InvitedUsers[user], user);
 	}
+	if($("#allInvitationsContainers").length>0 && $("#totalUserRegisterNumber").length>0 && $("#totalUserRegisterNumber2").length>0 && $("#totalUserMonthNumber").length>0 && $("#totalUserMonthTxt").length>0){
 	if(InvitedUsers.length>0){
 	document.getElementById("allInvitationsContainers").innerHTML=html;}
 	document.getElementById("totalUserRegisterNumber").innerHTML=InvitedUsers.length+" ";
 	document.getElementById("totalUserRegisterNumber2").innerHTML=InvitedUsers.length;
 	document.getElementById("totalUserMonthNumber").innerHTML=totalThisMonth;
 	var d=new Date();
-	document.getElementById("totalUserMonthTxt").innerHTML="Registrados en "+returnFullMonthName(d.getMonth()+1);
+	document.getElementById("totalUserMonthTxt").innerHTML="<span class='trn'>Registrados en</span> "+returnFullMonthName(d.getMonth()+1);
+	checkLanguageElement(document.getElementById("totalUserMonthTxt"));
+}else{
+	setTimeout(function(){showAllUserInvited(InvitedUsers);}, 100);
+}
 	//isThisMonth(dateA)
 }
 function parseInvitedUser(user, count){

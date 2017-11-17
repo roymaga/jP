@@ -11,7 +11,7 @@ function resetTimeOfLastSyncWithGoogleAskToServer(){
 }
 function checkIf10daysGoneByLastSync(){
 	if(IsJsonString(getCookie("usersSyncGoogleApi-lastCheck-Jp-date"+getUserJugaplayId()))){
-		if(secondsFromNow(JSON.parse(getCookie("usersSyncGoogleApi-lastCheck-Jp-date"+getUserJugaplayId())))>864000){// Si tiene mas de 10 dias 864000
+		if(secondsFromNow(JSON.parse(getCookie("usersSyncGoogleApi-lastCheck-Jp-date"+getUserJugaplayId())))>529200){// Si tiene mas de 10 dias 864000
 			return false;
 		}else{
 			return true;
@@ -87,28 +87,24 @@ function checkCountry(){
 	}, "jsonp");
 }
 function parsePhonesAndMailsForSending(response){
-	//alert("users");
+	var userName;var userPhones=[]; var userMails=[];
 	if(window.countrySelectedPhones!=null){
 		var users=[];
+	var count=0;
 	 for (user in response.feed.entry){
+		 		userPhones=[];userMails=[];
+				userName=parseUnCodeUserName(response.feed.entry[user]);
 				 for(phone in response.feed.entry[user].gd$phoneNumber){
-					var parPhone=parsePhone(response.feed.entry[user].gd$phoneNumber[phone].$t);
-					if(parPhone==null){
-						if(window.countrySelectedPhones=="CL"){// Entra desde chile
-							var parPhone=parsePhone("56"+response.feed.entry[user].gd$phoneNumber[phone].$t);
-						}else if(window.countrySelectedPhones=="AR"){// Entra desde argentina
-							var parPhone=parsePhone("54"+response.feed.entry[user].gd$phoneNumber[phone].$t);
-						}
-					}
+					var parPhone=parseComplexPhone(response.feed.entry[user].gd$phoneNumber[phone].$t);
 					if(parPhone!=null){
-						users.push({"name":response.feed.entry[user].title.$t,"phone":parPhone.countryCode+parPhone.areaCode+parPhone.number});
+						userPhones.push(parPhone.countryCode+parPhone.areaCode+parPhone.number);
 					}
 				 }
 				 for(mail in response.feed.entry[user].gd$email){
-					 users.push({"name":response.feed.entry[user].title.$t,"email":response.feed.entry[user].gd$email[mail].address});
+					 userMails.push(response.feed.entry[user].gd$email[mail].address);
 				 }
+				 users=users.concat(parseJsonForUser(userName,userMails,userPhones));
 			 }
-			 //alert("Star sync");
 			 sendDataFromGoogleToSyncContacts(users);
 	}else{
 		setTimeout(function(){parsePhonesAndMailsForSending(response);}, 1000);
@@ -126,11 +122,44 @@ function sendDataFromGoogleToSyncContacts(googleContacts){
 			setTimeout(function(){sendDataFromGoogleToSyncContacts(googleContacts);}, 1000);
 		}
 	}
-	//if(googleContacts.length==0){alert("Done");}
 	var json=JSON.stringify({ "contacts":sendContact});	
-	//setTimeout(function(){parsePhonesAndMailsForSending(response);}, 1000);
-	//setTimeout(function(){parsePhonesAndMailsForSending(response);}, 1000);
-	//document.getElementById("challenges-container-show").innerHTML+=json+"</br>";
 	showAvailableContactsToPlay(json);
 	resetTimeOfLastSyncWithGoogleAskToServer();
+}
+function parseUnCodeUserName(user){
+	if(user.title.$t.length>0){
+			return user.title.$t;
+	}else{
+			if(typeof(user.gd$email) !== 'undefined'){// Existe al menos un mail
+				return  user.gd$email[0].address.split("@")[0];// Nombre cortado a partir del mail
+			}else{
+				return "unknown";
+			}
+	}
+}
+function parseComplexPhone(phone){
+	var parPhone=parsePhone(phone);
+	if(parPhone==null){
+		if(window.countrySelectedPhones=="CL"){// Entra desde chile
+			var parPhone=parsePhone("56"+phone);
+		}else if(window.countrySelectedPhones=="AR"){// Entra desde argentina
+			var parPhone=parsePhone("54"+phone);
+		}
+	}
+	return parPhone;
+}
+function parseJsonForUser(userName,userMails,userPhones){
+	var returnArr=[];
+	for(var i=0; Math.max(userMails.length, userPhones.length)>i;i++){
+		if(userMails.length>i && userPhones.length>i){
+			returnArr.push({"name":userName,"email":userMails[i],"phone":userPhones[i]});
+		}else{
+			if(userMails.length>i){
+				returnArr.push({"name":userName,"email":userMails[i]});
+			}else{
+				returnArr.push({"name":userName,"phone":userPhones[i]});
+			}
+		}
+	}
+	return returnArr;
 }

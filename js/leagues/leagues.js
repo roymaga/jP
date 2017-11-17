@@ -1,37 +1,23 @@
-window.onload=setTimeout(function(){showActualLeague();}, 1000);
+setTimeout(function(){showActualLeague();}, 1000);
 function showActualLeague(){
 	askServerActualLeague();
 }
+setTimeout(function(){startLeaguesJs()}, 500);
+function startLeaguesJs(){
+	if(window.IsLoggedInVar){
+		askServerActualLeague();
+		generalLeaguesFunctions();
+		getLeaguesArchive();
+	}else{
+		setTimeout(function(){startLeaguesJs()},100);
+	}
+}
 
-$(document).ready(function(){
+function generalLeaguesFunctions(){
 	// Initialize tabs.
 	$('.jp-tabs li a').click(function (e) {
 		e.preventDefault();
 		$(this).tab('show');
-		//var section = $(this).attr("data-section");
-		//var title = $(this).attr("data-title");
-	});
-
-
-
-	getLeaguesArchive();
-
-	$(window).resize(function(){
-		resizeLeagueRankingContent();
-	});
-
-	$("#leagueModalPlayers").parent().scroll(function() {
-		var scrollLoadLimit = $("#leagueModalPlayers").height()-200;
-		var currentScroll = $(this).scrollTop() + $(this).parent().height();
-		var isLastPage = $("#leagueRankingModal").attr("league-page") == $("#leagueRankingModal").attr("total-pages");
-		var isLoadingPage = $("#leagueRankingModal").attr("loading-page") != "-1";
-	   if(currentScroll > scrollLoadLimit && !isLastPage && !isLoadingPage) {
-
-			 loadArchivedLeaguePlayers(
-				 	parseInt($("#leagueRankingModal").attr("league-id")),
-					parseInt($("#leagueRankingModal").attr("league-page"))+1
-			 );
-	   }
 	});
 
 	// Swipe for principal Game features
@@ -51,14 +37,37 @@ $(document).ready(function(){
 		//Default is 75px -- sensiblidad con la que se mueve
 		threshold:75
 	});
-});
+	$(window).resize(function(){
+		resizeLeagueRankingContent();
+	});
+
+	$("#leagueModalPlayers").parent().scroll(function() {
+		var scrollLoadLimit = $("#leagueModalPlayers").height()-200;
+		var currentScroll = $(this).scrollTop() + $(this).parent().height();
+		var isLastPage = $("#leagueRankingModal").attr("league-page") == $("#leagueRankingModal").attr("total-pages");
+		var isLoadingPage = $("#leagueRankingModal").attr("loading-page") != "-1";
+	   if(currentScroll > scrollLoadLimit && !isLastPage && !isLoadingPage) {
+
+			 loadArchivedLeaguePlayers(
+				 	parseInt($("#leagueRankingModal").attr("league-id")),
+					parseInt($("#leagueRankingModal").attr("league-page"))+1
+			 );
+	   }
+	});
+}
 // JavaScript Document
 
 // =============================================================================
 // ------------------------------- LEAGUE LOADER -------------------------------
 function askServerActualLeague(){
+	if(window.IsLoggedInVar && checkConnection()){
+		askServerActualLeague2();
+	}else{
+		setTimeout(function(){askServerActualLeague()},100);
+	}
+}
+function askServerActualLeague2(){
 	var url = getJPApiURL()+"leagues/actual?page=1";
-
 	$.ajaxSetup({
     crossDomain: true,
     xhrFields: {withCredentials: true}
@@ -67,20 +76,27 @@ function askServerActualLeague(){
 	$.get(url, {}, function(data) {
 		$("#topLeague").html(parseLeagueTop(data));
 		appendLeagueMatches(data);
+		checkLanguageElement($("#topLeague"));
 	},"json")
   .fail(function(xhr) {
 		if(xhr.readyState == 4 && xhr.status == 401) {
-			ifLogInIsNeed();
+			checkConnectionLoggedIn(xhr);
 		}else{
 			avisoEmergenteJugaPlayConnectionError();
 		}
   })
-  .always(function() {
-
+  .always(function(xhr) {
+		checkConnectionLoggedIn(xhr);
   });
 }
-
 function getLeaguesArchive(){
+	if(window.IsLoggedInVar && checkConnection()){
+		getLeaguesArchive2();
+	}else{
+		setTimeout(function(){getLeaguesArchive()},100);
+	}
+}
+function getLeaguesArchive2(){
 	var url = getJPApiURL()+"leagues/?page=1";
 
 	$.ajaxSetup({
@@ -95,10 +111,12 @@ function getLeaguesArchive(){
 	},"json")
   .fail(function(xhr) {
 		if(xhr.readyState == 4 && xhr.status == 401) {
-			ifLogInIsNeed();
+			checkConnectionLoggedIn(xhr);
 		}else{
 			avisoEmergenteJugaPlayConnectionError();
 		}
+  }).always(function(xhr) {
+		checkConnectionLoggedIn(xhr);
   });
 }
 
@@ -107,7 +125,7 @@ function getLeaguesArchive(){
 
 function parseLeagueTop(league){
 	var props = {
-		'{NAME}' : 'LIGA JUGAPLAY #'+league.league_data.id,
+		'{NAME}' : '<span class="trn">LIGA JUGAPLAY</span> #'+league.league_data.id,
 		'{PLAYER_POSITION}': parseUserPosition(league.league_data.user_league),
 		'{FROM_DATE}': dateFormatViewLeague(league.league_data.starts),
 		'{TO_DATE}': dateFormatViewLeague(league.league_data.ends),
@@ -120,13 +138,14 @@ function parseLeagueTop(league){
 }
 
 function appendArchive(leagues) {
+	if($("#archive-tab").length>0){
 	$("#archive-tab").html("");
 	for(league in leagues){
 
 		if(leagues[league].status > 1) {
 			var props = {
 				'{LEAGUE_ID}':leagues[league].id,
-				'{NAME}' : 'LIGA JUGAPLAY #'+leagues[league].id,
+				'{NAME}' : '<span class="trn">LIGA JUGAPLAY</span> #'+leagues[league].id,
 				'{PLAYER_POSITION}': parseUserPosition(leagues[league].user_league),
 				'{FROM_DATE}': dateFormatViewLeague(leagues[league].starts),
 				'{TO_DATE}': dateFormatViewLeague(leagues[league].ends),
@@ -137,8 +156,10 @@ function appendArchive(leagues) {
 			}
 			var txt = parseTemplate(props,TEMPLATE_LEAGUE_ARCHIVE_ITEM);
 			$("#archive-tab").append(txt);
+			checkLanguageElement($("#archive-tab"));
 		}
 	}
+}else{setTimeout(function(){appendArchive(leagues)},100);}
 }
 
 function parseAmountAndActualRound(league) {
@@ -147,7 +168,7 @@ function parseAmountAndActualRound(league) {
 	var amount_rounds=Math.ceil(diffOfDaysBetweenDates(league.starts, league.ends)/league.frequency);
 	var actual_round=Math.ceil(daysFromDate(league.starts)/league.frequency);
 	if(actual_round>amount_rounds){actual_round=amount_rounds;}
-	return 'Fecha '+actual_round+' de '+amount_rounds;
+	return '<span class="trn">Fecha</span> '+actual_round+' <span class="trn">de</span> '+amount_rounds;
 }
 
 function parseUserPosition(user_league) {
@@ -172,16 +193,16 @@ function parsePrizeForLeagueTop(prizes) {
 
 			switch (prizes[prize].position) {
 				case 1:
-					props['{POSITION_NAME}'] = 'PRIMER PUESTO';
+					props['{POSITION_NAME}'] = '<span class="trn">PRIMER PUESTO</span> ';
 					break;
 				case 2:
-					props['{POSITION_NAME}'] = 'SEGUNDO PUESTO';
+					props['{POSITION_NAME}'] = '<span class="trn">SEGUNDO PUESTO</span> ';
 					break;
 				case 3:
-					props['{POSITION_NAME}'] = 'TERCER PUESTO';
+					props['{POSITION_NAME}'] = '<span class="trn">TERCER PUESTO</span> ';
 					break;
 				default:
-					props['{POSITION_NAME}'] = 'PREMIO';
+					props['{POSITION_NAME}'] = '<span class="trn">PREMIO</span> ';
 					break;
 			}
 
@@ -211,15 +232,18 @@ function changeEyeButton(button){
 }
 
 function appendLeagueMatches(league){
-	for (ranking in league.league_rankings){
-		if(league.league_rankings[ranking].position!=undefined){
-			$("#resultsLeague").append(parseUserLeagueComplete(league.league_rankings[ranking]));
+	if($("#resultsLeague").length>0){
+		for (ranking in league.league_rankings){
+			if(league.league_rankings[ranking].position!=undefined){
+				$("#resultsLeague").append(parseUserLeagueComplete(league.league_rankings[ranking]));
+				checkLanguageElement($("#resultsLeague"));
+			}
 		}
-	}
-	if(league.pagination.current_page<league.pagination.total_pages){
-	 window.nextPageToCheck=parseInt(league.pagination.current_page)+1;
-	 setTimeout(function(){window.reachLast=false;checkIfVisible();}, 1000);
-	}
+		if(league.pagination.current_page<league.pagination.total_pages){
+		 window.nextPageToCheck=parseInt(league.pagination.current_page)+1;
+		 setTimeout(function(){window.reachLast=false;checkIfVisible();}, 1000);
+		}
+	}else{setTimeout(function(){appendArchive(leagues)},100);}
 }
 // oddOrEven(number)
 function parseUserLeagueComplete(ranking,isArchive = false) {
@@ -284,8 +308,14 @@ function checkIfVisible(){
 	   }
 	});
 }
-
 function checkNextPageOfLeague(){
+	if(window.IsLoggedInVar && checkConnection() && $("#resultsLeague").length>0){
+		checkNextPageOfLeague2();
+	}else{
+		setTimeout(function(){checkNextPageOfLeague()},100);
+	}
+}
+function checkNextPageOfLeague2(){
 	addLoaderToCertainContainer(document.getElementById("resultsLeague"));
 	var url = getJPApiURL()+"leagues/actual?page="+window.nextPageToCheck;
 
@@ -300,13 +330,13 @@ function checkNextPageOfLeague(){
 	},"json")
   .fail(function(xhr) {
 		if(xhr.readyState == 4 && xhr.status == 401) {
-			ifLogInIsNeed();
+			checkConnectionLoggedIn(xhr);
 		}else{
 			avisoEmergenteJugaPlayConnectionError();
 		}
   })
-  .always(function() {
-
+	.always(function(xhr) {
+		checkConnectionLoggedIn(xhr);
   });
 }
 
@@ -346,6 +376,7 @@ function loadArchivedLeaguePlayers(leagueId,page = 1) {
 		$("#leagueRankingModal").attr("league-page",data.pagination.current_page);
 		for(index in data.league_rankings) {
 			$("#leagueModalPlayers").append(parseUserLeagueComplete(data.league_rankings[index],true));
+			checkLanguageElement($("#leagueModalPlayers"));
 		}
 	},"json")
   .fail(function(xhr) {
@@ -393,10 +424,10 @@ var TEMPLATE_LEAGUE_HEADER = ''
 		+'				<div class="container-fluid nopadding">'
 		+'					<div class="row-fluid nopadding">'
 		+'						<div class="col-xs-6 league-stats">'
-		+'							<p><i class="fa fa-calendar"></i>Del <b>{FROM_DATE}</b> al <b>{TO_DATE}</b></p>'
+		+'							<p><i class="fa fa-calendar"></i><span class="trn">Del</span>  <b>{FROM_DATE}</b> <span class="trn">al</span> <b>{TO_DATE}</b></p>'
 		+'							<p><i class="fa fa-calendar-o"></i>{STATUS}</p>'
-		+'							<p><i class="fa fa-users"></i>{TOTAL_PLAYERS} participantes</b></p>'
-		+'							<p><i class="fa fa-futbol-o"></i><b>{MATCHES_PER_ROUND} partidos</b> por fecha</p>'
+		+'							<p><i class="fa fa-users"></i>{TOTAL_PLAYERS} <span class="trn">participantes</span></b></p>'
+		+'							<p><i class="fa fa-futbol-o"></i><b>{MATCHES_PER_ROUND} <span class="trn">partidos</span></b> <span class="trn">por fecha</span></p>'
 		+'						</div>'
 		+'						<div class="col-xs-6 league-prizes">'
 		+'							{PRIZES}'
@@ -464,7 +495,7 @@ var TEMPLATE_LEAGUE_RANKING_ROUND = ''
 
 		+'	<div class="row ranking-round">'
 		+'		<div class="col-xs-12 ranking-round-title">'
-		+'			<p class="inline"><b>FECHA {ROUND}</b>&nbsp;{VARIATION}</p>'
+		+'			<p class="inline"><b><span class="trn">Fecha</span> {ROUND}</b>&nbsp;{VARIATION}</p>'
 		+'			<p class="inline right nomarginbot"><b>{SCORE} Pts</b></p>'
 		+'		</div>'
 		+'		{MATCHES}'
@@ -520,10 +551,10 @@ var TEMPLATE_LEAGUE_ARCHIVE_ITEM = ''
 		+'				<div class="container">'
 		+'					<div class="row nopadding">'
 		+'						<div class="col-xs-6 league-stats">'
-		+'							<p><i class="fa fa-calendar"></i>Del <b>{FROM_DATE}</b> al <b>{TO_DATE}</b></p>'
+		+'							<p><i class="fa fa-calendar"></i><span class="trn">Del</span> <b>{FROM_DATE}</b> <span class="trn">al</span> <b>{TO_DATE}</b></p>'
 		+'							<p><i class="fa fa-calendar-o"></i>{STATUS}</p>'
-		+'							<p><i class="fa fa-users"></i>{TOTAL_PLAYERS} participantes</p>'
-		+'							<p><i class="fa fa-futbol-o"></i><b>{MATCHES_PER_ROUND} partidos</b> por fecha</p>'
+		+'							<p><i class="fa fa-users"></i>{TOTAL_PLAYERS} <span class="trn">participantes</span></p>'
+		+'							<p><i class="fa fa-futbol-o"></i><b>{MATCHES_PER_ROUND} <span class="trn">partidos</span></b> <span class="trn">por fecha</span></p>'
 		+'						</div>'
 		+'						<div class="col-xs-6 league-prizes">'
 		+'							{PRIZES}'

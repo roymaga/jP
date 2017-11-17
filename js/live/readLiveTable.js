@@ -6,10 +6,10 @@ window.liveMatchOpen={"users":[],"players":[],"stats":[]};
 window.readInidences=[];
 window.resultArrayTeams=[];
 function readInidecesOfOpenTable(tableDescription){
+	if(checkConnection2()){
 	var splitArray=tableDescription.split('-'); // Ejemplo "libertadores-257742"
 	var json=JSON.stringify({"table_tournament":splitArray[0],"table_match":splitArray[1]});
 	//startLoadingAnimation();
-	if(checkConnection2()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -39,9 +39,9 @@ function readInidecesOfOpenTable(tableDescription){
 		xmlhttp.open("POST","http://data.jugaplay.com/live/xmlReaderToJson.php",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	
+		xmlhttp.send(json);
 	}else{
-		readInidecesOfOpenTable(tableDescription);
+		setTimeout(function(){readInidecesOfOpenTable(tableDescription)},100);
 	}
 }
 // Initialize functions
@@ -82,7 +82,7 @@ function parsePlayers(player,teamId, HomeOrAway){
 }
 function parseUsers(user){
 	var players=parseAddPlayerToUser(user.players);
-	// Tengo que intentar no usar el id para identificarlo sino el nickname, no esta repetido el nick no? // 
+	// Tengo que intentar no usar el id para identificarlo sino el nickname, no esta repetido el nick no? //
 	return {"id":user.user_id,"nickname":user.nickname,"bet_multiplier":user.bet_multiplier,"players":players,"RankingTournamentPosition":user.RankingTournamentPosition,"playersPoints":0,"userPosition":0,"userPositionToShow":0,"userCoins":0}
 }
 function parseAddPlayerToUser(players){
@@ -369,7 +369,7 @@ function calculateUserPositions(){
 			samePosition=[];
 		}
 	}
-	// Agrego premio para la practica!! 
+	// Agrego premio para la practica!!
 	if(window.liveTableOpen.playing[0].type== "training"){
 		for (user in window.liveMatchOpen.users){
 			if(window.liveMatchOpen.users[user].userPositionToShow <= Math.round(window.liveMatchOpen.users.length/2)){
@@ -379,7 +379,7 @@ function calculateUserPositions(){
 			}
 		}
 	}
-	// Fin Agrego premio para la practica!! 
+	// Fin Agrego premio para la practica!!
 	window.liveMatchOpen.players.sort(sortPlayersByPoints);
 	for (player in window.liveMatchOpen.players){
 		window.liveMatchOpen.players[player].playerOrder=parseInt(player);
@@ -419,7 +419,7 @@ function sortUsersByPointsAndRanking(a,b){ // -1 va antes 1 despues 0 mantiene
     {
         return (a.playersPoints > b.playersPoints) ? -1 : 1;
     }
-	
+
 }
 function sortPlayersByPoints(a,b){ // -1 va antes 1 despues 0 mantiene
 	 return (a.playerPoints > b.playerPoints) ? -1 : (a.playerPoints < b.playerPoints) ? 1 : 0;

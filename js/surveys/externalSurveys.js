@@ -1,5 +1,5 @@
 // JavaScript Document
-window.onload=setTimeout(function(){askServerForExternalSurveys();},1000);
+setTimeout(function(){askServerForExternalSurveys();},1000);
 function askServerForExternalSurveys(){
 	var fingerprint = new Fingerprint({canvas:true}).get();
 	var json=JSON.stringify( { "user_id":getUserJugaplayId(),"fingerprint":fingerprint } );
@@ -52,11 +52,12 @@ function showExternalNetworks(networks){
 function parseNetowrksSurveys(network_name,survey){
 	// falta agregar el analytics
 	var duration=parseInt(survey.duration/60);
-	$("#external-polls").append('<div class="container polls-container polls-style"> <h4><b>'+survey.name+'</b></h4> <h5>ENCUESTA EXTERNA</h5> <div class="col-xs-6"> <h2>'+duration+'\' <i class="fa fa-clock-o" aria-hidden="true"></i> </h2> </div><div class="col-xs-6"> <h2>'+survey.amount_questions+' <i class="fa fa-pencil-square-o" aria-hidden="true"></i></h2> </div><button type="button" class="btn btn-large btn-block btn-success btn-poll" onclick="answerExternalSurvey(\''+survey.name+'\',\''+survey.network+'\',\''+survey.link+'\',\''+survey.chips+'\');">CONTESTAR + '+survey.chips+' <img src="img/icons/coins/chip.svg" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"></button> </div>');
+	$("#external-polls").append('<div class="container polls-container polls-style"> <h4><b>'+survey.name+'</b></h4> <h5 class="trn">ENCUESTA EXTERNA</h5> <div class="col-xs-6"> <h2>'+duration+'\' <i class="fa fa-clock-o" aria-hidden="true"></i> </h2> </div><div class="col-xs-6"> <h2>'+survey.amount_questions+' <i class="fa fa-pencil-square-o" aria-hidden="true"></i></h2> </div><button type="button" class="btn btn-large btn-block btn-success btn-poll" onclick="answerExternalSurvey(\''+survey.name+'\',\''+survey.network+'\',\''+survey.link+'\',\''+survey.chips+'\');"><span class="trn">CONTESTAR</span> + '+survey.chips+' <img src="img/icons/coins/chip.svg" style="margin-right: 0px;margin-top: -10px;margin-bottom: -3px;margin-left: 5px;width: 30px;"></button> </div>');
+	checkLanguageElement($("#external-polls"));
 }
 // answerExternalSurvey
 function answerExternalSurvey(name,network,link,chips){
-	$("body").append('<div class="navbar navbar-fixed-top nav-polls"><div class="col-xs-2 nopadding"> <a class="btn sharp no-margin btn-danger btn-lg btn-block" href="#" role="button" onclick="closeExternalSurveyPanel(\''+network+'\');"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></a> <!--a class="btn sharp no-margin btn-info btn-lg btn-block" href="#" role="button"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a--> </div><div class="col-xs-10 poll-container text-color7 text-center" style="padding: 0px;"><iframe src="'+link+'" style="width: 100%;height: 100%;min-height: 100vh;"></iframe></div></div>').after(function() {
+	$("body").append('<div class="navbar navbar-fixed-top nav-polls"><div class="web-poll"><div class="col-xs-2 nopadding"> <a class="btn sharp no-margin btn-danger btn-lg btn-block" href="#" role="button" onclick="closeExternalSurveyPanel(\''+network+'\');"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></a> <!--a class="btn sharp no-margin btn-info btn-lg btn-block" href="#" role="button"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a--> </div><div class="col-xs-10 poll-container text-color7  text-center" style="padding: 0px;"><iframe src="'+link+'" style="width: 100%;height: 100%;min-height: 100vh;"></iframe></div></div></div>').after(function() {
             var left = $('.nav-polls').width();
 			 $(".nav-polls").css({left:left}).after(function() {
 				 $(".nav-polls").animate({"left":"0px"}, "slow");
@@ -65,7 +66,8 @@ function answerExternalSurvey(name,network,link,chips){
 	jpAnalyticsEvent("OPEN_POLL", network, 0);// Ajustar analytics a valores
 }
 function activateExternalSurveysExplanation(){
-	$("#external-polls").append('<div class="alert alert-jugaplay alert-dismissable fade in text-justify"> <a href="#" style="float:right;" class="close" data-dismiss="alert" aria-label="close">&times;</a> <p>Las <strong>"Encuestas externas"</strong> se abren en un sitio web aparte. En general tienen un <strong>tiempo de duración más largo</strong> que la "encuesta del día".</p><p>Revisa el <strong><i class="fa fa-2x fa-clock-o" aria-hidden="true"></i> </strong> en el detalle para conocer cuanto tiempo te puede consumir responderla.</p><p>El ícono <strong><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i> </strong> marca cuantas preguntas debes responder aproximadamente.</p></div>');
+	$("#external-polls").append('<div class="alert alert-jugaplay alert-dismissable fade in text-justify trn"><a href="#" style="float:right;" class="close" data-dismiss="alert" aria-label="close">&times;</a> <p>Las <strong>"Encuestas externas"</strong> se abren en un sitio web aparte. En general tienen un <strong>tiempo de duración más largo</strong> que la "encuesta del día".</p><p>Revisa el <strong><i class="fa fa-2x fa-clock-o" aria-hidden="true"></i> </strong> en el detalle para conocer cuanto tiempo te puede consumir responderla.</p><p>El ícono <strong><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i> </strong> marca cuantas preguntas debes responder aproximadamente.</p><p>Para las encuestas externas, el comienzo del <strong>código postal</strong> es la letra de la provincia ejemplo Buenos aires B, Capital C y Santa fe F. Ejemplo codigo provincia de Buenos Aires, B1669</p></div>');
+	checkLanguageElement($("#external-polls"));
 }
 function closeExternalSurveyPanel(network){
 	  // Get the calculated left position

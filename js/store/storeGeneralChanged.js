@@ -2,20 +2,20 @@
 window.onload=setTimeout(function(){showPrizesChengedInStore();}, 1000);
 function showPrizesChengedInStore(){
 	previousStoresLoad=getCookie("storesShow-Changed-Jp");
-	if(previousStoresLoad.length>4){		
+	if(previousStoresLoad.length>4){
 			var json=JSON.stringify(previousStoresLoad);
 			var servidor=JSON.parse(json);
 			var doble=JSON.parse(servidor);
 			loadChangeStore(doble);
 			showAvailablePrizesChangedStore();
-	
+
 		}else{
 			 showAvailablePrizesChangedStore();
 		}
 }
 function showAvailablePrizesChangedStore(){
 	json=JSON.stringify({"user_id":window.userDataJugaPlay.id});
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -29,7 +29,6 @@ function showAvailablePrizesChangedStore(){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			setCookie("storesShow-Changed-Jp", jsonStr, 120);
 			var json=JSON.stringify(jsonStr);
@@ -46,7 +45,6 @@ function showAvailablePrizesChangedStore(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
-	}
 }
 function loadChangeStore(preLoadStore){
 	textOfStore='<div class="row text-center rewards-container">';
@@ -58,7 +56,7 @@ function loadChangeStore(preLoadStore){
 	document.getElementById("show-store-container").innerHTML=textOfStore;
 }
 function returnPrizeToShow(prize){
-	return '<div class="col-xs-6 reward"><img src="'+prize.img+'" class="full-width"><h5>'+prize.title+'</h5> <h4>'+prize.country+'</h4><p class="text-color3">'+prize.price+' <img src="img/icons/coins/coin.png" width="15px"> </p>'+generateButtonForPrize(prize.changeLink)+'</div>'
+	return '<div class="col-xs-6 reward"><div class="pic"><img src="'+prize.img+'"></div><div class="text-center"><h5>'+prize.title+'</h5> <h4>'+prize.country+'</h4><p class="text-color3">'+prize.price+' <img src="img/icons/coins/coin.png" width="15px"> </p>'+generateButtonForPrize(prize.changeLink)+'</div></div>';
 }
 function generateButtonForPrize(linkForPrize){
 	if(linkForPrize!=null){return'<button class="btn btn-primary btn-style3" onClick="openPrizeInNewWindow(\''+linkForPrize+'\');" type="submit">Boucher</button>'}

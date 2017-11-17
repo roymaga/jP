@@ -1,4 +1,12 @@
+// JavaScript Document
+// Interaction includes: Loading + Date view + simple pop ups
+// Dependency -- dialog-master
+
+// Load functions animation depends of dialog-master
 window.alertShown=false;
+window.internetAlert=false;
+window.internetAlertSlow=false;
+window.timeToWait = null;
 function startLoadingAnimation(){
 		 BootstrapDialog.show({
 			 cssClass: 'loading-pop-up',
@@ -10,7 +18,7 @@ function startLoadingAnimation(){
                 action: function(dialogItself){
                     dialogItself.close();
                 }
-            }]		 
+            }]
 		 });
 		 return true;
 }
@@ -30,34 +38,40 @@ function avisoEmergenteJugaPlay(titulo,texto){
 			 title: "<H1>"+titulo+"</H1>",
             message: texto,
 			buttons: [{
-                label: 'Aceptar',
+                label: "<span class='trn'>Aceptar</span>",
 				id:'boton-panel-registro-aviso-error-pop-up',
                 action: function(dialogItself){
                     dialogItself.close();
                 }
-            }]		 
+            }],
+						onshown: function(dialogItself) {
+												checkLanguageItem(dialogItself);
+											}
 		 });
 		 return false;
 	}
-function avisoEmergenteJugaPlayConnectionError(){
-	if ((typeof(document.getElementById('boton-panel-registro-aviso-error-conexion-pop-up')) == 'undefined' || document.getElementById('boton-panel-registro-aviso-error-conexion-pop-up') == null)&&window.alertShown==false){
-		window.alertShown=true;// Por que como tarda en abrir sino se solapan
-		setTimeout(function(){window.alertShown=false;}, 5000); // Por si lo cierra con la cruz
-	BootstrapDialog.show({
-			 cssClass: 'general-modal-msj',
-			 title: "<H1>ERROR DE CONEXIÓN</H1>",
-            message: "Hubo un error de conexión intente nuevamente",
-			buttons: [{
-                label: 'Aceptar',
-				id:'boton-panel-registro-aviso-error-conexion-pop-up',
-                action: function(dialogItself){
-                    dialogItself.close();
-					window.alertShown=false;
-                }
-            }]		 
-		 });}
-		 return true;
-}
+	function avisoEmergenteJugaPlayConnectionError(){
+		if ((typeof(document.getElementById('boton-panel-registro-aviso-error-conexion-pop-up')) == 'undefined' || document.getElementById('boton-panel-registro-aviso-error-conexion-pop-up') == null)&&window.alertShown==false){
+			window.alertShown=true;// Por que como tarda en abrir sino se solapan
+			setTimeout(function(){window.alertShown=false;}, 5000); // Por si lo cierra con la cruz
+		BootstrapDialog.show({
+				 cssClass: 'general-modal-msj',
+				 title: "<H1 class='trn'>ERROR DE CONEXIÓN</H1>",
+	            message: "<span class='trn'>Hubo un error de conexión intente nuevamente</span>",
+				buttons: [{
+	                label: "<span class='trn'>Aceptar</span>",
+					id:'boton-panel-registro-aviso-error-conexion-pop-up',
+	                action: function(dialogItself){
+	                    dialogItself.close();
+						window.alertShown=false;
+	                }
+	            }],
+							onshown: function(dialogItself) {
+	                        checkLanguageItem(dialogItself);
+	                      }
+			 });}
+			 return true;
+	}
 // diffOfDaysBetweenDates(starts, ends)  daysFromDate(fechaHora)
 function diffOfDaysBetweenDates(starts, ends){
 	//14/01/2016 - 22:10
@@ -86,12 +100,12 @@ function daysFromDate(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	d.setMinutes ( d.getMinutes() + diffMinutos );
+	d.setMinutes ( d.getMinutes() - diffMinutos );
 	var firstDate = new Date();
 	var diffDays = Math.round(Math.abs((d.getTime() - firstDate.getTime())/(oneDay)));
 	return diffDays;
 }
-// Show days in diferent ways 
+// Show days in diferent ways
 function dateFormatView(fechaHora){
 	// Ajustado el horario por la zona donde el usuario este, se toma como base BS AS (-3)
 	//2016-01-05T20:14:00.919Z
@@ -106,7 +120,7 @@ function dateFormatView(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+	d.setMinutes ( d.getMinutes() - diffMinutos );
     return parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b>';
 }
 function dateFormatViewDay(fechaHora){
@@ -123,7 +137,7 @@ function dateFormatViewDay(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+	d.setMinutes ( d.getMinutes() - diffMinutos );
     return parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1);
 }
 function dateFormatViewNormal(fechaHora){
@@ -140,7 +154,7 @@ function dateFormatViewNormal(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+	d.setMinutes ( d.getMinutes() - diffMinutos );
     return parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs</br><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b>';
 }
 function dateFormatViewLeague(fechaHora){
@@ -157,7 +171,7 @@ function dateFormatViewLeague(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+	d.setMinutes ( d.getMinutes() - diffMinutos );
     return parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1);
 }
 function dateFormatViewTable(fechaHora){
@@ -174,7 +188,7 @@ function dateFormatViewTable(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	d.setMinutes ( d.getMinutes() + diffMinutos ); 
+	d.setMinutes ( d.getMinutes() - diffMinutos );
     return '</br><small>'+parse0LessThan10(d.getHours())+':'+parse0LessThan10(d.getMinutes())+' Hs <span style="font-size: 0.9em;"><b>'+parse0LessThan10(d.getDate())+'/'+lettersOfMonth(d.getMonth()+1)+'</b></span></small>';
 }
 
@@ -187,48 +201,46 @@ function lettersOfMonth(month){
 	var letters='';
 	switch(month){
     case 1:
-        letters = "ENE";
+        letters = "<span class=\"trn\">ENE</span>";
         break;
     case 2:
-        letters = "FEB";
+        letters = "<span class=\"trn\">FEB</span>";
         break;
     case 3:
-        letters = "MAR";
+        letters = "<span class=\"trn\">MAR</span>";
         break;
     case 4:
-        letters = "ABR";
+        letters = "<span class=\"trn\">ABR</span>";
         break;
     case 5:
-        letters = "MAY";
+        letters = "<span class=\"trn\">MAY</span>";
         break;
     case 6:
-        letters = "JUN";
+        letters = "<span class=\"trn\">JUN</span>";
         break;
 	case 7:
-        letters = "JUL";
+        letters = "<span class=\"trn\">JUL</span>";
         break;
     case 8:
-        letters = "AGO";
+        letters = "<span class=\"trn\">AGO</span>";
         break;
     case 9:
-        letters = "SEP";
+        letters = "<span class=\"trn\">SEP</span>";
         break;
     case 10:
-        letters = "OCT";
+        letters = "<span class=\"trn\">OCT</span>";
         break;
     case 11:
-        letters = "NOV";
+        letters = "<span class=\"trn\">NOV</span>";
         break;
     case 12:
-        letters = "DIC";
+        letters = "<span class=\"trn\">DIC</span>";
         break;
 	}
 	return letters;
 }
 function returnFullMonthName(month){
-	var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Ocutbre", "Noviembre", "Diciembre"
-];
+	var monthNames = ["<span class=\"trn\">Enero</span>", "<span class=\"trn\">Febrero</span>", "<span class=\"trn\">Marzo</span>", "<span class=\"trn\">Abril</span>", "<span class=\"trn\">Mayo</span>", "<span class=\"trn\">Junio</span>","<span class=\"trn\">Julio</span>", "<span class=\"trn\">Agosto</span>", "<span class=\"trn\">Septiembre</span>", "<span class=\"trn\">Ocutbre</span>", "<span class=\"trn\">Noviembre</span>", "<span class=\"trn\">Diciembre</span>"];
 	return monthNames[parseInt(month)-1];
 }
 function compareTablesSort(a,b) {
@@ -280,7 +292,7 @@ function playerGetImage(id){
 			return 'img/icons/player-img/no-img.jpg';
 		}*/
 		return 'img/icons/player-img/no-img.jpg';
-	
+
 }
 function clubGetLogo(id){
 		url="img/icons/team-logo/"+id+".gif";
@@ -288,7 +300,7 @@ function clubGetLogo(id){
 			return url;
 		}else{
 			return 'img/icons/team-logo/no-logo.gif';
-		}	
+		}
 }
 function imageExists(image_url){
     var http = new XMLHttpRequest();
@@ -306,12 +318,12 @@ function IsJsonString(str) {
     return true;
 }
 function changeArrow(element){
-	setTimeout(function(){ 
+	setTimeout(function(){
 		if(element.innerHTML=='<i class="fa fa-chevron-up" aria-hidden="true"></i>'){element.innerHTML='<i class="fa fa-chevron-down" aria-hidden="true"></i>';}
 		else{element.innerHTML='<i class="fa fa-chevron-up" aria-hidden="true"></i>';}
 	}, 200);
 }
-// Loaders 
+// Loaders
 function addLoaderToCertainContainer(container){
 	if(container.getElementsByClassName("loader").length==0){
 		var loader = document.createElement('div');
@@ -331,7 +343,13 @@ function removeLoaderFromCertainContainer(container){
 	}
 	return true;
 }
-
+function traducirPosicionJugadorMesa(nombrePosicion){
+	if(nombrePosicion=="goalkeeper"){return "<span class='trn'>Arquero</span>";}
+	if(nombrePosicion=="defender"){return "<span class='trn'>Defensor</span>";}
+	if(nombrePosicion=="midfielder"){return "<span class='trn'>Mediocampista</span>";}
+	if(nombrePosicion=="forward"){return "<span class='trn'>Delantero</span>";}
+	return "Otra";
+}
 function parseTableChallengeMatchName(title){
 	var index= title.indexOf("-unchn");
 	if(index!=-1){
@@ -353,12 +371,6 @@ function parseTableForGroupPlayingOption (groupTable){
 	}
 	return groupTable;
 }
-if(IsJsonString(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()))){
-	window.usersSyncGoogleApi=JSON.parse(getCookie("usersSyncGoogleApi-lastCheck-Jp"+getUserJugaplayId()));
-}else{
-	window.usersSyncGoogleApi=false;// 2014
-}
-
 function mesaDisponibleParaJugarHorario(fechaHora){
 	//14/01/2016 - 22:10
 	//012345678901234567
@@ -374,7 +386,7 @@ function mesaDisponibleParaJugarHorario(fechaHora){
 	d.setFullYear(ano, (mes-1), dia);
 	d.setHours(hora);
 	d.setMinutes(minutos);
-	t.setMinutes ( t.getMinutes() + diffMinutos ); // Llevo la hora que comparo a la hora de argentina
+	t.setMinutes ( t.getMinutes() - diffMinutos ); // Llevo la hora que comparo a la hora de argentina
 	if(t<d){return true;}else{
 		return false;
 	}
@@ -409,7 +421,7 @@ function changeAndKeepLogIn(mail,pass){
 		xmlhttp.open("POST",getJPApiURL()+"login",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);		
+		xmlhttp.send(json);
 }
 /* */
 function addCoinsToWallet(amount){
@@ -456,7 +468,7 @@ function getTournamentNameById(id){
 			return "Premier League";
 			break;
 		case 3:
-			return "Partidos Especiales";
+			return "Eliminatorias";
 			break;
 		case 15:
 			return "Copa Sudamericana";
@@ -484,4 +496,56 @@ function parseTemplate(props, template)
 }
 function clickOnLine(element){
 	element.parentNode.getElementsByClassName("btn").item(0).click();
+}
+// Conexion
+function checkConnection() {
+	if(isProductionMode()){
+		var state = navigator.connection.type;
+		if (state.toUpperCase() == "NONE")
+		{
+			if(!window.internetAlert){
+				window.internetAlert=true;
+				avisoEmergenteJugaPlay("<span class='trn'>Sin conexión</span>","<p class='trn' >No se encontró una conexión a internet, por favor verifique la misma.</p>");
+				closeLoadingAnimation();
+			}
+			return false;
+		}
+		else
+		{
+			if(window.timeToWait == null){
+			window.timeToWait = setTimeout(function(){ toSlowInternet(); }, 30000);}
+			window.internetAlert=false; // Ya anda el internet
+			return true;
+		}
+	}else{
+	return true;
+}
+}
+function stopTimeToWait(){
+	clearTimeout(window.timeToWait);
+	window.timeToWait = null;
+}
+function toSlowInternet(){
+	// Mensaje de aviso mas corta el loading
+	closeLoadingAnimation();
+	if(!window.internetAlertSlow){ // 1 Mensaje por pagina maximo
+		window.internetAlertSlow=true;
+		avisoEmergenteJugaPlay("<span class='trn'>Conexión muy lenta</span>","<p class='trn'>La conexión a internet está muy lenta. Es posible que no pueda disfrutar la experiencia Jugaplay debido a esta causa.</p>");
+	}
+}
+function checkConnection2() {
+	if(isProductionMode()){
+		var state = navigator.connection.type;
+		if (state.toUpperCase() == "NONE")
+		{
+			return false;
+		}
+		else
+		{
+			window.internetAlert=false;// Ya anda el internet
+			return true;
+		}
+	}else{
+	return true;
+}
 }

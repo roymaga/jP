@@ -1,15 +1,22 @@
 // JavaScript Document
 // Link de recomendacion
 window.sendMailsInvitatios=[];
-window.onload=setTimeout(function(){showRecomendationUrl();}, 1000);
+setTimeout(function(){startReferFriendsJs();}, 500);
+function startReferFriendsJs(){
+	if(window.IsLoggedInVar && checkConnection() && $("#recomendationLink").length>0){
+		showRecomendationUrl();
+	}else{
+		setTimeout(function(){startReferFriendsJs()},100);
+	}
+}
 function showRecomendationUrl(){
-	var linkText=getCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId());
+	var linkText=getCookie("recomendationLinkJPUsu-"+getUserJugaplayId());
 	if(linkText.length>4){
 		var element=document.getElementById("recomendationLink");
 		if (typeof(element) != 'undefined' && element != null)
-		{ 	
+		{
 			document.getElementById("recomendationLink").value=linkText;
-			setCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
+			setCookie("recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
 			document.getElementById("recomendationLink").value=linkText;
 		}else{
 			setTimeout(function(){showRecomendationUrl();}, 500);
@@ -21,9 +28,9 @@ function showRecomendationUrl(){
 function inviteFriendsLink(tknRequest){
 		var element=document.getElementById("recomendationLink");
 		if (typeof(element) != 'undefined' && element != null)
-		{ 	
+		{
 			var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
-			setCookie("new-recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
+			setCookie("recomendationLinkJPUsu-"+getUserJugaplayId(), linkText, 120);
 			document.getElementById("recomendationLink").value=linkText;
 		}else{
 			setTimeout(function(){inviteFriendsLink(tknRequest);}, 500);
@@ -52,7 +59,7 @@ function relocateInvitationRequest(tknRequest, type){
 	if(type=="Link"){inviteFriendsLink(tknRequest);}
 	// SMS
 }
-// Otras funciones de recomendacion!! 
+// Otras funciones de recomendacion!!
 function inviteFriendsFacebook(tknRequest){
   document.getElementById('recomendationLink').click();// Hace click para evitar que se bloquee el pop up de Fb
   var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
@@ -72,6 +79,43 @@ function inviteFriendsWhatsapp(tknRequest){
 	document.body.appendChild(whatsapp);
 	whatsapp.click();*/
 }
+// Datos para FB
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1790148521213303";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1790148521213303',
+    cookie     : true,  // enable cookies to allow the server to access
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.2' // use version 2.2
+  })
+ }
+// Datos para Twitter
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js?171113";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+// Invitar Amigos por mail
+
 /* Notificacion de como es el mensaje de contacto */
 function inviteFriendsMail(){
 		 BootstrapDialog.show({
@@ -84,7 +128,7 @@ function inviteFriendsMail(){
                 action: function(dialogItself){
                     validateMailToSend(dialogItself);
                 }
-            }]	 
+            }]
 		 });
 	}
 function headerDeEnviarMailInvitacion(){
@@ -112,7 +156,7 @@ function sendMailsRecomendations(tknRequest){
 	if(getUserJugaplayEmail()!=null){var sendFrom=getUserJugaplayEmail();}else{var sendFrom="info@jugaplay.com";}
 	var linkText="http://www.jugaplay.com/?tkn="+tknRequest;
 	var json=JSON.stringify({ "from": "info@jugaplay.com", "to": window.sendMailsInvitatios, "from_user_id":getUserJugaplayId(), "sender_link":linkText, "content_mail":" "});
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -125,9 +169,8 @@ function sendMailsRecomendations(tknRequest){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			stopTimeToWait();
 			avisoEmergenteJugaPlay("Muchas Gracias","<p>Muchas gracias por su recomendación</p>");
-			
+
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
@@ -137,12 +180,11 @@ function sendMailsRecomendations(tknRequest){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		//xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
-	}
 }
 function askForRequestInvitationId(type){
 	json=JSON.stringify({ "type": type });
 	startLoadingAnimation();
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -155,7 +197,6 @@ function askForRequestInvitationId(type){
 	  	{
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
-			stopTimeToWait();
 			var jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 			closeLoadingAnimation();
@@ -163,7 +204,7 @@ function askForRequestInvitationId(type){
 				}else{
 				askForRequestId(type);
 			}
-			
+
 	    }else if(xmlhttp.status==503 || xmlhttp.status==404 || xmlhttp.status==105){// Esto es si el servidor no le llega a poder responder o esta caido
 			 avisoEmergenteJugaPlayConnectionError();
 			 return "ERROR";
@@ -172,6 +213,5 @@ function askForRequestInvitationId(type){
 		xmlhttp.open("POST",getJPApiURL()+"invitation_requests/",true);// El false hace que lo espere
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
-		xmlhttp.send(json);	
-	}
+		xmlhttp.send(json);
 }

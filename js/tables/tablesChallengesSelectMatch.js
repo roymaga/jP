@@ -1,8 +1,9 @@
 // JavaScript Document
 // window.selectedUsersToFromGroup
 function selectMatchForChallenge(){
-	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3"><div class="row vertical-align"><div class="col-xs-12"><h1>ELEGIR PARTIDO</h1></div></div></div><div class="container title-box bg-color1"><div class="row vertical-align"><div class="col-xs-9"><h1>Partidos Disponibles</h1></div><div class="col-xs-3 text-right"><a onClick="openMatchesFilterWindow();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a></div></div></div><div class="matches-list" id="matches-challenges-container-show"><div class="loader"><div class="ball-loader"></div></div></div>';
+	document.getElementById("challenge-visible-dom").innerHTML='<div class="container title-box bg-color3"> <div class="row vertical-align"> <div class="col-xs-12"> <h1 class="trn">Seleccionar partido</h1></div></div></div><div class="container title-box bg-color1"> <div class="row vertical-align"> <div class="col-xs-9"> <h1 class="trn">Partidos</h1></div><div class="col-xs-3 text-right"><a onClick="openMatchesFilterWindow();" class="btn-filter"><i class="fa fa-sliders fa-2x" aria-hidden="true" style="color: #fff;"></i></a></div></div></div><div class="matches-list" id="matches-challenges-container-show"> <div class="loader"> <div class="ball-loader"></div></div></div>';
 	// challengeGroupName
+	checkLanguageElement($("#challenge-visible-dom"));
 	window.matchesFilterArray=[];
 	showAveliableMatchesToSelect();
 }
@@ -26,12 +27,12 @@ function loadMatchToShownMatches(shownTable){
 	createTable.setAttribute("data-tournament-type", shownTable.tournament_id);
 	createTable.setAttribute("data-table-id", shownTable.id);
 	//mesaACrear.style=premiumTable(coins, sms);
-	createTable.innerHTML='<div class="container container-title bg-color2"><div class="col-xs-9 nopadding"><h3>'+shownTable.title+'</h3></div><div class="col-xs-3 nopadding text-right"><h3></h3></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-left match-time"><p>'+dateFormatViewNormal(shownTable.start_time)+'</p></div><div class="col-xs-2 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-type"></div><div class="col-xs-2 text-center prize-type"></div><div class="col-xs-4 text-right match-button"><button type="button" class="btn btn-default btn-style2" onClick="selectMatchToPlayAsChallenge(\''+shownTable.id+'\');">ELEGIR</button></div></div></div>';
+	createTable.innerHTML='<div class="container container-title bg-color2"><div class="col-xs-9 nopadding"><h3>'+shownTable.title+'</h3></div><div class="col-xs-3 nopadding text-right"><h3></h3></div></div><div class="container match-data"><div class="row vertical-align"><div class="col-xs-3 text-left match-time"><p>'+dateFormatViewNormal(shownTable.start_time)+'</p></div><div class="col-xs-2 text-center match-cup"><img src="img/tournament/flags/flag-'+shownTable.tournament_id+'.jpg"></div><div class="col-xs-2 text-center match-type"></div><div class="col-xs-2 text-center prize-type"></div><div class="col-xs-4 text-right match-button"><button type="button" class="btn btn-default btn-style2 trn" onClick="selectMatchToPlayAsChallenge(\''+shownTable.id+'\');">ELEGIR</button></div></div></div>';
 	// <button type="button" class="btn btn-default btn-style2" onClick="selectMatchToPlayAsChallenge(\''+shownTable.id+'\');">ELEGIR</button>'
 	document.getElementById("matches-challenges-container-show").appendChild(createTable);
+	checkLanguageElement($("#matches-challenges-container-show"));
 }
 function selectMatchToPlayAsChallenge(tableId){
-	if(checkConnection()){
 	startLoadingAnimation();
 	var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -47,7 +48,6 @@ function selectMatchToPlayAsChallenge(tableId){
 			//alert("xmlhttp.readyState: "+xmlhttp.readyState+"xmlhttp.status: "+xmlhttp.status);
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422) ||  (xmlhttp.readyState==4 && xmlhttp.status==401))
 	    {
-			stopTimeToWait();
 			jsonStr=xmlhttp.responseText;
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				var doble=JSON.parse(jsonStr);
@@ -67,7 +67,6 @@ function selectMatchToPlayAsChallenge(tableId){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}
 }
 function createGroupToChallenge(matchDetails){
 	if(window.groupAllreadyCreated==false){
@@ -115,7 +114,6 @@ function createMatchChallenge(groupId,matchDetails){
 	var description= matchDetails.description;
 	var matchId= matchDetails.matches[0].id;
 	var json=JSON.stringify({"table": {"title":title, "description":description, "match_id":matchId, "group_id":groupId, "entry_coins_cost":parseInt(window.prizeForChallenge)}});
-	if(checkConnection()){
 	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -130,7 +128,6 @@ function createMatchChallenge(groupId,matchDetails){
 	 	 if ((xmlhttp.readyState==4 && xmlhttp.status==200) ||  (xmlhttp.readyState==4 && xmlhttp.status==422))
 	    {
 			var jsonStr=xmlhttp.responseText;
-			stopTimeToWait();
 			if(IsJsonString(jsonStr)){ // Me fijo si dio un error, en el caso de que de le sigo mandando
 				closeLoadingAnimation();
 				closeAllOverLapseWindow();
@@ -150,16 +147,15 @@ function createMatchChallenge(groupId,matchDetails){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send(json);
-	}
 }
 function endOfFormMatch(){
 	window.lastTableCheck=new Date(1401507903635);// Esto va a hacer que se vuelvan a pedir todas las mesas
-	avisoEmergenteJugaPlay("Desafío armado","<p>El desafío está  listo para ser jugado.</p><p>Encuentra el mismo en el sector desafíos.</p>");
+	avisoEmergenteJugaPlay("<span class='trn'>Desafío armado</span>","<p class='trn'>El desafío está  listo para ser jugado.</p><p class='trn'>Encuentra el mismo en el sector desafíos.</p>");
 }
 // Filter Options
 window.matchesFilterArray=[];
 function openMatchesFilterWindow(){
-	tableTitle='<H4>Filtrar Campeonatos</H4>';
+	tableTitle='<H4 class="trn">Filtrar Campeonatos</H4>';
 	content=createShowMatchesFilter();
 	openFilterWindow(tableTitle,content);
 }
@@ -168,9 +164,9 @@ function createShowMatchesFilter(){
 	content='<div class="list-style1">';
 	for(individual in simulateTablesFilter){
 		if(window.matchesFilterArray.indexOf(simulateTablesFilter[individual].dataFilter)!=-1){// Esta contenido en el Arreglo
-				content+='<a data-tournament-type="'+simulateTablesFilter[individual].dataFilter+'" onClick="filterMatchOption(this)" class="selected">'+simulateTablesFilter[individual].showName+'</a>';
+				content+='<a data-tournament-type="'+simulateTablesFilter[individual].dataFilter+'" onClick="filterMatchOption(this)" class="selected"><span class="trn">'+simulateTablesFilter[individual].showName+'</span></a>';
 			}else{// No esta contenido en el Arreglo
-			content+='<a data-tournament-type="'+simulateTablesFilter[individual].dataFilter+'" onClick="filterMatchOption(this)">'+simulateTablesFilter[individual].showName+'</a>';
+			content+='<a data-tournament-type="'+simulateTablesFilter[individual].dataFilter+'" onClick="filterMatchOption(this)"><span class="trn">'+simulateTablesFilter[individual].showName+'</span></a>';
 			}
 	}
 	content+='</div>';

@@ -6,17 +6,24 @@ function userDataJugaPlayInitial(data){
 function parseUserData(data){
 	data.coins=parseInt(data.coins);
 	data.chips=parseInt(data.chips);
-	return data;	
+	return data;
 }
 function userDataJugaPlayUpdate(data){
-	//window.userDataJugaPlay was update
-	//alert("data Update");
-	data.last_check=new Date();
-	data.last_update=new Date();
-	cookieSave=JSON.stringify(data);
-	setCookie("juga-Play-Data", cookieSave, 120);
+	window.IsLoggedInVar=true;
+	data.last_check=new Date(); // Aca chequeo la conexión
+	data.last_update=new Date(); // Aca que actualice los datos desde el servidor
+	setCookie("juga-Play-Data", JSON.stringify(data), 120);
 	window.userDataJugaPlay=parseUserData(data);
-	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}// Update menu / menus with data
+	if(typeof(updateMenusValues)==="function"){
+		setTimeout(function(){ updateMenusValues(); }, 500);
+	}else{
+		setTimeout(function(){ userDataJugaPlayUpdate(data); }, 200);
+	} // Actualizo los valores del Menu
+}
+function updateLastCheck(){
+	var data=JSON.parse(getCookie("juga-Play-Data"));
+	data.last_check=new Date();
+	setCookie("juga-Play-Data", JSON.stringify(data), 120);
 }
 // Hacer el Log out de la cuenta
 function logOutFromJugaPlay(){
@@ -26,8 +33,7 @@ function logOutFromJugaPlay(){
 	delete_cookie("jugaPlayUserRemember");
 	delete_cookie("jugaPlayUserFacebook");
 	// Consulta para salir y que lleve a login
-	
-	if(checkConnection()){var xmlhttp;
+	var xmlhttp;
 		if (window.XMLHttpRequest)
 	 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
@@ -40,7 +46,6 @@ function logOutFromJugaPlay(){
 	  	{
 	 	 if ((xmlhttp.readyState==4))
 	    {
-			stopTimeToWait();
 			window.location="login.html";
 			return true;
 	    }
@@ -49,7 +54,6 @@ function logOutFromJugaPlay(){
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.withCredentials = "true";
 		xmlhttp.send();
-	}
 }
 // Functions with coins
 function userCanSpentXCoins(costOfTransaction){
@@ -93,13 +97,13 @@ function getUserSyncEmail(){
 }
 function editXCoinsFromUsersWallet(coins){// it can be positive or negative
 	window.userDataJugaPlay.coins+=coins;
-	cookieSave=JSON.stringify(window.userDataJugaPlay);
+	var cookieSave=JSON.stringify(window.userDataJugaPlay);
 	setCookie("juga-Play-Data", cookieSave, 120);
-	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}
+	setTimeout(function(){ if (typeof updateMenusValues !== "undefined") { updateMenusValues();} }, 500);
 }
 function editXChipsFromUsersWallet(chips){// it can be positive or negative
 	window.userDataJugaPlay.chips+=chips;
-	cookieSave=JSON.stringify(window.userDataJugaPlay);
+	var cookieSave=JSON.stringify(window.userDataJugaPlay);
 	setCookie("juga-Play-Data", cookieSave, 120);
 	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}
 }
@@ -108,7 +112,7 @@ function editDataFromUser(first_name, last_name, email, nickname){
 	window.userDataJugaPlay.last_name=last_name;
 	window.userDataJugaPlay.email=email;
 	window.userDataJugaPlay.nickname=nickname;
-	cookieSave=JSON.stringify(window.userDataJugaPlay);
+	var cookieSave=JSON.stringify(window.userDataJugaPlay);
 	setCookie("juga-Play-Data", cookieSave, 120);
-	if (typeof updateMenusValues !== "undefined") { updateMenusValues();}
+	setTimeout(function(){ if (typeof updateMenusValues !== "undefined") { updateMenusValues();} }, 500);
 }
