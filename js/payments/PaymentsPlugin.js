@@ -294,64 +294,6 @@ function __PM_startTransaction() {
         // After we've done our setup, we tell the store to do
         // it's first refresh. Nothing will happen if we do not call store.refresh()
         store.refresh();
-  /*
-  // PAYPAL EXCEPTION
-  if(paymentModal.pack = 'pack100') {
-    dolars = 3;
-  }else if(paymentModal.pack = 'pack200') {
-    dolars = 6;
-  }else if(paymentModal.pack = 'pack500') {
-    dolars = 12;
-  }
-
-  switch (paymentModal.method) {
-    case 'mercadopago':
-      if(paymentModal.country == 'AR') {
-        action = 'http://data.jugaplay.com/mercado_pago/button.php';
-        template = TEMPLATE_PAYMENT_CONTROL;
-      } else if(paymentModal.country == 'CL') {
-        action = 'http://data.jugaplay.com/mercado_pago/buttonChile.php';
-        template = TEMPLATE_PAYMENT_CONTROL;
-      } else if(paymentModal.country == 'MX') {
-        action = 'http://data.jugaplay.com/mercado_pago/buttonMexico.php';
-        template = TEMPLATE_PAYMENT_CONTROL;
-      } else {
-        avisoEmergenteJugaPlay("¡Ops!","<p>Hay un error en los datos. Reinicia el juego y vuelve a intentar.</p>");
-      }
-      break;
-
-    case 'paypal':
-      template = TEMPLATE_PAYMENT_PAYPAL;
-
-      break;
-
-    case 'paysafe':
-      action = 'http://data.jugaplay.com/paysafe/button.php';
-      template = TEMPLATE_PAYMENT_CONTROL;
-      break;
-
-    default:
-      avisoEmergenteJugaPlay("¡Ops!","<p class='trn'>Hay un error en los datos. Reinicia el juego y vuelve a intentar.</p>");
-      break;
-      */
-  }
-
-  var props = {
-		'{ACTION}':action,
-		'{USER_ID}':getUserJugaplayId(),
-		'{CURRENCY}':paymentModal.currency,
-		'{DOLARS}':dolars,
-		'{CHIPS_AMOUNT}': paymentModal.chips
-	}
-	openNewWindowWithCheckControl(parseTemplate(props,template));
-
-  if(paymentModal.retry) {
-    $("#paymentModalRetry").html('<div class="ball-loader ball-loader-small"></div>');
-    $("#paymentModalRetry").attr('disabled','true');
-  } else {
-    $("#paymentModalBuyConfirmation").html('<div class="ball-loader ball-loader-small"></div>');
-    $("#paymentModalBuyConfirmation").attr('disabled','true');
-  }
 }
 
 function __PM_transactionSuccess() {
