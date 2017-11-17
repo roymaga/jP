@@ -39,8 +39,10 @@
     <gap:plugin name="cordova-plugin-device"  source="npm" />
 	<plugin name="cordova-plugin-device-motion"   source="npm" />
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
-  <gap:plugin name="com.appodeal.plugin" source="npm"/>
-  
+  <!--gap:plugin name="com.appodeal.plugin" source="npm"/-->
+  <gap:plugin name="cc.fovea.cordova.purchase" source="npm">
+     <param name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA05ZCllKmqgCSHbSn5zSmaftp4sGdMq29KN/2TQjV2TGIiAvXbClK3dJeS26S03kcFDcU7MzambeIR1Bf7yFdt+zBziHoXDlHOZAWGLRORBmEG4evTq0yX1R/5SD96dKOXdYPhtF28/R/4wjWBLWDUOMilOPC7fhbup7Zn4MZa55aSH4RXBy+jXGsPKBXq/PoLnrQBrBI/Qfrj2/Ne/oJmUbdaDrKyxdy45OzmrML3Nv6rvKeUWT/xVi+jvFX54lzVAGzbr47hoNCF3Sy8txR08lX8A8pYEaKf1nkE7vqvVBhJjesja2RFydppVLEjMChm4uVxAmLcyTpXLvHDz/tTwIDAQAB"/>
+  </gap:plugin>
 
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
     <!--
