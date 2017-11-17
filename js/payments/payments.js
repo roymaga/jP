@@ -166,47 +166,21 @@ function buyChips() {
 							}
 	});
 }
-var appKey = "eff9233a954137730a233b09f819b37e6d4d04e901ec4e06";
-Appodeal.disableLocationPermissionCheck();
-Appodeal.initialize(appKey, Appodeal.REWARDED_VIDEO);
-window.kiipInstanceInitial=false;
-function initializeKiipvideos(){
-	var options = {
-		deviceId: "jp"+getUserJugaplayId()
-	}
-	var callback = function(unit){
-		  Appodeal.show(Appodeal.REWARDED_VIDEO);
-			document.addEventListener('onRewardedVideoLoaded', function(){});
-			document.addEventListener('onRewardedVideoFailedToLoad', function(){jpAnalyticsEvent('ERROR_VIDEOAD','APPODEAL',0);avisoEmergenteJugaPlay("<span class='trn'>Sin vídeo disponible</span>","<span class='trn'>En este momento no hay vídeos disponibles, por favor intente más tarde</span>");});
-			document.addEventListener('onRewardedVideoShown', function(){
-				$("#videoAdBtn").button('reset');
-				jpAnalyticsEvent('START_VIDEOAD','KIIP',0);
-				setTimeout(function(){addChipsToWallet(1);},500);
-			});
-			document.addEventListener('onRewardedVideoFinished', function(data){
-			  //console.log('Reward:' + data.amount + ' ' + data.name);  //data.amount  - amount of reward, data.name - reward name
-				$("#videoAdBtn").button('reset');
-				jpAnalyticsEvent('START_VIDEOAD','APPODEAL','Reward:' + data.amount + ' ' + data.name);
-				setTimeout(function(){addChipsToWallet(1);},500);
-			});
-			document.addEventListener('onRewardedVideoClosed', function(){});
-	};
-	// Pass options a the third parameter when instatiating Kiip
-	var kiipInstance = new Kiip("fe60aafe6a3b8fb523f191a210462a73", callback, options);
-	//kiipInstance.setTestMode();
-	kiipInstance.setUserId('jp'+getUserJugaplayId());
-	window.kiipInstanceInitial=true;
-	kiipInstance.postMoment('Fichas');
-	window.kiipInstance=kiipInstance;
-}
+
+
+
+
 function buyChipsforVideos(){
 	//
 	$("#videoAdBtn").button('loading');
-	if(window.kiipInstanceInitial){
+	/*var appKey = "eff9233a954137730a233b09f819b37e6d4d04e901ec4e06";
+	Appodeal.disableLocationPermissionCheck();
+	Appodeal.initialize(appKey, Appodeal.REWARDED_VIDEO);*/
+	/*if(window.kiipInstanceInitial){
 		window.kiipInstance.postMoment('Fichas')
 	}else{
 		initializeKiipvideos();
-	}
+	}*/
 }
 function buyChipsforPolls(windowToClose){
 	 closeFilterWindow(windowToClose);

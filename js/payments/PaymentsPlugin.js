@@ -279,21 +279,21 @@ function __PM_startTransaction() {
     // We register a dummy product. It's ok, it shouldn't
     // prevent the store "ready" event from firing.
     store.register({
-        id:    'com.Jugaplay.Jp'+chipsAmount,
-        alias: chipsAmount+' Chips',
-        type:   store.CONSUMABLE
-      });
+            id:    'jp'+chipsAmount,
+            alias: chipsAmount+' Chips',
+            type:   store.CONSUMABLE
+          });
 
-    // When every goes as expected, it's time to celebrate!
-    // The "ready" event should be welcomed with music and fireworks,
-    // go ask your boss about it! (just in case)
-    store.ready(function() {
-        console.log("\\o/ STORE READY \\o/");
-    });
+        // When every goes as expected, it's time to celebrate!
+        // The "ready" event should be welcomed with music and fireworks,
+        // go ask your boss about it! (just in case)
+        store.ready(function() {
+            console.log("\\o/ STORE READY \\o/");
+        });
 
-    // After we've done our setup, we tell the store to do
-    // it's first refresh. Nothing will happen if we do not call store.refresh()
-    store.refresh();
+        // After we've done our setup, we tell the store to do
+        // it's first refresh. Nothing will happen if we do not call store.refresh()
+        store.refresh();
   /*
   // PAYPAL EXCEPTION
   if(paymentModal.pack = 'pack100') {
