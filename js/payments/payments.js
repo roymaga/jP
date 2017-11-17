@@ -173,9 +173,22 @@ function buyChips() {
 function buyChipsforVideos(){
 	//
 	$("#videoAdBtn").button('loading');
-	/*var appKey = "eff9233a954137730a233b09f819b37e6d4d04e901ec4e06";
+	var appKey = "eff9233a954137730a233b09f819b37e6d4d04e901ec4e06";
 	Appodeal.disableLocationPermissionCheck();
-	Appodeal.initialize(appKey, Appodeal.REWARDED_VIDEO);*/
+	Appodeal.initialize(appKey, Appodeal.REWARDED_VIDEO);
+	var callback = function(unit){
+		  Appodeal.show(Appodeal.REWARDED_VIDEO);
+			document.addEventListener('onRewardedVideoLoaded', function(){});
+			document.addEventListener('onRewardedVideoFailedToLoad', function(){jpAnalyticsEvent('ERROR_VIDEOAD','APPODEAL',0);avisoEmergenteJugaPlay("<span class='trn'>Sin vídeo disponible</span>","<span class='trn'>En este momento no hay vídeos disponibles, por favor intente más tarde</span>");});
+			document.addEventListener('onRewardedVideoShown', function(){});
+			document.addEventListener('onRewardedVideoFinished', function(data){
+			  //console.log('Reward:' + data.amount + ' ' + data.name);  //data.amount  - amount of reward, data.name - reward name
+				$("#videoAdBtn").button('reset');
+				jpAnalyticsEvent('START_VIDEOAD','APPODEAL','Reward:' + data.amount + ' ' + data.name);
+				setTimeout(function(){addChipsToWallet(1);},500);
+			});
+			document.addEventListener('onRewardedVideoClosed', function(){});
+		}
 	/*if(window.kiipInstanceInitial){
 		window.kiipInstance.postMoment('Fichas')
 	}else{
