@@ -168,12 +168,10 @@ function buyChips() {
 }
 
 
-
-
 function buyChipsforVideos(){
 	//
 	$("#videoAdBtn").button('loading');
-	var appKey = "eff9233a954137730a233b09f819b37e6d4d04e901ec4e06";
+	var appKey = "4725bcdb625704be7378f26e347eec0ef4a3d56b0de9191b";
 	Appodeal.disableLocationPermissionCheck();
 	Appodeal.initialize(appKey, Appodeal.REWARDED_VIDEO);
 	var callback = function(unit){
